@@ -1,0 +1,5 @@
+periodictable
+basis_set_exchange
+numpy
+coverage
+nose
