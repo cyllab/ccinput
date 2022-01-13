@@ -16,7 +16,7 @@ class GaussianCalculation:
 
     TEMPLATE = """%chk=in.chk
     %nproc={}
-    %mem={}
+    %mem={}MB
     #p {} {}
 
     CalcUS

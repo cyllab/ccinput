@@ -5,6 +5,63 @@ import numpy as np
 from ccinput.constants import *
 from ccinput.exceptions import *
 
+MEMORY_FACTORS = {
+            'm': 1,
+            'mb': 1,
+            'mib': 1.048576, # (1024/1000)^2
+            'g': 1000,
+            'gb': 1000,
+            'gib': 1073.741824,# 1000*(1024/1000)^3
+            't': 1000000,
+            'tb': 1000000,
+            'tib': 1099511.628,# 1000^2*(1024/1000)^4
+        }
+
+def verify_memory_valid(mem):
+    if mem < 0:
+        raise InvalidParameter("The amount of memory must be positive, not '{}'".format(mem))
+
+    if mem > 1e8:
+        raise InvalidParameter("Unreasonable amount of memory requested: '{}' MB".format(mem))
+
+    return round(mem)
+
+def standardize_memory(mem):
+    """ Converts a string specifying an amount of memory to an integer number of megabytes """
+
+    if isinstance(mem, int) or isinstance(mem, float):
+        return verify_memory_valid(mem)
+    elif isinstance(mem, str):
+        for ind, c in enumerate(mem.lower()):
+            if c in string.ascii_lowercase:
+                break
+        else:
+            ind += 1
+
+        _val = mem[:ind]
+        unit = mem[ind:].lower()
+
+        if len(_val) == 0:
+            raise InvalidParameter("Invalid memory specification: '{}'".format(mem))
+
+        if len(unit) == 0:
+            ## Supposing megabytes - add to warnings
+            unit = "mb"
+            pass
+        else:
+            if unit not in MEMORY_FACTORS.keys():
+                raise InvalidParameter("Unknown unit used for memory specification: '{}'".format(unit))
+
+        try:
+            val = float(_val)
+        except ValueError:
+            raise InvalidParameter("The amount of memory must be a number (received '{}')".format(mem))
+        standard_mem = val*MEMORY_FACTORS[unit]
+        return verify_memory_valid(standard_mem)
+    else:
+        raise InvalidParameter("Invalid type for the memory specification: {}".format(type(mem)))
+
+
 def standardize_xyz(xyz):
     """
         Converts variations of the XYZ format into a uniform format for this project.

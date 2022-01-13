@@ -38,11 +38,19 @@ class CalculationTests(TestCase):
         with self.assertRaises(InvalidParameter):
             calc = self.create_calc(charge=0.001)
 
+    def test_empty_str_charge(self):
+        with self.assertRaises(InvalidParameter):
+            calc = self.create_calc(charge="")
+
     def test_correct_str_multiplicity(self):
-        calc = self.create_calc(multiplicity="-1")
+        calc = self.create_calc(multiplicity="1")
 
     def test_correct_str_multiplicity2(self):
         calc = self.create_calc(multiplicity="+1")
+
+    def test_empty_str_multiplicity(self):
+        with self.assertRaises(InvalidParameter):
+            calc = self.create_calc(multiplicity="")
 
     def test_incorrect_str_multiplicity(self):
         with self.assertRaises(InvalidParameter):
@@ -78,6 +86,10 @@ class CalculationTests(TestCase):
         with self.assertRaises(InvalidParameter):
             calc = self.create_calc(nproc="-")
 
+    def test_incorrect_int_nproc(self):
+        with self.assertRaises(InvalidParameter):
+            calc = self.create_calc(nproc=-1)
+
     def test_incorrect_float_nproc(self):
         with self.assertRaises(InvalidParameter):
             calc = self.create_calc(nproc=1.5)
@@ -86,4 +98,54 @@ class CalculationTests(TestCase):
         with self.assertRaises(InvalidParameter):
             calc = self.create_calc(nproc=0.001)
 
-    ### Tests for amount of memory
+    def test_memory_parsing_int(self):
+        calc = self.create_calc(mem=1000)
+        self.assertEqual(calc.mem, 1000)
+
+    def test_memory_parsing_str_unitless(self):
+        calc = self.create_calc(mem="1000")
+        self.assertEqual(calc.mem, 1000)
+
+    def test_memory_parsing_str_m(self):
+        calc = self.create_calc(mem="1000m")
+        self.assertEqual(calc.mem, 1000)
+
+    def test_memory_parsing_str_space_m(self):
+        calc = self.create_calc(mem="1000 m")
+        self.assertEqual(calc.mem, 1000)
+
+    def test_memory_parsing_str_mib(self):
+        calc = self.create_calc(mem="1000 mib")
+        self.assertEqual(calc.mem, 1049)
+
+    def test_memory_parsing_str_gib(self):
+        calc = self.create_calc(mem="1 gib")
+        self.assertEqual(calc.mem, 1074)
+
+    def test_memory_parsing_str_g(self):
+        calc = self.create_calc(mem="1000g")
+        self.assertEqual(calc.mem, 1000000)
+
+    def test_memory_parsing_str_space_g(self):
+        calc = self.create_calc(mem="1000 g")
+        self.assertEqual(calc.mem, 1000000)
+
+    def test_memory_parsing_str_t(self):
+        calc = self.create_calc(mem="1t")
+        self.assertEqual(calc.mem, 1000000)
+
+    def test_memory_parsing_str_space_t(self):
+        calc = self.create_calc(mem="1 t")
+        self.assertEqual(calc.mem, 1000000)
+
+    def test_memory_parsing_negative_str(self):
+        with self.assertRaises(InvalidParameter):
+            calc = self.create_calc(mem="-1 g")
+
+    def test_memory_parsing_negative_int(self):
+        with self.assertRaises(InvalidParameter):
+            calc = self.create_calc(mem=-1000)
+
+    def test_memory_parsing_too_much(self):
+        with self.assertRaises(InvalidParameter):
+            calc = self.create_calc(mem="1000 t")

@@ -1,6 +1,7 @@
 import hashlib
 
 from ccinput.exceptions import *
+from ccinput.utilities import standardize_memory
 
 class Calculation:
     def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1):
@@ -14,29 +15,33 @@ class Calculation:
         try:
             self.nproc = int(nproc)
         except ValueError:
-            raise InvalidParameter("Invalid number of cores: {}".format(nproc))
+            raise InvalidParameter("Invalid number of cores: '{}'".format(nproc))
 
         if abs(self.nproc - float(nproc)) > 1e-4:
-            raise InvalidParameter("Number of cores must be an integer (received {})".format(nproc))
+            raise InvalidParameter("The number of cores must be an integer (received '{}')".format(nproc))
 
-        # parse units
-        self.mem = mem # not required explicitly in all packages... to check
+        if self.nproc < 1:
+            raise InvalidParameter("The number of cores must at least 1 (received '{}')".format(nproc))
+
+        self.mem = standardize_memory(mem)
 
         try:
             self.charge = int(charge)
         except ValueError:
-            raise InvalidParameter("Invalid charge: {}".format(charge))
+            raise InvalidParameter("Invalid charge: '{}'".format(charge))
 
         if abs(self.charge - float(charge)) > 1e-4:
-            raise InvalidParameter("Charge must be an integer (received {})".format(charge))
+            raise InvalidParameter("Charge must be an integer (received '{}')".format(charge))
 
         try:
-            self.multiplicity = int(multiplicity) #>= 1
+            self.multiplicity = int(multiplicity)
         except ValueError:
-            raise InvalidParameter("Invalid multiplicity: {}".format(multiplicity))
+            raise InvalidParameter("Invalid multiplicity: '{}'".format(multiplicity))
 
         if abs(self.multiplicity - float(multiplicity)) > 1e-4:
-            raise InvalidParameter("Multiplicity must be an integer (received {})".format(multiplicity))
+            raise InvalidParameter("Multiplicity must be an integer (received '{}')".format(multiplicity))
+        if self.multiplicity < 1:
+            raise InvalidParameter("Multiplicity must at least 1 (received '{}')".format(multiplicity))
 
         self.constraints = constraints
 
