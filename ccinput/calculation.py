@@ -16,6 +16,9 @@ class Calculation:
         except ValueError:
             raise InvalidParameter("Invalid number of cores: {}".format(nproc))
 
+        if abs(self.nproc - float(nproc)) > 1e-4:
+            raise InvalidParameter("Number of cores must be an integer (received {})".format(nproc))
+
         # parse units
         self.mem = mem # not required explicitly in all packages... to check
 
@@ -23,6 +26,9 @@ class Calculation:
             self.charge = int(charge)
         except ValueError:
             raise InvalidParameter("Invalid charge: {}".format(charge))
+
+        if abs(self.charge - float(charge)) > 1e-4:
+            raise InvalidParameter("Charge must be an integer (received {})".format(charge))
 
         try:
             self.multiplicity = int(multiplicity) #>= 1
