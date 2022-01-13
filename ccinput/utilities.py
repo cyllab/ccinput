@@ -108,15 +108,21 @@ def standardize_xyz(xyz):
             raise InvalidXYZ("Invalid xyz: found line '{}'".format(el))
 
         if sel[0] not in ATOMIC_NUMBER.keys():
-            try:
-                el_Z = int(sel[0])
-            except ValueError:
-                raise InvalidXYZ("Invalid atomic label: '{}'".format(sel[0]))
+            if sel[0].isdigit():
+                try:
+                    el_Z = int(sel[0])
+                except ValueError:
+                    raise InvalidXYZ("Invalid atomic label: '{}'".format(sel[0]))
+                else:
+                    if el_Z not in ATOMIC_SYMBOL.keys():
+                        raise InvalidXYZ("Invalid atomic number: '{}'".format(el_Z))
+                    el_symb = ATOMIC_SYMBOL[el_Z]
+                    line_data.append(el_symb)
             else:
-                if el_Z not in ATOMIC_SYMBOL.keys():
-                    raise InvalidXYZ("Invalid atomic number: '{}'".format(el_Z))
-                el_symb = ATOMIC_SYMBOL[el_Z]
-                line_data.append(el_symb)
+                if sel[0].lower() in LOWERCASE_ATOMIC_SYMBOLS.keys():
+                    line_data.append(LOWERCASE_ATOMIC_SYMBOLS[sel[0].lower()])
+                else:
+                    raise InvalidXYZ("Invalid atomic label: '{}'".format(sel[0]))
         else:
             line_data.append(sel[0])
 
