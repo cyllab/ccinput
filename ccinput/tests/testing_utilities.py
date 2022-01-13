@@ -1,12 +1,12 @@
 import os
 from unittest import TestCase
 
-from ccinput.wrapper import generate_input
+from ccinput.wrapper import generate_calculation
 
 class InputTests(TestCase):
-    def generate_input(self, **params):
+    def generate_calculation(self, **params):
         params['in_file'] = os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", params['in_file'])
-        return generate_input(**params)
+        return generate_calculation(**params)
 
     def is_equivalent(self, ref, res):
         ref_lines = [i.strip() for i in ref.strip().split('\n')]

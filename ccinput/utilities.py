@@ -78,7 +78,7 @@ def standardize_xyz(xyz):
     if isinstance(xyz, list):
         arr_xyz = xyz
     elif isinstance(xyz, str):
-        arr_xyz = xyz.split('\n')
+        arr_xyz = xyz.strip().split('\n')
     else:
         raise InvalidParameter("Cannot parse xyz from type {}".format(type(xyz)))
 
@@ -150,58 +150,63 @@ def get_abs_type(str_type):
     if _str_type in STR_TYPES.keys():
         return STR_TYPES[_str_type]
     else:
-        raise Exception("Invalid calculation type: {}".format(str_type))
+        raise InvalidParameter("Invalid calculation type: '{}'".format(str_type))
 
 def get_abs_software(software):
     _software = software.lower().strip()
     for s in SYN_SOFTWARE.keys():
         if _software in SYN_SOFTWARE[s] or _software == s:
             return s
-    return -1
+    raise InvalidParameter("Unknown software package: '{}'".format(software))
 
 def get_abs_method(method):
     for m in SYN_METHODS.keys():
         if method.lower() in SYN_METHODS[m] or method.lower() == m:
             return m
-    return -1
+    raise InvalidParameter("Unknown method: '{}'".format(method))
 
 def get_abs_basis_set(basis_set):
     for bs in SYN_BASIS_SETS.keys():
         if basis_set.lower() in SYN_BASIS_SETS[bs] or basis_set.lower() == bs:
             return bs
-    return -1
+    raise InvalidParameter("Unknown basis set: '{}'".format(basis_set))
 
 def get_abs_solvent(solvent):
     for solv in SYN_SOLVENTS.keys():
         if solvent.lower() in SYN_SOLVENTS[solv] or solvent.lower() == solv:
             return solv
-    return -1
+    raise InvalidParameter("Unknown solvent: '{}'".format(solvent))
 
 def get_method(method, software):
-    abs_method = get_abs_method(method)
-    if abs_method == -1:
+    try:
+        abs_method = get_abs_method(method)
+    except InvalidParameter:
+        ## Warning to user
         return method
     return SOFTWARE_METHODS[software][abs_method]
 
 def get_basis_set(basis_set, software):
-    abs_basis_set = get_abs_basis_set(basis_set)
-    if abs_basis_set == -1:
+    try:
+        abs_basis_set = get_abs_basis_set(basis_set)
+    except InvalidParameter:
+        ## Warning to user
         return basis_set
     return SOFTWARE_BASIS_SETS[software][abs_basis_set]
 
 def get_solvent(solvent, software, solvation_model="SMD"):
-    abs_solvent = get_abs_solvent(solvent)
-
-    if abs_solvent == -1:
+    try:
+        abs_solvent = get_abs_solvent(solvent)
+    except InvalidParameter:
+        ### Add warning to user
         return solvent
 
     if software == "orca" and abs_solvent == "n-octanol":
-        #Weird exception in ORCA
+        # Weird exception in ORCA
         if solvation_model == "SMD":
             return "1-octanol"
         elif solvation_model == "CPCM":
             return "octanol"
-        #Note that ch2cl2 is a valid keyword for SMD, although not listed in the manual
+        # Note that ch2cl2 is a valid keyword for SMD, although not listed in the manual
 
     return SOFTWARE_SOLVENTS[software][abs_solvent]
 

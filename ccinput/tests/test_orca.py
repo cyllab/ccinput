@@ -1,6 +1,6 @@
 from ccinput.tests.testing_utilities import InputTests
 from ccinput.packages.orca import OrcaCalculation
-from ccinput.wrapper import generate_input
+from ccinput.wrapper import generate_calculation
 
 class OrcaTests(InputTests):
 
@@ -15,7 +15,7 @@ class OrcaTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP AM1
@@ -40,7 +40,7 @@ class OrcaTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G
@@ -67,7 +67,7 @@ class OrcaTests(InputTests):
                 'solvation_model': 'SMD',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G
@@ -99,7 +99,7 @@ class OrcaTests(InputTests):
                 'solvation_radii': 'SMD18',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G
@@ -133,7 +133,7 @@ class OrcaTests(InputTests):
                 'solvation_model': 'SMD',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G
@@ -164,7 +164,7 @@ class OrcaTests(InputTests):
                 'solvation_model': 'CPCM',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G CPCM(chloroform)
@@ -191,7 +191,7 @@ class OrcaTests(InputTests):
                 'solvation_model': 'SMD',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G
@@ -223,7 +223,7 @@ class OrcaTests(InputTests):
                 'solvation_model': 'CPCM',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G CPCM(octanol)
@@ -250,7 +250,7 @@ class OrcaTests(InputTests):
                 'solvation_model': 'CPCM',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP HF 3-21G CPCM(octanol)
@@ -278,7 +278,7 @@ class OrcaTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_input(**params)
+            inp = self.generate_calculation(**params)
 
     def test_sp_DFT(self):
         params = {
@@ -292,7 +292,7 @@ class OrcaTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP M062X Def2-SVP
@@ -319,7 +319,7 @@ class OrcaTests(InputTests):
                 'specifications': 'TightSCF',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP M062X Def2-SVP tightscf
@@ -346,7 +346,7 @@ class OrcaTests(InputTests):
                 'specifications': 'TightSCF GRID6',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP M062X Def2-SVP tightscf grid6
@@ -373,7 +373,7 @@ class OrcaTests(InputTests):
                 'specifications': 'tightscf TightSCF GRID6',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP M062X Def2-SVP tightscf grid6
@@ -399,7 +399,7 @@ class OrcaTests(InputTests):
                 'specifications': 'cc-pVTZ/C',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP RI-MP2 cc-pVTZ cc-pvtz/c
@@ -424,7 +424,7 @@ class OrcaTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT AM1
@@ -449,7 +449,7 @@ class OrcaTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT HF 3-21G
@@ -475,7 +475,7 @@ class OrcaTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -500,7 +500,7 @@ class OrcaTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !FREQ AM1
@@ -525,7 +525,7 @@ class OrcaTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !FREQ HF 3-21G
@@ -551,7 +551,7 @@ class OrcaTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !FREQ B3LYP 6-31+G(d,p)
@@ -580,7 +580,7 @@ class OrcaTests(InputTests):
                 'constraints': 'Scan_9_1.4_10/1_2;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -620,7 +620,7 @@ class OrcaTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_input(**params)
+            inp = self.generate_calculation(**params)
 
     def test_no_method(self):
         params = {
@@ -636,7 +636,7 @@ class OrcaTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_input(**params)
+            inp = self.generate_calculation(**params)
 
     def test_scan_angle_DFT(self):
         params = {
@@ -651,7 +651,7 @@ class OrcaTests(InputTests):
                 'constraints': 'Scan_9_90_10/2_1_3;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -690,7 +690,7 @@ class OrcaTests(InputTests):
                 'constraints': 'Scan_9_0_10/4_1_5_8;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -729,7 +729,7 @@ class OrcaTests(InputTests):
                 'constraints': 'Freeze/1_2;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -768,7 +768,7 @@ class OrcaTests(InputTests):
                 'constraints': 'Freeze/2_1_3;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -808,7 +808,7 @@ class OrcaTests(InputTests):
                 'constraints': 'Freeze/4_1_5_8;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -846,7 +846,7 @@ class OrcaTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !NMR B3LYP 6-31+G(d,p)
@@ -873,7 +873,7 @@ class OrcaTests(InputTests):
                 'custom_basis_sets': 'N=Def2-SVP;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !NMR B3LYP 6-31+G(d,p)
@@ -899,7 +899,7 @@ class OrcaTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPTTS B3LYP 6-31+G(d,p)
@@ -931,7 +931,7 @@ class OrcaTests(InputTests):
                 'custom_basis_sets': 'N=Def2-SVP;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPTTS B3LYP 6-31+G(d,p)
@@ -983,7 +983,7 @@ class OrcaTests(InputTests):
                 'custom_basis_sets': 'I=Def2-TZVPD;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !OPT B3LYP 6-31+G(d,p)
@@ -1124,7 +1124,7 @@ class OrcaTests(InputTests):
                 'software': 'orca',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """!NEB
         *xyz 0 1
@@ -1160,7 +1160,7 @@ class OrcaTests(InputTests):
                 'specifications': '--nimages 12',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """!NEB
         *xyz 0 1
@@ -1199,7 +1199,7 @@ class OrcaTests(InputTests):
                 'specifications': '--phirshfeld',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP M062X Def2-SVP
@@ -1228,7 +1228,7 @@ class OrcaTests(InputTests):
                 'basis_set': 'def2tzvp',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         !SP B3LYP Def2-TZVP

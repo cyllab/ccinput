@@ -5,6 +5,7 @@ from ccinput.packages.orca import OrcaCalculation
 
 from ccinput.calculation import Calculation, Parameters
 from ccinput.utilities import get_abs_type, get_abs_software, standardize_xyz, parse_xyz_from_file
+from ccinput.exceptions import *
 
 SOFTWARE_CLASSES = {
         'gaussian': GaussianCalculation,
@@ -15,10 +16,16 @@ def process_calculation(calc):
     cls = SOFTWARE_CLASSES[calc.parameters.software](calc)
     return cls
 
-def generate_input(software, type, theory_level="", method="", basis_set="", \
+def generate_calculation(software=None, type=None, theory_level="", method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
             density_fitting="", custom_basis_sets="", xyz="", in_file="", \
             constraints="", nproc=0, mem=0, charge=0, multiplicity=1, **kwargs):
+
+    if software is None:
+        raise InvalidParameter("Specify a software package to use (software=...)")
+
+    if type is None:
+        raise InvalidParameter("Specify a calculation type (type='...')")
 
     if xyz != "":
         xyz_structure = standardize_xyz(xyz)
@@ -28,10 +35,8 @@ def generate_input(software, type, theory_level="", method="", basis_set="", \
         raise Exception("No input")
 
     abs_software = get_abs_software(software)
-    if abs_software == -1:
-        return
 
-    calc_type = get_abs_type(type)### error catch
+    calc_type = get_abs_type(type)
 
     #verification/warnings (e.g. using default solvation model...)
 
@@ -43,3 +48,7 @@ def generate_input(software, type, theory_level="", method="", basis_set="", \
             nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity)
 
     return process_calculation(calc)
+
+def gen_input(**args):
+    return generate_calculation(**args).input_file
+

@@ -19,7 +19,7 @@ class GaussianCalculation:
     %mem={}MB
     #p {} {}
 
-    CalcUS
+    File created by ccinput
 
     {} {}
     {}

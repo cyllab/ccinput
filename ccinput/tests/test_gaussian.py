@@ -15,7 +15,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -23,7 +23,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp AM1
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -44,7 +44,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -52,7 +52,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -75,7 +75,7 @@ class GaussianTests(InputTests):
                 'solvation_model': 'SMD',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -83,7 +83,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -107,7 +107,7 @@ class GaussianTests(InputTests):
                 'solvation_radii': 'SMD18',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -115,7 +115,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         I 0.0 0.0 0.0
@@ -144,7 +144,7 @@ class GaussianTests(InputTests):
                 'solvation_radii': 'Bondi',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -152,7 +152,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -178,7 +178,7 @@ class GaussianTests(InputTests):
                 'solvation_radii': 'UFF',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -186,7 +186,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -210,7 +210,7 @@ class GaussianTests(InputTests):
                 'solvation_radii': 'Bondi',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -218,7 +218,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform, Read)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -244,7 +244,7 @@ class GaussianTests(InputTests):
                 'solvation_radii': 'UFF',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -252,7 +252,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -276,7 +276,7 @@ class GaussianTests(InputTests):
                 'solvation_radii': 'UFF',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -284,7 +284,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -308,7 +308,7 @@ class GaussianTests(InputTests):
                 'solvation_radii': 'UFF',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -316,7 +316,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=methanol)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -340,7 +340,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_input(**params)
+            inp = self.generate_calculation(**params)
 
     def test_sp_DFT(self):
         params = {
@@ -355,7 +355,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -363,7 +363,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -386,7 +386,7 @@ class GaussianTests(InputTests):
                 'specifications': 'nosymm 5D',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -394,7 +394,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp M062X/Def2SVP nosymm 5d
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -417,7 +417,7 @@ class GaussianTests(InputTests):
                 'specifications': 'opt(loose)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -425,7 +425,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -450,7 +450,7 @@ class GaussianTests(InputTests):
                 'specifications': 'freq(noraman)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -458,7 +458,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -482,7 +482,7 @@ class GaussianTests(InputTests):
                 'specifications': 'NoSymm NoSymm',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -490,7 +490,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt M062X/Def2SVP nosymm
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -513,7 +513,7 @@ class GaussianTests(InputTests):
                 'specifications': 'NoSymm NOSYMM',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -521,7 +521,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt M062X/Def2SVP nosymm
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -542,7 +542,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -550,7 +550,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt AM1
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -571,7 +571,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -579,7 +579,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt HF/3-21G
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -602,7 +602,7 @@ class GaussianTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -610,7 +610,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -632,7 +632,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -640,7 +640,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p freq AM1
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -661,7 +661,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -669,7 +669,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p freq HF/3-21G
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -691,7 +691,7 @@ class GaussianTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -699,7 +699,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p freq B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -724,7 +724,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Scan_9_1.4_10/1_2;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -732,7 +732,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -765,7 +765,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Scan_9_90_10/2_1_3;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -773,7 +773,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -806,7 +806,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Scan_9_0_10/4_1_5_8;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -814,7 +814,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -847,7 +847,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Scan_2_0_10/2_1_5_8;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -855,7 +855,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -888,7 +888,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Scan_2_0_10/3_1_5_8;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -896,7 +896,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -929,7 +929,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Freeze/1_2;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -937,7 +937,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -970,7 +970,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Freeze/2_1_3;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -978,7 +978,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -1012,7 +1012,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_input(**params)
+            inp = self.generate_calculation(**params)
 
     def test_no_method(self):
         params = {
@@ -1029,7 +1029,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_input(**params)
+            inp = self.generate_calculation(**params)
 
     def test_freeze_dihedral_DFT(self):
         params = {
@@ -1045,7 +1045,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Freeze/4_1_5_8;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1053,7 +1053,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -1086,7 +1086,7 @@ class GaussianTests(InputTests):
                 'constraints': 'Freeze/4_1_5_8;Freeze/1_2_3_4;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1094,7 +1094,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -1127,7 +1127,7 @@ class GaussianTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1135,7 +1135,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p nmr B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -1157,7 +1157,7 @@ class GaussianTests(InputTests):
                 'basis_set': '6-31+G(d,p)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1165,7 +1165,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         N   1.08764072053386     -0.33994563112543     -0.00972525479568
@@ -1191,7 +1191,7 @@ class GaussianTests(InputTests):
                 'density_fitting': 'W06',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1199,7 +1199,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/Def2SVP/W06
 
-        CalcUS
+        File created by ccinput
 
         0 1
         N   1.08764072053386     -0.33994563112543     -0.00972525479568
@@ -1226,7 +1226,7 @@ class GaussianTests(InputTests):
                 'charge': '-1',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1234,7 +1234,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p td M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -1257,7 +1257,7 @@ class GaussianTests(InputTests):
                 'custom_basis_sets': 'O=Def2-TZVPD;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1265,7 +1265,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt B3LYP/Gen
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -1339,7 +1339,7 @@ class GaussianTests(InputTests):
                 'custom_basis_sets': 'Cl=Def2-TZVPD;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1347,7 +1347,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
 
-        CalcUS
+        File created by ccinput
 
         0 1
         C         -1.31970       -0.64380        0.00000
@@ -1378,7 +1378,7 @@ class GaussianTests(InputTests):
                 'custom_basis_sets': 'I=Def2-TZVPD;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1386,7 +1386,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt B3LYP/GenECP
 
-        CalcUS
+        File created by ccinput
 
         1 1
         C         -3.06870       -2.28540        0.00000
@@ -1530,7 +1530,7 @@ class GaussianTests(InputTests):
                 'custom_basis_sets': 'I=Def2-TZVPD;H=Def2-TZVPD;C=Def2-TZVPD;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1538,7 +1538,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt B3LYP/GenECP
 
-        CalcUS
+        File created by ccinput
 
         1 1
         C         -3.06870       -2.28540        0.00000
@@ -1730,7 +1730,7 @@ class GaussianTests(InputTests):
                 'custom_basis_sets': 'I=Def2-TZVPD;Au=Def2-TZVPD;',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1738,7 +1738,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt B3LYP/GenECP
 
-        CalcUS
+        File created by ccinput
 
         0 1
         Au        -9.27600       -1.06330        0.00000
@@ -1922,7 +1922,7 @@ class GaussianTests(InputTests):
                 'specifications': 'SCF(Tight)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1930,7 +1930,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -1954,7 +1954,7 @@ class GaussianTests(InputTests):
                 'specifications': 'SCF(Tight) SCF(XQC)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1962,7 +1962,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -1986,7 +1986,7 @@ class GaussianTests(InputTests):
                 'specifications': 'SCF(Tight,XQC)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -1994,7 +1994,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2018,7 +2018,7 @@ class GaussianTests(InputTests):
                 'specifications': 'SCF(Tight, XQC)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2026,7 +2026,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2051,7 +2051,7 @@ class GaussianTests(InputTests):
                 'specifications': 'opt(MaxStep=5)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2059,7 +2059,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2082,7 +2082,7 @@ class GaussianTests(InputTests):
                 'specifications': 'opt(MaxStep=5) opt(Tight)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2090,7 +2090,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2113,7 +2113,7 @@ class GaussianTests(InputTests):
                 'specifications': 'opt(MaxStep=5) SCF(Tight)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2121,7 +2121,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP scf(tight)
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2144,7 +2144,7 @@ class GaussianTests(InputTests):
                 'specifications': 'opt(MaxStep=5) opt(Tight) nosymm 5D',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2152,7 +2152,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2175,7 +2175,7 @@ class GaussianTests(InputTests):
                 'specifications': 'opt(MaxStep=5,Tight) nosymm 5D',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2183,7 +2183,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2207,7 +2207,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_input(**params)
+            inp = self.generate_calculation(**params)
 
     def test_special_char(self):
         params = {
@@ -2223,7 +2223,7 @@ class GaussianTests(InputTests):
                 'specifications': '!#',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2231,7 +2231,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p opt M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
@@ -2255,7 +2255,7 @@ class GaussianTests(InputTests):
                 'specifications': 'pop(nbo)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         self.assertEqual(inp.confirmed_specifications, 'pop(nbo)')
 
@@ -2273,7 +2273,7 @@ class GaussianTests(InputTests):
                 'specifications': 'td(NStates=5)',
                 }
 
-        inp = self.generate_input(**params)
+        inp = self.generate_calculation(**params)
 
         REF = """
         %chk=in.chk
@@ -2281,7 +2281,7 @@ class GaussianTests(InputTests):
         %mem=10000MB
         #p td(nstates=5) M062X/Def2SVP
 
-        CalcUS
+        File created by ccinput
 
         -1 1
         Cl 0.0 0.0 0.0
