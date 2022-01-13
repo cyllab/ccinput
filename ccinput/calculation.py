@@ -64,8 +64,6 @@ class Calculation:
         if odd_e == odd_m:
             raise ImpossibleCalculation("This combination of charge ({}) and multiplicity ({}) is impossible".format(self.charge, self.multiplicity))
 
-
-
 class Parameters:
     def __init__(self, software, solvent="", solvation_model="", solvation_radii="", basis_set="", method="", specifications="", density_fitting="", custom_basis_sets="", **kwargs):
         if solvent.strip() != "":
@@ -73,8 +71,8 @@ class Parameters:
         else:
             self.solvent = ""
 
-        self.solvation_model = solvation_model
-        self.solvation_radii = solvation_radii
+        self.solvation_model = solvation_model.lower()
+        self.solvation_radii = solvation_radii.lower()
         self.software = get_abs_software(software)
 
         if method == "":

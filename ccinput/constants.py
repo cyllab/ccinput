@@ -150,7 +150,6 @@ THEORY_LEVELS = {
     'hartree-fock': ['hf', 'hartree-fock'],
     # Some old exotic semi-empirical methods in ORCA are missing
     'semi-empirical': ['am1', 'pm3', 'pm6', 'pm7', 'mndo'],
-    # all below to add to SOFTWARE_METHODS for ORCA
     'xtb': ['gfn2-xtb', 'gfn1-xtb', 'gfn0-xtb', 'gfn-ff'],
     'special': ['hf-3c', 'pbeh-3c', 'r2scan-3c', 'b97-3c'],
     'mp2': ['mp2', 'ri-mp2'],

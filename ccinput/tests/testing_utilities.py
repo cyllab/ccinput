@@ -49,7 +49,12 @@ class InputTests(TestCase):
             return False
 
         for c1, c2 in zip(sline1[1:], sline2[1:]):
-            if abs(float(c1)-float(c2)) > 1e-7:
+            try:
+                _c1 = float(c1)
+                _c2 = float(c2)
+            except ValueError:
+                return False
+            if abs(_c1-_c2) > 1e-7:
                 return False
         return True
 

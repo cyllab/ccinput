@@ -156,7 +156,7 @@ class GaussianTests(InputTests):
         -1 1
         Cl 0.0 0.0 0.0
 
-        Radii=Bondi
+        Radii=bondi
 
         """
 
@@ -222,7 +222,7 @@ class GaussianTests(InputTests):
         -1 1
         Cl 0.0 0.0 0.0
 
-        Radii=Bondi
+        Radii=bondi
 
         """
 

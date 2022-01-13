@@ -158,7 +158,7 @@ def get_abs_type(str_type):
         Converts a string calculation type into the correct CalcType.
         Takes into account different equivalent ways to write the calculation types
     """
-    _str_type = str_type.lower()
+    _str_type = str_type.lower().strip()
     if _str_type in STR_TYPES.keys():
         return STR_TYPES[_str_type]
     else:
@@ -172,20 +172,23 @@ def get_abs_software(software):
     raise InvalidParameter("Unknown software package: '{}'".format(software))
 
 def get_abs_method(method):
+    _method = method.strip().lower()
     for m in SYN_METHODS.keys():
-        if method.lower() in SYN_METHODS[m] or method.lower() == m:
+        if _method in SYN_METHODS[m] or _method == m:
             return m
     raise InvalidParameter("Unknown method: '{}'".format(method))
 
 def get_abs_basis_set(basis_set):
+    _bs = basis_set.strip().lower()
     for bs in SYN_BASIS_SETS.keys():
-        if basis_set.lower() in SYN_BASIS_SETS[bs] or basis_set.lower() == bs:
+        if _bs.lower() in SYN_BASIS_SETS[bs] or _bs.lower() == bs:
             return bs
     raise InvalidParameter("Unknown basis set: '{}'".format(basis_set))
 
 def get_abs_solvent(solvent):
+    _solvent = solvent.strip().lower()
     for solv in SYN_SOLVENTS.keys():
-        if solvent.lower() in SYN_SOLVENTS[solv] or solvent.lower() == solv:
+        if _solvent in SYN_SOLVENTS[solv] or _solvent == solv:
             return solv
     raise InvalidParameter("Unknown solvent: '{}'".format(solvent))
 
@@ -207,7 +210,7 @@ def get_basis_set(basis_set, software):
 
     return SOFTWARE_BASIS_SETS[software][abs_basis_set]
 
-def get_solvent(solvent, software, solvation_model="SMD"):
+def get_solvent(solvent, software, solvation_model="smd"):
     try:
         abs_solvent = get_abs_solvent(solvent)
     except InvalidParameter:
@@ -216,9 +219,9 @@ def get_solvent(solvent, software, solvation_model="SMD"):
 
     if software == "orca" and abs_solvent == "n-octanol":
         # Weird exception in ORCA
-        if solvation_model == "SMD":
+        if solvation_model == "smd":
             return "1-octanol"
-        elif solvation_model == "CPCM":
+        elif solvation_model == "cpcm":
             return "octanol"
         # Note that ch2cl2 is a valid keyword for SMD, although not listed in the manual
 

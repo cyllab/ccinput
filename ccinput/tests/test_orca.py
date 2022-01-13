@@ -84,6 +84,37 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_sp_HF_SMD_lowercase(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'smd',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        smd true
+        SMDsolvent "chloroform"
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_sp_HF_SMD18(self):
         params = {
                 'nproc': 8,
@@ -118,6 +149,39 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_sp_HF_SMD18_lowercase(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'in_file': 'I.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'smd',
+                'solvation_radii': 'smd18',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G
+        *xyz -1 1
+        I 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        smd true
+        SMDsolvent "chloroform"
+        radius[53] 2.74
+        radius[35] 2.60
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
     def test_solvation_octanol_smd(self):
         params = {
