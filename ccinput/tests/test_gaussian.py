@@ -1,13 +1,10 @@
 import os
-
 from unittest import TestCase
 
 from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.wrapper import generate_input
 
 class GaussianTests(TestCase):
-    def setUp(self):
-        pass
 
     def generate_input(self, **params):
         params['in_file'] = os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", params['in_file'])

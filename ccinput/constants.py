@@ -8,9 +8,11 @@ class CalcType(Enum):
     CONSTR_OPT = 3
     FREQ = 4
     TS = 5
+    MEP = 6
 
     NMR = 10
     UVVIS = 11
+    MO = 12
 
 ATOMIC_NUMBER = {}
 ATOMIC_SYMBOL = {}

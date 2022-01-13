@@ -35,7 +35,6 @@ def generate_input(software, type, theory_level="", method="", basis_set="", \
 
     abs_software = get_abs_software(software)
     if abs_software == -1:
-        print("sfjlkkj")###
         return
 
     calc_type = get_abs_type(type)### error catch

@@ -64,6 +64,10 @@ class GaussianCalculation:
 
         self.create_input_file()
 
+    def clean(self, s):
+        WHITELIST = set("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. ")
+        return ''.join([c for c in s if c in WHITELIST])
+
     def handle_specifications(self):
         specs = {}
         def add_spec(key, option):
@@ -75,7 +79,7 @@ class GaussianCalculation:
             else:
                 specs[key] = [option]
 
-        s = self.calc.parameters.specifications.lower()
+        s = self.clean(self.calc.parameters.specifications.lower())
 
         if s.count('(') != s.count(')'):#Could be more sophisticated to catch other incorrect specifications
             raise Exception("Invalid specifications: parenthesis not matching")

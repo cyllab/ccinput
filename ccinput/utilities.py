@@ -3,10 +3,6 @@ import numpy as np
 
 from ccinput.constants import *
 
-def clean(s):
-	WHITELIST = set("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. ")
-	return ''.join([c for c in s if c in WHITELIST])
-
 def get_abs_type(str_type):
     """
         Converts a string calculation type into the correct CalcType.
@@ -61,7 +57,7 @@ def get_solvent(solvent, software, solvation_model="SMD"):
     if abs_solvent == -1:
         return solvent
 
-    if software == "ORCA" and abs_solvent == "n-octanol":
+    if software == "orca" and abs_solvent == "n-octanol":
         #Weird exception in ORCA
         if solvation_model == "SMD":
             return "1-octanol"
