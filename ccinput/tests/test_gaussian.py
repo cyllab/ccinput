@@ -10,7 +10,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'Semi-empirical',
                 'method': 'AM1',
                 'charge': '-1',
                 }
@@ -18,7 +17,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp AM1
@@ -39,7 +38,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 }
@@ -47,7 +46,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G
@@ -68,7 +67,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'Chloroform',
@@ -78,7 +77,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform)
@@ -99,7 +98,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'I.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'Chloroform',
@@ -110,7 +109,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
@@ -136,7 +135,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'chloroform',
@@ -147,7 +146,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
@@ -170,7 +169,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'Chloroform',
@@ -181,7 +180,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform)
@@ -202,7 +201,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'Chloroform',
@@ -213,7 +212,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform, Read)
@@ -236,7 +235,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'Chloroform',
@@ -247,7 +246,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
@@ -268,7 +267,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'chcl3',
@@ -279,7 +278,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
@@ -300,7 +299,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'meoh',
@@ -311,7 +310,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=methanol)
@@ -332,7 +331,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 'solvent': 'Chloroform',
@@ -349,7 +348,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -358,7 +356,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP
@@ -379,7 +377,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -389,7 +386,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP nosymm 5d
@@ -410,7 +407,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -420,7 +416,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP
@@ -443,7 +439,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -453,7 +448,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP
@@ -475,7 +470,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -485,7 +479,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP nosymm
@@ -506,7 +500,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -516,7 +509,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP nosymm
@@ -537,7 +530,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'Semi-empirical',
                 'method': 'AM1',
                 'charge': '-1',
                 }
@@ -545,7 +537,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt AM1
@@ -566,7 +558,7 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 }
@@ -574,7 +566,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt HF/3-21G
@@ -595,7 +587,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'Semi-empirical',
                 'method': 'AM1',
                 'charge': '-1',
                 'method': 'B3LYP',
@@ -605,7 +596,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
@@ -627,7 +618,6 @@ class GaussianTests(InputTests):
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'Semi-empirical',
                 'method': 'AM1',
                 'charge': '-1',
                 }
@@ -635,7 +625,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p freq AM1
@@ -656,7 +646,7 @@ class GaussianTests(InputTests):
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 }
@@ -664,7 +654,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p freq HF/3-21G
@@ -685,7 +675,6 @@ class GaussianTests(InputTests):
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '-1',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -694,7 +683,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p freq B3LYP/6-31+G(d,p)
@@ -717,7 +706,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -727,7 +715,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -758,7 +746,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -768,7 +755,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -799,7 +786,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -809,7 +795,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -840,7 +826,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -850,7 +835,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -881,7 +866,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -891,7 +875,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -922,7 +906,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -932,7 +915,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -963,7 +946,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -973,7 +955,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -1004,7 +986,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1021,7 +1002,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': '',
                 'basis_set': '6-31+G(d,p)',
@@ -1038,7 +1018,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1048,7 +1027,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -1079,7 +1058,6 @@ class GaussianTests(InputTests):
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1089,7 +1067,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -1121,7 +1099,6 @@ class GaussianTests(InputTests):
                 'type': 'NMR Prediction',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '-1',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1130,7 +1107,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p nmr B3LYP/6-31+G(d,p)
@@ -1151,7 +1128,6 @@ class GaussianTests(InputTests):
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1160,7 +1136,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/6-31+G(d,p)
@@ -1184,7 +1160,6 @@ class GaussianTests(InputTests):
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': 'Def2SVP',
@@ -1194,7 +1169,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/Def2SVP/W06
@@ -1220,7 +1195,6 @@ class GaussianTests(InputTests):
                 'type': 'UV-Vis Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -1229,7 +1203,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p td M062X/Def2SVP
@@ -1250,7 +1224,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1260,7 +1233,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/Gen
@@ -1332,7 +1305,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1342,7 +1314,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
@@ -1371,7 +1343,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Ph2I_cation.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '+1',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1381,7 +1352,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/GenECP
@@ -1523,7 +1494,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Ph2I_cation.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '+1',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1533,7 +1503,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/GenECP
@@ -1723,7 +1693,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'AuI.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -1733,7 +1702,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/GenECP
@@ -1915,7 +1884,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -1925,7 +1893,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight)
@@ -1947,7 +1915,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -1957,7 +1924,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
@@ -1979,7 +1946,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -1989,7 +1955,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
@@ -2011,7 +1977,6 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2021,7 +1986,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
@@ -2044,7 +2009,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2054,7 +2018,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP
@@ -2075,7 +2039,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2085,7 +2048,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP
@@ -2106,7 +2069,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2116,7 +2078,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP scf(tight)
@@ -2137,7 +2099,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2147,7 +2108,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
@@ -2168,7 +2129,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2178,7 +2138,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
@@ -2199,7 +2159,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2216,7 +2175,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2226,7 +2184,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP
@@ -2248,7 +2206,6 @@ class GaussianTests(InputTests):
                 'constraints': 'Freeze/1_2_3;',
                 'in_file': 'CH4.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '0',
@@ -2266,7 +2223,6 @@ class GaussianTests(InputTests):
                 'type': 'UV-Vis Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'DFT',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
@@ -2276,7 +2232,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p td(nstates=5) M062X/Def2SVP
@@ -2297,7 +2253,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 }
@@ -2305,7 +2261,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=1
         %mem=10000MB
         #p sp HF/3-21G
@@ -2326,7 +2282,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 }
@@ -2334,7 +2290,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G
@@ -2355,7 +2311,7 @@ class GaussianTests(InputTests):
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'theory_level': 'HF',
+                'method': 'HF',
                 'basis_set': '3-21G',
                 'charge': '-1',
                 }
@@ -2363,7 +2319,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=in.chk
+        %chk=calc.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G

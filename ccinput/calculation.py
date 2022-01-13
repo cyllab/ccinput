@@ -1,11 +1,11 @@
 import hashlib
 
 from ccinput.exceptions import *
-from ccinput.utilities import standardize_memory
+from ccinput.utilities import *
 from ccinput.constants import ATOMIC_NUMBER
 
 class Calculation:
-    def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1):
+    def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1, name="calc", header="File created by ccinput"):
         self.xyz = xyz
         self.parameters = parameters
         self.type = type
@@ -46,6 +46,9 @@ class Calculation:
         self.verify_charge_mult()
         self.constraints = constraints
 
+        self.name = name
+        self.header = header
+
     def verify_charge_mult(self):
         electrons = 0
         for line in self.xyz.split('\n'):
@@ -64,14 +67,31 @@ class Calculation:
 
 
 class Parameters:
-    def __init__(self, software, solvent="", solvation_model="", solvation_radii="", basis_set="", theory_level="", method="", specifications="", density_fitting="", custom_basis_sets="", **kwargs):
-        self.solvent = solvent
+    def __init__(self, software, solvent="", solvation_model="", solvation_radii="", basis_set="", method="", specifications="", density_fitting="", custom_basis_sets="", **kwargs):
+        if solvent.strip() != "":
+            self.solvent = get_abs_solvent(solvent)
+        else:
+            self.solvent = ""
+
         self.solvation_model = solvation_model
         self.solvation_radii = solvation_radii
-        self.software = software
-        self.basis_set = basis_set
-        self.theory_level = theory_level # necessary?
-        self.method = method
+        self.software = get_abs_software(software)
+
+        if method == "":
+            if 'functional' in kwargs.keys():
+                method = get_abs_method(kwargs['functional'])
+            else:
+                raise InvalidParameter("No calculation method specified (method='...')")
+        else:
+            self.method = get_abs_method(method)
+
+        self.theory_level = get_theory_level(method)
+
+        if self.theory_level not in ["semi-empirical", "xtb", "special"]:
+            self.basis_set = get_abs_basis_set(basis_set)
+        else:
+            self.basis_set = ""
+
         self.specifications = specifications
         self.density_fitting = density_fitting
         self.custom_basis_sets = custom_basis_sets

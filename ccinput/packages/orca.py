@@ -212,22 +212,12 @@ class OrcaCalculation:
             self.blocks.append(neb_block.format(nimages))
 
         method = get_method(self.calc.parameters.method, "orca")
-        basis_set = get_basis_set(self.calc.parameters.basis_set, "orca")
-
-        if method == "":
-            if self.calc.parameters.theory_level == "HF":
-                method = "HF"
-            elif self.calc.parameters.theory_level == "RI-MP2":
-                method = "RI-MP2"
-            elif self.calc.type == CalcType.MEP:
-                pass
-            else:
-                raise Exception("No method")
-
-        if method == "GFN2-xTB":
-            self.command_line += "xtb "
-        else:
+        if self.calc.parameters.theory_level not in ['xtb', 'semi-empirical', 'special']:
+            basis_set = get_basis_set(self.calc.parameters.basis_set, "orca")
             self.command_line += "{} {} ".format(method, basis_set)
+        else:
+            self.command_line += "{} ".format(method)
+
 
     def handle_custom_basis_sets(self):
         if self.calc.parameters.custom_basis_sets == "":
@@ -285,7 +275,7 @@ class OrcaCalculation:
         self.xyz_structure = ''.join(lines)
 
     def handle_pal(self):
-        if self.calc.parameters.theory_level == "Semi-empirical":# Can multiple cores be used for SE methods in ORCA 5?
+        if self.calc.parameters.theory_level == "semi-empirical":
             self.pal = 1
         else:
             self.pal = self.calc.nproc

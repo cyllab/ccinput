@@ -7,7 +7,7 @@ from ccinput.exceptions import *
 class CalculationTests(TestCase):
     def setUp(self):
         self.xyz = "Cl 0 0 0\n"
-        self.params = Parameters("orca")
+        self.params = Parameters("orca", method="am1")
 
     def create_calc(self, type=CalcType.SP, nproc=1, mem="1000MB", charge=-1, multiplicity=1):
         return Calculation(self.xyz, self.params, type, nproc=nproc, mem=mem, \

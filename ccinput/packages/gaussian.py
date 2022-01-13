@@ -14,12 +14,12 @@ class GaussianCalculation:
     I 2.74
     """
 
-    TEMPLATE = """%chk=in.chk
+    TEMPLATE = """%chk={}.chk
     %nproc={}
     %mem={}MB
     #p {} {}
 
-    File created by ccinput
+    {}
 
     {} {}
     {}
@@ -82,7 +82,7 @@ class GaussianCalculation:
         s = self.clean(self.calc.parameters.specifications.lower())
 
         if s.count('(') != s.count(')'):#Could be more sophisticated to catch other incorrect specifications
-            raise Exception("Invalid specifications: parenthesis not matching")
+            raise InvalidParameter("Invalid specifications: parenthesis not matching")
 
         _specifications = ""
         remove = False
@@ -149,7 +149,7 @@ class GaussianCalculation:
             freeze = []
 
             if self.calc.constraints.strip() == '':
-                raise Exception("No constraint in constrained optimisation mode")
+                raise InvalidParameter("No constraint in constrained optimisation mode")
 
             scmd = self.calc.constraints.split(';')
 
@@ -209,10 +209,10 @@ class GaussianCalculation:
         custom_basis_set = self.calc.parameters.custom_basis_sets
 
         if method == "":
-            if self.calc.parameters.theory_level == "HF":
+            if self.calc.parameters.theory_level == "hf":
                 method = "HF"
             else:
-                raise Exception("No method")
+                raise InvalidParameter("No method")
 
         if basis_set != "":
             if custom_basis_set == "":
@@ -221,13 +221,16 @@ class GaussianCalculation:
                 else:
                     self.command_line += "{}/{} ".format(method, basis_set)
             else:
-                gen_keyword, to_append = self.parse_custom_basis_set()
-                self.appendix.append(to_append)
-                self.command_line += "{}/{} ".format(method, gen_keyword)
+                gen_keyword, to_append = self.parse_custom_basis_set(basis_set)
+                if to_append.strip() == '':
+                    self.command_line += "{}/{} ".format(method, basis_set)
+                else:
+                    self.appendix.append(to_append)
+                    self.command_line += "{}/{} ".format(method, gen_keyword)
         else:
             self.command_line += "{} ".format(method)
 
-    def parse_custom_basis_set(self):
+    def parse_custom_basis_set(self, base_bs):
         custom_basis_set = self.calc.parameters.custom_basis_sets
         entries = [i.strip() for i in custom_basis_set.split(';') if i.strip() != ""]
         to_append_gen = []
@@ -238,7 +241,7 @@ class GaussianCalculation:
             sentry = entry.split('=')
 
             if len(sentry) != 2:
-                raise Exception("Invalid custom basis set string")
+                raise InvalidParameter("Invalid custom basis set string: '{}'".format(entry))
 
             el, bs_keyword = sentry
             custom_atoms_requested.append(el)
@@ -269,7 +272,7 @@ class GaussianCalculation:
             try:
                 el_num = ATOMIC_NUMBER[el]
             except KeyError:
-                raise Exception("Invalid atom in custom basis set string")
+                raise InvalidParameter("Invalid atom in custom basis set string: '{}'".format(el))
 
             bs = basis_set_exchange.get_basis(bs_keyword, fmt='gaussian94', elements=[el_num], header=False)
             if bs.find('-ECP') != -1:
@@ -298,7 +301,7 @@ class GaussianCalculation:
 
             if len(normal_atoms) > 0:
                 custom_bs += ' '.join(normal_atoms) + ' 0\n'
-                custom_bs += self.calc.parameters.basis_set + '\n'
+                custom_bs += base_bs + '\n'
                 custom_bs += '****\n'
 
             custom_bs += ''.join(to_append_gen)
@@ -335,11 +338,11 @@ class GaussianCalculation:
                     self.command_line += "SCRF(CPCM, Solvent={}, Read) ".format(solvent_keyword)
                     self.appendix.append("Radii={}\n".format(self.calc.parameters.solvation_radii))
             else:
-                raise Exception("Invalid solvation method for Gaussian: {}".format(self.calc.parameters.solvation_model))
+                raise InvalidParameter("Invalid solvation method for Gaussian: '{}'".format(self.calc.parameters.solvation_model))
 
     def create_input_file(self):
         additional_commands = " ".join([i.strip() for i in self.additional_commands]).strip()
         self.confirmed_specifications += additional_commands
-        raw = self.TEMPLATE.format(self.calc.nproc, self.calc.mem, self.command_line.strip(), additional_commands, self.calc.charge, self.calc.multiplicity, self.xyz_structure, '\n'.join(self.appendix))
+        raw = self.TEMPLATE.format(self.calc.name, self.calc.nproc, self.calc.mem, self.command_line.strip(), additional_commands, self.calc.header, self.calc.charge, self.calc.multiplicity, self.xyz_structure, '\n'.join(self.appendix))
         self.input_file = '\n'.join([i.strip() for i in raw.split('\n')]).replace('\n\n\n', '\n\n')
 

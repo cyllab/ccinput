@@ -146,6 +146,21 @@ SPECIFICATIONS = {
     },
 }
 
+THEORY_LEVELS = {
+    'hartree-fock': ['hf', 'hartree-fock'],
+    # Some old exotic semi-empirical methods in ORCA are missing
+    'semi-empirical': ['am1', 'pm3', 'pm6', 'pm7', 'mndo'],
+    # all below to add to SOFTWARE_METHODS for ORCA
+    'xtb': ['gfn2-xtb', 'gfn1-xtb', 'gfn0-xtb', 'gfn-ff'],
+    'special': ['hf-3c', 'pbeh-3c', 'r2scan-3c', 'b97-3c'],
+    'mp2': ['mp2', 'ri-mp2'],
+    'cc': ['ccsd', 'ccsd(t)', 'qcisd', 'qcisd(t)', 'lpno-ccsd', \
+            'lpno-ccsd(t)', 'lpno-qcisd', 'lpno-qcisd(t)', \
+            'dlpno-ccsd', 'dlpno-ccsd(t)', 'dlpno-qcisd', \
+            'dlpno-qcisd(t)'],
+    # Everything else is assumed to be DFT, because it most likely is
+}
+
 SYN_SOFTWARE = {
     'gaussian': ['g16', 'gaussian16', 'gaussian 16'],
     'orca': [],
@@ -362,13 +377,13 @@ SYN_METHODS = {
         'opbe': [],
         'xlyp': [],
 
-        'm05' : ['m05'],
-        'm052x' : ['m052x', 'm05-2x'],
+        'm05' : [],
+        'm052x' : ['m05-2x'],
         'm06' : [],
         'm062x' : ['m06-2x'],
-        'm06hf' : ['m06hf', 'm06-hf'],
+        'm06hf' : ['m06-hf'],
         'm06l': ['m06-l'],
-        'm08hx': ['m08hx'],
+        'm08hx': [],
 
         'tpss': [],
         'revtpss': [],
@@ -398,11 +413,11 @@ SYN_METHODS = {
         'mpwlyp': [],
         'mpw1pw' : [],
         'mpw1lyp' : [],
-        'mpw1pw91' : ['mpw1pw91'],
-        'mpw1lyp' : ['mpw1lyp'],
-        'mpw1pbe' : ['mpw1pbe'],
-        'mpw3pbe' : ['mpw3pbe'],
-        'pw6b95d3' : ['pw6b95d3', 'pw6b95-d3'],
+        'mpw1pw91' : [],
+        'mpw1lyp' : [],
+        'mpw1pbe' : [],
+        'mpw3pbe' : [],
+        'pw6b95d3' : ['pw6b95-d3'],
         'pw86pbe': [],
         'rpw86pbe': [],
         'pw91_0' : ['pw91-0', 'pw910'],
@@ -429,33 +444,67 @@ SYN_METHODS = {
         'b2t-plyp ' : ['b2tplyp'],
         'pwpb95' : [],
 
-        'b3p86' : ['b3p86'],
+        'b3p86' : [],
         'hse06' : ['hse1pbe'],
-        'ohse2pbe' : ['ohse2pbe'],
-        'ohse1pbe' : ['ohse1pbe'],
-        'pbeh1pbe' : ['pbeh1pbe'],
-        'b1b95' : ['b1b95'],
-        'apfd' : ['apfd'],
-        'lc-whpbe' : ['lc-whpbe', 'lcwhpbe'],
-        'thcthhyb' : ['thcthhyb'],
-        'bmk' : ['bmk'],
-        'hissbpbe' : ['hissbpbe'],
-        'mn15' : ['mn15'],
-        'mn15l' : ['mn15l', 'mn15-l'],
-        'm11' : ['m11'],
-        'm11l' : ['m11l', 'm11-l'],
-        'sogga11x' : ['sogga11x'],
-        'sogga11' : ['sogga11'],
-        'n12sx' : ['n12sx'],
-        'n12' : ['n12'],
-        'mn12sx' : ['mn12sx'],
-        'mn12l' : ['mn12l', 'mn12-l'],
-        'vsxc' : ['vsxc'],
-        'hcth407' : ['hcth/407', 'hcth407', 'hcth-407'],
-        'hcth93' : ['hcth/93', 'hcth93', 'hcth-93'],
-        'hcth147' : ['hcth/147', 'hcth147', 'hcth-147'],
-        'thcth' : ['thcth'],
+        'ohse2pbe' : [],
+        'ohse1pbe' : [],
+        'pbeh1pbe' : [],
+        'b1b95' : [],
+        'apfd' : [],
+        'lc-whpbe' : ['lcwhpbe'],
+        'thcthhyb' : [],
+        'bmk' : [],
+        'hissbpbe' : [],
+        'mn15' : [],
+        'mn15l' : ['mn15-l'],
+        'm11' : [],
+        'm11l' : ['m11-l'],
+        'sogga11x' : [],
+        'sogga11' : [],
+        'n12sx' : [],
+        'n12' : [],
+        'mn12sx' : [],
+        'mn12l' : ['mn12-l'],
+        'vsxc' : [],
+        'hcth407' : ['hcth/407', 'hcth-407'],
+        'hcth93' : ['hcth/93', 'hcth-93'],
+        'hcth147' : ['hcth/147', 'hcth-147'],
+        'thcth' : [],
 
+        'hf': ['hartree-fock'],
+
+        'mndo': [],
+        'am1': [],
+        'pm3': [],
+        'pm6': [],
+        'pm7': ['pm7r6'],
+
+        'gfn2-xtb': ['xtb2', 'gfn2', 'gfn2xtb'],
+        'gfn1-xtb': ['xtb1', 'gfn1', 'gfn1xtb', 'gfn-xtb', 'gfnxtb'],
+        'gfn0-xtb': ['xtb0', 'gfn0', 'gfn0xtb'],
+        'gfn-ff': ['gfnff'],
+
+        'mp2': [],
+        'ri-mp2': ['rimp2'],
+
+        'hf-3c': ['hf3c'],
+        'pbeh-3c': ['pbeh3c'],
+        'r2scan-3c': ['r2scan3c'],
+        'b97-3c': ['b973c'],
+
+        'ccsd': [],
+        'ccsd(t)': ['ccsd(t)', 'ccsdt'],
+        'qcisd': ['qcisd'],
+        'qcisd(t)': ['qcisd(t)', 'qcisdt'],
+
+        'lpno-ccsd': ['lpnoccsd'],
+        'lpno-ccsd(t)': ['lpnoccsd(t)', 'lpno-ccsdt', 'lpnoccsdt'],
+        'lpno-qcisd': ['lpnoqcisd'],
+        'lpno-qcisd(t)': ['lpno-qcisdt', 'lpnoqcisd(t)', 'lpnoqcisdt'],
+        'dlpno-ccsd': [],
+        'dlpno-ccsd(t)': ['dlpno-ccsdt', 'dlpnoccsd(t)', 'dlpnoccsdt'],
+        'dlpno-qcisd': ['dlpnoqcisd'],
+        'dlpno-qcisd(t)': ['dlpno-qcisdt', 'dlpnoqcisdt'],
     }
 
 SYN_BASIS_SETS = {
@@ -937,6 +986,40 @@ SOFTWARE_METHODS = {
                     'pwpb95' : 'PWPB95',
                     'wb2plyp' : 'wB2PLYP',
                     'wb2gp-plyp' : 'wB2GP-PLYP',
+
+                    'am1': 'AM1',
+                    'pm3': 'PM3',
+                    'mndo': 'MNDO',
+
+                    'gfn2-xtb': 'xtb2',
+                    'gfn1-xtb': 'xtb1',
+                    #'gfn0-xtb': 'xtb0', # Not available in ORCA 5.0.2
+                    'gfn-ff': 'xtbff',
+
+                    'hf': 'HF',
+
+                    'mp2': 'MP2',
+                    'ri-mp2': 'RI-MP2',
+
+                    'hf-3c': 'HF-3c',
+                    'pbeh-3c': 'PBEh-3c',
+                    'r2scan-3c': 'r2SCAN-3c',
+                    'b97-3c': 'B97-3c',
+
+                    'ccsd': 'CCSD',
+                    'ccsd(t)': 'CCSD(T)',
+                    'qcisd': 'QCISD',
+                    'qcisd(t)': 'QCISD(T)',
+
+                    'lpno-ccsd': 'LPNO-CCSD',
+                    'lpno-ccsd(t)': 'LPNOCCSD(T)',
+                    'lpno-qcisd': 'LPNO-QCISD',
+                    'lpno-qcisd(t)': 'LPNO-QCISD(T)',
+                    'dlpno-ccsd': 'DLPNO-CCSD',
+                    'dlpno-ccsd(t)': 'DLPNO-CCSD(T)',
+                    'dlpno-qcisd': 'DLPNO-QCISD',
+                    'dlpno-qcisd(t)': 'DLPNO-QCISD(T)',
+
                 },
        'gaussian':
                 {
@@ -991,6 +1074,13 @@ SOFTWARE_METHODS = {
                     'hcth93' : 'HCTH/93',
                     'hcth147' : 'HCTH/147',
                     'thcth' : 'tHCTH',
+
+                    'am1': 'AM1',
+                    'pm3': 'PM3',
+                    'pm6': 'PM6',
+                    'pm7': 'PM7',
+
+                    'hf': 'HF',
                 }
 
     }

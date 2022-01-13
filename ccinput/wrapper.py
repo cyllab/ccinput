@@ -16,10 +16,11 @@ def process_calculation(calc):
     cls = SOFTWARE_CLASSES[calc.parameters.software](calc)
     return cls
 
-def generate_calculation(software=None, type=None, theory_level="", method="", basis_set="", \
+def generate_calculation(software=None, type=None, method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
             density_fitting="", custom_basis_sets="", xyz="", in_file="", \
-            constraints="", nproc=0, mem=0, charge=0, multiplicity=1, **kwargs):
+            constraints="", nproc=0, mem=0, charge=0, multiplicity=1, name="calc", \
+            header="File created by ccinput", **kwargs):
 
     if software is None:
         raise InvalidParameter("Specify a software package to use (software=...)")
@@ -41,11 +42,12 @@ def generate_calculation(software=None, type=None, theory_level="", method="", b
     #verification/warnings (e.g. using default solvation model...)
 
     params = Parameters(abs_software, solvent, solvation_model, solvation_radii, \
-            basis_set, theory_level, method, specifications, density_fitting, \
+            basis_set, method, specifications, density_fitting, \
             custom_basis_sets, **kwargs)
 
     calc = Calculation(xyz_structure, params, calc_type, constraints=constraints, \
-            nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity)
+            nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity, \
+            name=name, header=header)
 
     return process_calculation(calc)
 

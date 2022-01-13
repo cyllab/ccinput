@@ -147,6 +147,12 @@ def parse_xyz_from_file(path):
 
     return standardize_xyz(lines)
 
+def get_theory_level(method):
+    for level, methods in THEORY_LEVELS.items():
+        if method.lower() in methods:
+            return level
+    return 'dft'
+
 def get_abs_type(str_type):
     """
         Converts a string calculation type into the correct CalcType.
@@ -189,6 +195,7 @@ def get_method(method, software):
     except InvalidParameter:
         ## Warning to user
         return method
+
     return SOFTWARE_METHODS[software][abs_method]
 
 def get_basis_set(basis_set, software):
@@ -197,6 +204,7 @@ def get_basis_set(basis_set, software):
     except InvalidParameter:
         ## Warning to user
         return basis_set
+
     return SOFTWARE_BASIS_SETS[software][abs_basis_set]
 
 def get_solvent(solvent, software, solvation_model="SMD"):
