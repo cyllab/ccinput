@@ -1,57 +1,12 @@
-import os
-from unittest import TestCase
-
 from ccinput.packages.gaussian import GaussianCalculation
-from ccinput.wrapper import generate_input
+from ccinput.tests.testing_utilities import InputTests
 
-class GaussianTests(TestCase):
-
-    def generate_input(self, **params):
-        params['in_file'] = os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", params['in_file'])
-        return generate_input(**params)
-
-    def is_equivalent(self, ref, res):
-        ref_lines = [i.strip() for i in ref.split('\n')]
-        res_lines = [i.strip() for i in res.split('\n')]
-
-        ind = 0
-        while ref_lines[ind].find("#p") == -1:
-            ind += 1
-
-        ref_lines = ref_lines[ind:]
-
-        ind = 0
-        while res_lines[ind].find("#p") == -1:
-            ind += 1
-
-        res_lines = res_lines[ind:]
-
-        if len(ref_lines) != len(res_lines):
-            print("Different number of lines: {} and {}".format(len(ref_lines), len(res_lines)))
-            print("----START REFERENCE---")
-            print(ref)
-            print("----END REFERENCE---")
-            print("----START RESULT---")
-            print(res)
-            print("----END RESULT---")
-            return False
-
-        for line1, line2 in zip(ref_lines, res_lines):
-            if line1 != line2:
-                print("")
-                print("Difference found:")
-                print("----REFERENCE---")
-                print(line1)
-                print()
-                print("----RESULT---")
-                print(line2)
-                print("")
-                return False
-
-        return True
+class GaussianTests(InputTests):
 
     def test_sp_SE(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -63,6 +18,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp AM1
 
         CalcUS
@@ -76,6 +34,8 @@ class GaussianTests(TestCase):
 
     def test_sp_HF(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -87,6 +47,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G
 
         CalcUS
@@ -100,6 +63,8 @@ class GaussianTests(TestCase):
 
     def test_sp_HF_SMD(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -113,6 +78,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform)
 
         CalcUS
@@ -126,6 +94,8 @@ class GaussianTests(TestCase):
 
     def test_sp_HF_SMD18(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'I.xyz',
                 'software': 'Gaussian',
@@ -140,6 +110,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
 
         CalcUS
@@ -158,6 +131,8 @@ class GaussianTests(TestCase):
 
     def test_sp_HF_PCM_Bondi(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -172,6 +147,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
 
         CalcUS
@@ -187,6 +165,8 @@ class GaussianTests(TestCase):
 
     def test_sp_HF_PCM_UFF(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -201,6 +181,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform)
 
         CalcUS
@@ -214,6 +197,8 @@ class GaussianTests(TestCase):
 
     def test_sp_HF_CPCM_Bondi(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -228,6 +213,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform, Read)
 
         CalcUS
@@ -243,6 +231,8 @@ class GaussianTests(TestCase):
 
     def test_sp_HF_CPCM_UFF(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -257,6 +247,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
 
         CalcUS
@@ -270,6 +263,8 @@ class GaussianTests(TestCase):
 
     def test_solvent_synonyms1(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -284,6 +279,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
 
         CalcUS
@@ -297,6 +295,8 @@ class GaussianTests(TestCase):
 
     def test_solvent_synonyms2(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -311,6 +311,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=methanol)
 
         CalcUS
@@ -324,6 +327,8 @@ class GaussianTests(TestCase):
 
     def test_invalid_solvation(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -339,6 +344,8 @@ class GaussianTests(TestCase):
 
     def test_sp_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -351,6 +358,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp M062X/Def2SVP
 
         CalcUS
@@ -364,6 +374,8 @@ class GaussianTests(TestCase):
 
     def test_sp_DFT_specifications(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -377,6 +389,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp M062X/Def2SVP nosymm 5d
 
         CalcUS
@@ -390,6 +405,8 @@ class GaussianTests(TestCase):
 
     def test_superfluous_specifications(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -403,6 +420,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp M062X/Def2SVP
 
         CalcUS
@@ -418,6 +438,8 @@ class GaussianTests(TestCase):
 
     def test_superfluous_specifications2(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -431,6 +453,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt M062X/Def2SVP
 
         CalcUS
@@ -445,6 +470,8 @@ class GaussianTests(TestCase):
 
     def test_duplicate_specifications(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -458,6 +485,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt M062X/Def2SVP nosymm
 
         CalcUS
@@ -471,6 +501,8 @@ class GaussianTests(TestCase):
 
     def test_duplicate_specifications2(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -484,6 +516,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt M062X/Def2SVP nosymm
 
         CalcUS
@@ -497,6 +532,8 @@ class GaussianTests(TestCase):
 
     def test_opt_SE(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -508,6 +545,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt AM1
 
         CalcUS
@@ -521,6 +561,8 @@ class GaussianTests(TestCase):
 
     def test_opt_HF(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -532,6 +574,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt HF/3-21G
 
         CalcUS
@@ -545,6 +590,8 @@ class GaussianTests(TestCase):
 
     def test_opt_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -558,6 +605,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -572,6 +622,8 @@ class GaussianTests(TestCase):
 
     def test_freq_SE(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -583,6 +635,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p freq AM1
 
         CalcUS
@@ -596,6 +651,8 @@ class GaussianTests(TestCase):
 
     def test_freq_HF(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -607,6 +664,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p freq HF/3-21G
 
         CalcUS
@@ -620,6 +680,8 @@ class GaussianTests(TestCase):
 
     def test_freq_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -632,6 +694,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p freq B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -647,6 +712,8 @@ class GaussianTests(TestCase):
 
     def test_scan_bond_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -660,6 +727,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -683,6 +753,8 @@ class GaussianTests(TestCase):
 
     def test_scan_angle_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -696,6 +768,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -719,6 +794,8 @@ class GaussianTests(TestCase):
 
     def test_scan_dihedral_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -732,6 +809,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -755,6 +835,8 @@ class GaussianTests(TestCase):
 
     def test_scan_dihedral_DFT2(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -768,6 +850,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -791,6 +876,8 @@ class GaussianTests(TestCase):
 
     def test_scan_dihedral_DFT3(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -804,6 +891,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -827,6 +917,8 @@ class GaussianTests(TestCase):
 
     def test_freeze_bond_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -840,6 +932,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -863,6 +958,8 @@ class GaussianTests(TestCase):
 
     def test_freeze_angle_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -876,6 +973,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -899,6 +999,8 @@ class GaussianTests(TestCase):
 
     def test_invalid_opt_mod(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -914,6 +1016,8 @@ class GaussianTests(TestCase):
 
     def test_no_method(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -929,6 +1033,8 @@ class GaussianTests(TestCase):
 
     def test_freeze_dihedral_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -942,6 +1048,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -965,6 +1074,8 @@ class GaussianTests(TestCase):
 
     def test_freeze_dihedral_DFT2(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -978,6 +1089,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -1002,6 +1116,8 @@ class GaussianTests(TestCase):
 
     def test_nmr_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'NMR Prediction',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1014,6 +1130,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p nmr B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -1027,6 +1146,8 @@ class GaussianTests(TestCase):
 
     def test_ts_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'Gaussian',
@@ -1039,6 +1160,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -1055,6 +1179,8 @@ class GaussianTests(TestCase):
 
     def test_ts_DFT_df(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'Gaussian',
@@ -1068,6 +1194,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/Def2SVP/W06
 
         CalcUS
@@ -1086,6 +1215,8 @@ class GaussianTests(TestCase):
 
     def test_td_DFT(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'UV-Vis Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1098,6 +1229,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p td M062X/Def2SVP
 
         CalcUS
@@ -1111,6 +1245,8 @@ class GaussianTests(TestCase):
 
     def test_gen_bs(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -1124,6 +1260,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt B3LYP/Gen
 
         CalcUS
@@ -1188,6 +1327,8 @@ class GaussianTests(TestCase):
 
     def test_irrelevant_gen_bs(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'Gaussian',
@@ -1201,6 +1342,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
 
         CalcUS
@@ -1222,6 +1366,8 @@ class GaussianTests(TestCase):
 
     def test_genecp_bs(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Ph2I_cation.xyz',
                 'software': 'Gaussian',
@@ -1235,6 +1381,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt B3LYP/GenECP
 
         CalcUS
@@ -1369,6 +1518,8 @@ class GaussianTests(TestCase):
 
     def test_genecp_bs_multiple_atoms(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Ph2I_cation.xyz',
                 'software': 'Gaussian',
@@ -1382,6 +1533,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt B3LYP/GenECP
 
         CalcUS
@@ -1564,6 +1718,8 @@ class GaussianTests(TestCase):
 
     def test_multiple_ecp(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'AuI.xyz',
                 'software': 'Gaussian',
@@ -1577,6 +1733,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt B3LYP/GenECP
 
         CalcUS
@@ -1751,6 +1910,8 @@ class GaussianTests(TestCase):
 
     def test_global_specification(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1764,6 +1925,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp M062X/Def2SVP scf(tight)
 
         CalcUS
@@ -1778,6 +1942,8 @@ class GaussianTests(TestCase):
 
     def test_multiple_global_specification(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1791,6 +1957,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
 
         CalcUS
@@ -1805,6 +1974,8 @@ class GaussianTests(TestCase):
 
     def test_multiple_global_specification2(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1818,6 +1989,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
 
         CalcUS
@@ -1832,6 +2006,8 @@ class GaussianTests(TestCase):
 
     def test_multiple_global_specification3(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1845,6 +2021,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p sp M062X/Def2SVP scf(tight,xqc)
 
         CalcUS
@@ -1860,6 +2039,8 @@ class GaussianTests(TestCase):
 
     def test_cmd_specification(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1873,6 +2054,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP
 
         CalcUS
@@ -1886,6 +2070,8 @@ class GaussianTests(TestCase):
 
     def test_multiple_cmd_specifications(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1899,6 +2085,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP
 
         CalcUS
@@ -1912,6 +2101,8 @@ class GaussianTests(TestCase):
 
     def test_both_specifications(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1925,6 +2116,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP scf(tight)
 
         CalcUS
@@ -1938,6 +2132,8 @@ class GaussianTests(TestCase):
 
     def test_specifications_mixed(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1951,6 +2147,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
 
         CalcUS
@@ -1964,6 +2163,8 @@ class GaussianTests(TestCase):
 
     def test_specifications_mixed2(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -1977,6 +2178,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
 
         CalcUS
@@ -1990,6 +2194,8 @@ class GaussianTests(TestCase):
 
     def test_invalid_specification(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -2005,6 +2211,8 @@ class GaussianTests(TestCase):
 
     def test_special_char(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -2018,6 +2226,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p opt M062X/Def2SVP
 
         CalcUS
@@ -2031,6 +2242,8 @@ class GaussianTests(TestCase):
 
     def test_confirmed_specification_not_step(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'Constrained Optimisation',
                 'constraints': 'Freeze/1_2_3;',
                 'in_file': 'CH4.xyz',
@@ -2048,6 +2261,8 @@ class GaussianTests(TestCase):
 
     def test_cmd_specification_td(self):
         params = {
+                'nproc': 8,
+                'mem': '10000MB',
                 'type': 'UV-Vis Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
@@ -2061,6 +2276,9 @@ class GaussianTests(TestCase):
         inp = self.generate_input(**params)
 
         REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
         #p td(nstates=5) M062X/Def2SVP
 
         CalcUS

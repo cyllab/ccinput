@@ -1,62 +1,12 @@
-import os
-from unittest import TestCase
-
+from ccinput.tests.testing_utilities import InputTests
 from ccinput.packages.orca import OrcaCalculation
 from ccinput.wrapper import generate_input
 
-class OrcaTests(TestCase):
-    def generate_input(self, **params):
-        params['in_file'] = os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", params['in_file'])
-        return generate_input(**params)
-
-    def is_equivalent(self, ref, res):
-        ref_lines = [i.strip() for i in ref.split('\n')]
-        res_lines = [i.strip() for i in res.split('\n')]
-
-        ind = 0
-        while ref_lines[ind].strip() == '':
-            ind += 1
-
-        ind2 = len(ref_lines) - 1
-        while ref_lines[ind2].strip() == '':
-            ind2 -= 1
-
-        ref_lines = ref_lines[ind:ind2+1]
-
-        ind = 0
-        while res_lines[ind].strip() == '':
-            ind += 1
-
-        res_lines = res_lines[ind:]
-
-        if len(ref_lines) != len(res_lines):
-            print("Different number of lines: {} and {}".format(len(ref_lines), len(res_lines)))
-            print("----START REFERENCE---")
-            print(ref)
-            print("----END REFERENCE---")
-            print("----START RESULT---")
-            print(res)
-            print("----END RESULT---")
-            return False
-
-        for line1, line2 in zip(ref_lines, res_lines):
-            if line1 != line2:
-                if line1.find("nprocs") != -1:
-                    pass
-                else:
-                    print("")
-                    print("Difference found:")
-                    print("----REFERENCE---")
-                    print(line1)
-                    print()
-                    print("----RESULT---")
-                    print(line2)
-                    print("")
-                    return False
-        return True
+class OrcaTests(InputTests):
 
     def test_sp_SE(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -81,6 +31,7 @@ class OrcaTests(TestCase):
 
     def test_sp_HF(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -105,6 +56,7 @@ class OrcaTests(TestCase):
 
     def test_sp_HF_SMD(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -135,6 +87,7 @@ class OrcaTests(TestCase):
 
     def test_sp_HF_SMD18(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'I.xyz',
                 'software': 'ORCA',
@@ -169,6 +122,7 @@ class OrcaTests(TestCase):
 
     def test_solvation_octanol_smd(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -199,6 +153,7 @@ class OrcaTests(TestCase):
 
     def test_sp_HF_CPCM(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -225,6 +180,7 @@ class OrcaTests(TestCase):
 
     def test_solvent_synonym(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -256,6 +212,7 @@ class OrcaTests(TestCase):
 
     def test_solvation_octanol_cpcm1(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -282,6 +239,7 @@ class OrcaTests(TestCase):
 
     def test_solvation_octanol_cpcm2(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -308,6 +266,7 @@ class OrcaTests(TestCase):
 
     def test_invalid_solvation(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -323,6 +282,7 @@ class OrcaTests(TestCase):
 
     def test_sp_DFT(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -348,6 +308,7 @@ class OrcaTests(TestCase):
 
     def test_sp_DFT_specifications(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -374,6 +335,7 @@ class OrcaTests(TestCase):
 
     def test_sp_DFT_multiple_specifications(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -400,6 +362,7 @@ class OrcaTests(TestCase):
 
     def test_sp_DFT_duplicate_specifications(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -426,6 +389,7 @@ class OrcaTests(TestCase):
 
     def test_sp_MP2(self):
         params = {
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -451,6 +415,7 @@ class OrcaTests(TestCase):
 
     def test_opt_SE(self):
         params = {
+                'nproc': 8,
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -467,7 +432,7 @@ class OrcaTests(TestCase):
         Cl 0.0 0.0 0.0
         *
         %pal
-        nprocs 8
+        nprocs 1
         end
         """
 
@@ -475,6 +440,7 @@ class OrcaTests(TestCase):
 
     def test_opt_HF(self):
         params = {
+                'nproc': 8,
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -499,6 +465,7 @@ class OrcaTests(TestCase):
 
     def test_opt_DFT(self):
         params = {
+                'nproc': 8,
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -524,6 +491,7 @@ class OrcaTests(TestCase):
 
     def test_freq_SE(self):
         params = {
+                'nproc': 8,
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -540,7 +508,7 @@ class OrcaTests(TestCase):
         Cl 0.0 0.0 0.0
         *
         %pal
-        nprocs 8
+        nprocs 1
         end
         """
 
@@ -548,6 +516,7 @@ class OrcaTests(TestCase):
 
     def test_freq_HF(self):
         params = {
+                'nproc': 8,
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -572,6 +541,7 @@ class OrcaTests(TestCase):
 
     def test_freq_DFT(self):
         params = {
+                'nproc': 8,
                 'type': 'Frequency Calculation',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -599,6 +569,7 @@ class OrcaTests(TestCase):
 
     def test_scan_bond_DFT(self):
         params = {
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -637,6 +608,7 @@ class OrcaTests(TestCase):
 
     def test_invalid_opt_mod(self):
         params = {
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -652,6 +624,7 @@ class OrcaTests(TestCase):
 
     def test_no_method(self):
         params = {
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -667,6 +640,7 @@ class OrcaTests(TestCase):
 
     def test_scan_angle_DFT(self):
         params = {
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -705,6 +679,7 @@ class OrcaTests(TestCase):
 
     def test_scan_dihedral_DFT(self):
         params = {
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -743,6 +718,7 @@ class OrcaTests(TestCase):
 
     def test_freeze_bond_DFT(self):
         params = {
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -781,6 +757,7 @@ class OrcaTests(TestCase):
 
     def test_freeze_angle_DFT(self):
         params = {
+            'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -820,6 +797,7 @@ class OrcaTests(TestCase):
 
     def test_freeze_dihedral_DFT(self):
         params = {
+            'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -858,6 +836,7 @@ class OrcaTests(TestCase):
 
     def test_nmr_DFT(self):
         params = {
+            'nproc': 8,
                 'type': 'NMR Prediction',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -883,6 +862,7 @@ class OrcaTests(TestCase):
 
     def test_irrelevant_gen_bs(self):
         params = {
+            'nproc': 8,
                 'type': 'NMR Prediction',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -909,6 +889,7 @@ class OrcaTests(TestCase):
 
     def test_ts_DFT(self):
         params = {
+        'nproc': 8,
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'ORCA',
@@ -939,6 +920,7 @@ class OrcaTests(TestCase):
 
     def test_ts_DFT_custom_bs(self):
         params = {
+        'nproc': 8,
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'ORCA',
@@ -990,6 +972,7 @@ class OrcaTests(TestCase):
 
     def test_opt_DFT_custom_bs_ecp(self):
         params = {
+        'nproc': 8,
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Ph2I_cation.xyz',
                 'software': 'ORCA',
@@ -1134,6 +1117,7 @@ class OrcaTests(TestCase):
 
     def test_NEB(self):
         params = {
+        'nproc': 8,
                 'type': 'Minimum Energy Path',
                 'in_file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
@@ -1168,6 +1152,7 @@ class OrcaTests(TestCase):
 
     def test_NEB2(self):
         params = {
+        'nproc': 8,
                 'type': 'Minimum Energy Path',
                 'in_file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
@@ -1203,6 +1188,7 @@ class OrcaTests(TestCase):
 
     def test_hirshfeld_pop(self):
         params = {
+        'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -1232,6 +1218,7 @@ class OrcaTests(TestCase):
 
     def test_mo(self):
         params = {
+                'nproc': 8,
                 'type': 'MO Calculation',
                 'in_file': 'Ph2I_cation.xyz',
                 'software': 'ORCA',

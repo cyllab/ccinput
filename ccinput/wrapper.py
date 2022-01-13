@@ -4,7 +4,7 @@ from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
 
 from ccinput.calculation import Calculation, Parameters
-from ccinput.utilities import get_abs_type, get_abs_software
+from ccinput.utilities import get_abs_type, get_abs_software, standardize_xyz, parse_xyz_from_file
 
 SOFTWARE_CLASSES = {
         'gaussian': GaussianCalculation,
@@ -21,15 +21,9 @@ def generate_input(software, type, theory_level="", method="", basis_set="", \
             constraints="", nproc=0, mem=0, charge=0, multiplicity=1, **kwargs):
 
     if xyz != "":
-        xyz_structure = xyz # Verify that it is valid...
+        xyz_structure = standardize_xyz(xyz)
     elif in_file != "":
-        if not os.path.isfile(in_file):
-            raise Exception("Test input file not found: {}".format(in_file))###
-
-        with open(in_file) as f:
-            lines = f.readlines()
-
-        xyz_structure = ''.join(lines)
+        xyz_structure = parse_xyz_from_file(in_file)
     else:
         raise Exception("No input")
 
@@ -46,6 +40,6 @@ def generate_input(software, type, theory_level="", method="", basis_set="", \
             custom_basis_sets, **kwargs)
 
     calc = Calculation(xyz_structure, params, calc_type, constraints=constraints, \
-            nproc=nproc, mem=0, charge=charge, multiplicity=multiplicity)
+            nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity)
 
     return process_calculation(calc)

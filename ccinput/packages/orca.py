@@ -99,7 +99,7 @@ class OrcaCalculation:
             struct = clean_xyz(self.calc.xyz)
 
             electrons = 0
-            for line in struct.split('\n')[2:]:
+            for line in struct.split('\n'):
                 if line.strip() == "":
                     continue
                 el = line.split()[0]
@@ -236,7 +236,7 @@ class OrcaCalculation:
         entries = [i.strip() for i in self.calc.parameters.custom_basis_sets.split(';') if i.strip() != ""]
 
         unique_atoms = []
-        for line in self.calc.xyz.split('\n')[2:]:
+        for line in self.calc.xyz.split('\n'):
             if line.strip() == "":
                 continue
             a, *_ = line.split()
@@ -281,7 +281,7 @@ class OrcaCalculation:
             self.blocks.append(BS_TEMPLATE.format(custom_bs))
 
     def handle_xyz(self):
-        lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n')[2:] if i != '' ]
+        lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n') if i != '' ]
         self.xyz_structure = ''.join(lines)
 
     def handle_pal(self):

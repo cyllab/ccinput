@@ -1,25 +1,36 @@
 import hashlib
 
+from ccinput.exceptions import *
+
 class Calculation:
     def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1):
         self.xyz = xyz
         self.parameters = parameters
         self.type = type
 
-        #checks
+        if nproc == 0:
+            raise MissingParameter("Number of cores unspecified")
 
-        self.nproc = nproc
+        try:
+            self.nproc = int(nproc)
+        except ValueError:
+            raise InvalidParameter("Invalid number of cores: {}".format(nproc))
+
+        # parse units
         self.mem = mem # not required explicitly in all packages... to check
 
         try:
             self.charge = int(charge)
         except ValueError:
-            raise Exception("Invalid charge: {}".format(charge))
+            raise InvalidParameter("Invalid charge: {}".format(charge))
 
         try:
             self.multiplicity = int(multiplicity) #>= 1
         except ValueError:
-            raise Exception("Invalid charge: {}".format(charge))
+            raise InvalidParameter("Invalid multiplicity: {}".format(multiplicity))
+
+        if abs(self.multiplicity - float(multiplicity)) > 1e-4:
+            raise InvalidParameter("Multiplicity must be an integer (received {})".format(multiplicity))
 
         self.constraints = constraints
 
@@ -57,7 +68,7 @@ class Parameters:
             elif isinstance(v, str):
                 params_str += "{}={};".format(k, v.lower())
             else:
-                raise Exception("Unknown value type")
+                raise InternalError("Unknown value type")
         hash = hashlib.md5(bytes(params_str, 'UTF-8'))
         return hash.digest()
 

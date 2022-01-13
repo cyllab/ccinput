@@ -1,7 +1,88 @@
+import os
 import string
 import numpy as np
 
 from ccinput.constants import *
+from ccinput.exceptions import *
+
+def standardize_xyz(xyz):
+    """
+        Converts variations of the XYZ format into a uniform format for this project.
+
+        Format:
+            "El1 X1 Y1 Z2\n El2 X2 Y2 Z2 [...]"
+
+        Example:
+            H 0.0 0.0 0.0
+            H 1.0 0.0 0.0
+    """
+
+    standard_xyz = ""
+    if isinstance(xyz, list):
+        arr_xyz = xyz
+    elif isinstance(xyz, str):
+        arr_xyz = xyz.split('\n')
+    else:
+        raise InvalidParameter("Cannot parse xyz from type {}".format(type(xyz)))
+
+    # Check if the xyz contains the two line header
+    # Remove it if it does
+    try:
+        num_atoms = int(arr_xyz[0])
+    except ValueError:
+        pass
+    else:
+        if num_atoms == len(arr_xyz)-2:
+            arr_xyz = arr_xyz[2:]
+        else:
+            raise InvalidXYZ("Invalid xyz header: {} atoms specified, but actually contains {} atoms".format(num_atoms, len(arr_xyz)-2))
+
+    for el in arr_xyz:
+        line_data = []
+
+        if not isinstance(el, str):
+            raise InvalidXYZ("Could not parse xyz from array: contains element '{}' and not string".format(el))
+
+        if el.strip() == '':
+            continue
+
+        sel = el.strip().split()
+        if not len(sel) == 4:
+            raise InvalidXYZ("Invalid xyz: found line '{}'".format(el))
+
+        if sel[0] not in ATOMIC_NUMBER.keys():
+            try:
+                el_Z = int(sel[0])
+            except ValueError:
+                raise InvalidXYZ("Invalid atomic label: '{}'".format(sel[0]))
+            else:
+                if el_Z not in ATOMIC_SYMBOL.keys():
+                    raise InvalidXYZ("Invalid atomic number: '{}'".format(el_Z))
+                el_symb = ATOMIC_SYMBOL[el_Z]
+                line_data.append(el_symb)
+        else:
+            line_data.append(sel[0])
+
+        for coord in sel[1:]:
+            try:
+                c = float(coord)
+            except ValueError:
+                raise InvalidXYZ("Invalid atomic coordinate: '{}'".format(coord))
+            else:
+                line_data.append(c)
+
+        standard_xyz += "{:<2} {:>12.8f} {:>12.8f} {:>12.8f}\n".format(*line_data)
+
+    return standard_xyz
+
+def parse_xyz_from_file(path):
+    if not os.path.isfile(path):
+        raise InvalidParameter("Input file not found: {}".format(path))
+
+    with open(path) as f:
+        lines = f.readlines()
+
+    return standardize_xyz(lines)
 
 def get_abs_type(str_type):
     """

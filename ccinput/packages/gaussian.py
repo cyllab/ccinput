@@ -16,7 +16,7 @@ class GaussianCalculation:
 
     TEMPLATE = """%chk=in.chk
     %nproc={}
-    %mem={}MB
+    %mem={}
     #p {} {}
 
     CalcUS
@@ -136,7 +136,7 @@ class GaussianCalculation:
         elif self.calc.type == CalcType.CONSTR_OPT:
             cmd = "opt"
             base_specs = ['modredundant']
-            lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n')[2:]]
+            lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n')]
 
             xyz = []
             for line in lines:
@@ -246,7 +246,7 @@ class GaussianCalculation:
 
         unique_atoms = []
         normal_atoms = []
-        for line in self.calc.xyz.split('\n')[2:]:
+        for line in self.calc.xyz.split('\n'):
             if line.strip() == "":
                 continue
             a, *_ = line.split()
@@ -310,7 +310,7 @@ class GaussianCalculation:
             return self.calc.parameters.basis_set, ''
 
     def handle_xyz(self):
-        lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n')[2:] if i != '' ]
+        lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n') if i != '' ]
         self.xyz_structure = ''.join(lines)
 
     def handle_solvation(self):
