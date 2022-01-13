@@ -4,6 +4,9 @@ class InvalidParameter(Exception):
 class InvalidXYZ(InvalidParameter):
     pass
 
+class ImpossibleCalculation(Exception):
+    pass
+
 class MissingParameter(Exception):
     pass
 

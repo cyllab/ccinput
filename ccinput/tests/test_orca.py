@@ -757,7 +757,7 @@ class OrcaTests(InputTests):
 
     def test_freeze_angle_DFT(self):
         params = {
-            'nproc': 8,
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -797,7 +797,7 @@ class OrcaTests(InputTests):
 
     def test_freeze_dihedral_DFT(self):
         params = {
-            'nproc': 8,
+                'nproc': 8,
                 'type': 'Constrained Optimisation',
                 'in_file': 'ethanol.xyz',
                 'software': 'ORCA',
@@ -836,7 +836,7 @@ class OrcaTests(InputTests):
 
     def test_nmr_DFT(self):
         params = {
-            'nproc': 8,
+                'nproc': 8,
                 'type': 'NMR Prediction',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -862,7 +862,7 @@ class OrcaTests(InputTests):
 
     def test_irrelevant_gen_bs(self):
         params = {
-            'nproc': 8,
+                'nproc': 8,
                 'type': 'NMR Prediction',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -889,7 +889,7 @@ class OrcaTests(InputTests):
 
     def test_ts_DFT(self):
         params = {
-        'nproc': 8,
+                'nproc': 8,
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'ORCA',
@@ -920,7 +920,7 @@ class OrcaTests(InputTests):
 
     def test_ts_DFT_custom_bs(self):
         params = {
-        'nproc': 8,
+                'nproc': 8,
                 'type': 'TS Optimisation',
                 'in_file': 'mini_ts.xyz',
                 'software': 'ORCA',
@@ -972,7 +972,7 @@ class OrcaTests(InputTests):
 
     def test_opt_DFT_custom_bs_ecp(self):
         params = {
-        'nproc': 8,
+                'nproc': 8,
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Ph2I_cation.xyz',
                 'software': 'ORCA',
@@ -1117,17 +1117,18 @@ class OrcaTests(InputTests):
 
     def test_NEB(self):
         params = {
-        'nproc': 8,
+                'nproc': 8,
                 'type': 'Minimum Energy Path',
                 'in_file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
                 'software': 'orca',
+                'charge': -1,
                 }
 
         inp = self.generate_calculation(**params)
 
         REF = """!NEB
-        *xyz 0 1
+        *xyz -1 1
         C         -0.74277        0.14309        0.12635
         C          0.71308       -0.12855       -0.16358
         Cl         0.90703       -0.47793       -1.61303
@@ -1152,18 +1153,19 @@ class OrcaTests(InputTests):
 
     def test_NEB2(self):
         params = {
-        'nproc': 8,
+                'nproc': 8,
                 'type': 'Minimum Energy Path',
                 'in_file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
                 'software': 'ORCA',
                 'specifications': '--nimages 12',
+                'charge': -1,
                 }
 
         inp = self.generate_calculation(**params)
 
         REF = """!NEB
-        *xyz 0 1
+        *xyz -1 1
         C         -0.74277        0.14309        0.12635
         C          0.71308       -0.12855       -0.16358
         Cl         0.90703       -0.47793       -1.61303
@@ -1188,7 +1190,7 @@ class OrcaTests(InputTests):
 
     def test_hirshfeld_pop(self):
         params = {
-        'nproc': 8,
+                'nproc': 8,
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
                 'software': 'ORCA',
@@ -1281,4 +1283,28 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_nproc(self):
+        params = {
+                'nproc': 1,
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'ORCA',
+                'theory_level': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 1
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
 

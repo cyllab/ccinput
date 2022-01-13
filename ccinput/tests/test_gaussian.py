@@ -2290,4 +2290,90 @@ class GaussianTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_nproc(self):
+        params = {
+                'nproc': 1,
+                'mem': '10000MB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'theory_level': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=in.chk
+        %nproc=1
+        %mem=10000MB
+        #p sp HF/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_mem_m(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000 m',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'theory_level': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_mem_GB(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'theory_level': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=in.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
 

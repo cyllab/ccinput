@@ -2,6 +2,7 @@ import hashlib
 
 from ccinput.exceptions import *
 from ccinput.utilities import standardize_memory
+from ccinput.constants import ATOMIC_NUMBER
 
 class Calculation:
     def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1):
@@ -42,8 +43,24 @@ class Calculation:
             raise InvalidParameter("Multiplicity must be an integer (received '{}')".format(multiplicity))
         if self.multiplicity < 1:
             raise InvalidParameter("Multiplicity must at least 1 (received '{}')".format(multiplicity))
-
+        self.verify_charge_mult()
         self.constraints = constraints
+
+    def verify_charge_mult(self):
+        electrons = 0
+        for line in self.xyz.split('\n'):
+            if line.strip() == '':
+                continue
+            el = line.split()[0]
+            electrons += ATOMIC_NUMBER[el]
+
+        electrons -= self.charge
+        odd_e = electrons % 2
+        odd_m = self.multiplicity % 2
+
+        if odd_e == odd_m:
+            raise ImpossibleCalculation("This combination of charge ({}) and multiplicity ({}) is impossible".format(self.charge, self.multiplicity))
+
 
 
 class Parameters:
