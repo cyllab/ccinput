@@ -61,30 +61,28 @@ class OrcaCalculation:
         if _specifications == '':
             return
 
-        if _specifications.find("--nimages") != -1:
-            s = _specifications.split()
-            ind = s.index("--nimages")
-            nimages = s[ind+1]
-            try:
-                nimages = int(nimages)
-            except ValueError:
-                raise Exception("Invalid specifications")
-
-            self.specifications['nimages'] = nimages
-
-            del s[ind:ind+2]
-            _specifications = ' '.join(s)
-
         specifications_list = []
-
-        for spec in _specifications.split():
-            if spec == "phirshfeld":
+        sspecs = _specifications.split()
+        ind = 0
+        while ind < len(sspecs):
+            spec = sspecs[ind]
+            if spec == "--phirshfeld":
                 HIRSHFELD_BLOCK = """%output
                 Print[ P_Hirshfeld] 1
                 end"""
                 self.blocks.append(HIRSHFELD_BLOCK)
+            elif spec == "--nimages":
+                nimages = sspecs[ind+1]
+                try:
+                    nimages = int(nimages)
+                except ValueError:
+                    raise Exception("Invalid specifications")
+                self.specifications['nimages'] = nimages
+                ind += 1
             elif spec not in specifications_list:
                 specifications_list.append(spec)
+
+            ind += 1
 
         if len(specifications_list) > 0:
             self.additional_commands = " ".join(specifications_list)
@@ -204,7 +202,7 @@ class OrcaCalculation:
         elif self.calc.type == CalcType.MEP:#### Second structure to handle
             self.command_line = "NEB "
             neb_block = """%neb
-                        neb_end_xyzfile "struct2.xyz"
+                        product "struct2.xyz"
                         nimages {}
                         end"""
             if 'nimages' in self.specifications:

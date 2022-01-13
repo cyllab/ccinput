@@ -51,6 +51,18 @@ STR_TYPES = {#TODO: more synonyms
         "uv-vis prediction": CalcType.UVVIS,
         "uvvis calculation": CalcType.UVVIS,
         "uv-vis calculation": CalcType.UVVIS,
+        "td": CalcType.UVVIS,
+        "tddft": CalcType.UVVIS,
+        "td-dft": CalcType.UVVIS,
+        "mep": CalcType.MEP,
+        "minimum energy path": CalcType.MEP,
+        "minimum-energy path": CalcType.MEP,
+        "minimum-energy-path": CalcType.MEP,
+        "neb": CalcType.MEP,
+        "nudged elastic band": CalcType.MEP,
+        "mo": CalcType.MO,
+        "mo calc": CalcType.MO,
+        "mo calculation": CalcType.MO,
         }
 
 

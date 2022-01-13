@@ -1132,7 +1132,6 @@ class OrcaTests(TestCase):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-    '''
     def test_NEB(self):
         params = {
                 'type': 'Minimum Energy Path',
@@ -1157,7 +1156,7 @@ class OrcaTests(TestCase):
         H         -1.82448        0.94856        3.28105
         *
         %neb
-        neb_end_xyzfile "struct2.xyz"
+        product "struct2.xyz"
         nimages 8
         end
         %pal
@@ -1172,7 +1171,7 @@ class OrcaTests(TestCase):
                 'type': 'Minimum Energy Path',
                 'in_file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
-                'software': 'xtb',
+                'software': 'ORCA',
                 'specifications': '--nimages 12',
                 }
 
@@ -1192,7 +1191,7 @@ class OrcaTests(TestCase):
         H         -1.82448        0.94856        3.28105
         *
         %neb
-        neb_end_xyzfile "struct2.xyz"
+        product "struct2.xyz"
         nimages 12
         end
         %pal
@@ -1201,7 +1200,6 @@ class OrcaTests(TestCase):
 
         """
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    '''
 
     def test_hirshfeld_pop(self):
         params = {
@@ -1212,7 +1210,7 @@ class OrcaTests(TestCase):
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
                 'charge': '-1',
-                'specifications': 'phirshfeld',
+                'specifications': '--phirshfeld',
                 }
 
         inp = self.generate_input(**params)
@@ -1225,6 +1223,70 @@ class OrcaTests(TestCase):
         %output
         Print[ P_Hirshfeld] 1
         end
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_mo(self):
+        params = {
+                'type': 'MO Calculation',
+                'in_file': 'Ph2I_cation.xyz',
+                'software': 'ORCA',
+                'theory_level': 'DFT',
+                'charge': '+1',
+                'method': 'B3LYP',
+                'basis_set': 'def2tzvp',
+                }
+
+        inp = self.generate_input(**params)
+
+        REF = """
+        !SP B3LYP Def2-TZVP
+        *xyz 1 1
+        C         -3.06870       -2.28540        0.00000
+        C         -1.67350       -2.28540        0.00000
+        C         -0.97600       -1.07770        0.00000
+        C         -1.67360        0.13090       -0.00120
+        C         -3.06850        0.13080       -0.00170
+        C         -3.76610       -1.07740       -0.00070
+        H         -3.61840       -3.23770        0.00040
+        H         -1.12400       -3.23790        0.00130
+        H          0.12370       -1.07760        0.00060
+        H         -1.12340        1.08300       -0.00130
+        H         -4.86570       -1.07720       -0.00090
+        I         -4.11890        1.94920       -0.00350
+        C         -4.64360        2.85690       -1.82310
+        C         -3.77180        3.76300       -2.42740
+        C         -5.86360        2.55380       -2.42750
+        C         -4.12020        4.36650       -3.63560
+        H         -2.81040        4.00240       -1.95030
+        C         -6.21180        3.15650       -3.63650
+        H         -6.55070        1.83950       -1.95140
+        C         -5.34050        4.06290       -4.24060
+        H         -3.43340        5.08120       -4.11170
+        H         -7.17360        2.91710       -4.11310
+        H         -5.61500        4.53870       -5.19320
+        *
+        %plots
+        dim1 45
+        dim2 45
+        dim3 45
+        min1 0
+        max1 0
+        min2 0
+        max2 0
+        min3 0
+        max3 0
+        Format Gaussian_Cube
+        MO("in-HOMO.cube",66,0);
+        MO("in-LUMO.cube",67,0);
+        MO("in-LUMOA.cube",68,0);
+        MO("in-LUMOB.cube",69,0);
+        end
+
         %pal
         nprocs 8
         end
