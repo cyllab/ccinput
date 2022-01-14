@@ -19,7 +19,7 @@ def process_calculation(calc):
 def generate_calculation(software=None, type=None, method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
             density_fitting="", custom_basis_sets="", xyz="", in_file="", \
-            constraints="", nproc=0, mem=0, charge=0, multiplicity=1, name="calc", \
+            constraints="", nproc=0, mem="", charge=0, multiplicity=1, name="calc", \
             header="File created by ccinput", **kwargs):
 
     if software is None:

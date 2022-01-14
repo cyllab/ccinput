@@ -6,6 +6,9 @@ from ccinput.constants import ATOMIC_NUMBER
 from ccinput.logging import warn
 
 class Calculation:
+    """
+        Holds all the data required to generate an input file. Its fields are the parameters likely to change (charge, multiplicity, xyz, calculation type...). The other parameters are contained in the Parameters class (accessed through self.parameters).
+    """
     def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1, name="calc", header="File created by ccinput"):
         self.xyz = xyz
         self.parameters = parameters
@@ -51,6 +54,7 @@ class Calculation:
         self.header = header
 
     def verify_charge_mult(self):
+        """ Verifies that the requested charge and multiplicity are possible for the structure """
         electrons = 0
         for line in self.xyz.split('\n'):
             if line.strip() == '':
@@ -66,6 +70,10 @@ class Calculation:
             raise ImpossibleCalculation("This combination of charge ({}) and multiplicity ({}) is impossible".format(self.charge, self.multiplicity))
 
 class Parameters:
+    """
+        Holds all the parameters about the computational method. These parameters do not depend on the particular system (e.g. regarding the charge and multiplicity) and can be reused.
+    """
+
     def __init__(self, software, solvent="", solvation_model="", solvation_radii="", basis_set="", method="", specifications="", density_fitting="", custom_basis_sets="", **kwargs):
 
         if solvent.strip() != "":
@@ -109,8 +117,6 @@ class Parameters:
         other_values = [(k,v) for k,v in other.__dict__.items()]
 
         return values == other_values
-
-    # save as json or something
 
     @property
     def md5(self):
