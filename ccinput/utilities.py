@@ -4,6 +4,7 @@ import numpy as np
 
 from ccinput.constants import *
 from ccinput.exceptions import *
+from ccinput.logging import warn
 
 MEMORY_FACTORS = {
             'm': 1,
@@ -45,7 +46,7 @@ def standardize_memory(mem):
             raise InvalidParameter("Invalid memory specification: '{}'".format(mem))
 
         if len(unit) == 0:
-            ## Supposing megabytes - add to warnings
+            warn("The amount of memory does not specify a unit; supposing MB")
             unit = "mb"
             pass
         else:
@@ -196,7 +197,7 @@ def get_method(method, software):
     try:
         abs_method = get_abs_method(method)
     except InvalidParameter:
-        ## Warning to user
+        warn("Unknown method '{}'".format(method))
         return method
 
     return SOFTWARE_METHODS[software][abs_method]
@@ -205,7 +206,7 @@ def get_basis_set(basis_set, software):
     try:
         abs_basis_set = get_abs_basis_set(basis_set)
     except InvalidParameter:
-        ## Warning to user
+        warn("Unknown basis set '{}'".format(basis_set))
         return basis_set
 
     return SOFTWARE_BASIS_SETS[software][abs_basis_set]
@@ -214,7 +215,7 @@ def get_solvent(solvent, software, solvation_model="smd"):
     try:
         abs_solvent = get_abs_solvent(solvent)
     except InvalidParameter:
-        ### Add warning to user
+        warn("Unknown solvent '{}'".format(solvent))
         return solvent
 
     if software == "orca" and abs_solvent == "n-octanol":

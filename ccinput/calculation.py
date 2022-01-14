@@ -3,6 +3,7 @@ import hashlib
 from ccinput.exceptions import *
 from ccinput.utilities import *
 from ccinput.constants import ATOMIC_NUMBER
+from ccinput.logging import warn
 
 class Calculation:
     def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1, name="calc", header="File created by ccinput"):
@@ -66,13 +67,21 @@ class Calculation:
 
 class Parameters:
     def __init__(self, software, solvent="", solvation_model="", solvation_radii="", basis_set="", method="", specifications="", density_fitting="", custom_basis_sets="", **kwargs):
+
         if solvent.strip() != "":
             self.solvent = get_abs_solvent(solvent)
+            self.solvation_model = solvation_model.lower()
+            self.solvation_radii = solvation_radii.lower()
+
+            if self.solvation_model.strip() == "":
+                raise InvalidParameter("No solvation model specified, although solvation is requested")
+            if self.solvation_radii.strip() == "":
+                warn("No solvation radii specified; using default radii")
         else:
             self.solvent = ""
+            self.solvation_model = ""
+            self.solvation_radii = ""
 
-        self.solvation_model = solvation_model.lower()
-        self.solvation_radii = solvation_radii.lower()
         self.software = get_abs_software(software)
 
         if method == "":

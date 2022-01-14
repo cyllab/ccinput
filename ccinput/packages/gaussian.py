@@ -8,6 +8,9 @@ from ccinput.constants import CalcType
 
 class GaussianCalculation:
 
+    # Refined solvation radii
+    # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
+    # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983–15987.
     SMD18_APPENDIX = """modifysph
 
     Br 2.60

@@ -39,8 +39,6 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
     calc_type = get_abs_type(type)
 
-    #verification/warnings (e.g. using default solvation model...)
-
     params = Parameters(abs_software, solvent, solvation_model, solvation_radii, \
             basis_set, method, specifications, density_fitting, \
             custom_basis_sets, **kwargs)
@@ -53,4 +51,10 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
 def gen_input(**args):
     return generate_calculation(**args).input_file
+
+def write_input(filename, **args):
+    inp = generate_calculation(**args).input_file
+    with open(filename, 'w') as out:
+        out.write(inp)
+
 
