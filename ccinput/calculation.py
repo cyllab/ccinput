@@ -2,17 +2,20 @@ import hashlib
 
 from ccinput.exceptions import *
 from ccinput.utilities import *
-from ccinput.constants import ATOMIC_NUMBER
+from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE
 from ccinput.logging import warn
 
 class Calculation:
     """
         Holds all the data required to generate an input file. Its fields are the parameters likely to change (charge, multiplicity, xyz, calculation type...). The other parameters are contained in the Parameters class (accessed through self.parameters).
     """
-    def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1, name="calc", header="File created by ccinput"):
+    def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0, charge=0, multiplicity=1, name="calc", header="File created by ccinput", software=""):
         self.xyz = xyz
         self.parameters = parameters
         self.type = type
+
+        if software not in SYN_SOFTWARE.keys():
+            raise InvalidParameter("Invalid software: '{}'".format(software))
 
         if nproc == 0:
             raise MissingParameter("Number of cores unspecified")
@@ -28,7 +31,11 @@ class Calculation:
         if self.nproc < 1:
             raise InvalidParameter("The number of cores must at least 1 (received '{}')".format(nproc))
 
-        self.mem = standardize_memory(mem)
+        try:
+            self.mem = standardize_memory(mem)
+        except InvalidParameter:
+            if software in ["gaussian"]:
+                raise
 
         try:
             self.charge = int(charge)

@@ -45,7 +45,7 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
     calc = Calculation(xyz_structure, params, calc_type, constraints=constraints, \
             nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity, \
-            name=name, header=header)
+            name=name, header=header, software=abs_software)
 
     return process_calculation(calc)
 

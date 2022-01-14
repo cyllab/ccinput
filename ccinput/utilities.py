@@ -33,6 +33,7 @@ def standardize_memory(mem):
     if isinstance(mem, int) or isinstance(mem, float):
         return verify_memory_valid(mem)
     elif isinstance(mem, str):
+        ind = 0
         for ind, c in enumerate(mem.lower()):
             if c in string.ascii_lowercase:
                 break
