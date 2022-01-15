@@ -8,6 +8,11 @@ setup(name='ccinput',
         author_email='Raphael.Robidas@USherbrooke.ca',
         license='BSD 3-Clause',
         packages=find_packages(),
+        entry_points={
+            'console_scripts': [
+                'ccinput = ccinput.wrapper:cmd',
+            ],
+        },
         install_requires=[
             'periodictable',
             'basis_set_exchange',
