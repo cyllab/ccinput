@@ -1,5 +1,6 @@
 import os
 
+from ccinput.__init__ import __version__
 from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
 
@@ -113,6 +114,8 @@ def cmd():
 
     parser.add_argument('--header', default="File created by ccinput", type=str,
             help='Header in produced file (unused by some packages)')
+
+    parser.add_argument('--version', '-v', action='version', version='%(prog)s {}'.format(__version__))
 
     args = parser.parse_args()
 
