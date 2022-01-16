@@ -32,6 +32,7 @@ setup(name='ccinput',
             'periodictable',
             'basis_set_exchange',
             'numpy',
+            'versioneer',
         ],
         test_suite='nose.collector',
         tests_require=[
