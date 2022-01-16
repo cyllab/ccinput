@@ -58,12 +58,14 @@ end
 
 ## Installation
 ### From PyPI
-Package coming soon.
+```
+pip install ccinput
+```
 
 ### From Github
 You can install the bleeding-edge version of `ccinput` from Github:
 ```
-$ pip install git+https://github.com/cyllab/ccinput
+pip install git+https://github.com/cyllab/ccinput
 ```
 
 ## Usage

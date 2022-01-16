@@ -33,7 +33,7 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
     elif in_file != "":
         xyz_structure = parse_xyz_from_file(in_file)
     else:
-        raise InvalidParameter("No input")
+        raise InvalidParameter("No input structure")
 
     abs_software = get_abs_software(software)
 

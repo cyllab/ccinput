@@ -1,8 +1,16 @@
+from pathlib import Path
 from setuptools import setup, find_packages
+from versioneer import get_version, get_cmdclass
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(name='ccinput',
-        version='1.0.0',
+        version=get_version(),
+        cmdclass=get_cmdclass(),
         description='Computational Chemistry Input Generator',
+        long_description=long_description,
+        long_description_content_type='text/markdown',
         url='http://github.com/cyllab/ccinput',
         author='Raphaël Robidas',
         author_email='Raphael.Robidas@USherbrooke.ca',
