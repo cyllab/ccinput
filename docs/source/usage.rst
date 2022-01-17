@@ -35,12 +35,13 @@ The parameters to these two wrappers will be the same as in the command line usa
 Parameter Details
 ------------------
 
-Basis sets are not case sensitive and ``ccinput`` recognizes several synonyms for each of them. For example, "Def2-TZVP" can be written in any of these forms:
+The parameters not case sensitive and ``ccinput`` recognizes several synonyms for each of them. For example, "Def2-TZVP" can be written in any of these forms:
 
 - def2-TZVP
 - DEF2TZVP
 - def2tzvp
 
+The accepted synonyms will be listed for each parameter. If you believe that a common or useful synonym is missing, feel free to send a pull request.
 
 Software
 ^^^^^^^^

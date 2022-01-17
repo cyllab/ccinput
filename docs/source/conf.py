@@ -1,6 +1,9 @@
 import sys
 import os
 from os.path import basename
+from pathlib import Path
+
+sys.path.insert(0, os.path.abspath('../..'))
 
 project = 'ccinput'
 copyright = '2022, Raphaël Robidas'
@@ -24,21 +27,18 @@ intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
 }
+
 intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
 
 exclude_patterns = []
 
-html_static_path = ['_static']
-
 html_theme = 'sphinx_rtd_theme'
 
 epub_show_urls = 'footnote'
 autosectionlabel_prefix_document = True
 
-# Add the package's dir to the path in order to load it without installation
-sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
 # The following code is a "trick" to be able to dynamically create some parts of the documentation
 # https://stackoverflow.com/a/29789910/9796543
@@ -76,3 +76,4 @@ class ExecDirective(Directive):
 
 def setup(app):
     app.add_directive('exec', ExecDirective)
+
