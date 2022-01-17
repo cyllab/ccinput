@@ -299,6 +299,10 @@ class OrcaCalculation:
                     SMDsolvent "{}"
                     end'''.format(solvent_keyword)
                     self.blocks.append(smd_block)
+
+                # Refined solvation radii
+                # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
+                # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983–15987.
                 elif self.calc.parameters.solvation_radii == "smd18":
                     smd_block = '''%cpcm
                     smd true

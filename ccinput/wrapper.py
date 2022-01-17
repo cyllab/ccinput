@@ -58,7 +58,7 @@ def write_input(filename, **args):
     with open(filename, 'w') as out:
         out.write(inp)
 
-def cmd():
+def get_parser():
     import argparse
     parser = argparse.ArgumentParser(description='Generation an input for a computational chemistry package')
     parser.add_argument('software', help='Desired software package (Gaussian or ORCA)')
@@ -116,7 +116,10 @@ def cmd():
             help='Header in produced file (unused by some packages)')
 
     parser.add_argument('--version', '-v', action='version', version='%(prog)s {}'.format(__version__))
+    return parser
 
+def cmd():
+    parser = get_parser()
     args = parser.parse_args()
 
     inp = gen_input(software=args.software, type=args.type, method=args.method, \

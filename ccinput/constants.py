@@ -65,6 +65,12 @@ STR_TYPES = {#TODO: more synonyms
         "mo calculation": CalcType.MO,
         }
 
+INV_STR_TYPES = {}
+for cmd, t in STR_TYPES.items():
+    if t in INV_STR_TYPES.keys():
+        INV_STR_TYPES[t].append(cmd)
+    else:
+        INV_STR_TYPES[t] = [cmd]
 
 SPECIFICATIONS = {
     'gaussian': {
@@ -162,7 +168,7 @@ THEORY_LEVELS = {
 
 SYN_SOFTWARE = {
     'gaussian': ['g16', 'gaussian16', 'gaussian 16'],
-    'orca': [],
+    'orca': ['orca 5', 'orca5'],
         }
 
 SYN_SOLVENTS = {
