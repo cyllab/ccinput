@@ -20,8 +20,8 @@ def process_calculation(calc):
 def generate_calculation(software=None, type=None, method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
             density_fitting="", custom_basis_sets="", xyz="", in_file="", \
-            constraints="", nproc=0, mem="", charge=0, multiplicity=1, name="calc", \
-            header="File created by ccinput", **kwargs):
+            constraints="", nproc=0, mem="", charge=0, multiplicity=1, aux_name="calc2", \
+            name="calc", header="File created by ccinput", **kwargs):
 
     if software is None:
         raise InvalidParameter("Specify a software package to use (software=...)")
@@ -46,7 +46,7 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
     calc = Calculation(xyz_structure, params, calc_type, constraints=constraints, \
             nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity, \
-            name=name, header=header, software=abs_software)
+            aux_name=aux_name, name=name, header=header, software=abs_software)
 
     return process_calculation(calc)
 
@@ -112,6 +112,9 @@ def get_parser():
     parser.add_argument('--name', default="calc", type=str,
             help='Name of the produced file (unused by some packages)')
 
+    parser.add_argument('--aux_name', default="calc2", type=str,
+            help='Name of the auxiliary file (some calculation types only)')
+
     parser.add_argument('--header', default="File created by ccinput", type=str,
             help='Header in produced file (unused by some packages)')
 
@@ -128,7 +131,7 @@ def cmd():
                 solvation_radii=args.solvation_radii,  specifications=args.specifications, density_fitting=args.density_fitting, \
                 custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, in_file=args.file, constraints=args.constraints, \
                 nproc=args.nproc, mem=args.mem, charge=args.charge, multiplicity=args.mult, \
-                name=args.name, header=args.header)
+                aux_name=args.aux_name, name=args.name, header=args.header)
     except CCInputException as e:
         print("*** {} ***".format(str(e)))
         return

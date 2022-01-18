@@ -202,14 +202,14 @@ class OrcaCalculation:
         elif self.calc.type == CalcType.MEP:#### Second structure to handle
             self.command_line = "NEB "
             neb_block = """%neb
-                        product "struct2.xyz"
+                        product "{}.xyz"
                         nimages {}
                         end"""
             if 'nimages' in self.specifications:
                 nimages = self.specifications['nimages']
             else:
                 nimages = 8
-            self.blocks.append(neb_block.format(nimages))
+            self.blocks.append(neb_block.format(self.calc.aux_name, nimages))
 
         method = get_method(self.calc.parameters.method, "orca")
         if self.calc.parameters.theory_level not in ['xtb', 'semi-empirical', 'special']:
