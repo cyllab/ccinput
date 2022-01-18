@@ -60,7 +60,7 @@ def write_input(filename, **args):
 
 def get_parser():
     import argparse
-    parser = argparse.ArgumentParser(description='Generation an input for a computational chemistry package')
+    parser = argparse.ArgumentParser(description='Generates an input for a computational chemistry package')
     parser.add_argument('software', help='Desired software package (Gaussian or ORCA)')
 
     parser.add_argument('type', help='Calculation type (opt, freq, sp, ...)')
@@ -122,12 +122,16 @@ def cmd():
     parser = get_parser()
     args = parser.parse_args()
 
-    inp = gen_input(software=args.software, type=args.type, method=args.method, \
-            basis_set=args.basis_set, solvent=args.solvent, solvation_model=args.solvation_model, \
-            solvation_radii=args.solvation_radii,  specifications=args.specifications, density_fitting=args.density_fitting, \
-            custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, in_file=args.file, constraints=args.constraints, \
-            nproc=args.nproc, mem=args.mem, charge=args.charge, multiplicity=args.mult, \
-            name=args.name, header=args.header)
+    try:
+        inp = gen_input(software=args.software, type=args.type, method=args.method, \
+                basis_set=args.basis_set, solvent=args.solvent, solvation_model=args.solvation_model, \
+                solvation_radii=args.solvation_radii,  specifications=args.specifications, density_fitting=args.density_fitting, \
+                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, in_file=args.file, constraints=args.constraints, \
+                nproc=args.nproc, mem=args.mem, charge=args.charge, multiplicity=args.mult, \
+                name=args.name, header=args.header)
+    except CCInputException as e:
+        print("*** {} ***".format(str(e)))
+        return
 
     if args.output != "":
         with open(args.output, 'w') as out:

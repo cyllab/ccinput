@@ -1,14 +1,19 @@
-class InvalidParameter(Exception):
+
+# Base exception class for the project to make all exceptions easy to catch selectively 
+class CCInputException(Exception):
+    pass
+
+class InvalidParameter(CCInputException):
     pass
 
 class InvalidXYZ(InvalidParameter):
     pass
 
-class ImpossibleCalculation(Exception):
+class ImpossibleCalculation(CCInputException):
     pass
 
-class MissingParameter(Exception):
+class MissingParameter(CCInputException):
     pass
 
-class InternalError(Exception):
+class InternalError(CCInputException):
     pass
