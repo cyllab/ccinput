@@ -1,13 +1,17 @@
 import hashlib
 
-from ccinput.exceptions import *
-from ccinput.utilities import *
+from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalculation
+from ccinput.utilities import get_abs_software, get_abs_method, get_abs_basis_set, \
+                              get_abs_solvent, get_theory_level, standardize_memory
 from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE
 from ccinput.logging import warn
 
 class Calculation:
     """
-        Holds all the data required to generate an input file. Its fields are the parameters likely to change (charge, multiplicity, xyz, calculation type...). The other parameters are contained in the Parameters class (accessed through self.parameters).
+        Holds all the data required to generate an input file.
+        Its fields are the parameters likely to change (charge, multiplicity,
+        xyz, calculation type...). The other parameters are contained in the
+        Parameters class (accessed through self.parameters).
     """
     def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0,
             charge=0, multiplicity=1, aux_name="calc2", name="calc",
@@ -16,8 +20,8 @@ class Calculation:
         self.parameters = parameters
         self.type = type
 
-        if software not in SYN_SOFTWARE.keys():
-            raise InvalidParameter("Invalid software: '{}'".format(software))
+        if software not in SYN_SOFTWARE:
+            raise InvalidParameter(f"Invalid software: '{software}'")
 
         if nproc == 0:
             raise MissingParameter("Number of cores unspecified")
@@ -25,13 +29,13 @@ class Calculation:
         try:
             self.nproc = int(nproc)
         except ValueError:
-            raise InvalidParameter("Invalid number of cores: '{}'".format(nproc))
+            raise InvalidParameter(f"Invalid number of cores: '{nproc}'")
 
         if abs(self.nproc - float(nproc)) > 1e-4:
-            raise InvalidParameter("The number of cores must be an integer (received '{}')".format(nproc))
+            raise InvalidParameter(f"The number of cores must be an integer (received '{nproc}')")
 
         if self.nproc < 1:
-            raise InvalidParameter("The number of cores must at least 1 (received '{}')".format(nproc))
+            raise InvalidParameter(f"The number of cores must at least 1 (received '{nproc}')")
 
         try:
             self.mem = standardize_memory(mem)
@@ -42,20 +46,20 @@ class Calculation:
         try:
             self.charge = int(charge)
         except ValueError:
-            raise InvalidParameter("Invalid charge: '{}'".format(charge))
+            raise InvalidParameter(f"Invalid charge: '{charge}'")
 
         if abs(self.charge - float(charge)) > 1e-4:
-            raise InvalidParameter("Charge must be an integer (received '{}')".format(charge))
+            raise InvalidParameter(f"Charge must be an integer (received '{charge}')")
 
         try:
             self.multiplicity = int(multiplicity)
         except ValueError:
-            raise InvalidParameter("Invalid multiplicity: '{}'".format(multiplicity))
+            raise InvalidParameter(f"Invalid multiplicity: '{multiplicity}'")
 
         if abs(self.multiplicity - float(multiplicity)) > 1e-4:
-            raise InvalidParameter("Multiplicity must be an integer (received '{}')".format(multiplicity))
+            raise InvalidParameter(f"Multiplicity must be an integer (received '{multiplicity}')")
         if self.multiplicity < 1:
-            raise InvalidParameter("Multiplicity must at least 1 (received '{}')".format(multiplicity))
+            raise InvalidParameter(f"Multiplicity must at least 1 (received '{multiplicity}')")
         self.verify_charge_mult()
         self.constraints = constraints
 
@@ -77,11 +81,14 @@ class Calculation:
         odd_m = self.multiplicity % 2
 
         if odd_e == odd_m:
-            raise ImpossibleCalculation("This combination of charge ({}) and multiplicity ({}) is impossible".format(self.charge, self.multiplicity))
+            raise ImpossibleCalculation(f"This combination of charge ({self.charge}) \
+                    and multiplicity ({self.multiplicity}) is impossible")
 
 class Parameters:
     """
-        Holds all the parameters about the computational method. These parameters do not depend on the particular system (e.g. regarding the charge and multiplicity) and can be reused.
+        Holds all the parameters about the computational method.
+        These parameters do not depend on the particular system
+        (e.g. regarding the charge and multiplicity) and can be reused.
     """
 
     def __init__(self, software, solvent="", solvation_model="",
@@ -94,7 +101,8 @@ class Parameters:
             self.solvation_radii = solvation_radii.lower()
 
             if self.solvation_model.strip() == "":
-                raise InvalidParameter("No solvation model specified, although solvation is requested")
+                raise InvalidParameter("No solvation model specified, \
+                        although solvation is requested")
             if self.solvation_radii.strip() == "":
                 warn("No solvation radii specified; using default radii")
         else:
@@ -105,7 +113,7 @@ class Parameters:
         self.software = get_abs_software(software)
 
         if method == "":
-            if 'functional' in kwargs.keys():
+            if 'functional' in kwargs:
                 method = get_abs_method(kwargs['functional'])
             else:
                 raise InvalidParameter("No calculation method specified (method='...')")
@@ -132,14 +140,17 @@ class Parameters:
 
     @property
     def md5(self):
-        """ Returns a hash digest of the parameters to easily compare parameters without using objects """
+        """
+        Returns a hash digest of the parameters to easily compare
+        parameters without using objects.
+        """
         values = [(k,v) for k,v in self.__dict__.items()]
         params_str = ""
         for k, v in values:
             if isinstance(v, int):
-                params_str += "{}={};".format(k, v)
+                params_str += f"{k}={v};"
             elif isinstance(v, str):
-                params_str += "{}={};".format(k, v.lower())
+                params_str += f"{k}={v.lower()};"
             else:
                 raise InternalError("Unknown value type")
         hash = hashlib.md5(bytes(params_str, 'UTF-8'))

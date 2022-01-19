@@ -1,5 +1,5 @@
 
-# Base exception class for the project to make all exceptions easy to catch selectively 
+# Base exception class for the project to make all exceptions easy to catch selectively
 class CCInputException(Exception):
     pass
 

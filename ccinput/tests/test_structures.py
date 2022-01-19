@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from ccinput.utilities import standardize_xyz
-from ccinput.exceptions import *
+from ccinput.exceptions import InvalidXYZ
 
 class XyzTests(TestCase):
     def test_standard_xyz(self):

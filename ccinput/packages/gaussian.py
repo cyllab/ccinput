@@ -1,10 +1,9 @@
-import os
-import periodictable
 import basis_set_exchange
 import numpy as np
 
-from ccinput.utilities import *
-from ccinput.constants import CalcType
+from ccinput.utilities import get_method, get_solvent, get_basis_set, \
+                              get_distance, get_angle, get_dihedral, clean_xyz
+from ccinput.constants import CalcType, ATOMIC_NUMBER
 
 class GaussianCalculation:
 
@@ -76,7 +75,7 @@ class GaussianCalculation:
         def add_spec(key, option):
             if option == '':
                 return
-            if key in specs.keys():
+            if key in specs:
                 if option not in specs[key]:
                     specs[key].append(option)
             else:
@@ -84,7 +83,8 @@ class GaussianCalculation:
 
         s = self.clean(self.calc.parameters.specifications.lower())
 
-        if s.count('(') != s.count(')'):#Could be more sophisticated to catch other incorrect specifications
+        #Could be more sophisticated to catch other incorrect specifications
+        if s.count('(') != s.count(')'):
             raise InvalidParameter("Invalid specifications: parenthesis not matching")
 
         _specifications = ""
@@ -117,9 +117,9 @@ class GaussianCalculation:
                 if spec not in self.additional_commands:
                     self.additional_commands.append(spec)
 
-        for spec in specs.keys():
-            specs_str = ','.join(specs[spec])
-            spec_formatted = '{}({}) '.format(spec, specs_str)
+        for spec, option in specs.items():
+            specs_str = ','.join(option)
+            spec_formatted = f'{spec}({specs_str}) '
             self.additional_commands.append(spec_formatted)
 
     def handle_command(self):
@@ -148,8 +148,6 @@ class GaussianCalculation:
                     xyz.append([a, np.array([float(x), float(y), float(z)])])
             gaussian_constraints = ""
             has_scan = False
-            scans = []
-            freeze = []
 
             if self.calc.constraints.strip() == '':
                 raise InvalidParameter("No constraint in constrained optimisation mode")
@@ -172,16 +170,17 @@ class GaussianCalculation:
 
                     if type == 2:
                         start = get_distance(xyz, *ids)
-                        step_size = "{:.2f}".format((end-start)/num_steps)
-                        gaussian_constraints += "B {} {} S {} {}\n".format(*ids, num_steps, step_size)
+                        step_size = f"{(end - start) / num_steps:.2f}"
+                        gaussian_constraints += f"B {ids[0]} {ids[1]} S {num_steps} {step_size}\n"
                     if type == 3:
                         start = get_angle(xyz, *ids)
-                        step_size = "{:.2f}".format((end-start)/num_steps)
-                        gaussian_constraints += "A {} {} {} S {} {}\n".format(*ids, num_steps, step_size)
+                        step_size = f"{(end - start) / num_steps:.2f}"
+                        gaussian_constraints += f"A {ids[0]} {ids[1]} {ids[2]} S {num_steps} {step_size}\n"
                     if type == 4:
                         start = get_dihedral(xyz, *ids)
-                        step_size = "{:.2f}".format(-1*(end-start)/num_steps)#Gaussian seems to use a different sign convention?
-                        gaussian_constraints += "D {} {} {} {} S {} {}\n".format(*ids, num_steps, step_size)
+                        #Gaussian seems to use a different sign convention?
+                        step_size = f"{-1 * (end - start) / num_steps:.2f}"
+                        gaussian_constraints += f"D {ids[0]} {ids[1]} {ids[2]} {ids[3]} S {num_steps} {step_size}\n"
                 else:
                     if type == 2:
                         gaussian_constraints += "B {} {} F\n".format(*ids)
@@ -196,14 +195,14 @@ class GaussianCalculation:
             cmd = "sp"
 
         if len(self.command_specifications) > 0:
-            self.confirmed_specifications += "{}({}) ".format(cmd, ', '.join(self.command_specifications))
+            self.confirmed_specifications += f"{cmd}({', '.join(self.command_specifications)}) "
         full_specs = base_specs + self.command_specifications
 
         if len(full_specs) == 0:
             cmd_full = cmd + ' '
         else:
-            cmd_specifications_str = "({})".format(', '.join(full_specs))
-            cmd_full = "{}{} ".format(cmd, cmd_specifications_str)
+            cmd_specifications_str = f"({', '.join(full_specs)})"
+            cmd_full = f"{cmd}{cmd_specifications_str} "
 
         self.command_line += cmd_full
 
@@ -220,18 +219,18 @@ class GaussianCalculation:
         if basis_set != "":
             if custom_basis_set == "":
                 if self.calc.parameters.density_fitting != '':
-                    self.command_line += "{}/{}/{} ".format(method, basis_set, self.calc.parameters.density_fitting)
+                    self.command_line += f"{method}/{basis_set}/{self.calc.parameters.density_fitting} "
                 else:
-                    self.command_line += "{}/{} ".format(method, basis_set)
+                    self.command_line += f"{method}/{basis_set} "
             else:
                 gen_keyword, to_append = self.parse_custom_basis_set(basis_set)
                 if to_append.strip() == '':
-                    self.command_line += "{}/{} ".format(method, basis_set)
+                    self.command_line += f"{method}/{basis_set} "
                 else:
                     self.appendix.append(to_append)
-                    self.command_line += "{}/{} ".format(method, gen_keyword)
+                    self.command_line += f"{method}/{gen_keyword} "
         else:
-            self.command_line += "{} ".format(method)
+            self.command_line += f"{method} "
 
     def parse_custom_basis_set(self, base_bs):
         custom_basis_set = self.calc.parameters.custom_basis_sets
@@ -244,7 +243,7 @@ class GaussianCalculation:
             sentry = entry.split('=')
 
             if len(sentry) != 2:
-                raise InvalidParameter("Invalid custom basis set string: '{}'".format(entry))
+                raise InvalidParameter(f"Invalid custom basis set string: '{entry}'")
 
             el, bs_keyword = sentry
             custom_atoms_requested.append(el)
@@ -275,7 +274,7 @@ class GaussianCalculation:
             try:
                 el_num = ATOMIC_NUMBER[el]
             except KeyError:
-                raise InvalidParameter("Invalid atom in custom basis set string: '{}'".format(el))
+                raise InvalidParameter(f"Invalid atom in custom basis set string: '{el}'")
 
             bs = basis_set_exchange.get_basis(bs_keyword, fmt='gaussian94', elements=[el_num], header=False)
             if bs.find('-ECP') != -1:
@@ -310,7 +309,6 @@ class GaussianCalculation:
             custom_bs += ''.join(to_append_gen)
             custom_bs += ''.join(to_append_ecp).replace('\n\n', '\n')
 
-
             return gen_keyword, custom_bs
         else:
             return self.calc.parameters.basis_set, ''
@@ -324,24 +322,24 @@ class GaussianCalculation:
             solvent_keyword = get_solvent(self.calc.parameters.solvent, self.calc.parameters.software, solvation_model=self.calc.parameters.solvation_model)
             if self.calc.parameters.solvation_model == "smd":
                 if self.calc.parameters.solvation_radii in ["",  "default"]:
-                    self.command_line += "SCRF(SMD, Solvent={}) ".format(solvent_keyword)
+                    self.command_line += f"SCRF(SMD, Solvent={solvent_keyword}) "
                 else:
-                    self.command_line += "SCRF(SMD, Solvent={}, Read) ".format(solvent_keyword)
+                    self.command_line += f"SCRF(SMD, Solvent={solvent_keyword}, Read) "
                     self.appendix.append(self.SMD18_APPENDIX)
             elif self.calc.parameters.solvation_model == "pcm":
                 if self.calc.parameters.solvation_radii in ["uff", ""]:
-                    self.command_line += "SCRF(PCM, Solvent={}) ".format(solvent_keyword)
+                    self.command_line += f"SCRF(PCM, Solvent={solvent_keyword}) "
                 else:
-                    self.command_line += "SCRF(PCM, Solvent={}, Read) ".format(solvent_keyword)
-                    self.appendix.append("Radii={}\n".format(self.calc.parameters.solvation_radii))
+                    self.command_line += f"SCRF(PCM, Solvent={solvent_keyword}, Read) "
+                    self.appendix.append(f"Radii={self.calc.parameters.solvation_radii}\n")
             elif self.calc.parameters.solvation_model == "cpcm":
                 if self.calc.parameters.solvation_radii in ["uff", ""]:
-                    self.command_line += "SCRF(CPCM, Solvent={}) ".format(solvent_keyword)
+                    self.command_line += f"SCRF(CPCM, Solvent={solvent_keyword}) "
                 else:
-                    self.command_line += "SCRF(CPCM, Solvent={}, Read) ".format(solvent_keyword)
-                    self.appendix.append("Radii={}\n".format(self.calc.parameters.solvation_radii))
+                    self.command_line += f"SCRF(CPCM, Solvent={solvent_keyword}, Read) "
+                    self.appendix.append(f"Radii={self.calc.parameters.solvation_radii}\n")
             else:
-                raise InvalidParameter("Invalid solvation method for Gaussian: '{}'".format(self.calc.parameters.solvation_model))
+                raise InvalidParameter(f"Invalid solvation method for Gaussian: '{self.calc.parameters.solvation_model}'")
 
     def create_input_file(self):
         additional_commands = " ".join([i.strip() for i in self.additional_commands]).strip()

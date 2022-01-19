@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from ccinput.calculation import Calculation, Parameters
 from ccinput.constants import CalcType
-from ccinput.exceptions import *
+from ccinput.exceptions import InvalidParameter
 
 class CalculationTests(TestCase):
     def setUp(self):
@@ -14,89 +14,89 @@ class CalculationTests(TestCase):
                 charge=charge, multiplicity=multiplicity, software="gaussian")
 
     def test_base(self):
-        calc = self.create_calc()
+        self.create_calc()
 
     def test_correct_str_charge(self):
-        calc = self.create_calc(charge="-1")
+        self.create_calc(charge="-1")
 
     def test_correct_str_charge2(self):
-        calc = self.create_calc(charge="+1")
+        self.create_calc(charge="+1")
 
     def test_incorrect_str_charge(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(charge="a")
+            self.create_calc(charge="a")
 
     def test_incorrect_str_charge2(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(charge="-")
+            self.create_calc(charge="-")
 
     def test_incorrect_float_charge(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(charge=1.5)
+            self.create_calc(charge=1.5)
 
     def test_incorrect_float_charge2(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(charge=0.001)
+            self.create_calc(charge=0.001)
 
     def test_empty_str_charge(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(charge="")
+            self.create_calc(charge="")
 
     def test_correct_str_multiplicity(self):
-        calc = self.create_calc(multiplicity="1")
+        self.create_calc(multiplicity="1")
 
     def test_correct_str_multiplicity2(self):
-        calc = self.create_calc(multiplicity="+1")
+        self.create_calc(multiplicity="+1")
 
     def test_empty_str_multiplicity(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(multiplicity="")
+            self.create_calc(multiplicity="")
 
     def test_incorrect_str_multiplicity(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(multiplicity="a")
+            self.create_calc(multiplicity="a")
 
     def test_incorrect_str_multiplicity2(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(multiplicity="-")
+            self.create_calc(multiplicity="-")
 
     def test_incorrect_float_multiplicity(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(multiplicity=1.5)
+            self.create_calc(multiplicity=1.5)
 
     def test_incorrect_float_multiplicity2(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(multiplicity=0.001)
+            self.create_calc(multiplicity=0.001)
 
     def test_correct_str_nproc(self):
-        calc = self.create_calc(nproc="1")
+        self.create_calc(nproc="1")
 
     def test_correct_str_nproc2(self):
-        calc = self.create_calc(nproc="+1")
+        self.create_calc(nproc="+1")
 
     def test_incorrect_str_nproc(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(nproc="a")
+            self.create_calc(nproc="a")
 
     def test_incorrect_str_nproc2(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(nproc="-1")
+            self.create_calc(nproc="-1")
 
-    def test_incorrect_str_nproc2(self):
+    def test_incorrect_str_nproc3(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(nproc="-")
+            self.create_calc(nproc="-")
 
     def test_incorrect_int_nproc(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(nproc=-1)
+            self.create_calc(nproc=-1)
 
     def test_incorrect_float_nproc(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(nproc=1.5)
+            self.create_calc(nproc=1.5)
 
     def test_incorrect_float_nproc2(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(nproc=0.001)
+            self.create_calc(nproc=0.001)
 
     def test_memory_parsing_int(self):
         calc = self.create_calc(mem=1000)
@@ -140,12 +140,12 @@ class CalculationTests(TestCase):
 
     def test_memory_parsing_negative_str(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(mem="-1 g")
+            self.create_calc(mem="-1 g")
 
     def test_memory_parsing_negative_int(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(mem=-1000)
+            self.create_calc(mem=-1000)
 
     def test_memory_parsing_too_much(self):
         with self.assertRaises(InvalidParameter):
-            calc = self.create_calc(mem="1000 t")
+            self.create_calc(mem="1000 t")

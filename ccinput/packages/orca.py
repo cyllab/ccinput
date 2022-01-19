@@ -1,8 +1,6 @@
-import os
-import periodictable
 import basis_set_exchange
 
-from ccinput.constants import *
+from ccinput.constants import CalcType, ATOMIC_NUMBER
 from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz
 
 class OrcaCalculation:
@@ -115,7 +113,7 @@ class OrcaCalculation:
             n_LUMO1 = int(electrons/2)+1
             n_LUMO2 = int(electrons/2)+2
 
-            mo_block = """%plots
+            mo_block = f"""%plots
                         dim1 45
                         dim2 45
                         dim3 45
@@ -126,19 +124,18 @@ class OrcaCalculation:
                         min3 0
                         max3 0
                         Format Gaussian_Cube
-                        MO("in-HOMO.cube",{},0);
-                        MO("in-LUMO.cube",{},0);
-                        MO("in-LUMOA.cube",{},0);
-                        MO("in-LUMOB.cube",{},0);
+                        MO("in-HOMO.cube",{n_HOMO},0);
+                        MO("in-LUMO.cube",{n_LUMO},0);
+                        MO("in-LUMOA.cube",{n_LUMO1},0);
+                        MO("in-LUMOB.cube",{n_LUMO2},0);
                         end
-                        """.format(n_HOMO, n_LUMO, n_LUMO1, n_LUMO2)
+                        """
             self.blocks.append(mo_block)
         elif self.calc.type == CalcType.FREQ:
             self.command_line = "FREQ "
         elif self.calc.type == CalcType.CONSTR_OPT:
             self.command_line = "OPT "
 
-            orca_constraints = ""
             has_scan = False
             scans = []
             freeze = []
@@ -170,9 +167,9 @@ class OrcaCalculation:
                     _cmd, ids = cmd.split('/')
                     ids = ids.split('_')
                     _cmd = _cmd.split('_')
-                    ids_str = "{}".format(int(ids[0])-1)
+                    ids_str = f"{int(ids[0]) - 1}"
                     for i in ids[1:]:
-                        ids_str += " {}".format(int(i)-1)
+                        ids_str += f" {int(i) - 1}"
                     if len(ids) == 2:
                         type = "B"
                     if len(ids) == 3:
@@ -180,7 +177,7 @@ class OrcaCalculation:
                     if len(ids) == 4:
                         type = "D"
                     if _cmd[0] == "Scan":
-                        scans.append("{} {} = {}, {}, {}\n".format(type, ids_str, *_cmd[1:]))
+                        scans.append(f"{type} {ids_str} = {_cmd[1]}, {_cmd[2]}, {_cmd[3]}\n")
 
             self.has_scan = has_scan
 
@@ -214,16 +211,17 @@ class OrcaCalculation:
         method = get_method(self.calc.parameters.method, "orca")
         if self.calc.parameters.theory_level not in ['xtb', 'semi-empirical', 'special']:
             basis_set = get_basis_set(self.calc.parameters.basis_set, "orca")
-            self.command_line += "{} {} ".format(method, basis_set)
+            self.command_line += f"{method} {basis_set} "
         else:
-            self.command_line += "{} ".format(method)
+            self.command_line += f"{method} "
 
 
     def handle_custom_basis_sets(self):
         if self.calc.parameters.custom_basis_sets == "":
             return
 
-        entries = [i.strip() for i in self.calc.parameters.custom_basis_sets.split(';') if i.strip() != ""]
+        entries = [i.strip() for i in self.calc.parameters.custom_basis_sets.split(';')
+                                        if i.strip() != ""]
 
         unique_atoms = []
         for line in self.calc.xyz.split('\n'):
@@ -254,16 +252,17 @@ class OrcaCalculation:
             except KeyError:
                 raise Exception("Invalid atom in custom basis set string")
 
-            bs = basis_set_exchange.get_basis(bs_keyword, fmt='ORCA', elements=[el_num], header=False).strip()
+            bs = basis_set_exchange.get_basis(bs_keyword, fmt='ORCA',
+                                              elements=[el_num], header=False).strip()
             sbs = bs.split('\n')
             if bs.find("ECP") != -1:
                 clean_bs = '\n'.join(sbs[3:]).strip() + '\n'
                 clean_bs = clean_bs.replace("\n$END", '$END').replace('$END', 'end')
-                custom_bs += "newgto {}\n".format(el)
+                custom_bs += f"newgto {el}\n"
                 custom_bs += clean_bs
             else:
                 clean_bs = '\n'.join(sbs[3:-1]).strip() + '\n'
-                custom_bs += "newgto {}\n".format(el)
+                custom_bs += f"newgto {el}\n"
                 custom_bs += clean_bs
                 custom_bs += "end"
 
@@ -280,46 +279,49 @@ class OrcaCalculation:
         else:
             self.pal = self.calc.nproc
 
-        pal_block = """%pal
-        nprocs {}
-        end""".format(self.pal)
+        pal_block = f"""%pal
+        nprocs {self.pal}
+        end"""
 
         self.blocks.append(pal_block)
 
     def handle_solvation(self):
         if self.calc.parameters.solvent.lower() not in ["vacuum", ""]:
-            solvent_keyword = get_solvent(self.calc.parameters.solvent, self.calc.parameters.software, solvation_model=self.calc.parameters.solvation_model)
+            solvent_keyword = get_solvent(self.calc.parameters.solvent,
+                                          self.calc.parameters.software,
+                                          solvation_model=self.calc.parameters.solvation_model)
 
             if self.calc.parameters.method[:3] == 'gfn':
-                self.command_line += " ALPB({})".format(solvent_keyword)
+                self.command_line += f" ALPB({solvent_keyword})"
             elif self.calc.parameters.solvation_model == "smd":
                 if self.calc.parameters.solvation_radii in ["default", ""]:
-                    smd_block = '''%cpcm
+                    smd_block = f'''%cpcm
                     smd true
-                    SMDsolvent "{}"
-                    end'''.format(solvent_keyword)
+                    SMDsolvent "{solvent_keyword}"
+                    end'''
                     self.blocks.append(smd_block)
 
                 # Refined solvation radii
                 # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
                 # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983–15987.
                 elif self.calc.parameters.solvation_radii == "smd18":
-                    smd_block = '''%cpcm
+                    smd_block = f'''%cpcm
                     smd true
-                    SMDsolvent "{}"
+                    SMDsolvent "{solvent_keyword}"
                     radius[53] 2.74
                     radius[35] 2.60
-                    end'''.format(solvent_keyword)
+                    end'''
                     self.blocks.append(smd_block)
             elif self.calc.parameters.solvation_model == "cpcm":
-                self.command_line += "CPCM({}) ".format(solvent_keyword)
+                self.command_line += f"CPCM({solvent_keyword}) "
                 ###CPCM radii
             else:
-                raise Exception("Invalid solvation model for ORCA: '{}'".format(self.calc.parameters.solvation_model))
+                raise Exception(f"Invalid solvation model for ORCA: '{self.calc.parameters.solvation_model}'")
 
     def create_input_file(self):
         self.block_lines = '\n'.join(self.blocks)
-        cmd = "{} {}".format(self.command_line, self.additional_commands).replace('  ', ' ')
-        raw = self.TEMPLATE.format(cmd, self.calc.charge, self.calc.multiplicity, self.xyz_structure, self.block_lines)
+        cmd = f"{self.command_line} {self.additional_commands}".replace('  ', ' ')
+        raw = self.TEMPLATE.format(cmd, self.calc.charge, self.calc.multiplicity,
+                                   self.xyz_structure, self.block_lines)
         self.input_file = '\n'.join([i.strip() for i in raw.split('\n')])
 

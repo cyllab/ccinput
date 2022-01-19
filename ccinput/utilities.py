@@ -20,19 +20,20 @@ MEMORY_FACTORS = {
 
 def verify_memory_valid(mem):
     if mem < 0:
-        raise InvalidParameter("The amount of memory must be positive, not '{}'".format(mem))
+        raise InvalidParameter(f"The amount of memory must be positive, not '{mem}'")
 
     if mem > 1e8:
-        raise InvalidParameter("Unreasonable amount of memory requested: '{}' MB".format(mem))
+        raise InvalidParameter(f"Unreasonable amount of memory requested: '{mem}' MB")
 
     return round(mem)
 
 def standardize_memory(mem):
     """ Converts a string specifying an amount of memory to an integer number of megabytes """
 
-    if isinstance(mem, int) or isinstance(mem, float):
+    if isinstance(mem, (int, float)):
         return verify_memory_valid(mem)
-    elif isinstance(mem, str):
+
+    if isinstance(mem, str):
         ind = 0
         for ind, c in enumerate(mem.lower()):
             if c in string.ascii_lowercase:
@@ -44,24 +45,23 @@ def standardize_memory(mem):
         unit = mem[ind:].lower()
 
         if len(_val) == 0:
-            raise InvalidParameter("Invalid memory specification: '{}'".format(mem))
+            raise InvalidParameter(f"Invalid memory specification: '{mem}'")
 
         if len(unit) == 0:
             warn("The amount of memory does not specify a unit; supposing MB")
             unit = "mb"
-            pass
         else:
-            if unit not in MEMORY_FACTORS.keys():
-                raise InvalidParameter("Unknown unit used for memory specification: '{}'".format(unit))
+            if unit not in MEMORY_FACTORS:
+                raise InvalidParameter(f"Unknown unit used for memory specification: '{unit}'")
 
         try:
             val = float(_val)
         except ValueError:
-            raise InvalidParameter("The amount of memory must be a number (received '{}')".format(mem))
+            raise InvalidParameter(f"The amount of memory must be a number (received '{mem}')")
         standard_mem = val*MEMORY_FACTORS[unit]
         return verify_memory_valid(standard_mem)
     else:
-        raise InvalidParameter("Invalid type for the memory specification: {}".format(type(mem)))
+        raise InvalidParameter(f"Invalid type for the memory specification: {type(mem)}")
 
 
 def standardize_xyz(xyz):
@@ -82,7 +82,7 @@ def standardize_xyz(xyz):
     elif isinstance(xyz, str):
         arr_xyz = xyz.strip().split('\n')
     else:
-        raise InvalidParameter("Cannot parse xyz from type {}".format(type(xyz)))
+        raise InvalidParameter(f"Cannot parse xyz from type {type(xyz)}")
 
     # Check if the xyz contains the two line header
     # Remove it if it does
@@ -94,37 +94,39 @@ def standardize_xyz(xyz):
         if num_atoms == len(arr_xyz)-2:
             arr_xyz = arr_xyz[2:]
         else:
-            raise InvalidXYZ("Invalid xyz header: {} atoms specified, but actually contains {} atoms".format(num_atoms, len(arr_xyz)-2))
+            raise InvalidXYZ(f"Invalid xyz header: {num_atoms} atoms specified, \
+                    but actually contains {len(arr_xyz) - 2} atoms")
 
     for el in arr_xyz:
         line_data = []
 
         if not isinstance(el, str):
-            raise InvalidXYZ("Could not parse xyz from array: contains element '{}' and not string".format(el))
+            raise InvalidXYZ(f"Could not parse xyz from array: contains element '{el}' \
+                    and not string")
 
         if el.strip() == '':
             continue
 
         sel = el.strip().split()
         if not len(sel) == 4:
-            raise InvalidXYZ("Invalid xyz: found line '{}'".format(el))
+            raise InvalidXYZ(f"Invalid xyz: found line '{el}'")
 
-        if sel[0] not in ATOMIC_NUMBER.keys():
+        if sel[0] not in ATOMIC_NUMBER:
             if sel[0].isdigit():
                 try:
                     el_Z = int(sel[0])
                 except ValueError:
-                    raise InvalidXYZ("Invalid atomic label: '{}'".format(sel[0]))
+                    raise InvalidXYZ(f"Invalid atomic label: '{sel[0]}'")
                 else:
-                    if el_Z not in ATOMIC_SYMBOL.keys():
-                        raise InvalidXYZ("Invalid atomic number: '{}'".format(el_Z))
+                    if el_Z not in ATOMIC_SYMBOL:
+                        raise InvalidXYZ(f"Invalid atomic number: '{el_Z}'")
                     el_symb = ATOMIC_SYMBOL[el_Z]
                     line_data.append(el_symb)
             else:
-                if sel[0].lower() in LOWERCASE_ATOMIC_SYMBOLS.keys():
+                if sel[0].lower() in LOWERCASE_ATOMIC_SYMBOLS:
                     line_data.append(LOWERCASE_ATOMIC_SYMBOLS[sel[0].lower()])
                 else:
-                    raise InvalidXYZ("Invalid atomic label: '{}'".format(sel[0]))
+                    raise InvalidXYZ(f"Invalid atomic label: '{sel[0]}'")
         else:
             line_data.append(sel[0])
 
@@ -132,7 +134,7 @@ def standardize_xyz(xyz):
             try:
                 c = float(coord)
             except ValueError:
-                raise InvalidXYZ("Invalid atomic coordinate: '{}'".format(coord))
+                raise InvalidXYZ(f"Invalid atomic coordinate: '{coord}'")
             else:
                 line_data.append(c)
 
@@ -142,7 +144,7 @@ def standardize_xyz(xyz):
 
 def parse_xyz_from_file(path):
     if not os.path.isfile(path):
-        raise InvalidParameter("Input file not found: {}".format(path))
+        raise InvalidParameter(f"Input file not found: {path}")
 
     with open(path) as f:
         lines = f.readlines()
@@ -158,47 +160,47 @@ def get_theory_level(method):
 def get_abs_type(str_type):
     """
         Converts a string calculation type into the correct CalcType.
-        Takes into account different equivalent ways to write the calculation types
+        Takes into account different equivalent ways to write the calculation types.
     """
     _str_type = str_type.lower().strip()
-    if _str_type in STR_TYPES.keys():
+    if _str_type in STR_TYPES:
         return STR_TYPES[_str_type]
     else:
-        raise InvalidParameter("Invalid calculation type: '{}'".format(str_type))
+        raise InvalidParameter(f"Invalid calculation type: '{str_type}'")
 
 def get_abs_software(software):
     _software = software.lower().strip()
-    for s in SYN_SOFTWARE.keys():
+    for s in SYN_SOFTWARE:
         if _software in SYN_SOFTWARE[s] or _software == s:
             return s
-    raise InvalidParameter("Unknown software package: '{}'".format(software))
+    raise InvalidParameter(f"Unknown software package: '{software}'")
 
 def get_abs_method(method):
     _method = method.strip().lower()
-    for m in SYN_METHODS.keys():
+    for m in SYN_METHODS:
         if _method in SYN_METHODS[m] or _method == m:
             return m
-    raise InvalidParameter("Unknown method: '{}'".format(method))
+    raise InvalidParameter(f"Unknown method: '{method}'")
 
 def get_abs_basis_set(basis_set):
     _bs = basis_set.strip().lower()
-    for bs in SYN_BASIS_SETS.keys():
+    for bs in SYN_BASIS_SETS:
         if _bs.lower() in SYN_BASIS_SETS[bs] or _bs.lower() == bs:
             return bs
-    raise InvalidParameter("Unknown basis set: '{}'".format(basis_set))
+    raise InvalidParameter(f"Unknown basis set: '{basis_set}'")
 
 def get_abs_solvent(solvent):
     _solvent = solvent.strip().lower()
-    for solv in SYN_SOLVENTS.keys():
+    for solv in SYN_SOLVENTS:
         if _solvent in SYN_SOLVENTS[solv] or _solvent == solv:
             return solv
-    raise InvalidParameter("Unknown solvent: '{}'".format(solvent))
+    raise InvalidParameter(f"Unknown solvent: '{solvent}'")
 
 def get_method(method, software):
     try:
         abs_method = get_abs_method(method)
     except InvalidParameter:
-        warn("Unknown method '{}'".format(method))
+        warn(f"Unknown method '{method}'")
         return method
 
     return SOFTWARE_METHODS[software][abs_method]
@@ -207,7 +209,7 @@ def get_basis_set(basis_set, software):
     try:
         abs_basis_set = get_abs_basis_set(basis_set)
     except InvalidParameter:
-        warn("Unknown basis set '{}'".format(basis_set))
+        warn(f"Unknown basis set '{basis_set}'")
         return basis_set
 
     return SOFTWARE_BASIS_SETS[software][abs_basis_set]
@@ -216,7 +218,7 @@ def get_solvent(solvent, software, solvation_model="smd"):
     try:
         abs_solvent = get_abs_solvent(solvent)
     except InvalidParameter:
-        warn("Unknown solvent '{}'".format(solvent))
+        warn(f"Unknown solvent '{solvent}'")
         return solvent
 
     if software == "orca" and abs_solvent == "n-octanol":

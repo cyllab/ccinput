@@ -13,7 +13,7 @@ class InputTests(TestCase):
         res_lines = [i.strip() for i in res.strip().split('\n')]
 
         if len(ref_lines) != len(res_lines):
-            print("Different number of lines: {} and {}".format(len(ref_lines), len(res_lines)))
+            print(f"Different number of lines: {len(ref_lines)} and {len(res_lines)}")
             print("----START REFERENCE---")
             print('\n'.join(ref_lines))
             print("----END REFERENCE---")

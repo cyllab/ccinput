@@ -1,4 +1,3 @@
-from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.tests.testing_utilities import InputTests
 
 class GaussianTests(InputTests):
@@ -339,7 +338,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_calculation(**params)
+            self.generate_calculation(**params)
 
     def test_sp_DFT(self):
         params = {
@@ -587,7 +586,6 @@ class GaussianTests(InputTests):
                 'type': 'Geometrical Optimisation',
                 'in_file': 'Cl.xyz',
                 'software': 'Gaussian',
-                'method': 'AM1',
                 'charge': '-1',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
@@ -993,7 +991,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_calculation(**params)
+            self.generate_calculation(**params)
 
     def test_no_method(self):
         params = {
@@ -1009,7 +1007,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_calculation(**params)
+            self.generate_calculation(**params)
 
     def test_freeze_dihedral_DFT(self):
         params = {
@@ -2166,7 +2164,7 @@ class GaussianTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_calculation(**params)
+            self.generate_calculation(**params)
 
     def test_special_char(self):
         params = {

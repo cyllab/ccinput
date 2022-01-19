@@ -1,6 +1,4 @@
 from ccinput.tests.testing_utilities import InputTests
-from ccinput.packages.orca import OrcaCalculation
-from ccinput.wrapper import generate_calculation
 
 class OrcaTests(InputTests):
 
@@ -341,7 +339,7 @@ class OrcaTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_calculation(**params)
+            self.generate_calculation(**params)
 
     def test_sp_DFT(self):
         params = {
@@ -673,7 +671,7 @@ class OrcaTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_calculation(**params)
+            self.generate_calculation(**params)
 
     def test_no_method(self):
         params = {
@@ -688,7 +686,7 @@ class OrcaTests(InputTests):
                 }
 
         with self.assertRaises(Exception):
-            inp = self.generate_calculation(**params)
+            self.generate_calculation(**params)
 
     def test_scan_angle_DFT(self):
         params = {
