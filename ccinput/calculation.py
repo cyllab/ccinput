@@ -82,8 +82,8 @@ class Calculation:
         odd_m = self.multiplicity % 2
 
         if odd_e == odd_m:
-            raise ImpossibleCalculation(f"This combination of charge ({self.charge}) \
-                    and multiplicity ({self.multiplicity}) is impossible")
+            raise ImpossibleCalculation(f"This combination of charge ({self.charge}) " +
+                    f"and multiplicity ({self.multiplicity}) is impossible")
 
 class Parameters:
     """
@@ -170,6 +170,13 @@ class Constraint:
         if len(ids) < 2 or len(ids) > 4:
             raise InvalidParameter(f"Invalid number of atoms: {len(ids)}, needs to be between 2 and 4")
 
+        _xyz = get_npxyz(xyz)
+
+        if max(ids) > len(_xyz):
+            raise InvalidParameter(f"Invalid atom index {max(ids)}: larger than the number of atoms")
+        if len(ids) != len(set(ids)):
+            raise InvalidParameter(f"The provided atom indices are not all unique")
+
         if self.scan:
             num_params = 0
             for p in [end_d, step_size, num_steps]:
@@ -194,7 +201,6 @@ class Constraint:
         self.num_steps = num_steps
 
         if self.start_d is None:
-            _xyz = get_npxyz(xyz)
             self.start_d = get_coord(_xyz, self.ids)
 
         if self.scan:
@@ -258,9 +264,16 @@ class Constraint:
             return f"{t} {ids_str} F\n"
 
 
-def parse_constraints(s, xyz_str, software=""):
+def parse_freeze_constraints(arr, xyz_str, software=""):
+    constr = ""
+    for c in arr:
+        constr += f'Freeze/{"_".join(c)};'
+
+    return parse_str_constraints(constr, xyz_str, software=software)
+
+def parse_str_constraints(s, xyz_str, software=""):
     if s.strip() == "":
-        return
+        return []
 
     if software == "":
         warn("No software specified for the constraints; the behaviour might be incorrect")

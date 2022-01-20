@@ -4,7 +4,8 @@ from ccinput.__init__ import __version__
 from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
 
-from ccinput.calculation import Calculation, Parameters, Constraint, parse_constraints
+from ccinput.calculation import Calculation, Parameters, Constraint, parse_str_constraints, \
+                                parse_freeze_constraints
 from ccinput.utilities import get_abs_type, get_abs_software, standardize_xyz, \
                               parse_xyz_from_file
 from ccinput.exceptions import *
@@ -20,7 +21,7 @@ def process_calculation(calc):
 
 def generate_calculation(software=None, type=None, method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
-            density_fitting="", custom_basis_sets="", xyz="", in_file="", \
+            freeze=[], density_fitting="", custom_basis_sets="", xyz="", in_file="", \
             constraints="", nproc=0, mem="", charge=0, multiplicity=1, aux_name="calc2", \
             name="calc", header="File created by ccinput", **kwargs):
 
@@ -45,7 +46,8 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
             basis_set, method, specifications, density_fitting, \
             custom_basis_sets, **kwargs)
 
-    _constraints = parse_constraints(constraints, xyz_structure, software=abs_software)
+    _constraints = parse_str_constraints(constraints, xyz_structure, software=abs_software)
+    _constraints += parse_freeze_constraints(freeze, xyz_structure, software=abs_software)
 
     calc = Calculation(xyz_structure, params, calc_type, constraints=_constraints, \
             nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity, \
@@ -102,6 +104,9 @@ def get_parser():
     parser.add_argument('--constraints', '-co', default="",
             type=str, help='String specification of constraints for certain calculations')
 
+    parser.add_argument('--freeze', action="append", nargs="+",
+            help='Freeze specified distance/angle/dihedral between the specified atoms')
+
     parser.add_argument('--nproc', '-n', default=1,
             type=int, help='Number of CPU cores to use')
 
@@ -130,9 +135,11 @@ def cmd():
 
     try:
         inp = gen_input(software=args.software, type=args.type, method=args.method, \
-                basis_set=args.basis_set, solvent=args.solvent, solvation_model=args.solvation_model, \
-                solvation_radii=args.solvation_radii,  specifications=args.specifications, density_fitting=args.density_fitting, \
-                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, in_file=args.file, constraints=args.constraints, \
+                basis_set=args.basis_set, solvent=args.solvent, \
+                solvation_model=args.solvation_model, solvation_radii=args.solvation_radii, \
+                specifications=args.specifications, freeze=args.freeze, \
+                density_fitting=args.density_fitting, custom_basis_sets=args.custom_basis_sets, \
+                xyz=args.xyz, in_file=args.file, constraints=args.constraints, \
                 nproc=args.nproc, mem=args.mem, charge=args.charge, multiplicity=args.mult, \
                 aux_name=args.aux_name, name=args.name, header=args.header)
     except CCInputException as e:

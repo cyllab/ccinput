@@ -4,6 +4,7 @@ import numpy as np
 from ccinput.utilities import get_method, get_solvent, get_basis_set, clean_xyz, \
                               get_distance, get_angle, get_dihedral, get_npxyz
 from ccinput.constants import CalcType, ATOMIC_NUMBER
+from ccinput.exceptions import InvalidParameter
 
 class GaussianCalculation:
 

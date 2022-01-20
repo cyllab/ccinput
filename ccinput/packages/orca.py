@@ -2,6 +2,7 @@ import basis_set_exchange
 
 from ccinput.constants import CalcType, ATOMIC_NUMBER
 from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz
+from ccinput.exceptions import InvalidParameter
 
 class OrcaCalculation:
 
@@ -74,7 +75,7 @@ class OrcaCalculation:
                 try:
                     nimages = int(nimages)
                 except ValueError:
-                    raise Exception("Invalid specifications")
+                    raise InvalidParameter("Invalid specifications")
                 self.specifications['nimages'] = nimages
                 ind += 1
             elif spec not in specifications_list:
@@ -106,7 +107,7 @@ class OrcaCalculation:
             electrons -= self.calc.charge
 
             if self.calc.multiplicity != 1:
-                raise Exception("Unimplemented multiplicity")
+                raise InvalidParameter("Unimplemented multiplicity")
 
             n_HOMO = int(electrons/2)-1
             n_LUMO = int(electrons/2)
@@ -137,7 +138,7 @@ class OrcaCalculation:
             self.command_line = "OPT "
 
             if len(self.calc.constraints) == 0:
-                raise Exception("No constraints for constrained optimisation")
+                raise InvalidParameter("No constraints for constrained optimisation")
 
             scans = []
             freeze = []
@@ -207,7 +208,7 @@ class OrcaCalculation:
             sentry = entry.split('=')
 
             if len(sentry) != 2:
-                raise Exception("Invalid custom basis set string")
+                raise InvalidParameter("Invalid custom basis set string")
 
             el, bs_keyword = sentry
 
@@ -217,7 +218,7 @@ class OrcaCalculation:
             try:
                 el_num = ATOMIC_NUMBER[el]
             except KeyError:
-                raise Exception("Invalid atom in custom basis set string")
+                raise InvalidParameter("Invalid atom in custom basis set string")
 
             bs = basis_set_exchange.get_basis(bs_keyword, fmt='ORCA',
                                               elements=[el_num], header=False).strip()
@@ -283,7 +284,7 @@ class OrcaCalculation:
                 self.command_line += f"CPCM({solvent_keyword}) "
                 ###CPCM radii
             else:
-                raise Exception(f"Invalid solvation model for ORCA: '{self.calc.parameters.solvation_model}'")
+                raise InvalidParameter(f"Invalid solvation model for ORCA: '{self.calc.parameters.solvation_model}'")
 
     def create_input_file(self):
         self.block_lines = '\n'.join(self.blocks)
