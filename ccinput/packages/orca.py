@@ -136,50 +136,17 @@ class OrcaCalculation:
         elif self.calc.type == CalcType.CONSTR_OPT:
             self.command_line = "OPT "
 
-            has_scan = False
+            if len(self.calc.constraints) == 0:
+                raise Exception("No constraints for constrained optimisation")
+
             scans = []
             freeze = []
 
-            if self.calc.constraints.strip() == '':
-                raise Exception("No constraints for constrained optimisation")
-
-            for cmd in self.calc.constraints.split(';'):
-                if cmd.strip() == '':
-                    continue
-                _cmd, ids = cmd.split('/')
-                _cmd = _cmd.split('_')
-                ids = ids.split('_')
-                ids = [int(i)-1 for i in ids]
-                type = len(ids)
-                if _cmd[0] == "Scan":
-                    has_scan = True
+            for constr in self.calc.constraints:
+                if constr.scan:
+                    scans.append(constr.to_orca())
                 else:
-                    if type == 2:
-                        freeze.append("{{ B {} {} C }}\n".format(*ids))
-                    if type == 3:
-                        freeze.append("{{ A {} {} {} C }}\n".format(*ids))
-                    if type == 4:
-                        freeze.append("{{ D {} {} {} {} C }}\n".format(*ids))
-            if has_scan:
-                for cmd in self.calc.constraints.split(';'):
-                    if cmd.strip() == '':
-                        continue
-                    _cmd, ids = cmd.split('/')
-                    ids = ids.split('_')
-                    _cmd = _cmd.split('_')
-                    ids_str = f"{int(ids[0]) - 1}"
-                    for i in ids[1:]:
-                        ids_str += f" {int(i) - 1}"
-                    if len(ids) == 2:
-                        type = "B"
-                    if len(ids) == 3:
-                        type = "A"
-                    if len(ids) == 4:
-                        type = "D"
-                    if _cmd[0] == "Scan":
-                        scans.append(f"{type} {ids_str} = {_cmd[1]}, {_cmd[2]}, {_cmd[3]}\n")
-
-            self.has_scan = has_scan
+                    freeze.append(constr.to_orca())
 
             if len(scans) > 0:
                 scan_block = """%geom Scan

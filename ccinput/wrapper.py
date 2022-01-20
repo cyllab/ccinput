@@ -4,8 +4,9 @@ from ccinput.__init__ import __version__
 from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
 
-from ccinput.calculation import Calculation, Parameters
-from ccinput.utilities import get_abs_type, get_abs_software, standardize_xyz, parse_xyz_from_file
+from ccinput.calculation import Calculation, Parameters, Constraint, parse_constraints
+from ccinput.utilities import get_abs_type, get_abs_software, standardize_xyz, \
+                              parse_xyz_from_file
 from ccinput.exceptions import *
 
 SOFTWARE_CLASSES = {
@@ -44,7 +45,9 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
             basis_set, method, specifications, density_fitting, \
             custom_basis_sets, **kwargs)
 
-    calc = Calculation(xyz_structure, params, calc_type, constraints=constraints, \
+    _constraints = parse_constraints(constraints, xyz_structure, software=abs_software)
+
+    calc = Calculation(xyz_structure, params, calc_type, constraints=_constraints, \
             nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity, \
             aux_name=aux_name, name=name, header=header, software=abs_software)
 

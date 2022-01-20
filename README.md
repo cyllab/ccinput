@@ -1,6 +1,7 @@
 # Computational Chemistry Input Generator
 
 [![codecov](https://codecov.io/gh/cyllab/ccinput/branch/main/graph/badge.svg?token=ox4smJs0vh)](https://codecov.io/gh/cyllab/ccinput)
+[![PyPI version](https://badge.fury.io/py/ccinput.svg)](https://badge.fury.io/py/ccinput)
 [![Downloads](https://pepy.tech/badge/ccinput)](https://pepy.tech/project/ccinput)
 
 `ccinput` is an application to generate input files for computational chemistry software.

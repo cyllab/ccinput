@@ -260,3 +260,25 @@ def get_dihedral(xyz, a, b, c, d):
 
     return np.arctan2(y, x)*180/np.pi
 
+def get_npxyz(str_xyz):
+    lines = [i + '\n' for i in clean_xyz(str_xyz).split('\n')]
+
+    xyz = []
+    for line in lines:
+        if line.strip() != '':
+            a, x, y, z = line.split()
+            xyz.append([a, np.array([float(x), float(y), float(z)])])
+
+    return xyz
+
+def get_coord(xyz, ids):
+    if len(ids) == 2:
+        return get_distance(xyz, *ids)
+    elif len(ids) == 3:
+        return get_angle(xyz, *ids)
+    elif len(ids) == 4:
+        return get_dihedral(xyz, *ids)
+    else:
+        raise InvalidParameter(f"Invalid number of atoms: {len(ids)}")
+
+

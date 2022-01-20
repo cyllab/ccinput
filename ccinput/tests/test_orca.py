@@ -648,7 +648,7 @@ class OrcaTests(InputTests):
         H          0.94410        0.53240        2.04240
         *
         %geom Scan
-        B 0 1 = 9, 1.4, 10
+        B 0 1 = 9.00, 1.40, 10
         end
         end
         %pal
@@ -716,7 +716,7 @@ class OrcaTests(InputTests):
         H          0.94410        0.53240        2.04240
         *
         %geom Scan
-        A 1 0 2 = 9, 90, 10
+        A 1 0 2 = 9.00, 90.00, 10
         end
         end
         %pal
@@ -735,7 +735,7 @@ class OrcaTests(InputTests):
                 'charge': '0',
                 'method': 'B3LYP',
                 'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_9_0_10/4_1_5_8;',
+                'constraints': 'Scan_9_1_10/4_1_5_8;',
                 }
 
         inp = self.generate_calculation(**params)
@@ -754,7 +754,7 @@ class OrcaTests(InputTests):
         H          0.94410        0.53240        2.04240
         *
         %geom Scan
-        D 3 0 4 7 = 9, 0, 10
+        D 3 0 4 7 = 9.00, 1.00, 10
         end
         end
         %pal

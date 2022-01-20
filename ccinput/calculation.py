@@ -2,7 +2,8 @@ import hashlib
 
 from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalculation
 from ccinput.utilities import get_abs_software, get_abs_method, get_abs_basis_set, \
-                              get_abs_solvent, get_theory_level, standardize_memory
+                              get_abs_solvent, get_theory_level, standardize_memory, \
+                              get_npxyz, get_coord
 from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE
 from ccinput.logging import warn
 
@@ -13,7 +14,7 @@ class Calculation:
         xyz, calculation type...). The other parameters are contained in the
         Parameters class (accessed through self.parameters).
     """
-    def __init__(self, xyz, parameters, type, constraints="", nproc=0, mem=0,
+    def __init__(self, xyz, parameters, type, constraints=[], nproc=0, mem=0,
             charge=0, multiplicity=1, aux_name="calc2", name="calc",
             header="File created by ccinput", software=""):
         self.xyz = xyz
@@ -141,8 +142,8 @@ class Parameters:
     @property
     def md5(self):
         """
-        Returns a hash digest of the parameters to easily compare
-        parameters without using objects.
+            Returns a hash digest of the parameters to easily compare
+            parameters without using objects.
         """
         values = [(k,v) for k,v in self.__dict__.items()]
         params_str = ""
@@ -156,3 +157,167 @@ class Parameters:
         hash = hashlib.md5(bytes(params_str, 'UTF-8'))
         return hash.digest()
 
+class Constraint:
+    """
+        Class to contain a single constraint (freeze, scan and the like) and provide useful functions for it.
+    """
+    def __init__(self, scan=False, start_d=None, end_d=None, step_size=None,
+                 num_steps=None, ids=[], xyz=None, software=""):
+        self.scan = scan
+        self.ids = ids # One-indexed (Gaussian like, not like ORCA)
+        self.software = software
+
+        if len(ids) < 2 or len(ids) > 4:
+            raise InvalidParameter(f"Invalid number of atoms: {len(ids)}, needs to be between 2 and 4")
+
+        if self.scan:
+            num_params = 0
+            for p in [end_d, step_size, num_steps]:
+                if p is not None:
+                    num_params += 1
+
+            if num_params < 2:
+                raise InvalidParameter("Not enough constraint parameters given")
+            elif num_params == 3:
+                raise InvalidParameter("Too many constraint parameters given, more than one possibility of unique parameters")
+
+            if start_d is not None and end_d is not None and xyz is None:
+                raise InvalidParameter("The XYZ structure needs to be specified in order to calculate the initial coordinate value")
+
+        if software != 'gaussian':
+            self.start_d = start_d
+        else:
+            self.start_d = None
+
+        self.end_d = end_d
+        self.step_size = step_size
+        self.num_steps = num_steps
+
+        if self.start_d is None:
+            _xyz = get_npxyz(xyz)
+            self.start_d = get_coord(_xyz, self.ids)
+
+        if self.scan:
+            self.complete_parameters()
+
+    def complete_parameters(self):
+        if self.end_d is None:
+            assert self.step_size is not None
+            assert self.num_steps is not None
+
+            self.end_d = self.start_d + self.num_steps*self.step_size
+
+        if self.step_size is None:
+            assert self.end_d is not None
+            assert self.num_steps is not None
+
+            self.step_size = round((self.end_d-self.start_d)/self.num_steps, 2)
+
+        if self.num_steps is None:
+            assert self.end_d is not None
+            assert self.step_size is not None
+
+            self.num_steps = int((self.end_d-self.start_d)/self.step_size)
+
+            # Adjust the step size to end up exactly at the end point
+            self.step_size = round((self.end_d-self.start_d)/self.num_steps, 2)
+
+    def to_orca(self):
+        ids_str = ' '.join([str(i-1) for i in self.ids])
+        type = len(self.ids)
+
+        if type == 2:
+            t = "B"
+        elif type == 3:
+            t = "A"
+        elif type == 4:
+            t = "D"
+
+        if self.scan:
+            return f"{t} {ids_str} = {self.start_d:.2f}, {self.end_d:.2f}, {self.num_steps}\n"
+        else:
+            return f"{{ {t} {ids_str} C }}\n"
+
+    def to_gaussian(self):
+        ids_str = ' '.join([str(i) for i in self.ids])
+        type = len(self.ids)
+
+        if type == 2:
+            t = "B"
+        elif type == 3:
+            t = "A"
+        elif type == 4:
+            t = "D"
+            if self.scan:
+                # Different sign convention used by Gaussian for dihedral angles (?)
+                self.step_size *= -1
+
+        if self.scan:
+            return f"{t} {ids_str} S {self.num_steps} {self.step_size}\n"
+        else:
+            return f"{t} {ids_str} F\n"
+
+
+def parse_constraints(s, xyz_str, software=""):
+    if s.strip() == "":
+        return
+
+    if software == "":
+        warn("No software specified for the constraints; the behaviour might be incorrect")
+
+    constraints = []
+    cs = s.split(';')
+    for c in cs:
+        if c.strip() == '':
+            continue
+
+        if c.count('/') != 1:
+            raise InvalidParameter(f"Invalid constraint string: '{c}'")
+
+        specs_str, ids_str = c.split('/')
+
+        try:
+            ids = [int(i) for i in ids_str.split('_')]
+        except ValueError:
+            raise InvalidParameter(f"Could not parse the atom numbers from the string '{ids_str}'")
+
+        t = len(ids)
+
+        specs = specs_str.lower().split('_')
+
+        if specs[0] not in ['scan', 'freeze']:
+            raise InvalidParameter(f"Invalid type of scan: '{specs[0]}'")
+
+        if specs[0] == 'scan':
+            try:
+                start_d = float(specs[1])
+            except ValueError:
+                raise InvalidParameter(f"Invalid initial value: '{specs[1]}'")
+
+            if t == 2 and start_d < 0.01:
+                raise InvalidParameter(f"Invalid initial distance: '{specs[1]}'")
+
+            try:
+                end_d = float(specs[2])
+            except ValueError:
+                raise InvalidParameter(f"Invalid final value: '{specs[2]}'")
+
+            if t == 2 and end_d < 0.01:
+                raise InvalidParameter(f"Invalid final distance: '{specs[2]}'")
+
+            try:
+                num_steps = int(specs[3])
+            except ValueError:
+                raise InvalidParameter(f"Invalid number of steps: '{specs[3]}'")
+
+            if num_steps < 1:
+                raise InvalidParameter(f"Invalid number of steps: '{specs[3]}'")
+        else:
+            start_d = None
+            end_d = None
+            num_steps = None
+
+        constraints.append(Constraint(scan=specs[0] == 'scan', start_d=start_d, end_d=end_d,
+                            num_steps=num_steps, ids=ids, xyz=xyz_str, software=software))
+
+    return constraints

@@ -1,8 +1,8 @@
 import basis_set_exchange
 import numpy as np
 
-from ccinput.utilities import get_method, get_solvent, get_basis_set, \
-                              get_distance, get_angle, get_dihedral, clean_xyz
+from ccinput.utilities import get_method, get_solvent, get_basis_set, clean_xyz, \
+                              get_distance, get_angle, get_dihedral, get_npxyz
 from ccinput.constants import CalcType, ATOMIC_NUMBER
 
 class GaussianCalculation:
@@ -139,55 +139,19 @@ class GaussianCalculation:
         elif self.calc.type == CalcType.CONSTR_OPT:
             cmd = "opt"
             base_specs = ['modredundant']
-            lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n')]
 
-            xyz = []
-            for line in lines:
-                if line.strip() != '':
-                    a, x, y, z = line.split()
-                    xyz.append([a, np.array([float(x), float(y), float(z)])])
+            xyz = get_npxyz(self.calc.xyz)
             gaussian_constraints = ""
+
             has_scan = False
 
-            if self.calc.constraints.strip() == '':
+            if len(self.calc.constraints) == 0:
                 raise InvalidParameter("No constraint in constrained optimisation mode")
 
-            scmd = self.calc.constraints.split(';')
-
-            for c in scmd:
-                if c.strip() == '':
-                    continue
-                _c, ids = c.split('/')
-                _c= _c.split('_')
-                ids = ids.split('_')
-                ids = [int(i) if i.strip() != '' else -1 for i in ids]
-                type = len(ids)
-
-                if _c[0] == "Scan":
+            for constr in self.calc.constraints:
+                if constr.scan:
                     has_scan = True
-                    end = float(_c[2])
-                    num_steps = int(float(_c[3]))
-
-                    if type == 2:
-                        start = get_distance(xyz, *ids)
-                        step_size = f"{(end - start) / num_steps:.2f}"
-                        gaussian_constraints += f"B {ids[0]} {ids[1]} S {num_steps} {step_size}\n"
-                    if type == 3:
-                        start = get_angle(xyz, *ids)
-                        step_size = f"{(end - start) / num_steps:.2f}"
-                        gaussian_constraints += f"A {ids[0]} {ids[1]} {ids[2]} S {num_steps} {step_size}\n"
-                    if type == 4:
-                        start = get_dihedral(xyz, *ids)
-                        #Gaussian seems to use a different sign convention?
-                        step_size = f"{-1 * (end - start) / num_steps:.2f}"
-                        gaussian_constraints += f"D {ids[0]} {ids[1]} {ids[2]} {ids[3]} S {num_steps} {step_size}\n"
-                else:
-                    if type == 2:
-                        gaussian_constraints += "B {} {} F\n".format(*ids)
-                    if type == 3:
-                        gaussian_constraints += "A {} {} {} F\n".format(*ids)
-                    if type == 4:
-                        gaussian_constraints += "D {} {} {} {} F\n".format(*ids)
+                gaussian_constraints += constr.to_gaussian()
 
             self.has_scan = has_scan
             self.appendix.append(gaussian_constraints)
