@@ -5,7 +5,7 @@ from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
 
 from ccinput.calculation import Calculation, Parameters, Constraint, parse_str_constraints, \
-                                parse_freeze_constraints
+                                parse_freeze_constraints, parse_scan_constraints
 from ccinput.utilities import get_abs_type, get_abs_software, standardize_xyz, \
                               parse_xyz_from_file
 from ccinput.exceptions import *
@@ -21,7 +21,8 @@ def process_calculation(calc):
 
 def generate_calculation(software=None, type=None, method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
-            freeze=[], density_fitting="", custom_basis_sets="", xyz="", in_file="", \
+            freeze=[], scan=[], sfrom=[], sto=[], snsteps=[], sstep=[], \
+            density_fitting="", custom_basis_sets="", xyz="", in_file="", \
             constraints="", nproc=0, mem="", charge=0, multiplicity=1, aux_name="calc2", \
             name="calc", header="File created by ccinput", **kwargs):
 
@@ -48,6 +49,8 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
     _constraints = parse_str_constraints(constraints, xyz_structure, software=abs_software)
     _constraints += parse_freeze_constraints(freeze, xyz_structure, software=abs_software)
+    _constraints += parse_scan_constraints(scan, sfrom, sto, snsteps, sstep,
+                                           xyz_structure, software=abs_software)
 
     calc = Calculation(xyz_structure, params, calc_type, constraints=_constraints, \
             nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity, \
@@ -104,8 +107,23 @@ def get_parser():
     parser.add_argument('--constraints', '-co', default="",
             type=str, help='String specification of constraints for certain calculations')
 
-    parser.add_argument('--freeze', action="append", nargs="+",
+    parser.add_argument('--freeze', action="append", nargs="+", default=[],
             help='Freeze specified distance/angle/dihedral between the specified atoms')
+
+    parser.add_argument('--scan', action="append", nargs="+", default=[],
+            help='Scan specified distance/angle/dihedral between the specified atoms (additional parameters required)')
+
+    parser.add_argument('--from', action="append", dest='sfrom', default=[],
+            help='Initial distance (for --scan)')
+
+    parser.add_argument('--to', action="append", dest='sto', default=[],
+            help='Final distance (for --scan)')
+
+    parser.add_argument('--nsteps', action="append", dest='snsteps', default=[],
+            help='Number of steps (for --scan)')
+
+    parser.add_argument('--step', action="append", dest='sstep', default=[],
+            help='Step size in Å (for --scan)')
 
     parser.add_argument('--nproc', '-n', default=1,
             type=int, help='Number of CPU cores to use')
@@ -147,10 +165,12 @@ def get_input_from_args(args):
                 basis_set=args.basis_set, solvent=args.solvent, \
                 solvation_model=args.solvation_model, solvation_radii=args.solvation_radii, \
                 specifications=args.specifications, freeze=args.freeze, \
-                density_fitting=args.density_fitting, custom_basis_sets=args.custom_basis_sets, \
-                xyz=args.xyz, in_file=args.file, constraints=args.constraints, \
-                nproc=args.nproc, mem=args.mem, charge=args.charge, multiplicity=args.mult, \
-                aux_name=args.aux_name, name=args.name, header=args.header)
+                scan=args.scan, sfrom=args.sfrom, sto=args.sto, snsteps=args.snsteps, \
+                sstep=args.sstep, density_fitting=args.density_fitting, \
+                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, in_file=args.file, \
+                constraints=args.constraints, nproc=args.nproc, mem=args.mem, \
+                charge=args.charge, multiplicity=args.mult, aux_name=args.aux_name, \
+                name=args.name, header=args.header)
     except CCInputException as e:
         print(f"*** {str(e)} ***")
         return

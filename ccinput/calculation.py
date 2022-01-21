@@ -1,4 +1,5 @@
 import hashlib
+from itertools import zip_longest
 
 from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalculation, \
                                MissingParameter
@@ -224,7 +225,10 @@ class Constraint:
             assert self.end_d is not None
             assert self.step_size is not None
 
-            self.num_steps = int((self.end_d-self.start_d)/self.step_size)
+            # Make sure the number of steps is positive overall
+            # Also use the absolute step size here, as the start and end are defined
+            # An mathematically incorrect sign won't matter, as the step size is recalculated
+            self.num_steps = abs(int((self.end_d-self.start_d)/abs(self.step_size)))
 
             # Adjust the step size to end up exactly at the end point
             self.step_size = round((self.end_d-self.start_d)/self.num_steps, 2)
@@ -266,13 +270,26 @@ class Constraint:
 
 
 def parse_freeze_constraints(arr, xyz_str, software=""):
-    if arr is None:
+    if len(arr) == 0:
         return []
     constr = ""
     for c in arr:
         constr += f'Freeze/{"_".join(c)};'
 
     return parse_str_constraints(constr, xyz_str, software=software)
+
+def parse_scan_constraints(arr, sfrom, sto, snsteps, sstep, xyz_str, software=""):
+    if len(arr) == 0:
+        return []
+
+    scans = []
+    for ids, fro, to, nsteps, step in zip_longest(arr, sfrom, sto, snsteps, sstep):
+        if ids is None:
+            raise InvalidParameter("Not enough sets of atom indices specified for the number of other parameters")
+        _ids = [int(i) for i in ids]
+        scans.append(gen_constraint(_ids, xyz_str, 'scan', start_str=fro, end_str=to, nsteps_str=nsteps, step_str=step, software=software))
+
+    return scans
 
 def parse_str_constraints(s, xyz_str, software=""):
     if s.strip() == "":
@@ -290,50 +307,79 @@ def parse_str_constraints(s, xyz_str, software=""):
         if c.count('/') != 1:
             raise InvalidParameter(f"Invalid constraint string: '{c}'")
 
-        specs_str, ids_str = c.split('/')
+        specs_str, ids_str = c.lower().split('/')
 
         try:
             ids = [int(i) for i in ids_str.split('_')]
         except ValueError:
             raise InvalidParameter(f"Could not parse the atom numbers from the string '{ids_str}'")
 
-        t = len(ids)
-
-        specs = specs_str.lower().split('_')
-
-        if specs[0] not in ['scan', 'freeze']:
-            raise InvalidParameter(f"Invalid type of scan: '{specs[0]}'")
-
-        if specs[0] == 'scan':
-            try:
-                start_d = float(specs[1])
-            except ValueError:
-                raise InvalidParameter(f"Invalid initial value: '{specs[1]}'")
-
-            if t == 2 and start_d < 0.01:
-                raise InvalidParameter(f"Invalid initial distance: '{specs[1]}'")
-
-            try:
-                end_d = float(specs[2])
-            except ValueError:
-                raise InvalidParameter(f"Invalid final value: '{specs[2]}'")
-
-            if t == 2 and end_d < 0.01:
-                raise InvalidParameter(f"Invalid final distance: '{specs[2]}'")
-
-            try:
-                num_steps = int(specs[3])
-            except ValueError:
-                raise InvalidParameter(f"Invalid number of steps: '{specs[3]}'")
-
-            if num_steps < 1:
-                raise InvalidParameter(f"Invalid number of steps: '{specs[3]}'")
-        else:
-            start_d = None
-            end_d = None
-            num_steps = None
-
-        constraints.append(Constraint(scan=specs[0] == 'scan', start_d=start_d, end_d=end_d,
-                            num_steps=num_steps, ids=ids, xyz=xyz_str, software=software))
+        constraints.append(gen_constraint(ids, xyz_str, *specs_str.split('_'), software=software))
 
     return constraints
+
+def gen_constraint(ids, xyz_str, option, start_str=None, end_str=None, nsteps_str=None,
+                   step_str=None, software=""):
+    """
+        Generate a constraint object from arrays of parameters.
+        In case of multiple values in the arrays, each parameter with the same index
+        is assumed to be of the same command constraint.
+
+        The atom indices must already be integers in ids as array of arrays of ints.
+
+    """
+    t = len(ids)
+
+    if option not in ['scan', 'freeze']:
+        raise InvalidParameter(f"Invalid type of scan: '{specs[0]}'")
+
+    if option == 'scan':
+        if start_str is not None:
+            try:
+                start_d = float(start_str)
+            except ValueError:
+                raise InvalidParameter(f"Invalid initial value: '{start_str}'")
+
+            if t == 2 and start_d < 0.01:
+                raise InvalidParameter(f"Invalid initial distance: '{start_str}'")
+        else:
+            start_d = None
+
+        if end_str is not None:
+            try:
+                end_d = float(end_str)
+            except ValueError:
+                raise InvalidParameter(f"Invalid final value: '{end_str}'")
+
+            if t == 2 and end_d < 0.01:
+                raise InvalidParameter(f"Invalid final distance: '{end_str}'")
+        else:
+            end_d = None
+
+        if nsteps_str is not None:
+            try:
+                num_steps = int(nsteps_str)
+            except ValueError:
+                raise InvalidParameter(f"Invalid number of steps: '{nsteps_str}'")
+
+            if num_steps < 1:
+                raise InvalidParameter(f"Invalid number of steps: '{nsteps_str}'")
+        else:
+            num_steps = None
+
+        if step_str is not None:
+            try:
+                step_size = float(step_str)
+            except ValueError:
+                raise InvalidParameter(f"Invalid final value: '{step_str}'")
+        else:
+            step_size = None
+
+    else:
+        start_d = None
+        end_d = None
+        num_steps = None
+        step_size = None
+
+    return Constraint(scan=option == 'scan', start_d=start_d, end_d=end_d, num_steps=num_steps,
+                      step_size=step_size, ids=ids, xyz=xyz_str, software=software.lower())

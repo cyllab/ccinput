@@ -100,6 +100,90 @@ class ManualCliTests(TestCase):
         line = f"gaussian constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --freeze 6 3 1 2"
         self.assertTrue(self.are_equivalent(args, line))
 
+    def test_scan_distance(self):
+        args = {
+            'software': "orca",
+            'type': "constr_opt",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'in_file': self.struct('ethanol'),
+            'nproc': 1,
+            'mem': "1G",
+            'constraints': "Scan_2.0_1.0_10/1_2;",
+        }
+        line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --nsteps 10"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_scan_distance_multiple(self):
+        args = {
+            'software': "orca",
+            'type': "constr_opt",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'in_file': self.struct('ethanol'),
+            'nproc': 1,
+            'mem': "1G",
+            'constraints': "Scan_2.0_1.0_10/1_2;Scan_2.0_1.0_10/3_4;",
+        }
+        line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --nsteps 10 --scan 3 4 --from 2.0 --to 1.0 --nsteps 10"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_scan_distance_multiple_step(self):
+        args = {
+            'software': "orca",
+            'type': "constr_opt",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'in_file': self.struct('ethanol'),
+            'nproc': 1,
+            'mem': "1G",
+            'constraints': "Scan_2.0_1.0_10/1_2;Scan_2.0_1.0_10/3_4;",
+        }
+        line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --step -0.1 --scan 3 4 --from 2.0 --to 1.0 --step -0.1"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_scan_distance_step_wrong_sign(self):
+        args = {
+            'software': "orca",
+            'type': "constr_opt",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'in_file': self.struct('ethanol'),
+            'nproc': 1,
+            'mem': "1G",
+            'constraints': "Scan_2.0_1.0_10/1_2;Scan_2.0_1.0_10/3_4;",
+        }
+        line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --step 0.1 --scan 3 4 --from 2.0 --to 1.0 --step 0.1"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_scan_angle(self):
+        args = {
+            'software': "orca",
+            'type': "constr_opt",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'in_file': self.struct('ethanol'),
+            'nproc': 1,
+            'mem': "1G",
+            'constraints': "Scan_2.0_1.0_10/1_2_3;",
+        }
+        line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 3 --from 2.0 --to 1.0 --nsteps 10"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_scan_dihedral(self):
+        args = {
+            'software': "orca",
+            'type': "constr_opt",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'in_file': self.struct('ethanol'),
+            'nproc': 1,
+            'mem': "1G",
+            'constraints': "Scan_2.0_1.0_10/1_2_3_4;",
+        }
+        line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 3 4 --from 2.0 --to 1.0 --nsteps 10"
+        self.assertTrue(self.are_equivalent(args, line))
+
     def test_name(self):
         args = {
             'software': "gaussian",
