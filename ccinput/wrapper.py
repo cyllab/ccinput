@@ -133,6 +133,15 @@ def cmd():
     parser = get_parser()
     args = parser.parse_args()
 
+    inp = get_input_from_args(args)
+    if args.output != "":
+        with open(args.output, 'w') as out:
+            out.write(inp)
+        print(f"Input file written to {args.output}")
+    else:
+        print(inp)
+
+def get_input_from_args(args):
     try:
         inp = gen_input(software=args.software, type=args.type, method=args.method, \
                 basis_set=args.basis_set, solvent=args.solvent, \
@@ -145,10 +154,5 @@ def cmd():
     except CCInputException as e:
         print(f"*** {str(e)} ***")
         return
+    return inp
 
-    if args.output != "":
-        with open(args.output, 'w') as out:
-            out.write(inp)
-        print(f"Input file written to {args.output}")
-    else:
-        print(inp)

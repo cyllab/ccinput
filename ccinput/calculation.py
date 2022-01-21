@@ -1,6 +1,7 @@
 import hashlib
 
-from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalculation
+from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalculation, \
+                               MissingParameter
 from ccinput.utilities import get_abs_software, get_abs_method, get_abs_basis_set, \
                               get_abs_solvent, get_theory_level, standardize_memory, \
                               get_npxyz, get_coord
@@ -265,6 +266,8 @@ class Constraint:
 
 
 def parse_freeze_constraints(arr, xyz_str, software=""):
+    if arr is None:
+        return []
     constr = ""
     for c in arr:
         constr += f'Freeze/{"_".join(c)};'
