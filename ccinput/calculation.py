@@ -274,7 +274,7 @@ def parse_freeze_constraints(arr, xyz_str, software=""):
         return []
     constr = ""
     for c in arr:
-        constr += f'Freeze/{"_".join(c)};'
+        constr += f'Freeze/{"_".join([str(i) for i in c])};'
 
     return parse_str_constraints(constr, xyz_str, software=software)
 

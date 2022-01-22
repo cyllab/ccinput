@@ -186,3 +186,106 @@ Specifications
 ^^^^^^^^^^^^^^
 
 Custom keywords to add to the command of the input.
+
+Constraints
+^^^^^^^^^^^
+
+Constraints (freeze or scan) can be specified either as a string or as separate parameters.
+
+The string representation allows to specified all the constraints at once in a relatively readable fashion:
+
+.. code-block:: console
+
+   # Freeze the bond between atoms 1 and 2 (starting at 1)
+   $ ccinput [...] --constraints "freeze/1_2;"
+
+   # Freeze the angle between atoms 1, 2 and 3
+   $ ccinput [...] --constraints "freeze/1_2_3;"
+
+   # Freeze the dihedral angle between atoms 1, 2, 3 and 4
+   $ ccinput [...] --constraints "freeze/1_2_3_4;"
+
+   # Different constraints are delimited by semi-colons
+   $ ccinput [...] --constraints "freeze/1_2;freeze/3_4_5;"
+
+   # Scans the bond 1-2 from 2 A to 1 A in 10 steps
+   # Note that Gaussian does not allow starting values other than those of the current structure.
+   # As such, the starting value is ignored with Gaussian.
+   $ ccinput [...] --constraints "scan_2_1_10/1_2;"
+
+   # Scans the angle 1-2-3 from 90 degrees to 0 degrees in 10 steps
+   $ ccinput [...] --constraints "scan_90_0_10/1_2_3;"
+
+   # Scans the dihedral angle 1-2-3-4 from 90 degrees to 0 degrees in 10 steps
+   $ ccinput [...] --constraints "scan_90_0_10/1_2_3_4;"
+
+   # Different types of constraint can be combined
+   $ ccinput [...] --constraints "scan_90_0_10/1_2_3;freeze/4_5;"
+
+The library usage uses an identical syntax:
+
+.. code-block:: python
+
+        >>> from ccinput.wrapper import gen_input
+        >>> inp = gen_input([...], constraints="scan_90_0_10/1_2_3;freeze/4_5;")
+
+With the string, scans always require the starting value, the final value as well as the number of steps. However, more convenient options are available using ``--scan``, ``--from``, ``--to``, ``--nsteps`` and ``--step``:
+
+.. code-block:: console
+
+   # Also scans the bond 1-2 from 2 A to 1 A in 10 steps
+   $ ccinput [...] --scan 1 2 --from 2 --to 1 --nsteps 10
+
+   # Scans the bond 1-2 from its current value to 1 A in 10 steps
+   $ ccinput [...] --scan 1 2 --to 1 --nsteps 10
+
+   # Scans the bond 1-2 from its current value to 1 A in steps of 0.1 A
+   $ ccinput [...] --scan 1 2 --to 1 --step 0.1
+
+   # Equivalent to the above
+   $ ccinput [...] --scan 1 2 --to 1 --step -0.1
+
+   # Scans the bonds 1-2 and 3-4 from their current values to 1 A in steps of 0.1 A
+   $ ccinput [...] --scan 1 2 --to 1 --step 0.1 --scan 3 4 --to 1 --step 0.1
+
+   # The order of the sets of parameters matters:
+   # Scans the bond 1-2 from 1.9 A to 0.5 A by step of 0.15 and 
+   # the bond 3-4 from 1.5 A to 1.0 A in step of 0.1 A
+   $ ccinput [...] --scan 1 2 --from 1.9 --to 0.5 --step 0.15 --scan 3 4 --from 1.5 --to 1 --step 0.1
+
+   # Scans the bond 1-2 from 1.5 A to 1.0 A in step of 0.1 A and 
+   # the bond 3-4 from 1.9 A to 0.5 A by step of 0.15
+   $ ccinput [...] --scan 1 2 --from 1.5 --to 1 --step 0.1 --scan 3 4 --from 1.9 --to 0.5 --step 0.15 
+
+   # However, the exact ordering of each different parameter does not matter
+   # Equivalent to the above
+   $ ccinput [...] --scan 1 2 --to 1 --from 1.5 --step 0.1 --scan 3 4 --step 0.15 --to 0.5 --from 1.9 
+
+   # Moreover, coordinates can be frozen in a similar fashion
+   # Freezes the angle between atoms 1, 2 and 3
+   $ ccinput [...] --freeze 1 2 3
+
+   # Freezes the angle between atoms 1, 2 and 3 and 
+   # scans the bond 1-2 from its current value to 1 A in steps of 0.1 A
+   $ ccinput [...] --freeze 1 2 3 --scan 1 2 --to 1 --step 0.1
+
+   # Equivalent to the above
+   $ ccinput [...] --scan 1 2 --to 1 --step 0.1 --freeze 1 2 3 
+
+   # Also equivalent to the above (although confusing)
+   $ ccinput [...] --scan 1 2 --to 1 --freeze 1 2 3 --step 0.1
+
+
+The library usage employs arrays for each parameter, with ``freeze`` and ``scan`` being arrays of arrays (for multiple constraints of multiple atoms each). The scanning parameters are prefixed by the letter "s" (for "scan") due to the name clash with the Python keyword ``from``.
+
+.. code-block:: python
+
+        >>> from ccinput.wrapper import gen_input
+        >>> inp = gen_input([...], freeze=[[1, 2]])
+
+        >>> inp = gen_input([...], scan=[[2, 3]], sfrom=[1.0], sto=[1.5], snsteps=[5])
+
+        >>> inp = gen_input([...], scan=[[2, 3]], sfrom=[1.0], sto=[1.5], sstep=[0.1])
+
+        >>> inp = gen_input([...], scan=[[2, 3], [1, 2, 3, 4]], sfrom=[1.0, 120], sto=[1.5, 160], sstep=[0.1, 5])
+
