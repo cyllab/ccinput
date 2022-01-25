@@ -2,6 +2,7 @@ import sys
 import os
 from os.path import basename
 from pathlib import Path
+import ccinput
 
 sys.path.insert(0, os.path.abspath('../..'))
 
@@ -9,8 +10,7 @@ project = 'ccinput'
 copyright = '2022, Raphaël Robidas'
 author = 'Raphaël Robidas'
 
-release = 'v1.0.1'
-
+release = 'v' + ccinput.__version__
 
 extensions = [
     'sphinx.ext.duration',

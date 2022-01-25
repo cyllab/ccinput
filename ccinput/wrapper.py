@@ -107,22 +107,22 @@ def get_parser():
     parser.add_argument('--constraints', '-co', default="",
             type=str, help='String specification of constraints for certain calculations')
 
-    parser.add_argument('--freeze', action="append", nargs="+", default=[],
+    parser.add_argument('--freeze', action="append", nargs="+", default=[], metavar="ATOM",
             help='Freeze specified distance/angle/dihedral between the specified atoms')
 
-    parser.add_argument('--scan', action="append", nargs="+", default=[],
+    parser.add_argument('--scan', action="append", nargs="+", default=[], metavar="ATOM",
             help='Scan specified distance/angle/dihedral between the specified atoms (additional parameters required)')
 
-    parser.add_argument('--from', action="append", dest='sfrom', default=[],
+    parser.add_argument('--from', action="append", dest='sfrom', default=[], metavar="FROM",
             help='Initial distance (for --scan)')
 
-    parser.add_argument('--to', action="append", dest='sto', default=[],
+    parser.add_argument('--to', action="append", dest='sto', default=[], metavar="TO",
             help='Final distance (for --scan)')
 
-    parser.add_argument('--nsteps', action="append", dest='snsteps', default=[],
+    parser.add_argument('--nsteps', action="append", dest='snsteps', default=[], metavar="NSTEPS",
             help='Number of steps (for --scan)')
 
-    parser.add_argument('--step', action="append", dest='sstep', default=[],
+    parser.add_argument('--step', action="append", dest='sstep', default=[], metavar="STEP",
             help='Step size in Å (for --scan)')
 
     parser.add_argument('--nproc', '-n', default=1,

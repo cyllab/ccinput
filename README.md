@@ -78,8 +78,10 @@ Simply use the `ccinput` command with the desired parameters:
 usage: ccinput [-h] [--basis_set BASIS_SET] [--solvent SOLVENT] [--solvation_model SOLVATION_MODEL]
                [--solvation_radii SOLVATION_RADII] [--specifications SPECIFICATIONS]
                [--density_fitting DENSITY_FITTING] [--custom_basis_sets CUSTOM_BASIS_SETS] [--xyz XYZ]
-               [--file FILE] [--output OUTPUT] [--constraints CONSTRAINTS] [--nproc NPROC] [--mem MEM]
-               [--charge CHARGE] [--mult MULT] [--name NAME] [--header HEADER]
+               [--file FILE] [--output OUTPUT] [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]]
+               [--scan ATOM [ATOM ...]] [--from FROM] [--to TO] [--nsteps NSTEPS] [--step STEP]
+               [--nproc NPROC] [--mem MEM] [--charge CHARGE] [--mult MULT] [--name NAME]
+               [--aux_name AUX_NAME] [--header HEADER] [--version]
                software type method
 ```
 
@@ -99,26 +101,4 @@ The input can also be directly written to a file using `write_input`.
 >>> write_input(filename, ...)
 ```
 
-The desired options are passed as additional named parameters:
-```
-gen_input(software=None, # "gaussian" or "orca"
-	type=None, # Type of calculation ("sp", "opt", "freq", ...)
-	method="", # Computational method ("HF", "AM1", "B3LYP", ...)
-	basis_set="", # If required by the method
-	solvent="", # If implicit solvation is desired
-	solvation_model="", # SMD, PCM, CPCM
-	solvation_radii="", # Blank or "Default" gives the default radii, other options are available ("SMD18", "Bondi", "UAKS", ...)
-	specifications="", # Any other custom keywords
-	density_fitting="", # If desired
-	custom_basis_sets="", # Basis sets for specific atoms, uses the format "<Element>=<Basis set label>;..." (e.g. "I=Def2-TZVPD;")
-	xyz="", # XYZ structure as a string (replaces 'in_file')
-	in_file="", # Filename of XYZ structure (replaces 'xyz')
-	constraints="", # Constrained optimisation constraints (pending documentation)
-	nproc=0, # Number of CPU cores to use
-	mem="", # Amount of memory to use (specify units, otherwise MB are assumed)
-	charge=0, 
-	multiplicity=1, 
-	name="calc", # If used by the software package, name of the input/scratch files
-	header="File created by ccinput", # If used by the software package, header in the input file
-	)
-```
+See the [documentation](https://ccinput.readthedocs.io/en/latest/usage.html) for all options.
