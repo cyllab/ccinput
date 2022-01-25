@@ -51,6 +51,11 @@ class OrcaCalculation:
 
         self.create_input_file()
 
+    @property
+    def confirmed_specifications(self):
+        """ Returns the effective additional commands; saved in the Parameters object """
+        return self.additional_commands
+
     def clean(self, s):
         WHITELIST = set("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. ")
         return ''.join([c for c in s if c in WHITELIST])

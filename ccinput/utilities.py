@@ -191,19 +191,50 @@ def get_abs_basis_set(basis_set):
 
 def get_abs_solvent(solvent):
     _solvent = solvent.strip().lower()
+    if _solvent in ["", "vacuum", "vac"]:
+        return ""
     for solv in SYN_SOLVENTS:
         if _solvent in SYN_SOLVENTS[solv] or _solvent == solv:
             return solv
     raise InvalidParameter(f"Unknown solvent: '{solvent}'")
 
+def is_exchange_correlation_combination(method):
+    for x in EXCHANGE_FUNCTIONALS:
+        if method[:len(x)] == x:
+            if method[len(x):] in CORRELATION_FUNCTIONALS:
+                return EXCHANGE_FUNCTIONALS[method[:len(x)]] + \
+                       CORRELATION_FUNCTIONALS[method[len(x):]]
+    return False
+
 def get_method(method, software):
     try:
         abs_method = get_abs_method(method)
     except InvalidParameter:
+        if software == 'gaussian':
+            # As far as I know, this kind of specification does not apply to ORCA
+            if method.lower()[0] in ['u', 'r']:
+                try:
+                    abs_method = get_abs_method(method[1:])
+                except InvalidParameter:
+                    pass
+                else:
+                    if abs_method not in SOFTWARE_METHODS[software]:
+                        warn(f"Unknown method '{method}'")
+                        return method
+
+                    return method[0].upper() + SOFTWARE_METHODS[software][abs_method]
+
+            xc_check = is_exchange_correlation_combination(method.lower())
+            if isinstance(xc_check, str):
+                return xc_check
         warn(f"Unknown method '{method}'")
         return method
+    else:
+        if abs_method not in SOFTWARE_METHODS[software]:
+            warn(f"Unknown method '{method}'")
+            return method
 
-    return SOFTWARE_METHODS[software][abs_method]
+        return SOFTWARE_METHODS[software][abs_method]
 
 def get_basis_set(basis_set, software):
     try:

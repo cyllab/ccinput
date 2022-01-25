@@ -3,8 +3,7 @@ from ccinput.tests.testing_utilities import InputTests
 class GaussianTests(InputTests):
 
     def test_sp_SE(self):
-        params = {
-                'nproc': 8,
+        params = { 'nproc': 8,
                 'mem': '10000MB',
                 'type': 'Single-Point Energy',
                 'in_file': 'Cl.xyz',
@@ -2321,6 +2320,209 @@ class GaussianTests(InputTests):
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_exchange_correlation_functional(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'pkzbpkzb',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp PKZBPKZB/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_exchange_correlation_functional2(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'pBeHpkzb',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp PBEhPKZB/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_restricted_HF(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'rHF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp RHF/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_unrestricted_HF(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'uHF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp UHF/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_unknown_HF(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'iHF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp iHF/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_unrestricted_DFT(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'uM062x',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp UM062X/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_restricted_DFT(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'rPBE0',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp RPBE1PBE/3-21G
 
         File created by ccinput
 

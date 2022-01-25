@@ -3,7 +3,7 @@ from itertools import zip_longest
 
 from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalculation, \
                                MissingParameter
-from ccinput.utilities import get_abs_software, get_abs_method, get_abs_basis_set, \
+from ccinput.utilities import get_abs_software, get_method, get_abs_basis_set, \
                               get_abs_solvent, get_theory_level, standardize_memory, \
                               get_npxyz, get_coord
 from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE
@@ -98,18 +98,17 @@ class Parameters:
             solvation_radii="", basis_set="", method="", specifications="",
             density_fitting="", custom_basis_sets="", **kwargs):
 
-        if solvent.strip() != "":
-            self.solvent = get_abs_solvent(solvent)
+        self.solvent = get_abs_solvent(solvent)
+        if self.solvent != "":
             self.solvation_model = solvation_model.lower()
             self.solvation_radii = solvation_radii.lower()
 
             if self.solvation_model.strip() == "":
-                raise InvalidParameter("No solvation model specified, \
-                        although solvation is requested")
+                raise InvalidParameter("No solvation model specified," +
+                            "although solvation is requested")
             if self.solvation_radii.strip() == "":
                 warn("No solvation radii specified; using default radii")
         else:
-            self.solvent = ""
             self.solvation_model = ""
             self.solvation_radii = ""
 
@@ -117,11 +116,11 @@ class Parameters:
 
         if method == "":
             if 'functional' in kwargs:
-                method = get_abs_method(kwargs['functional'])
+                method = get_method(kwargs['functional'], self.software)
             else:
                 raise InvalidParameter("No calculation method specified (method='...')")
         else:
-            self.method = get_abs_method(method)
+            self.method = get_method(method, self.software)
 
         self.theory_level = get_theory_level(method)
 

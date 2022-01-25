@@ -1282,7 +1282,6 @@ class OrcaTests(InputTests):
                 }
 
         inp = self.generate_calculation(**params)
-
         REF = """
         !SP M062X Def2-SVP
         *xyz -1 1

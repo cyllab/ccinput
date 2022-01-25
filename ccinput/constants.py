@@ -512,6 +512,46 @@ SYN_METHODS = {
         'dlpno-qcisd(t)': ['dlpno-qcisdt', 'dlpnoqcisdt'],
     }
 
+
+
+# Gaussian allows the combination of exchange and correlation functionals
+# without using any special keyword.
+
+EXCHANGE_FUNCTIONALS = {
+        's': 'S',
+        'xa': 'XA',
+        'b': 'B',
+        'pw91': 'PW91',
+        'mpw': 'mPW',
+        'g96': 'G96',
+        'pbe': 'PBE',
+        'o': 'O',
+        'tpss': 'TPSS',
+        'revtpss': 'RevTPSS',
+        'brx': 'BRx',
+        'pkzb': 'PKZB',
+        'wpbeh': 'wPBEh',
+        'pbeh': 'PBEh',
+}
+
+CORRELATION_FUNCTIONALS = {
+        'vwn': 'VWN',
+        'vwn5': 'VWN5',
+        'lyp': 'LYP',
+        'pl': 'PL',
+        'p86': 'P86',
+        'pw91': 'PW91',
+        'b95': 'B95',
+        'pbe': 'PBE',
+        'tpss': 'TPSS',
+        'revtpss': 'RevTPSS',
+        'kcis': 'KCIS',
+        'brc': 'BRC',
+        'pkzb': 'PKZB',
+        'vp86': 'VP86',
+        'v5lyp': 'V5LYP',
+}
+
 SYN_BASIS_SETS = {
         'sto-3g': [],
 
