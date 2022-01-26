@@ -94,15 +94,15 @@ def standardize_xyz(xyz):
         if num_atoms == len(arr_xyz)-2:
             arr_xyz = arr_xyz[2:]
         else:
-            raise InvalidXYZ(f"Invalid xyz header: {num_atoms} atoms specified, \
-                    but actually contains {len(arr_xyz) - 2} atoms")
+            raise InvalidXYZ(f"Invalid xyz header: {num_atoms} atoms specified, " +
+                    "but actually contains {len(arr_xyz) - 2} atoms")
 
     for el in arr_xyz:
         line_data = []
 
         if not isinstance(el, str):
-            raise InvalidXYZ(f"Could not parse xyz from array: contains element '{el}' \
-                    and not string")
+            raise InvalidXYZ(f"Could not parse xyz from array: contains element '{el}' " +
+                    "and not string")
 
         if el.strip() == '':
             continue

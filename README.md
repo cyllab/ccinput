@@ -102,3 +102,13 @@ The input can also be directly written to a file using `write_input`.
 ```
 
 See the [documentation](https://ccinput.readthedocs.io/en/latest/usage.html) for all options.
+
+## Contributing
+
+We welcome all contributions to the project. This includes:
+
+- Support for new packages (even if rudimentary)
+- Support for new features of supported packages
+- Correction or improvement of static data (like DFT functionals or basis sets)
+
+Planned tasks are listed in the [roadmap](https://github.com/orgs/cyllab/projects/1/views/1). This can be a good place to start when looking to contribute, although do not limit yourself to what is listed there. The contribution guidelines are detailed in CONTRIBUTING.md.
