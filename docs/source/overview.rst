@@ -55,3 +55,48 @@ Example usage:
         end
         >>>
 
+Supported features
+------------------
+
+Below is a short summary of the different features that can be requested for the supported packages. Important features (*e.g.* a whole different calculation type) that are not mentioned can be assumed to not be supported. Minor features (*e.g.* additional printout) that are not mentioned may or may not be supported; refer to the :doc:`detailed usage<usage>` for more information.
+
+=============================== ============ ===========
+Calculation Type                Gaussian 16    ORCA 5
+=============================== ============ ===========
+Essential calculations [1]_        yes         yes
+Common calculations [2]_           yes         yes
+Minimum energy path                n.a.        yes
+NMR prediction                     yes         yes
+TD-DFT                             yes         no
+Molecular orbital visualisation    no          yes
+=============================== ============ ===========
+
+
+=============================== ============ ===========
+Level of theory                 Gaussian 16    ORCA 5
+=============================== ============ ===========
+Tight-binding methods              no          yes [3]_
+Semi-empirical methods             yes         yes
+Hartree-fock                       yes         yes
+Density Functional Theory          yes         yes
+Møller-Plesset                     no          no
+Coupled Cluster                    n.a.        no
+=============================== ============ ===========
+
+
+=============================== ============ ===========
+Feature                         Gaussian 16    ORCA 5
+=============================== ============ ===========
+Implicit solvation                 yes         yes
+Choice of solvation radii          yes         yes
+Custom basis sets                  yes         yes
+Density fitting                    yes         no
+Custom additional keywords         yes         yes
+=============================== ============ ===========
+
+
+.. [1] Single-point energy calculation, geometrical optimisation, frequency calculation
+
+.. [2] Transition state optimisation, constrained optimisation
+
+.. [3] Requires the `xtb package <https://github.com/grimme-lab/xtb>`__; the supported methods are GFN2-xTB, GFN1-xTB, GFN0-xTB and GFN-FF
