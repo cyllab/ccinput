@@ -289,3 +289,63 @@ class ManualCliTests(TestCase):
         line = "gaussian opt-freq HF -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1"
         self.assertTrue(self.are_equivalent(args, line))
 
+    def test_d3_gaussian(self):
+        args = {
+            'software': "gaussian",
+            'type': "opt",
+            'method': "M06",
+            'basis_set': "Def2SVP",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+            'd3': True,
+        }
+        line = "gaussian opt M06 -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1 --d3"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_d3bj_gaussian(self):
+        args = {
+            'software': "gaussian",
+            'type': "opt",
+            'method': "PBE0",
+            'basis_set': "Def2SVP",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+            'd3bj': True,
+        }
+        line = "gaussian opt PBE0 -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1 --d3bj"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_d3_orca(self):
+        args = {
+            'software': "ORCA",
+            'type': "opt",
+            'method': "M06",
+            'basis_set': "Def2SVP",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+            'd3': True,
+        }
+        line = "orca opt M06 -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1 --d3"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_d3bj_orca(self):
+        args = {
+            'software': "ORCA",
+            'type': "opt",
+            'method': "PBE0",
+            'basis_set': "Def2SVP",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+            'd3bj': True,
+        }
+        line = "orca opt PBE0 -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1 --d3bj"
+        self.assertTrue(self.are_equivalent(args, line))
+

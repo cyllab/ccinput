@@ -262,6 +262,17 @@ def get_solvent(solvent, software, solvation_model="smd"):
 
     return SOFTWARE_SOLVENTS[software][abs_solvent]
 
+def has_dispersion_parameters(method, version="d3"):
+    try:
+        _method = get_abs_method(method)
+    except InvalidParameter:
+        warn("Unknown method, could not verify if dispersion parameters are available for it")
+        return True # Don't print a second warning
+
+    if _method in FUNCTIONALS_WITH_DISPERSION_PARAMETERS[version]:
+        return True
+    return False
+
 def clean_xyz(xyz):
     return ''.join([x if x in string.printable else ' ' for x in xyz])
 

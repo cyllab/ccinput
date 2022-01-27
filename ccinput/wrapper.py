@@ -23,8 +23,8 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
             freeze=[], scan=[], sfrom=[], sto=[], snsteps=[], sstep=[], \
             density_fitting="", custom_basis_sets="", xyz="", in_file="", \
-            constraints="", nproc=0, mem="", charge=0, multiplicity=1, aux_name="calc2", \
-            name="calc", header="File created by ccinput", **kwargs):
+            constraints="", nproc=0, mem="", charge=0, multiplicity=1, d3=False, d3bj=False, \
+            aux_name="calc2", name="calc", header="File created by ccinput", **kwargs):
 
     if software is None:
         raise InvalidParameter("Specify a software package to use (software=...)")
@@ -45,7 +45,7 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
     params = Parameters(abs_software, solvent, solvation_model, solvation_radii, \
             basis_set, method, specifications, density_fitting, \
-            custom_basis_sets, **kwargs)
+            custom_basis_sets, d3, d3bj, **kwargs)
 
     _constraints = parse_str_constraints(constraints, xyz_structure, software=abs_software)
     _constraints += parse_freeze_constraints(freeze, xyz_structure, software=abs_software)
@@ -135,6 +135,14 @@ def get_parser():
 
     parser.add_argument('--mult', '-m', default=1, type=int, help='Multiplicity of the system')
 
+    dispersion_group = parser.add_mutually_exclusive_group()
+
+    dispersion_group.add_argument('--d3', action='store_true', help="Use the D3(0) dispersion "
+            "correction")
+
+    dispersion_group.add_argument('--d3bj', action='store_true', help="Use the D3 dispersion "
+            "correction with Becke-Johnson damping")
+
     parser.add_argument('--name', default="calc", type=str,
             help='Name of the produced file (unused by some packages)')
 
@@ -169,8 +177,8 @@ def get_input_from_args(args):
                 sstep=args.sstep, density_fitting=args.density_fitting, \
                 custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, in_file=args.file, \
                 constraints=args.constraints, nproc=args.nproc, mem=args.mem, \
-                charge=args.charge, multiplicity=args.mult, aux_name=args.aux_name, \
-                name=args.name, header=args.header)
+                charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj, \
+                aux_name=args.aux_name, name=args.name, header=args.header)
     except CCInputException as e:
         print(f"*** {str(e)} ***")
         return

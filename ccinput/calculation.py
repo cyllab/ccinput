@@ -5,7 +5,7 @@ from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalcul
                                MissingParameter
 from ccinput.utilities import get_abs_software, get_method, get_abs_basis_set, \
                               get_abs_solvent, get_theory_level, standardize_memory, \
-                              get_npxyz, get_coord
+                              get_npxyz, get_coord, has_dispersion_parameters
 from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE
 from ccinput.logging import warn
 
@@ -96,7 +96,8 @@ class Parameters:
 
     def __init__(self, software, solvent="", solvation_model="",
             solvation_radii="", basis_set="", method="", specifications="",
-            density_fitting="", custom_basis_sets="", **kwargs):
+            density_fitting="", custom_basis_sets="", d3=False,
+            d3bj=False, **kwargs):
 
         self.solvent = get_abs_solvent(solvent)
         if self.solvent != "":
@@ -128,6 +129,20 @@ class Parameters:
             self.basis_set = get_abs_basis_set(basis_set)
         else:
             self.basis_set = ""
+
+        if d3 and d3bj:
+            raise InvalidParameter("Cannot use both D3(0) and D3BJ dispersion corrections")
+
+        self.d3 = d3
+        self.d3bj = d3bj
+
+        if d3 and not has_dispersion_parameters(self.method, version='d3'):
+            warn(f"Your calculation requests a method ({self.method}) that may not have D3 "
+                 "parameters. Be aware that the calculation might result in an error")
+
+        if d3bj and not has_dispersion_parameters(self.method, version='d3bj'):
+            warn(f"Your calculation requests a method ({self.method}) that may not have D3BJ "
+                 "parameters. Be aware that the calculation might result in an error")
 
         self.specifications = specifications
         self.density_fitting = density_fitting

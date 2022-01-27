@@ -79,6 +79,7 @@ Tight-binding methods              no          yes [3]_
 Semi-empirical methods             yes         yes
 Hartree-fock                       yes         yes
 Density Functional Theory          yes         yes
+Grimme's "3c" methods              n.a.        yes
 Møller-Plesset                     no          no
 Coupled Cluster                    n.a.        no
 =============================== ============ ===========

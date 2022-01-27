@@ -1,4 +1,5 @@
 from ccinput.tests.testing_utilities import InputTests
+from ccinput.exceptions import InvalidParameter
 
 class OrcaTests(InputTests):
 
@@ -1410,3 +1411,70 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_d3(self):
+        params = {
+                'nproc': 8,
+                'type': 'opt',
+                'in_file': 'Cl.xyz',
+                'software': 'ORCA',
+                'basis_set': 'Def2TZVP',
+                'method': 'M062X',
+                'charge': '-1',
+                'd3': True,
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !OPT M062X Def2-TZVP d3zero
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_d3bj(self):
+        params = {
+                'nproc': 8,
+                'type': 'opt',
+                'in_file': 'Cl.xyz',
+                'software': 'ORCA',
+                'basis_set': 'Def2TZVP',
+                'method': 'PBE0',
+                'charge': '-1',
+                'd3bj': True,
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !OPT PBE0 Def2-TZVP d3bj
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_d3_d3bj_crash(self):
+        params = {
+                'nproc': 8,
+                'type': 'opt',
+                'in_file': 'Cl.xyz',
+                'software': 'ORCA',
+                'basis_set': 'Def2TZVP',
+                'method': 'PBE0',
+                'charge': '-1',
+                'd3': True,
+                'd3bj': True,
+                }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)

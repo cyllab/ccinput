@@ -62,31 +62,36 @@ class OrcaCalculation:
 
     def handle_specifications(self):
         _specifications = self.clean(self.calc.parameters.specifications).lower().strip()
-        if _specifications == '':
-            return
 
         specifications_list = []
-        sspecs = _specifications.split()
-        ind = 0
-        while ind < len(sspecs):
-            spec = sspecs[ind]
-            if spec == "--phirshfeld":
-                HIRSHFELD_BLOCK = """%output
-                Print[ P_Hirshfeld] 1
-                end"""
-                self.blocks.append(HIRSHFELD_BLOCK)
-            elif spec == "--nimages":
-                nimages = sspecs[ind+1]
-                try:
-                    nimages = int(nimages)
-                except ValueError:
-                    raise InvalidParameter("Invalid specifications")
-                self.specifications['nimages'] = nimages
-                ind += 1
-            elif spec not in specifications_list:
-                specifications_list.append(spec)
 
-            ind += 1
+        if _specifications != '':
+            sspecs = _specifications.split()
+            ind = 0
+            while ind < len(sspecs):
+                spec = sspecs[ind]
+                if spec == "--phirshfeld":
+                    HIRSHFELD_BLOCK = """%output
+                    Print[ P_Hirshfeld] 1
+                    end"""
+                    self.blocks.append(HIRSHFELD_BLOCK)
+                elif spec == "--nimages":
+                    nimages = sspecs[ind+1]
+                    try:
+                        nimages = int(nimages)
+                    except ValueError:
+                        raise InvalidParameter("Invalid specifications")
+                    self.specifications['nimages'] = nimages
+                    ind += 1
+                elif spec not in specifications_list:
+                    specifications_list.append(spec)
+
+                ind += 1
+
+        if self.calc.parameters.d3:
+            specifications_list.append("d3zero")
+        elif self.calc.parameters.d3bj:
+            specifications_list.append("d3bj")
 
         if len(specifications_list) > 0:
             self.additional_commands = " ".join(specifications_list)

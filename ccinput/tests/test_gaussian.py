@@ -1,4 +1,5 @@
 from ccinput.tests.testing_utilities import InputTests
+from ccinput.exceptions import InvalidParameter
 
 class GaussianTests(InputTests):
 
@@ -2586,4 +2587,81 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_d3(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'M062X',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'd3': True,
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp M062X/3-21G EmpiricalDispersion=GD3
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_d3bj(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'PBE0',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'd3bj': True,
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp PBE1PBE/3-21G EmpiricalDispersion=GD3BJ
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_d3_d3bj_crash(self):
+        params = {
+                'nproc': 8,
+                'mem': '10GB',
+                'type': 'Single-Point Energy',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'PBE0',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'd3': True,
+                'd3bj': True,
+                }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
 

@@ -1955,4 +1955,103 @@ SOFTWARE_SOLVENTS = {
                 },
 }
 
+# The two lists below use the "absolute" method identifications.
+# See SYN_METHODS for the full list of names and their synonyms.
+
+# These lists contain all the functionals with D3 parameters developed
+# by the Grimme group, which are not software specific. As such, the
+# parameters might not be available in every QM package (although it could).
+
+# Some functionals were not found in the list of known functionals or synonyms.
+# These are indicated with the question mark.
+FUNCTIONALS_WITH_DISPERSION_PARAMETERS = {
+        'd3': [
+                'b1b95',
+                'b2gp-plyp',
+                'b3lyp',
+                'b97-d',
+                'bhlyp', # BHandHLYP?
+                'blyp',
+                'bp86', # ?
+                'bpbe', # HISSbPBE?
+                'mpwlyp',
+                'pbe',
+                'pbe0',
+                'pw6b95',
+                'pwb6k', # ?
+                'revpbe',
+                'tpss',
+                'tpss0',
+                'tpssh',
+                'bop', # ?
+                'mpw1b95', # ?
+                'mpwb1k', # ?
+                'olyp',
+                'opbe',
+                'otpss', # ?
+                'pbe38', # ?
+                'pbesol', # ?
+                'revssb', # ?
+                'ssb', # ?
+                'b3pw91', # ?
+                'bmk',
+                'cam-b3lyp',
+                'lcwpbe', # ?
+                'm052x',
+                'm05',
+                'm062x',
+                'm06hf',
+                'm06l',
+                'm06',
+                'hcth120', # ?
+                'b2plyp',
+                'dsdblyp', # ?
+                'ptpss', # ?
+                'pwpb95',
+                'revpbe0', # ?
+                'revpbe38', # ?
+                'rpw86pbe',
+            ],
+        'd3bj': [
+                '1b95',
+                'b2gp-plyp',
+                'b3pw91', # ?
+                'bhlyp', # ?
+                'bmk',
+                'bop', # ?
+                'bpbe', # ?
+                'cam-b3lyp',
+                'lcwpbe', # ?
+                'mpw1b95', # ?
+                'mpwb1k', # ?
+                'mpwlyp',
+                'olyp',
+                'opbe',
+                'otpss', # ?
+                'pbe38', # ?
+                'pbesol', # ?
+                'ptpss', # ?
+                'pwb6k', # ?
+                'revssb', # ?
+                'ssb', # ?
+                'tpssh',
+                'hcth120', # ?
+                'b2plyp',
+                'b3lyp',
+                'b97-d',
+                'blyp',
+                'bp86', # ?
+                'dsdblyp', # ?
+                'pbe0',
+                'pbe',
+                'pw6b95',
+                'pwpb95',
+                'revpbe0', # ?
+                'revpbe38', # ?
+                'revpbe',
+                'rpw86pbe',
+                'tpss0',
+                'tpss',
+            ],
+}
 

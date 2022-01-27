@@ -124,6 +124,11 @@ class GaussianCalculation:
             spec_formatted = f'{spec}({specs_str}) '
             self.additional_commands.append(spec_formatted)
 
+        if self.calc.parameters.d3:
+            self.additional_commands.append("EmpiricalDispersion=GD3 ")
+        elif self.calc.parameters.d3bj:
+            self.additional_commands.append("EmpiricalDispersion=GD3BJ ")
+
     def handle_command(self):
         cmd = ""
         base_specs = []
