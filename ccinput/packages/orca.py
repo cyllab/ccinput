@@ -96,6 +96,8 @@ class OrcaCalculation:
             self.command_line = "NMR "
         elif self.calc.type == CalcType.OPT:
             self.command_line = "OPT "
+        elif self.calc.type == CalcType.OPTFREQ:
+            self.command_line = "OPT FREQ "
         elif self.calc.type == CalcType.TS:
             self.command_line = "OPTTS "
         elif self.calc.type == CalcType.MO:

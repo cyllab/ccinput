@@ -14,6 +14,8 @@ class CalcType(Enum):
     UVVIS = 11
     MO = 12
 
+    OPTFREQ = 20
+
 ATOMIC_NUMBER = {}
 ATOMIC_SYMBOL = {}
 LOWERCASE_ATOMIC_SYMBOLS = {}
@@ -63,6 +65,10 @@ STR_TYPES = {#TODO: more synonyms
         "mo": CalcType.MO,
         "mo calc": CalcType.MO,
         "mo calculation": CalcType.MO,
+        "optfreq": CalcType.OPTFREQ,
+        "opt_freq": CalcType.OPTFREQ,
+        "opt-freq": CalcType.OPTFREQ,
+        "opt+freq": CalcType.OPTFREQ,
         }
 
 INV_STR_TYPES = {}

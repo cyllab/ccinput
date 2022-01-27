@@ -1386,3 +1386,27 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_opt_freq(self):
+        params = {
+                'nproc': 8,
+                'type': 'opt+freq',
+                'in_file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'AM1',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !OPT FREQ AM1
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 1
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+

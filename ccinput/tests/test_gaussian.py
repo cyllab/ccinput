@@ -694,8 +694,6 @@ class GaussianTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-    #opt mod SE and HF
-
     def test_scan_bond_DFT(self):
         params = {
                 'nproc': 8,
@@ -2523,6 +2521,62 @@ class GaussianTests(InputTests):
         %nproc=8
         %mem=10000MB
         #p sp RPBE1PBE/3-21G
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_opt_freq(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'opt+freq',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'AM1',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt AM1 freq
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_opt_freq2(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'optfreq',
+                'in_file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'AM1',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt AM1 freq
 
         File created by ccinput
 

@@ -261,3 +261,31 @@ class ManualCliTests(TestCase):
         line = "gaussian sp HF -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1 --solvent chloroform --solvation_model smd --solvation_radii SMD18"
         self.assertTrue(self.are_equivalent(args, line))
 
+    def test_opt_freq(self):
+        args = {
+            'software': "gaussian",
+            'type': "opt+freq",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+        }
+        line = "gaussian opt+freq HF -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1"
+        self.assertTrue(self.are_equivalent(args, line))
+
+    def test_opt_freq2(self):
+        args = {
+            'software': "gaussian",
+            'type': "opt+freq",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+        }
+        line = "gaussian opt-freq HF -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1"
+        self.assertTrue(self.are_equivalent(args, line))
+

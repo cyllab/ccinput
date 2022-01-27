@@ -37,6 +37,7 @@ class GaussianCalculation:
                 CalcType.NMR: 'nmr',
                 CalcType.SP: 'sp',
                 CalcType.UVVIS: 'td',
+                CalcType.OPTFREQ: 'opt',
             }
 
     #Number of processors
@@ -137,6 +138,10 @@ class GaussianCalculation:
             base_specs = ['ts', 'NoEigenTest', 'CalcFC']
         elif self.calc.type == CalcType.FREQ:
             cmd = "freq"
+        elif self.calc.type == CalcType.OPTFREQ:
+            cmd = "opt"
+            # Should have the "NoRaman" option by default?
+            self.additional_commands.append("freq")
         elif self.calc.type == CalcType.CONSTR_OPT:
             cmd = "opt"
             base_specs = ['modredundant']
