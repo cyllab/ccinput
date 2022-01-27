@@ -195,6 +195,9 @@ class Constraint:
         if software != 'gaussian':
             self.start_d = start_d
         else:
+            if start_d is not None:
+                warn("Gaussian only allows scans that start from the current structure; " +
+                     "overriding the specified initial value")
             self.start_d = None
 
         self.end_d = end_d
