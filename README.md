@@ -81,8 +81,8 @@ usage: ccinput [-h] [--basis_set BASIS_SET] [--solvent SOLVENT] [--solvation_mod
                [--density_fitting DENSITY_FITTING] [--custom_basis_sets CUSTOM_BASIS_SETS] [--xyz XYZ]
                [--file FILE] [--output OUTPUT] [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]]
                [--scan ATOM [ATOM ...]] [--from FROM] [--to TO] [--nsteps NSTEPS] [--step STEP]
-               [--nproc NPROC] [--mem MEM] [--charge CHARGE] [--mult MULT] [--name NAME]
-               [--aux_name AUX_NAME] [--header HEADER] [--version]
+               [--nproc NPROC] [--mem MEM] [--charge CHARGE] [--mult MULT] [--d3 | --d3bj]
+               [--name NAME] [--aux_name AUX_NAME] [--header HEADER] [--version]
                software type method
 ```
 

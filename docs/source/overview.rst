@@ -93,6 +93,7 @@ Choice of solvation radii          yes         yes
 Custom basis sets                  yes         yes
 Density fitting                    yes         no
 Custom additional keywords         yes         yes
+Dispersion corrections             yes         yes
 =============================== ============ ===========
 
 
