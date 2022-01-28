@@ -34,9 +34,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: $GITHUB_REF_NAME
-        release_name: Release $GITHUB_REF_NAME
+        tag_name: ${{ GITHUB_REF_NAME }}
+        release_name: Release ${{ GITHUB_REF_NAME }}
         body: |
           ${{ steps.tag_data.outputs.git-tag-annotation }}
-        draft: false
+        draft: true
         prerelease: false
