@@ -17,3 +17,6 @@ class MissingParameter(CCInputException):
 
 class InternalError(CCInputException):
     pass
+
+class UnimplementedError(CCInputException):
+    pass

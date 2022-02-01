@@ -2665,3 +2665,227 @@ class GaussianTests(InputTests):
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
+    def test_smd_custom_radius(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'Single-Point Energy',
+                'file': 'I.xyz',
+                'software': 'Gaussian',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'custom_solvation_radii': 'Cl=1.00',
+                'solvation_model': 'SMD',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
+
+        File created by ccinput
+
+        -1 1
+        I 0.0 0.0 0.0
+
+        modifysph
+
+        Cl 1.00
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_smd_custom_radii(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'Single-Point Energy',
+                'file': 'I.xyz',
+                'software': 'Gaussian',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'custom_solvation_radii': 'Cl=1.00;Br=2.00;',
+                'solvation_model': 'SMD',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
+
+        File created by ccinput
+
+        -1 1
+        I 0.0 0.0 0.0
+
+        modifysph
+
+        Cl 1.00
+        Br 2.00
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_smd_custom_radius_and_smd18(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'Single-Point Energy',
+                'file': 'I.xyz',
+                'software': 'Gaussian',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'custom_solvation_radii': 'Cl=1.00',
+                'solvation_model': 'SMD',
+                'solvation_radii': 'SMD18',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
+
+        File created by ccinput
+
+        -1 1
+        I 0.0 0.0 0.0
+
+        modifysph
+
+        Br 2.60
+        I 2.74
+        Cl 1.00
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_pcm_custom_radius(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'Single-Point Energy',
+                'file': 'I.xyz',
+                'software': 'Gaussian',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'custom_solvation_radii': 'Cl=1.00',
+                'solvation_model': 'PCM',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
+
+        File created by ccinput
+
+        -1 1
+        I 0.0 0.0 0.0
+
+        modifysph
+
+        Cl 1.00
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_pcm_custom_radius_and_bondi(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'Single-Point Energy',
+                'file': 'I.xyz',
+                'software': 'Gaussian',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_radii': 'Bondi',
+                'custom_solvation_radii': 'Cl=1.00',
+                'solvation_model': 'PCM',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
+
+        File created by ccinput
+
+        -1 1
+        I 0.0 0.0 0.0
+
+        Radii=bondi
+        modifysph
+
+        Cl 1.00
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_pcm_custom_radii_and_bondi(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'Single-Point Energy',
+                'file': 'I.xyz',
+                'software': 'Gaussian',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_radii': 'Bondi',
+                'custom_solvation_radii': 'Cl=1.00;C=2.00;',
+                'solvation_model': 'PCM',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
+
+        File created by ccinput
+
+        -1 1
+        I 0.0 0.0 0.0
+
+        Radii=bondi
+        modifysph
+
+        Cl 1.00
+        C 2.00
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))

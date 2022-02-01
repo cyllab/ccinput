@@ -1,6 +1,6 @@
 import basis_set_exchange
 
-from ccinput.constants import CalcType, ATOMIC_NUMBER
+from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz
 from ccinput.exceptions import InvalidParameter
 
@@ -265,38 +265,72 @@ class OrcaCalculation:
 
         self.blocks.append(pal_block)
 
+    def get_custom_solvation_radii_specs(self):
+        radii_specs = ""
+        for radius in self.calc.parameters.custom_solvation_radii.split(';'):
+            if radius.strip() == "":
+                continue
+            sradius = radius.split('=')
+            if len(sradius) != 2:
+                raise InvalidParameter(f"Invalid custom solvation radius specification: '{radius}': must follow the pattern '<atom1>=<radius1>;...'")
+
+            element, rad = sradius
+            if element not in LOWERCASE_ATOMIC_SYMBOLS:
+                raise InvalidParameter(f"Invalid element in custom solvation radius specifications: '{element}'")
+
+            _element = ATOMIC_NUMBER[LOWERCASE_ATOMIC_SYMBOLS[element]]
+
+            try:
+                _rad = float(rad)
+            except ValueError:
+                raise InvalidParameter(f"Invalid custom solvation radius for element {element}: '{rad}'")
+            radii_specs += f"radius[{_element}] {_rad:.2f}\n"
+
+        return radii_specs
+
     def handle_solvation(self):
         if self.calc.parameters.solvent.lower() not in ["vacuum", ""]:
             solvent_keyword = get_solvent(self.calc.parameters.solvent,
                                           self.calc.parameters.software,
                                           solvation_model=self.calc.parameters.solvation_model)
+            model = self.calc.parameters.solvation_model
+            radii_set = self.calc.parameters.solvation_radii
+            custom_radii = self.calc.parameters.custom_solvation_radii
+
+            solv_block = ""
 
             if self.calc.parameters.method[:3] == 'gfn':
                 self.command_line += f" ALPB({solvent_keyword})"
-            elif self.calc.parameters.solvation_model == "smd":
-                if self.calc.parameters.solvation_radii in ["default", ""]:
-                    smd_block = f'''%cpcm
-                    smd true
-                    SMDsolvent "{solvent_keyword}"
-                    end'''
-                    self.blocks.append(smd_block)
+            elif model == "smd":
+                radii_specs = ""
 
                 # Refined solvation radii
                 # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
                 # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983–15987.
-                elif self.calc.parameters.solvation_radii == "smd18":
-                    smd_block = f'''%cpcm
-                    smd true
-                    SMDsolvent "{solvent_keyword}"
-                    radius[53] 2.74
-                    radius[35] 2.60
-                    end'''
-                    self.blocks.append(smd_block)
-            elif self.calc.parameters.solvation_model == "cpcm":
+                if model == "smd" and radii_set == "smd18":
+                    radii_specs += "radius[53] 2.74\nradius[35] 2.60\n"
+
+                if custom_radii != "":
+                    radii_specs += self.get_custom_solvation_radii_specs()
+
+                solv_block = f'''%cpcm
+                smd true
+                SMDsolvent "{solvent_keyword}"
+                {radii_specs}end'''
+                self.blocks.append(solv_block)
+            elif model == "cpcm":
                 self.command_line += f"CPCM({solvent_keyword}) "
-                ###CPCM radii
+                radii_specs = self.get_custom_solvation_radii_specs()
+                if radii_specs != "":
+                    solv_block = f'''%cpcm
+                    {radii_specs}end'''
+                    self.blocks.append(solv_block)
+                if radii_set not in ["", "default", "bondi"]:
+                    raise UnimplementedError("As of now, ccinput does not know how to request "
+                            "other solvation radii than the default ones in ORCA with CPCM")
             else:
-                raise InvalidParameter(f"Invalid solvation model for ORCA: '{self.calc.parameters.solvation_model}'")
+                raise InvalidParameter(f"Invalid solvation model for ORCA: "
+                        "'{self.calc.parameters.solvation_model}'")
 
     def create_input_file(self):
         self.block_lines = '\n'.join(self.blocks)

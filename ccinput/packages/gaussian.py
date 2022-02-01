@@ -3,7 +3,7 @@ import numpy as np
 
 from ccinput.utilities import get_method, get_solvent, get_basis_set, clean_xyz, \
                               get_distance, get_angle, get_dihedral, get_npxyz
-from ccinput.constants import CalcType, ATOMIC_NUMBER
+from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.exceptions import InvalidParameter
 
 class GaussianCalculation:
@@ -292,29 +292,71 @@ class GaussianCalculation:
         lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n') if i != '' ]
         self.xyz_structure = ''.join(lines)
 
+    def get_custom_solvation_radii_appendix(self):
+        radii_appendix = ""
+        for radius in self.calc.parameters.custom_solvation_radii.split(';'):
+            if radius.strip() == "":
+                continue
+            sradius = radius.split('=')
+            if len(sradius) != 2:
+                raise InvalidParameter(f"Invalid custom solvation radius specification: '{radius}': must follow the pattern '<atom1>=<radius1>;...'")
+
+            element, rad = sradius
+            if element not in LOWERCASE_ATOMIC_SYMBOLS:
+                raise InvalidParameter(f"Invalid element in custom solvation radius specifications: '{element}'")
+
+            _element = LOWERCASE_ATOMIC_SYMBOLS[element] # Add the proper case back
+
+            try:
+                _rad = float(rad)
+            except ValueError:
+                raise InvalidParameter(f"Invalid custom solvation radius for element {element}: '{rad}'")
+            radii_appendix += f"{_element} {_rad:.2f}\n"
+
+        return radii_appendix
+
     def handle_solvation(self):
         if self.calc.parameters.solvent.lower() not in ["", "vacuum"]:
             solvent_keyword = get_solvent(self.calc.parameters.solvent, self.calc.parameters.software, solvation_model=self.calc.parameters.solvation_model)
-            if self.calc.parameters.solvation_model == "smd":
-                if self.calc.parameters.solvation_radii in ["",  "default"]:
-                    self.command_line += f"SCRF(SMD, Solvent={solvent_keyword}) "
+            model = self.calc.parameters.solvation_model
+            radii_set = self.calc.parameters.solvation_radii
+            custom_radii = self.calc.parameters.custom_solvation_radii
+
+            DEFAULT_RADII_SETS = {
+                        'smd': ["", "default"],
+                        'pcm': ["", "uff"],
+                        'cpcm': ["", "uff"],
+            }
+
+            radii_appendix = self.get_custom_solvation_radii_appendix()
+            solv_appendix = ""
+
+            if radii_set not in DEFAULT_RADII_SETS[model] or radii_appendix != "":
+                self.command_line += f"SCRF({model.upper()}, Solvent={solvent_keyword}, Read) "
+            else:
+                self.command_line += f"SCRF({model.upper()}, Solvent={solvent_keyword}) "
+
+            if model == 'smd':
+                if radii_set == "smd18":
+                    solv_appendix += self.SMD18_APPENDIX
+                    solv_appendix += radii_appendix
                 else:
-                    self.command_line += f"SCRF(SMD, Solvent={solvent_keyword}, Read) "
-                    self.appendix.append(self.SMD18_APPENDIX)
-            elif self.calc.parameters.solvation_model == "pcm":
-                if self.calc.parameters.solvation_radii in ["uff", ""]:
-                    self.command_line += f"SCRF(PCM, Solvent={solvent_keyword}) "
-                else:
-                    self.command_line += f"SCRF(PCM, Solvent={solvent_keyword}, Read) "
-                    self.appendix.append(f"Radii={self.calc.parameters.solvation_radii}\n")
-            elif self.calc.parameters.solvation_model == "cpcm":
-                if self.calc.parameters.solvation_radii in ["uff", ""]:
-                    self.command_line += f"SCRF(CPCM, Solvent={solvent_keyword}) "
-                else:
-                    self.command_line += f"SCRF(CPCM, Solvent={solvent_keyword}, Read) "
-                    self.appendix.append(f"Radii={self.calc.parameters.solvation_radii}\n")
+                    if radii_appendix != "":
+                        solv_appendix += "modifysph\n\n"
+                        solv_appendix += radii_appendix
+
+            elif model in ['pcm', 'cpcm']:
+                if radii_set not in DEFAULT_RADII_SETS[model]:
+                    solv_appendix += f"Radii={radii_set}\n"
+
+                if radii_appendix != "":
+                    solv_appendix += "modifysph\n\n"
+                    solv_appendix += radii_appendix
             else:
                 raise InvalidParameter(f"Invalid solvation method for Gaussian: '{self.calc.parameters.solvation_model}'")
+
+            self.appendix.append(solv_appendix)
+
 
     def create_input_file(self):
         additional_commands = " ".join([i.strip() for i in self.additional_commands]).strip()

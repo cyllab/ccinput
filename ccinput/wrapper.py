@@ -19,11 +19,11 @@ def process_calculation(calc):
     cls = SOFTWARE_CLASSES[calc.parameters.software](calc)
     return cls
 
-def generate_calculation(software=None, type=None, method="", basis_set="", \
-            solvent="", solvation_model="", solvation_radii="",  specifications="", \
-            freeze=[], scan=[], sfrom=[], sto=[], snsteps=[], sstep=[], \
-            density_fitting="", custom_basis_sets="", xyz="", file="", \
-            constraints="", nproc=0, mem="", charge=0, multiplicity=1, d3=False, d3bj=False, \
+def generate_calculation(software=None, type=None, method="", basis_set="",
+            solvent="", solvation_model="", solvation_radii="", custom_solvation_radii="",
+            specifications="", freeze=[], scan=[], sfrom=[], sto=[], snsteps=[], sstep=[],
+            density_fitting="", custom_basis_sets="", xyz="", file="",
+            constraints="", nproc=0, mem="", charge=0, multiplicity=1, d3=False, d3bj=False,
             aux_name="calc2", name="calc", header="File created by ccinput", **kwargs):
 
     if software is None:
@@ -43,8 +43,8 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
     calc_type = get_abs_type(type)
 
-    params = Parameters(abs_software, solvent, solvation_model, solvation_radii, \
-            basis_set, method, specifications, density_fitting, \
+    params = Parameters(abs_software, solvent, solvation_model, solvation_radii,
+            custom_solvation_radii, basis_set, method, specifications, density_fitting,
             custom_basis_sets, d3, d3bj, **kwargs)
 
     _constraints = parse_str_constraints(constraints, xyz_structure, software=abs_software)
@@ -52,8 +52,8 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
     _constraints += parse_scan_constraints(scan, sfrom, sto, snsteps, sstep,
                                            xyz_structure, software=abs_software)
 
-    calc = Calculation(xyz_structure, params, calc_type, constraints=_constraints, \
-            nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity, \
+    calc = Calculation(xyz_structure, params, calc_type, constraints=_constraints,
+            nproc=nproc, mem=mem, charge=charge, multiplicity=multiplicity,
             aux_name=aux_name, name=name, header=header, software=abs_software)
 
     return process_calculation(calc)
@@ -84,7 +84,10 @@ def get_parser():
             type=str, help='Solvation model for implicit solvation')
 
     parser.add_argument('--solvation_radii', '-sr',  default="",
-            type=str, help='Solvation radii for implicit solvation')
+            type=str, help='Set of solvation radii for implicit solvation')
+
+    parser.add_argument('--custom_solvation_radii', '-csr',  default="",
+            type=str, help='Specific solvation radii to modify')
 
     parser.add_argument('--specifications', '-spec', default="",
             type=str, help='Additional commands')
@@ -169,15 +172,16 @@ def cmd():
 
 def get_input_from_args(args):
     try:
-        inp = gen_input(software=args.software, type=args.type, method=args.method, \
-                basis_set=args.basis_set, solvent=args.solvent, \
-                solvation_model=args.solvation_model, solvation_radii=args.solvation_radii, \
-                specifications=args.specifications, freeze=args.freeze, \
-                scan=args.scan, sfrom=args.sfrom, sto=args.sto, snsteps=args.snsteps, \
-                sstep=args.sstep, density_fitting=args.density_fitting, \
-                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, file=args.file, \
-                constraints=args.constraints, nproc=args.nproc, mem=args.mem, \
-                charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj, \
+        inp = gen_input(software=args.software, type=args.type, method=args.method,
+                basis_set=args.basis_set, solvent=args.solvent,
+                solvation_model=args.solvation_model, solvation_radii=args.solvation_radii,
+                custom_solvation_radii=args.custom_solvation_radii,
+                specifications=args.specifications, freeze=args.freeze,
+                scan=args.scan, sfrom=args.sfrom, sto=args.sto, snsteps=args.snsteps,
+                sstep=args.sstep, density_fitting=args.density_fitting,
+                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, file=args.file,
+                constraints=args.constraints, nproc=args.nproc, mem=args.mem,
+                charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj,
                 aux_name=args.aux_name, name=args.name, header=args.header)
     except CCInputException as e:
         print(f"*** {str(e)} ***")

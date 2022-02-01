@@ -1478,3 +1478,170 @@ class OrcaTests(InputTests):
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
+
+    def test_SMD_custom_radius(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'SMD',
+                'custom_solvation_radii': 'Cl=1.00;',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        smd true
+        SMDsolvent "chloroform"
+        radius[17] 1.00
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_SMD_custom_radii(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'SMD',
+                'custom_solvation_radii': 'Cl=1.00;Br=2.00;',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        smd true
+        SMDsolvent "chloroform"
+        radius[17] 1.00
+        radius[35] 2.00
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_SMD_custom_radius_and_SMD18(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'SMD',
+                'solvation_radii': 'SMD18',
+                'custom_solvation_radii': 'Cl=1.00;',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        smd true
+        SMDsolvent "chloroform"
+        radius[53] 2.74
+        radius[35] 2.60
+        radius[17] 1.00
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_CPCM_custom_radius(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'CPCM',
+                'custom_solvation_radii': 'Cl=1.00;',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G CPCM(chloroform)
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        radius[17] 1.00
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_CPCM_custom_radii(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'CPCM',
+                'custom_solvation_radii': 'Cl=1.00;Br=2.00;',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G CPCM(chloroform)
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        radius[17] 1.00
+        radius[35] 2.00
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+

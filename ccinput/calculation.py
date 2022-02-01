@@ -94,24 +94,25 @@ class Parameters:
         (e.g. regarding the charge and multiplicity) and can be reused.
     """
 
-    def __init__(self, software, solvent="", solvation_model="",
-            solvation_radii="", basis_set="", method="", specifications="",
-            density_fitting="", custom_basis_sets="", d3=False,
-            d3bj=False, **kwargs):
+    def __init__(self, software, solvent="", solvation_model="", solvation_radii="",
+            custom_solvation_radii="", basis_set="", method="", specifications="",
+            density_fitting="", custom_basis_sets="", d3=False, d3bj=False, **kwargs):
 
         self.solvent = get_abs_solvent(solvent)
         if self.solvent != "":
             self.solvation_model = solvation_model.lower()
             self.solvation_radii = solvation_radii.lower()
+            self.custom_solvation_radii = custom_solvation_radii.lower()
 
             if self.solvation_model.strip() == "":
-                raise InvalidParameter("No solvation model specified," +
+                raise InvalidParameter("No solvation model specified, " +
                             "although solvation is requested")
             if self.solvation_radii.strip() == "":
                 warn("No solvation radii specified; using default radii")
         else:
             self.solvation_model = ""
             self.solvation_radii = ""
+            self.custom_solvation_radii = ""
 
         self.software = get_abs_software(software)
 
