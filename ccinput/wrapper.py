@@ -22,7 +22,7 @@ def process_calculation(calc):
 def generate_calculation(software=None, type=None, method="", basis_set="", \
             solvent="", solvation_model="", solvation_radii="",  specifications="", \
             freeze=[], scan=[], sfrom=[], sto=[], snsteps=[], sstep=[], \
-            density_fitting="", custom_basis_sets="", xyz="", in_file="", \
+            density_fitting="", custom_basis_sets="", xyz="", file="", \
             constraints="", nproc=0, mem="", charge=0, multiplicity=1, d3=False, d3bj=False, \
             aux_name="calc2", name="calc", header="File created by ccinput", **kwargs):
 
@@ -34,8 +34,8 @@ def generate_calculation(software=None, type=None, method="", basis_set="", \
 
     if xyz != "":
         xyz_structure = standardize_xyz(xyz)
-    elif in_file != "":
-        xyz_structure = parse_xyz_from_file(in_file)
+    elif file != "":
+        xyz_structure = parse_xyz_from_file(file)
     else:
         raise InvalidParameter("No input structure")
 
@@ -175,7 +175,7 @@ def get_input_from_args(args):
                 specifications=args.specifications, freeze=args.freeze, \
                 scan=args.scan, sfrom=args.sfrom, sto=args.sto, snsteps=args.snsteps, \
                 sstep=args.sstep, density_fitting=args.density_fitting, \
-                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, in_file=args.file, \
+                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, file=args.file, \
                 constraints=args.constraints, nproc=args.nproc, mem=args.mem, \
                 charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj, \
                 aux_name=args.aux_name, name=args.name, header=args.header)

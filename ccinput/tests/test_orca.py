@@ -7,7 +7,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'AM1',
                 'charge': '-1',
@@ -31,7 +31,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -56,7 +56,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -87,7 +87,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -118,7 +118,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'I.xyz',
+                'file': 'I.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -152,7 +152,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'I.xyz',
+                'file': 'I.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -186,7 +186,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -217,7 +217,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -244,7 +244,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -276,7 +276,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -303,7 +303,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -330,7 +330,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -346,7 +346,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
@@ -371,7 +371,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
@@ -397,7 +397,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
@@ -423,7 +423,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
@@ -449,7 +449,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'RI-MP2',
                 'basis_set': 'cc-pVTZ',
@@ -475,7 +475,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Geometrical Optimisation',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'AM1',
                 'charge': '-1',
@@ -499,7 +499,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Geometrical Optimisation',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -524,7 +524,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Geometrical Optimisation',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'charge': '-1',
                 'method': 'B3LYP',
@@ -549,7 +549,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Frequency Calculation',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'AM1',
                 'charge': '-1',
@@ -573,7 +573,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Frequency Calculation',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -598,7 +598,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Frequency Calculation',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'charge': '-1',
                 'method': 'B3LYP',
@@ -625,7 +625,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -663,7 +663,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -678,7 +678,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': '',
@@ -693,7 +693,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -731,7 +731,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -769,7 +769,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -807,7 +807,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -846,7 +846,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Constrained Optimisation',
-                'in_file': 'ethanol.xyz',
+                'file': 'ethanol.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -884,7 +884,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'NMR Prediction',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'charge': '-1',
                 'method': 'B3LYP',
@@ -909,7 +909,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'NMR Prediction',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'charge': '-1',
                 'method': 'B3LYP',
@@ -935,7 +935,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'TS Optimisation',
-                'in_file': 'mini_ts.xyz',
+                'file': 'mini_ts.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -965,7 +965,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'TS Optimisation',
-                'in_file': 'mini_ts.xyz',
+                'file': 'mini_ts.xyz',
                 'software': 'ORCA',
                 'charge': '0',
                 'method': 'B3LYP',
@@ -1016,7 +1016,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Geometrical Optimisation',
-                'in_file': 'Ph2I_cation.xyz',
+                'file': 'Ph2I_cation.xyz',
                 'software': 'ORCA',
                 'charge': '+1',
                 'method': 'B3LYP',
@@ -1160,7 +1160,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Minimum Energy Path',
-                'in_file': 'elimination_substrate.xyz',
+                'file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
                 'software': 'orca',
                 'charge': -1,
@@ -1197,7 +1197,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Minimum Energy Path',
-                'in_file': 'elimination_substrate.xyz',
+                'file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
                 'software': 'ORCA',
                 'specifications': '--nimages 12',
@@ -1235,7 +1235,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Minimum Energy Path',
-                'in_file': 'elimination_substrate.xyz',
+                'file': 'elimination_substrate.xyz',
                 'auxiliary_file': 'elimination_product.xyz',
                 'software': 'ORCA',
                 'specifications': '--nimages 12',
@@ -1274,7 +1274,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'M06-2X',
                 'basis_set': 'Def2-SVP',
@@ -1302,7 +1302,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'MO Calculation',
-                'in_file': 'Ph2I_cation.xyz',
+                'file': 'Ph2I_cation.xyz',
                 'software': 'ORCA',
                 'charge': '+1',
                 'method': 'B3LYP',
@@ -1366,7 +1366,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 1,
                 'type': 'Single-Point Energy',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'HF',
                 'basis_set': '3-21G',
@@ -1391,7 +1391,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'opt+freq',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'method': 'AM1',
                 'charge': '-1',
@@ -1415,7 +1415,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'opt',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'basis_set': 'Def2TZVP',
                 'method': 'M062X',
@@ -1441,7 +1441,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'opt',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'basis_set': 'Def2TZVP',
                 'method': 'PBE0',
@@ -1467,7 +1467,7 @@ class OrcaTests(InputTests):
         params = {
                 'nproc': 8,
                 'type': 'opt',
-                'in_file': 'Cl.xyz',
+                'file': 'Cl.xyz',
                 'software': 'ORCA',
                 'basis_set': 'Def2TZVP',
                 'method': 'PBE0',
