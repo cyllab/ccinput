@@ -77,12 +77,13 @@ pip install git+https://github.com/cyllab/ccinput
 Simply use the `ccinput` command with the desired parameters:
 ```
 usage: ccinput [-h] [--basis_set BASIS_SET] [--solvent SOLVENT] [--solvation_model SOLVATION_MODEL]
-               [--solvation_radii SOLVATION_RADII] [--specifications SPECIFICATIONS]
-               [--density_fitting DENSITY_FITTING] [--custom_basis_sets CUSTOM_BASIS_SETS] [--xyz XYZ]
-               [--file FILE] [--output OUTPUT] [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]]
-               [--scan ATOM [ATOM ...]] [--from FROM] [--to TO] [--nsteps NSTEPS] [--step STEP]
-               [--nproc NPROC] [--mem MEM] [--charge CHARGE] [--mult MULT] [--d3 | --d3bj]
-               [--name NAME] [--aux_name AUX_NAME] [--header HEADER] [--version]
+               [--solvation_radii SOLVATION_RADII] [--custom_solvation_radii CUSTOM_SOLVATION_RADII]
+               [--specifications SPECIFICATIONS] [--density_fitting DENSITY_FITTING]
+               [--custom_basis_sets CUSTOM_BASIS_SETS] [--xyz XYZ] [--file FILE] [--output OUTPUT]
+               [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]] [--scan ATOM [ATOM ...]]
+               [--from FROM] [--to TO] [--nsteps NSTEPS] [--step STEP] [--nproc NPROC] [--mem MEM]
+               [--charge CHARGE] [--mult MULT] [--d3 | --d3bj] [--name NAME] [--aux_name AUX_NAME]
+               [--header HEADER] [--version]
                software type method
 ```
 

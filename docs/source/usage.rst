@@ -181,6 +181,12 @@ All     UFF (g16 default)
 
 .. [SMD18] E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar, C. J. Cramer, *Chem. Eur. J.* **2018**, *24*, 15983-15987.
 
+Custom solvation radii
+^^^^^^^^^^^^^^^^^^^^^^
+
+Specific solvation radii to use for some elements.
+
+The format to use is "<ELEMENT>=<RADIUS>;...", for example: "H=1.00;Li=1.70;".
 
 Specifications
 ^^^^^^^^^^^^^^

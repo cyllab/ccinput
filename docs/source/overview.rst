@@ -89,7 +89,8 @@ Coupled Cluster                    n.a.        no
 Feature                         Gaussian 16    ORCA 5
 =============================== ============ ===========
 Implicit solvation                 yes         yes
-Choice of solvation radii          yes         yes
+Choice of solvation radii set      yes         yes
+Custom solvation radii             yes         yes
 Custom basis sets                  yes         yes
 Density fitting                    yes         no
 Custom additional keywords         yes         yes
