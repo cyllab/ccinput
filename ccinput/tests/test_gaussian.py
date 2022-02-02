@@ -1923,7 +1923,7 @@ class GaussianTests(InputTests):
         %chk=calc.chk
         %nproc=8
         %mem=10000MB
-        #p sp M062X/Def2SVP scf(tight,xqc)
+        #p sp M062X/Def2SVP scf(tight, xqc)
 
         File created by ccinput
 
@@ -1933,7 +1933,7 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight,xqc)')
+        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight, xqc)')
 
     def test_multiple_global_specification2(self):
         params = {
@@ -1954,7 +1954,7 @@ class GaussianTests(InputTests):
         %chk=calc.chk
         %nproc=8
         %mem=10000MB
-        #p sp M062X/Def2SVP scf(tight,xqc)
+        #p sp M062X/Def2SVP scf(tight, xqc)
 
         File created by ccinput
 
@@ -1964,7 +1964,7 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight,xqc)')
+        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight, xqc)')
 
     def test_multiple_global_specification3(self):
         params = {
@@ -1985,7 +1985,7 @@ class GaussianTests(InputTests):
         %chk=calc.chk
         %nproc=8
         %mem=10000MB
-        #p sp M062X/Def2SVP scf(tight,xqc)
+        #p sp M062X/Def2SVP scf(tight, xqc)
 
         File created by ccinput
 
@@ -1995,7 +1995,7 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight,xqc)')
+        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight, xqc)')
 
 
     def test_cmd_specification(self):
@@ -2549,7 +2549,7 @@ class GaussianTests(InputTests):
         %chk=calc.chk
         %nproc=8
         %mem=10000MB
-        #p opt AM1 freq
+        #p freq opt AM1
 
         File created by ccinput
 
@@ -2577,7 +2577,36 @@ class GaussianTests(InputTests):
         %chk=calc.chk
         %nproc=8
         %mem=10000MB
-        #p opt AM1 freq
+        #p freq opt AM1
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_opt_freq_spec(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'opt+freq',
+                'file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'AM1',
+                'charge': '-1',
+                'specifications': 'freq(noraman)',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt freq(noraman) AM1
 
         File created by ccinput
 
@@ -2607,7 +2636,7 @@ class GaussianTests(InputTests):
         %chk=calc.chk
         %nproc=8
         %mem=10000MB
-        #p sp M062X/3-21G EmpiricalDispersion=GD3
+        #p sp M062X/3-21G EmpiricalDispersion(GD3)
 
         File created by ccinput
 
@@ -2637,7 +2666,7 @@ class GaussianTests(InputTests):
         %chk=calc.chk
         %nproc=8
         %mem=10000MB
-        #p sp PBE1PBE/3-21G EmpiricalDispersion=GD3BJ
+        #p sp PBE1PBE/3-21G EmpiricalDispersion(GD3BJ)
 
         File created by ccinput
 

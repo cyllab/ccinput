@@ -10,7 +10,7 @@ class GaussianCalculation:
 
     # Refined solvation radii
     # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
-    # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983–15987.
+    # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983-15987.
     SMD18_APPENDIX = """modifysph
 
     Br 2.60
@@ -20,7 +20,7 @@ class GaussianCalculation:
     TEMPLATE = """%chk={}.chk
     %nproc={}
     %mem={}MB
-    #p {} {}
+    #p {}
 
     {}
 
@@ -30,20 +30,22 @@ class GaussianCalculation:
     """
 
     KEYWORDS = {
-                CalcType.OPT: 'opt',
-                CalcType.CONSTR_OPT: 'opt',
-                CalcType.TS: 'opt',
-                CalcType.FREQ: 'freq',
-                CalcType.NMR: 'nmr',
-                CalcType.SP: 'sp',
-                CalcType.UVVIS: 'td',
-                CalcType.OPTFREQ: 'opt',
+                CalcType.OPT: ['opt'],
+                CalcType.CONSTR_OPT: ['opt'],
+                CalcType.TS: ['opt'],
+                CalcType.FREQ: ['freq'],
+                CalcType.NMR: ['nmr'],
+                CalcType.SP: ['sp'],
+                CalcType.UVVIS: ['td'],
+                CalcType.OPTFREQ: ['opt', 'freq'],
             }
+
+    # Get a set of all unique calculation keywords
+    KEYWORD_LIST = set([j for i in KEYWORDS.values() for j in i])
 
     #Number of processors
     #Amount of memory
     #Command line
-    #Additional commands
     #Charge
     #Multiplicity
     #XYZ structure
@@ -54,8 +56,9 @@ class GaussianCalculation:
         self.has_scan = False
         self.appendix = []
         self.command_line = ""
-        self.additional_commands = []
-        self.command_specifications = []
+
+        self.commands = {}
+
         self.confirmed_specifications = ""
         self.xyz_structure = ""
         self.input_file = ""
@@ -72,16 +75,24 @@ class GaussianCalculation:
         WHITELIST = set("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. ")
         return ''.join([c for c in s if c in WHITELIST])
 
+    def add_option(self, key, option):
+        _option = option.strip()
+        if key in self.commands:
+            if _option not in self.commands[key]:
+                self.commands[key].append(_option)
+        else:
+            self.commands[key] = [_option]
+
+    def add_options(self, key, options):
+        for option in options:
+            self.add_option(key, option)
+
+    def add_commands(self, commands):
+        for cmd in commands:
+            if cmd not in self.commands:
+                self.commands[cmd] = []
+
     def handle_specifications(self):
-        specs = {}
-        def add_spec(key, option):
-            if option == '':
-                return
-            if key in specs:
-                if option not in specs[key]:
-                    specs[key].append(option)
-            else:
-                specs[key] = [option]
 
         s = self.clean(self.calc.parameters.specifications.lower())
 
@@ -106,50 +117,32 @@ class GaussianCalculation:
             if spec.find("(") != -1:
                 key, options = spec.split('(')
                 options = options.replace(')', '')
-                if key == self.KEYWORDS[self.calc.type]:
-                    for option in options.split(','):
-                        if option not in self.command_specifications:
-                            self.command_specifications.append(option.strip())
-                else:
-                    if key in self.KEYWORDS.values():
-                        continue#Invalid specification
-                    for option in options.split(','):
-                        add_spec(key, option.strip())
+                for option in options.split(','):
+                    if option.strip() != '':
+                        self.add_option(key, option)
             else:
-                if spec not in self.additional_commands:
-                    self.additional_commands.append(spec)
-
-        for spec, option in specs.items():
-            specs_str = ','.join(option)
-            spec_formatted = f'{spec}({specs_str}) '
-            self.additional_commands.append(spec_formatted)
+                self.add_option(spec, '')
 
         if self.calc.parameters.d3:
-            self.additional_commands.append("EmpiricalDispersion=GD3 ")
+            self.add_option("EmpiricalDispersion", "GD3")
         elif self.calc.parameters.d3bj:
-            self.additional_commands.append("EmpiricalDispersion=GD3BJ ")
+            self.add_option("EmpiricalDispersion", "GD3BJ")
+
+    def filter_commands(self, commands):
+        """ Removes all commands which are not relevant """
+        keys = list(self.commands.keys())
+        for key in keys:
+            if key in self.KEYWORD_LIST and key not in commands:
+                del self.commands[key]
 
     def handle_command(self):
-        cmd = ""
-        base_specs = []
-        if self.calc.type == CalcType.NMR:
-            cmd = "nmr"
-        elif self.calc.type == CalcType.UVVIS:
-            cmd = "td"
-        elif self.calc.type == CalcType.OPT:
-            cmd = "opt"
-        elif self.calc.type == CalcType.TS:
-            cmd = "opt"
-            base_specs = ['ts', 'NoEigenTest', 'CalcFC']
-        elif self.calc.type == CalcType.FREQ:
-            cmd = "freq"
-        elif self.calc.type == CalcType.OPTFREQ:
-            cmd = "opt"
-            # Should have the "NoRaman" option by default?
-            self.additional_commands.append("freq")
+        self.filter_commands(self.KEYWORDS[self.calc.type])
+        self.add_commands(self.KEYWORDS[self.calc.type])
+
+        if self.calc.type == CalcType.TS:
+            self.add_options("opt", ['ts', 'NoEigenTest', 'CalcFC'])
         elif self.calc.type == CalcType.CONSTR_OPT:
-            cmd = "opt"
-            base_specs = ['modredundant']
+            self.add_options("opt", ['modredundant'])
 
             xyz = get_npxyz(self.calc.xyz)
             gaussian_constraints = ""
@@ -166,20 +159,6 @@ class GaussianCalculation:
 
             self.has_scan = has_scan
             self.appendix.append(gaussian_constraints)
-        elif self.calc.type == CalcType.SP:
-            cmd = "sp"
-
-        if len(self.command_specifications) > 0:
-            self.confirmed_specifications += f"{cmd}({', '.join(self.command_specifications)}) "
-        full_specs = base_specs + self.command_specifications
-
-        if len(full_specs) == 0:
-            cmd_full = cmd + ' '
-        else:
-            cmd_specifications_str = f"({', '.join(full_specs)})"
-            cmd_full = f"{cmd}{cmd_specifications_str} "
-
-        self.command_line += cmd_full
 
         method = get_method(self.calc.parameters.method, "gaussian")
         basis_set = get_basis_set(self.calc.parameters.basis_set, "gaussian")
@@ -317,7 +296,10 @@ class GaussianCalculation:
 
     def handle_solvation(self):
         if self.calc.parameters.solvent.lower() not in ["", "vacuum"]:
-            solvent_keyword = get_solvent(self.calc.parameters.solvent, self.calc.parameters.software, solvation_model=self.calc.parameters.solvation_model)
+            solvent_keyword = get_solvent(self.calc.parameters.solvent,
+                    self.calc.parameters.software,
+                    solvation_model=self.calc.parameters.solvation_model)
+
             model = self.calc.parameters.solvation_model
             radii_set = self.calc.parameters.solvation_radii
             custom_radii = self.calc.parameters.custom_solvation_radii
@@ -331,10 +313,10 @@ class GaussianCalculation:
             radii_appendix = self.get_custom_solvation_radii_appendix()
             solv_appendix = ""
 
+            self.add_options("SCRF", [model.upper(), f"Solvent={solvent_keyword}"])
+
             if radii_set not in DEFAULT_RADII_SETS[model] or radii_appendix != "":
-                self.command_line += f"SCRF({model.upper()}, Solvent={solvent_keyword}, Read) "
-            else:
-                self.command_line += f"SCRF({model.upper()}, Solvent={solvent_keyword}) "
+                self.add_option("SCRF", "Read")
 
             if model == 'smd':
                 if radii_set == "smd18":
@@ -359,8 +341,23 @@ class GaussianCalculation:
 
 
     def create_input_file(self):
-        additional_commands = " ".join([i.strip() for i in self.additional_commands]).strip()
-        self.confirmed_specifications += additional_commands
-        raw = self.TEMPLATE.format(self.calc.name, self.calc.nproc, self.calc.mem, self.command_line.strip(), additional_commands, self.calc.header, self.calc.charge, self.calc.multiplicity, self.xyz_structure, '\n'.join(self.appendix))
+        for cmd, options in self.commands.items():
+            option_str = ', '.join(options)
+            if option_str != "":
+                cmd_formatted = f'{cmd}({option_str}) '
+            else:
+                cmd_formatted = f'{cmd} '
+
+            # This ensures that the command line follows this pattern:
+            # CMD1 <CMD2> METHOD/BASIS_SET <ADDITIONAL_OPTION1> ...
+            if cmd in self.KEYWORD_LIST:
+                self.command_line = cmd_formatted + self.command_line
+            else:
+                self.command_line = self.command_line + cmd_formatted
+                self.confirmed_specifications += cmd_formatted
+
+        self.confirmed_specifications = self.confirmed_specifications.strip()
+
+        raw = self.TEMPLATE.format(self.calc.name, self.calc.nproc, self.calc.mem, self.command_line.strip(), self.calc.header, self.calc.charge, self.calc.multiplicity, self.xyz_structure, '\n'.join(self.appendix))
         self.input_file = '\n'.join([i.strip() for i in raw.split('\n')]).replace('\n\n\n', '\n\n')
 
