@@ -8,15 +8,6 @@ from ccinput.exceptions import InvalidParameter
 
 class GaussianCalculation:
 
-    # Refined solvation radii
-    # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
-    # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983-15987.
-    SMD18_APPENDIX = """modifysph
-
-    Br 2.60
-    I 2.74
-    """
-
     TEMPLATE = """%chk={}.chk
     %nproc={}
     %mem={}MB
@@ -58,6 +49,7 @@ class GaussianCalculation:
         self.command_line = ""
 
         self.commands = {}
+        self.solvation_radii = {}
 
         self.confirmed_specifications = ""
         self.xyz_structure = ""
@@ -202,7 +194,6 @@ class GaussianCalculation:
             el, bs_keyword = sentry
             custom_atoms_requested.append(el)
 
-
         unique_atoms = []
         normal_atoms = []
         for line in self.calc.xyz.split('\n'):
@@ -252,7 +243,6 @@ class GaussianCalculation:
             else:
                 gen_keyword = "Gen"
 
-
             custom_bs = ""
 
             if len(normal_atoms) > 0:
@@ -271,8 +261,7 @@ class GaussianCalculation:
         lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n') if i != '' ]
         self.xyz_structure = ''.join(lines)
 
-    def get_custom_solvation_radii_appendix(self):
-        radii_appendix = ""
+    def parse_custom_solvation_radii(self):
         for radius in self.calc.parameters.custom_solvation_radii.split(';'):
             if radius.strip() == "":
                 continue
@@ -290,8 +279,12 @@ class GaussianCalculation:
                 _rad = float(rad)
             except ValueError:
                 raise InvalidParameter(f"Invalid custom solvation radius for element {element}: '{rad}'")
-            radii_appendix += f"{_element} {_rad:.2f}\n"
+            self.solvation_radii[_element] = _rad
 
+    def get_radii_appendix(self):
+        radii_appendix = ""
+        for el, rad in self.solvation_radii.items():
+            radii_appendix += f"{el} {rad:.2f}\n"
         return radii_appendix
 
     def handle_solvation(self):
@@ -310,32 +303,32 @@ class GaussianCalculation:
                         'cpcm': ["", "uff"],
             }
 
-            radii_appendix = self.get_custom_solvation_radii_appendix()
-            solv_appendix = ""
-
             self.add_options("SCRF", [model.upper(), f"Solvent={solvent_keyword}"])
 
-            if radii_set not in DEFAULT_RADII_SETS[model] or radii_appendix != "":
+            if radii_set not in DEFAULT_RADII_SETS[model] or custom_radii != "":
                 self.add_option("SCRF", "Read")
+                self.parse_custom_solvation_radii()
+
+            solv_appendix = ""
 
             if model == 'smd':
                 if radii_set == "smd18":
-                    solv_appendix += self.SMD18_APPENDIX
-                    solv_appendix += radii_appendix
-                else:
-                    if radii_appendix != "":
-                        solv_appendix += "modifysph\n\n"
-                        solv_appendix += radii_appendix
-
+                    # Refined solvation radii
+                    # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
+                    # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983-15987.
+                    if 'Br' not in self.solvation_radii:
+                        self.solvation_radii['Br'] = 2.60
+                    if 'I' not in self.solvation_radii:
+                        self.solvation_radii['I'] = 2.74
             elif model in ['pcm', 'cpcm']:
                 if radii_set not in DEFAULT_RADII_SETS[model]:
                     solv_appendix += f"Radii={radii_set}\n"
-
-                if radii_appendix != "":
-                    solv_appendix += "modifysph\n\n"
-                    solv_appendix += radii_appendix
             else:
                 raise InvalidParameter(f"Invalid solvation method for Gaussian: '{self.calc.parameters.solvation_model}'")
+
+            if len(self.solvation_radii) > 0:
+                solv_appendix += "modifysph\n\n"
+                solv_appendix += self.get_radii_appendix()
 
             self.appendix.append(solv_appendix)
 

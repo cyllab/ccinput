@@ -1574,9 +1574,44 @@ class OrcaTests(InputTests):
         %cpcm
         smd true
         SMDsolvent "chloroform"
+        radius[17] 1.00
         radius[53] 2.74
         radius[35] 2.60
-        radius[17] 1.00
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_SMD_custom_radius_and_SMD18_clash(self):
+        params = {
+                'nproc': 8,
+                'type': 'Single-Point Energy',
+                'file': 'Cl.xyz',
+                'software': 'ORCA',
+                'method': 'HF',
+                'basis_set': '3-21G',
+                'charge': '-1',
+                'solvent': 'Chloroform',
+                'solvation_model': 'SMD',
+                'solvation_radii': 'SMD18',
+                'custom_solvation_radii': 'I=3.00;',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP HF 3-21G
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        %cpcm
+        smd true
+        SMDsolvent "chloroform"
+        radius[53] 3.00
+        radius[35] 2.60
         end
         """
 

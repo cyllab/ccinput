@@ -39,6 +39,7 @@ class OrcaCalculation:
         self.block_lines = ""
         self.input_file = ""
         self.specifications = {}
+        self.solvation_radii = {}
 
         self.handle_specifications()
 
@@ -47,6 +48,7 @@ class OrcaCalculation:
         self.handle_xyz()
 
         self.handle_pal()
+        self.parse_custom_solvation_radii()
         self.handle_solvation()
 
         self.create_input_file()
@@ -265,8 +267,7 @@ class OrcaCalculation:
 
         self.blocks.append(pal_block)
 
-    def get_custom_solvation_radii_specs(self):
-        radii_specs = ""
+    def parse_custom_solvation_radii(self):
         for radius in self.calc.parameters.custom_solvation_radii.split(';'):
             if radius.strip() == "":
                 continue
@@ -284,8 +285,12 @@ class OrcaCalculation:
                 _rad = float(rad)
             except ValueError:
                 raise InvalidParameter(f"Invalid custom solvation radius for element {element}: '{rad}'")
-            radii_specs += f"radius[{_element}] {_rad:.2f}\n"
+            self.solvation_radii[_element] = _rad
 
+    def get_radii_specs(self):
+        radii_specs = ""
+        for el, rad in self.solvation_radii.items():
+            radii_specs += f"radius[{el}] {rad:.2f}\n"
         return radii_specs
 
     def handle_solvation(self):
@@ -302,17 +307,16 @@ class OrcaCalculation:
             if self.calc.parameters.method[:3] == 'gfn':
                 self.command_line += f" ALPB({solvent_keyword})"
             elif model == "smd":
-                radii_specs = ""
-
                 # Refined solvation radii
                 # E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar,
                 # C. J. Cramer, Chem. Eur. J. 2018, 24, 15983–15987.
-                if model == "smd" and radii_set == "smd18":
-                    radii_specs += "radius[53] 2.74\nradius[35] 2.60\n"
+                if radii_set == "smd18":
+                    if 53 not in self.solvation_radii:
+                        self.solvation_radii[53] = 2.74
+                    if 35 not in self.solvation_radii:
+                        self.solvation_radii[35] = 2.60
 
-                if custom_radii != "":
-                    radii_specs += self.get_custom_solvation_radii_specs()
-
+                radii_specs = self.get_radii_specs()
                 solv_block = f'''%cpcm
                 smd true
                 SMDsolvent "{solvent_keyword}"
@@ -320,7 +324,7 @@ class OrcaCalculation:
                 self.blocks.append(solv_block)
             elif model == "cpcm":
                 self.command_line += f"CPCM({solvent_keyword}) "
-                radii_specs = self.get_custom_solvation_radii_specs()
+                radii_specs = self.get_radii_specs()
                 if radii_specs != "":
                     solv_block = f'''%cpcm
                     {radii_specs}end'''
