@@ -171,6 +171,10 @@ def cmd():
         print(inp)
 
 def get_input_from_args(args):
+    if args.name == "calc" and args.file:
+        _name = os.path.basename(args.file).split('.')[0]
+    else:
+        _name = args.name
     try:
         inp = gen_input(software=args.software, type=args.type, method=args.method,
                 basis_set=args.basis_set, solvent=args.solvent,
@@ -182,7 +186,7 @@ def get_input_from_args(args):
                 custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, file=args.file,
                 constraints=args.constraints, nproc=args.nproc, mem=args.mem,
                 charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj,
-                aux_name=args.aux_name, name=args.name, header=args.header)
+                aux_name=args.aux_name, name=_name, header=args.header)
     except CCInputException as e:
         print(f"*** {str(e)} ***")
         return

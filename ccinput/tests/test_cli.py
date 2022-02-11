@@ -54,6 +54,7 @@ class ManualCliTests(TestCase):
             'file': self.struct('ethanol'),
             'nproc': 1,
             'mem': "1G",
+            'name': 'ethanol',
         }
         line = f"gaussian sp HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G"
         self.assertTrue(self.are_equivalent(args, line))
@@ -68,6 +69,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Freeze/1_2;",
+            'name': 'ethanol',
         }
         line = f"gaussian constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --freeze 1 2"
         self.assertTrue(self.are_equivalent(args, line))
@@ -82,6 +84,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Freeze/3_2_4;",
+            'name': 'ethanol',
         }
         line = f"gaussian constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --freeze 3 2 4"
         self.assertTrue(self.are_equivalent(args, line))
@@ -96,6 +99,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Freeze/6_3_1_2;",
+            'name': 'ethanol',
         }
         line = f"gaussian constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --freeze 6 3 1 2"
         self.assertTrue(self.are_equivalent(args, line))
@@ -110,6 +114,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Scan_2.0_1.0_10/1_2;",
+            'name': 'ethanol',
         }
         line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --nsteps 10"
         self.assertTrue(self.are_equivalent(args, line))
@@ -124,6 +129,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Scan_2.0_1.0_10/1_2;Scan_2.0_1.0_10/3_4;",
+            'name': 'ethanol',
         }
         line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --nsteps 10 --scan 3 4 --from 2.0 --to 1.0 --nsteps 10"
         self.assertTrue(self.are_equivalent(args, line))
@@ -138,6 +144,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Scan_2.0_1.0_10/1_2;Scan_2.0_1.0_10/3_4;",
+            'name': 'ethanol',
         }
         line = f"gaussian constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --to 1.0 --nsteps 10 --scan 3 4 --to 1.0 --nsteps 10"
         self.assertTrue(self.are_equivalent(args, line))
@@ -152,6 +159,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Scan_2.0_1.0_10/1_2;Scan_2.0_1.0_10/3_4;",
+            'name': 'ethanol',
         }
         line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --step -0.1 --scan 3 4 --from 2.0 --to 1.0 --step -0.1"
         self.assertTrue(self.are_equivalent(args, line))
@@ -166,6 +174,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Scan_2.0_1.0_10/1_2;Scan_2.0_1.0_10/3_4;",
+            'name': 'ethanol',
         }
         line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 --from 2.0 --to 1.0 --step 0.1 --scan 3 4 --from 2.0 --to 1.0 --step 0.1"
         self.assertTrue(self.are_equivalent(args, line))
@@ -180,6 +189,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Scan_2.0_1.0_10/1_2_3;",
+            'name': 'ethanol',
         }
         line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 3 --from 2.0 --to 1.0 --nsteps 10"
         self.assertTrue(self.are_equivalent(args, line))
@@ -194,6 +204,7 @@ class ManualCliTests(TestCase):
             'nproc': 1,
             'mem': "1G",
             'constraints': "Scan_2.0_1.0_10/1_2_3_4;",
+            'name': 'ethanol',
         }
         line = f"orca constr_opt HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G --scan 1 2 3 4 --from 2.0 --to 1.0 --nsteps 10"
         self.assertTrue(self.are_equivalent(args, line))
