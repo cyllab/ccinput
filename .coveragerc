@@ -1,0 +1,8 @@
+[run]
+omit = 
+	*__init__.py
+	ccinput/tests/testing_utilities.py
+	ccinput/_version.py
+	ccinput/documentation.py
+
+source = ccinput
