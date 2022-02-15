@@ -5,7 +5,7 @@ on:
     tags: [ v* ]
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -26,17 +26,8 @@ jobs:
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_TOKEN }}
-    - name: Get tag content
-      uses: ericcornelissen/git-tag-annotation-action@v1
-      id: tag_data
-    - name: Create Github release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      name: Create Github release
       with:
-        tag_name: ${GITHUB_REF_NAME}
-        release_name: Release ${GITHUB_REF_NAME}
-        body: |
-          ${{ steps.tag_data.outputs.git-tag-annotation }}
-        draft: true
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
