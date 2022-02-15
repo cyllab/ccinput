@@ -22,9 +22,9 @@ def process_calculation(calc):
 def generate_calculation(software=None, type=None, method="", basis_set="",
             solvent="", solvation_model="", solvation_radii="", custom_solvation_radii="",
             specifications="", freeze=[], scan=[], sfrom=[], sto=[], snsteps=[], sstep=[],
-            density_fitting="", custom_basis_sets="", xyz="", file="",
-            constraints="", nproc=0, mem="", charge=0, multiplicity=1, d3=False, d3bj=False,
-            aux_name="calc2", name="calc", header="File created by ccinput", **kwargs):
+            density_fitting="", custom_basis_sets="", xyz="", constraints="", nproc=0,
+            mem="", charge=0, multiplicity=1, d3=False, d3bj=False, aux_name="calc2",
+            name="calc", header="File created by ccinput", **kwargs):
 
     if software is None:
         raise InvalidParameter("Specify a software package to use (software=...)")
@@ -32,12 +32,10 @@ def generate_calculation(software=None, type=None, method="", basis_set="",
     if type is None:
         raise InvalidParameter("Specify a calculation type (type='...')")
 
-    if xyz != "":
-        xyz_structure = standardize_xyz(xyz)
-    elif file != "":
-        xyz_structure = parse_xyz_from_file(file)
-    else:
+    if xyz == "":
         raise InvalidParameter("No input structure")
+
+    xyz_structure = standardize_xyz(xyz)
 
     abs_software = get_abs_software(software)
 
@@ -58,11 +56,29 @@ def generate_calculation(software=None, type=None, method="", basis_set="",
 
     return process_calculation(calc)
 
+def gen_obj(**args):
+    if 'file' in args:
+        if isinstance(args['file'], list):
+            if len(args['file']) > 1:
+                print("file", args['file'])
+                raise UnimplementedError("No support for multiple input files at once except from the command line")
+            elif len(args['file']) == 0:
+                pass
+            else:
+                xyz = parse_xyz_from_file(args['file'][0])
+                args['xyz'] = xyz
+        else:
+            xyz = parse_xyz_from_file(args['file'])
+            args['xyz'] = xyz
+
+        del args['file']
+    return generate_calculation(**args)
+
 def gen_input(**args):
-    return generate_calculation(**args).input_file
+    return gen_obj(**args).input_file
 
 def write_input(filename, **args):
-    inp = generate_calculation(**args).input_file
+    inp = gen_input(**args)
     with open(filename, 'w') as out:
         out.write(inp)
 
@@ -101,11 +117,11 @@ def get_parser():
     parser.add_argument('--xyz', '-x', default="",
             type=str, help='XYZ structure as string')
 
-    parser.add_argument('--file', '-f', default="",
-            type=str, help='XYZ structure as file')
+    parser.add_argument('--file', '-f', default=[], nargs="+",
+            type=str, help='XYZ structure(s) as file(s)')
 
     parser.add_argument('--output', '-o', default="",
-            type=str, help='Write the result to the specified file')
+            type=str, help='Write the result to the specified file (single file) or using the specified pattern (multiple files)')
 
     parser.add_argument('--constraints', '-co', default="",
             type=str, help='String specification of constraints for certain calculations')
@@ -162,33 +178,67 @@ def cmd():
     parser = get_parser()
     args = parser.parse_args()
 
-    inp = get_input_from_args(args)
+    calcs, outputs = get_input_from_args(args)
     if args.output != "":
-        with open(args.output, 'w') as out:
-            out.write(inp)
-        print(f"Input file written to {args.output}")
+        for calc, outp in zip(calcs, outputs):
+            with open(outp, 'w') as out:
+                out.write(calc.input_file)
+            print(f"Input file written to {outp}")
     else:
-        print(inp)
+        if len(calcs) == 1:
+            print(calcs[0].input_file)
+        else:
+            for calc in calcs:
+                n = max(int((39 - len(calc.calc.name))/2), 4)
+                header = "-"*n + f" {calc.calc.name} " + "-"*n
+                print(header)
+                print(calc.input_file)
+                print("\n\n")
 
 def get_input_from_args(args):
-    if args.name == "calc" and args.file:
-        _name = os.path.basename(args.file).split('.')[0]
+    xyzs = []
+    names = []
+    outputs = []
+
+    if args.file:
+        xyzs = [parse_xyz_from_file(f) for f in args.file]
+        if len(args.file) > 1 or args.name == 'calc':
+            names = [os.path.basename(f).split('.')[0] for f in args.file]
+        else:
+            names = [args.name]
+
+        if args.output != "":
+            head, tail = os.path.split(args.output)
+            prefix, ext = tail.split('.')
+            if prefix != "":
+                prefix += '_'
+            if len(args.file) > 1:
+                outputs = [os.path.join(head, prefix+name+'.'+ext) for name in names]
+            else:
+                outputs = [os.path.join(head, name+'.'+ext) for name in names]
     else:
-        _name = args.name
-    try:
-        inp = gen_input(software=args.software, type=args.type, method=args.method,
-                basis_set=args.basis_set, solvent=args.solvent,
-                solvation_model=args.solvation_model, solvation_radii=args.solvation_radii,
-                custom_solvation_radii=args.custom_solvation_radii,
-                specifications=args.specifications, freeze=args.freeze,
-                scan=args.scan, sfrom=args.sfrom, sto=args.sto, snsteps=args.snsteps,
-                sstep=args.sstep, density_fitting=args.density_fitting,
-                custom_basis_sets=args.custom_basis_sets, xyz=args.xyz, file=args.file,
-                constraints=args.constraints, nproc=args.nproc, mem=args.mem,
-                charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj,
-                aux_name=args.aux_name, name=_name, header=args.header)
-    except CCInputException as e:
-        print(f"*** {str(e)} ***")
-        return
-    return inp
+        xyzs = [args.xyz]
+        names = [args.name]
+        outputs = [args.output]
+
+    calcs = []
+    for name, xyz in zip(names, xyzs):
+        try:
+            calc = gen_obj(software=args.software, type=args.type, method=args.method,
+                    basis_set=args.basis_set, solvent=args.solvent,
+                    solvation_model=args.solvation_model, solvation_radii=args.solvation_radii,
+                    custom_solvation_radii=args.custom_solvation_radii,
+                    specifications=args.specifications, freeze=args.freeze,
+                    scan=args.scan, sfrom=args.sfrom, sto=args.sto, snsteps=args.snsteps,
+                    sstep=args.sstep, density_fitting=args.density_fitting,
+                    custom_basis_sets=args.custom_basis_sets, xyz=xyz,
+                    constraints=args.constraints, nproc=args.nproc, mem=args.mem,
+                    charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj,
+                    aux_name=args.aux_name, name=name, header=args.header)
+        except CCInputException as e:
+            print(f"*** {str(e)} ***")
+            exit(0)
+        else:
+            calcs.append(calc)
+    return calcs, outputs
 

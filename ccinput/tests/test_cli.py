@@ -1,21 +1,19 @@
 import shlex
 import os
-from unittest import TestCase
 
 from ccinput.calculation import Calculation, Parameters
 from ccinput.wrapper import gen_input, get_input_from_args, get_parser
+from ccinput.tests.testing_utilities import InputTests
 
-class ManualCliTests(TestCase):
+class CliEquivalenceTests(InputTests):
     def are_equivalent(self, api_args, cmd_line):
         ref = gen_input(**api_args)
 
         parser = get_parser()
         args = parser.parse_args(shlex.split(cmd_line))
-        inp = get_input_from_args(args)
-        return ref == inp
-
-    def struct(self, name):
-        return os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", name + '.xyz')
+        calcs, outputs = get_input_from_args(args)
+        inp = calcs[0].input_file
+        return self.is_equivalent(ref, inp)
 
     def test_basic(self):
         args = {
@@ -359,4 +357,129 @@ class ManualCliTests(TestCase):
         }
         line = "orca opt PBE0 -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1 --d3bj"
         self.assertTrue(self.are_equivalent(args, line))
+
+class ManualCliTests(InputTests):
+    def test_multiple_files_no_output(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -n 1 --mem 1G"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        assert len(objs) == 2
+        assert len(outputs) == 0
+
+        args1 = {
+            'software': "ORCA",
+            'type': "sp",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'file': self.struct("ethanol"),
+            'nproc': 1,
+            'mem': "1G",
+        }
+        args2 = {
+            'software': "ORCA",
+            'type': "sp",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'file': self.struct("CH4"),
+            'nproc': 1,
+            'mem': "1G",
+        }
+
+        inp1 = gen_input(**args1)
+        inp2 = gen_input(**args2)
+
+        assert self.is_equivalent(inp1, objs[0].input_file)
+        assert self.is_equivalent(inp2, objs[1].input_file)
+
+    def test_multiple_files_output(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o test.inp -n 1 --mem 1G"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        assert len(objs) == 2
+        assert len(outputs) == 2
+
+        assert os.path.basename(outputs[0]) == "test_ethanol.inp"
+        assert os.path.basename(outputs[1]) == "test_CH4.inp"
+
+        args1 = {
+            'software': "ORCA",
+            'type': "sp",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'file': self.struct("ethanol"),
+            'nproc': 1,
+            'mem': "1G",
+        }
+        args2 = {
+            'software': "ORCA",
+            'type': "sp",
+            'method': "HF",
+            'basis_set': "Def2SVP",
+            'file': self.struct("CH4"),
+            'nproc': 1,
+            'mem': "1G",
+        }
+
+        inp1 = gen_input(**args1)
+        inp2 = gen_input(**args2)
+
+        assert self.is_equivalent(inp1, objs[0].input_file)
+        assert self.is_equivalent(inp2, objs[1].input_file)
+
+    def test_multiple_files_output_no_name(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o .inp -n 1 --mem 1G"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        assert len(objs) == 2
+        assert len(outputs) == 2
+
+        assert outputs[0] == "ethanol.inp"
+        assert outputs[1] == "CH4.inp"
+
+    def test_multiple_files_output_name_no_override(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o .inp -n 1 --mem 1G --name test"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        assert len(objs) == 2
+        assert len(outputs) == 2
+
+        assert outputs[0] == "ethanol.inp"
+        assert outputs[1] == "CH4.inp"
+
+    def test_multiple_files_output_directory(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o calc_dir/.inp -n 1 --mem 1G"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        assert len(objs) == 2
+        assert len(outputs) == 2
+
+        assert outputs[0] == "calc_dir/ethanol.inp"
+        assert outputs[1] == "calc_dir/CH4.inp"
+
+    def test_single_file_output(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} -o calc_dir/ethanol.inp -n 1 --mem 1G"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        assert len(objs) == 1
+        assert len(outputs) == 1
+
+        assert outputs[0] == "calc_dir/ethanol.inp"
 

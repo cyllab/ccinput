@@ -115,6 +115,33 @@ Basis set to use for density fitting.
 
    Only available for Gaussian 16 for the moment
 
+Structure files
+^^^^^^^^^^^^^^^
+
+Structure file(s) to use in the input. Only XYZ files are currently supported.
+
+Multiple files can be specified at once when using from the command line:
+
+.. code-block:: console
+
+        $ ccinput [...] -f struct1.xyz struct2.xyz
+
+If no output pattern is specified, each input file will be printed to the console sequentially separated by a header. With an output pattern, the files will be created in the chosen directory with the given prefix and extension. When specifying only one file, the exact output path will be used.
+
+.. code-block:: console
+
+        $ ccinput [...] -f struct1.xyz struct2.xyz -o calc_dir/sp.inp
+        Input file written to calc_dir/sp_struct1.inp
+        Input file written to calc_dir/sp_struct2.inp
+
+        $ ccinput [...] -f struct1.xyz struct2.xyz -o .com
+        Input file written to struct1.com
+        Input file written to struct2.com
+
+        $ ccinput [...] -f struct1.xyz -o my_struct.com
+        Input file written to my_struct.com
+
+
 Solvent
 ^^^^^^^
 

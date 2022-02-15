@@ -1,12 +1,12 @@
 import os
 from unittest import TestCase
 
-from ccinput.wrapper import generate_calculation
+from ccinput.wrapper import gen_obj
 
 class InputTests(TestCase):
     def generate_calculation(self, **params):
         params['file'] = os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", params['file'])
-        return generate_calculation(**params)
+        return gen_obj(**params)
 
     def is_equivalent(self, ref, res):
         ref_lines = [i.strip() for i in ref.strip().split('\n')]
@@ -57,4 +57,7 @@ class InputTests(TestCase):
             if abs(_c1-_c2) > 1e-7:
                 return False
         return True
+
+    def struct(self, name):
+        return os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", name + '.xyz')
 
