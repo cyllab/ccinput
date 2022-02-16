@@ -12,7 +12,8 @@ class CalcType(Enum):
 
     NMR = 10
     UVVIS = 11
-    MO = 12
+    UVVIS_TDA = 12
+    MO = 13
 
     OPTFREQ = 20
 
@@ -56,6 +57,7 @@ STR_TYPES = {#TODO: more synonyms
         "td": CalcType.UVVIS,
         "tddft": CalcType.UVVIS,
         "td-dft": CalcType.UVVIS,
+        "tda": CalcType.UVVIS_TDA,
         "mep": CalcType.MEP,
         "minimum energy path": CalcType.MEP,
         "minimum-energy path": CalcType.MEP,
@@ -441,7 +443,8 @@ SYN_METHODS = {
         'b97-d3': ['b97d3'],
         'wb97' : [],
         'wb97x' : [],
-        'wb97x-d3' : ['wb97d3'],
+        'wb97x-d' : ['wb97xd'],
+        'wb97x-d3' : ['wb97xd3'],
         'wb97x-v' : ['wb97xv'],
         'wb97x-d3bj ' : ['wb97xd3bj'],
 
@@ -1103,7 +1106,7 @@ SOFTWARE_METHODS = {
                     'mpw3pbe' : 'mPW3PBE',
                     'wb97' : 'wB97',
                     'wb97x' : 'wB97X',
-                    'wb97x-d3' : 'wB97XD',#Gaussian says dispersion model D2, not D3
+                    'wb97x-d' : 'wB97XD',#Gaussian says dispersion model D2, not D3
                     'cam-b3lyp' : 'CAM-B3LYP',
                     'lc-whpbe' : 'LC-wHPBE',
                     'tpssh' : 'TPSSH',

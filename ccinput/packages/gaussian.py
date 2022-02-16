@@ -28,6 +28,7 @@ class GaussianCalculation:
                 CalcType.NMR: ['nmr'],
                 CalcType.SP: ['sp'],
                 CalcType.UVVIS: ['td'],
+                CalcType.UVVIS_TDA: ['tda'],
                 CalcType.OPTFREQ: ['opt', 'freq'],
             }
 

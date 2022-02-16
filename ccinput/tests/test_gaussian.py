@@ -1213,6 +1213,65 @@ class GaussianTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_tda_DFT(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'TDA',
+                'file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'M06-2X',
+                'basis_set': 'Def2-SVP',
+                'charge': '-1',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p tda M062X/Def2SVP
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_tda_DFT_options(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'TDA',
+                'file': 'Cl.xyz',
+                'software': 'Gaussian',
+                'method': 'M06-2X',
+                'basis_set': 'Def2-SVP',
+                'charge': '-1',
+                'specifications': 'tda(nstates=2,root=1)',
+                }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p tda(nstates=2, root=1) M062X/Def2SVP
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_gen_bs(self):
         params = {
                 'nproc': 8,

@@ -37,6 +37,7 @@ setup(name='ccinput',
         test_suite='nose.collector',
         tests_require=[
             'nose',
+            'mock',
             ],
         python_requires=">=3.6",
         zip_safe=False)

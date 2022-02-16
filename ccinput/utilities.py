@@ -218,11 +218,12 @@ def get_method(method, software):
                 except InvalidParameter:
                     pass
                 else:
-                    if abs_method not in SOFTWARE_METHODS[software]:
-                        warn(f"Unknown method '{method}'")
-                        return method
+                    if abs_method in SOFTWARE_METHODS[software]:
+                        return method[0].upper() + SOFTWARE_METHODS[software][abs_method]
 
-                    return method[0].upper() + SOFTWARE_METHODS[software][abs_method]
+                xc_check = is_exchange_correlation_combination(method.lower()[1:])
+                if isinstance(xc_check, str):
+                    return method[0].upper() + xc_check
 
             xc_check = is_exchange_correlation_combination(method.lower())
             if isinstance(xc_check, str):

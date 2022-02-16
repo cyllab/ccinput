@@ -1,5 +1,6 @@
 import shlex
 import os
+from mock import patch
 
 from ccinput.calculation import Calculation, Parameters
 from ccinput.wrapper import gen_input, get_input_from_args, get_parser
@@ -359,6 +360,12 @@ class CliEquivalenceTests(InputTests):
         self.assertTrue(self.are_equivalent(args, line))
 
 class ManualCliTests(InputTests):
+    def setUp(self):
+        self.warnings = []
+
+    def get_warn(self, msg):
+        self.warnings.append(msg)
+
     def test_multiple_files_no_output(self):
         cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -n 1 --mem 1G"
 
@@ -366,8 +373,8 @@ class ManualCliTests(InputTests):
         args = parser.parse_args(shlex.split(cmd_line))
 
         objs, outputs = get_input_from_args(args)
-        assert len(objs) == 2
-        assert len(outputs) == 0
+        self.assertEqual(len(objs), 2)
+        self.assertEqual(len(outputs), 0)
 
         args1 = {
             'software': "ORCA",
@@ -391,8 +398,8 @@ class ManualCliTests(InputTests):
         inp1 = gen_input(**args1)
         inp2 = gen_input(**args2)
 
-        assert self.is_equivalent(inp1, objs[0].input_file)
-        assert self.is_equivalent(inp2, objs[1].input_file)
+        self.assertTrue(self.is_equivalent(inp1, objs[0].input_file))
+        self.assertTrue(self.is_equivalent(inp2, objs[1].input_file))
 
     def test_multiple_files_output(self):
         cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o test.inp -n 1 --mem 1G"
@@ -401,11 +408,12 @@ class ManualCliTests(InputTests):
         args = parser.parse_args(shlex.split(cmd_line))
 
         objs, outputs = get_input_from_args(args)
-        assert len(objs) == 2
-        assert len(outputs) == 2
 
-        assert os.path.basename(outputs[0]) == "test_ethanol.inp"
-        assert os.path.basename(outputs[1]) == "test_CH4.inp"
+        self.assertEqual(len(objs), 2)
+        self.assertEqual(len(outputs), 2)
+
+        self.assertEqual(os.path.basename(outputs[0]), "test_ethanol.inp")
+        self.assertEqual(os.path.basename(outputs[1]), "test_CH4.inp")
 
         args1 = {
             'software': "ORCA",
@@ -429,8 +437,8 @@ class ManualCliTests(InputTests):
         inp1 = gen_input(**args1)
         inp2 = gen_input(**args2)
 
-        assert self.is_equivalent(inp1, objs[0].input_file)
-        assert self.is_equivalent(inp2, objs[1].input_file)
+        self.assertTrue(self.is_equivalent(inp1, objs[0].input_file))
+        self.assertTrue(self.is_equivalent(inp2, objs[1].input_file))
 
     def test_multiple_files_output_no_name(self):
         cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o .inp -n 1 --mem 1G"
@@ -439,11 +447,11 @@ class ManualCliTests(InputTests):
         args = parser.parse_args(shlex.split(cmd_line))
 
         objs, outputs = get_input_from_args(args)
-        assert len(objs) == 2
-        assert len(outputs) == 2
+        self.assertEqual(len(objs), 2)
+        self.assertEqual(len(outputs), 2)
 
-        assert outputs[0] == "ethanol.inp"
-        assert outputs[1] == "CH4.inp"
+        self.assertEqual(outputs[0], "ethanol.inp")
+        self.assertEqual(outputs[1], "CH4.inp")
 
     def test_multiple_files_output_name_no_override(self):
         cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o .inp -n 1 --mem 1G --name test"
@@ -452,11 +460,11 @@ class ManualCliTests(InputTests):
         args = parser.parse_args(shlex.split(cmd_line))
 
         objs, outputs = get_input_from_args(args)
-        assert len(objs) == 2
-        assert len(outputs) == 2
+        self.assertEqual(len(objs), 2)
+        self.assertEqual(len(outputs), 2)
 
-        assert outputs[0] == "ethanol.inp"
-        assert outputs[1] == "CH4.inp"
+        self.assertEqual(outputs[0], "ethanol.inp")
+        self.assertEqual(outputs[1], "CH4.inp")
 
     def test_multiple_files_output_directory(self):
         cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -o calc_dir/.inp -n 1 --mem 1G"
@@ -465,11 +473,11 @@ class ManualCliTests(InputTests):
         args = parser.parse_args(shlex.split(cmd_line))
 
         objs, outputs = get_input_from_args(args)
-        assert len(objs) == 2
-        assert len(outputs) == 2
+        self.assertEqual(len(objs), 2)
+        self.assertEqual(len(outputs), 2)
 
-        assert outputs[0] == "calc_dir/ethanol.inp"
-        assert outputs[1] == "calc_dir/CH4.inp"
+        self.assertEqual(outputs[0], "calc_dir/ethanol.inp")
+        self.assertEqual(outputs[1], "calc_dir/CH4.inp")
 
     def test_single_file_output(self):
         cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} -o calc_dir/ethanol.inp -n 1 --mem 1G"
@@ -478,8 +486,41 @@ class ManualCliTests(InputTests):
         args = parser.parse_args(shlex.split(cmd_line))
 
         objs, outputs = get_input_from_args(args)
-        assert len(objs) == 1
-        assert len(outputs) == 1
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(len(outputs), 1)
 
-        assert outputs[0] == "calc_dir/ethanol.inp"
+        self.assertEqual(outputs[0], "calc_dir/ethanol.inp")
+
+    @patch('ccinput.utilities.warn')
+    def test_no_warn_utpsstpss(self, warn_fn):
+        warn_fn.side_effect = self.get_warn
+        line = 'Gaussian sp utpsstpss -bs cc-pvdz --xyz "Cl 0 0 0" -c -1'
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(line))
+
+        objs, outputs = get_input_from_args(args)
+
+        self.assertEqual(len(self.warnings), 0)
+
+    @patch('ccinput.utilities.warn')
+    def test_no_warn_rtpsstpss(self, warn_fn):
+        warn_fn.side_effect = self.get_warn
+        line = 'Gaussian sp rtpsstpss -bs cc-pvdz --xyz "Cl 0 0 0" -c -1'
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(line))
+
+        objs, outputs = get_input_from_args(args)
+
+        self.assertEqual(len(self.warnings), 0)
+
+    @patch('ccinput.utilities.warn')
+    def test_no_warn_tpsstpss(self, warn_fn):
+        warn_fn.side_effect = self.get_warn
+        line = 'Gaussian sp tpsstpss -bs cc-pvdz --xyz "Cl 0 0 0" -c -1'
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(line))
+
+        objs, outputs = get_input_from_args(args)
+
+        self.assertEqual(len(self.warnings), 0)
 
