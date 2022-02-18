@@ -183,7 +183,7 @@ def get_abs_method(method):
     raise InvalidParameter(f"Unknown method: '{method}'")
 
 def get_abs_basis_set(basis_set):
-    _bs = basis_set.strip().lower()
+    _bs = basis_set.strip().lower().replace('-', '').replace('(', '').replace(')', '').replace(',', '')
     for bs in SYN_BASIS_SETS:
         if _bs.lower() in SYN_BASIS_SETS[bs] or _bs.lower() == bs:
             return bs

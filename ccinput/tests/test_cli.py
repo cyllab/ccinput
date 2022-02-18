@@ -524,3 +524,10 @@ class ManualCliTests(InputTests):
 
         self.assertEqual(len(self.warnings), 0)
 
+    def test_synonym_basis_set(self):
+        line = 'Gaussian sp tpsstpss -bs ccpvdz --xyz "Cl 0 0 0" -c -1'
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(line))
+
+        objs, outputs = get_input_from_args(args)
+
