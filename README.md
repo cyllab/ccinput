@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/cyllab/ccinput/branch/main/graph/badge.svg?token=ox4smJs0vh)](https://codecov.io/gh/cyllab/ccinput)
 [![PyPI version](https://badge.fury.io/py/ccinput.svg)](https://badge.fury.io/py/ccinput)
 [![Downloads](https://pepy.tech/badge/ccinput)](https://pepy.tech/project/ccinput)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5907044.svg)](https://doi.org/10.5281/zenodo.5907044)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5907043.svg)](https://doi.org/10.5281/zenodo.5907043)
 
 `ccinput` is an application to generate input files for computational chemistry software.
 
