@@ -895,6 +895,21 @@ class GaussianTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_scan_without_constraint(self):
+        params = {
+                'nproc': 8,
+                'mem': '10000MB',
+                'type': 'Constrained Optimisation',
+                'file': 'ethanol.xyz',
+                'software': 'Gaussian',
+                'charge': '0',
+                'method': 'B3LYP',
+                'basis_set': '6-31+G(d,p)',
+                }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+
     def test_freeze_bond_DFT(self):
         params = {
                 'nproc': 8,
