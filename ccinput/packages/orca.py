@@ -2,7 +2,7 @@ import basis_set_exchange
 
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz
-from ccinput.exceptions import InvalidParameter
+from ccinput.exceptions import InvalidParameter, UnimplementedError
 
 class OrcaCalculation:
 
