@@ -219,6 +219,7 @@ Specifications
 ^^^^^^^^^^^^^^
 
 Custom keywords to add to the command of the input. 
+
 .. code-block:: console
 
         $ ccinput orca opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP
