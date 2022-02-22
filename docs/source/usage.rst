@@ -218,7 +218,37 @@ The format to use is "<ELEMENT>=<RADIUS>;...", for example: "H=1.00;Li=1.70;".
 Specifications
 ^^^^^^^^^^^^^^
 
-Custom keywords to add to the command of the input.
+Custom keywords to add to the command of the input. 
+.. code-block:: console
+
+        $ ccinput orca opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP
+        !OPT HF Def2-SVP
+        [...]
+
+        $ ccinput orca opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "TIGHTSCF"
+        !OPT HF Def2-SVP tightscf
+        [...]
+
+With Gaussian 16, this can also add parameters to the calculation keyword:
+
+.. code-block:: console
+
+        $ ccinput g16 opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP
+        [...]
+        #p opt HF/Def2SVP
+        [...]
+
+        $ ccinput g16 opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "opt(maxstep=5)"
+        [...]
+        #p opt(maxstep=5) HF/Def2SVP
+        [...]
+
+        $ ccinput g16 opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "opt(maxstep=5) SCF(restart)"
+        [...]
+        #p opt(maxstep=5) HF/Def2SVP scf(restart)
+        [...]
+
+Note that the specifications are not checked for validity beyond simple syntax checks. This allows you to use all valid keywords of the software, but can also lead to invalid inputs.
 
 Constraints
 ^^^^^^^^^^^
