@@ -4,7 +4,6 @@ import numpy as np
 
 from ccinput.constants import *
 from ccinput.exceptions import *
-from ccinput.logging import warn
 
 MEMORY_FACTORS = {
             'm': 1,
@@ -324,4 +323,5 @@ def get_coord(xyz, ids):
     else:
         raise InvalidParameter(f"Invalid number of atoms: {len(ids)}")
 
-
+def warn(msg):
+    print(f"*** {msg} ***")

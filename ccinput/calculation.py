@@ -5,9 +5,8 @@ from ccinput.exceptions import InvalidParameter, InternalError, ImpossibleCalcul
                                MissingParameter
 from ccinput.utilities import get_abs_software, get_method, get_abs_basis_set, \
                               get_abs_solvent, get_theory_level, standardize_memory, \
-                              get_npxyz, get_coord, has_dispersion_parameters
+                              get_npxyz, get_coord, has_dispersion_parameters, warn
 from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE
-from ccinput.logging import warn
 
 class Calculation:
     """
