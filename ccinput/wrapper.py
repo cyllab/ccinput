@@ -1,4 +1,6 @@
 import os
+import sys
+import shlex
 
 from ccinput.__init__ import __version__
 from ccinput.packages.gaussian import GaussianCalculation
@@ -7,8 +9,9 @@ from ccinput.packages.orca import OrcaCalculation
 from ccinput.calculation import Calculation, Parameters, Constraint, parse_str_constraints, \
                                 parse_freeze_constraints, parse_scan_constraints
 from ccinput.utilities import get_abs_type, get_abs_software, standardize_xyz, \
-                              parse_xyz_from_file
+                              parse_xyz_from_file, warn
 from ccinput.exceptions import *
+from ccinput.presets import save_preset, load_preset, list_presets, print_preset, is_preset
 
 SOFTWARE_CLASSES = {
         'gaussian': GaussianCalculation,
@@ -27,10 +30,13 @@ def generate_calculation(software=None, type=None, method="", basis_set="",
             name="calc", header="File created by ccinput", **kwargs):
 
     if software is None:
-        raise InvalidParameter("Specify a software package to use (software=...)")
+        raise InvalidParameter("Specify a software package to use")
 
     if type is None:
-        raise InvalidParameter("Specify a calculation type (type='...')")
+        raise InvalidParameter("Specify a calculation type")
+
+    if method is None:
+        raise InvalidParameter("Specify a calculation method")
 
     if xyz == "":
         raise InvalidParameter("No input structure")
@@ -40,6 +46,7 @@ def generate_calculation(software=None, type=None, method="", basis_set="",
     abs_software = get_abs_software(software)
 
     calc_type = get_abs_type(type)
+
 
     params = Parameters(abs_software, solvent, solvation_model, solvation_radii,
             custom_solvation_radii, basis_set, method, specifications, density_fitting,
@@ -85,11 +92,11 @@ def write_input(filename, **args):
 def get_parser():
     import argparse
     parser = argparse.ArgumentParser(description='Generates an input for a computational chemistry package')
-    parser.add_argument('software', help='Desired software package (Gaussian or ORCA)')
+    parser.add_argument('software', nargs='?', help='Desired software package (Gaussian or ORCA)')
 
-    parser.add_argument('type', help='Calculation type (opt, freq, sp, ...)')
+    parser.add_argument('type', nargs='?', help='Calculation type (opt, freq, sp, ...)')
 
-    parser.add_argument('method', help='Computational method (HF, AM1, B3LYP, ...)')
+    parser.add_argument('method', nargs='?', help='Computational method (HF, AM1, B3LYP, ...)')
 
     parser.add_argument('--basis_set', '-bs',  default="", type=str, help='Basis set')
 
@@ -171,14 +178,40 @@ def get_parser():
     parser.add_argument('--header', default="File created by ccinput", type=str,
             help='Header in produced file (unused by some packages)')
 
+    parser.add_argument('--save', type=str,
+            help='Save the current parameters as a preset of the given name')
+
+    parser.add_argument('--preset', type=str, nargs='?', const='',
+            help='Load parameters from the chosen preset')
+
     parser.add_argument('--version', '-v', action='version', version=f'%(prog)s {__version__}')
     return parser
 
-def cmd():
+def cmd(cmd_line=None):
     parser = get_parser()
-    args = parser.parse_args()
 
-    calcs, outputs = get_input_from_args(args)
+    if cmd_line:
+        args = parser.parse_args(shlex.split(cmd_line))
+    else:
+        args = parser.parse_args()
+
+    if args.save:
+        if args.preset:
+            warn("Cannot both save and load a preset")
+            exit(0)
+        preset_name = save_preset(args, parser.parse_args(['', '', '']))
+        print_preset(preset_name)
+        return
+
+    if (args.preset and not is_preset(args.preset)) or args.preset == '':
+        list_presets()
+        exit(0)
+
+    if args.preset:
+        calcs, outputs = get_input_from_args(args, default_params=vars(parser.parse_args([])))
+    else:
+        calcs, outputs = get_input_from_args(args)
+
     if args.output != "":
         for calc, outp in zip(calcs, outputs):
             with open(outp, 'w') as out:
@@ -195,7 +228,7 @@ def cmd():
                 print(calc.input_file)
                 print("\n\n")
 
-def get_input_from_args(args):
+def get_input_from_args(args, default_params=None):
     xyzs = []
     names = []
     outputs = []
@@ -221,20 +254,50 @@ def get_input_from_args(args):
         names = [args.name]
         outputs = [args.output]
 
+    params = {
+            'software': args.software,
+            'type': args.type,
+            'method': args.method,
+            'basis_set': args.basis_set,
+            'solvent': args.solvent,
+            'solvation_model': args.solvation_model,
+            'solvation_radii': args.solvation_radii,
+            'custom_solvation_radii': args.custom_solvation_radii,
+            'specifications': args.specifications ,
+            'freeze': args.freeze,
+            'scan': args.scan,
+            'sfrom': args.sfrom,
+            'sto': args.sto,
+            'snsteps': args.snsteps,
+            'sstep': args.sstep,
+            'density_fitting': args.density_fitting,
+            'custom_basis_sets': args.custom_basis_sets,
+            'constraints': args.constraints,
+            'nproc': args.nproc,
+            'mem': args.mem,
+            'charge': args.charge,
+            'multiplicity': args.mult,
+            'd3': args.d3,
+            'd3bj': args.d3bj,
+            'aux_name': args.aux_name,
+            'header': args.header,
+    }
+
+    if args.preset:
+        try:
+            preset_params = load_preset(args.preset)
+        except InvalidParameter as e:
+            warn(str(e))
+            exit(0)
+        del preset_params['version']
+        for k, v in preset_params.items():
+            if params[k] == default_params[k]:
+                params[k] = v
+
     calcs = []
     for name, xyz in zip(names, xyzs):
         try:
-            calc = gen_obj(software=args.software, type=args.type, method=args.method,
-                    basis_set=args.basis_set, solvent=args.solvent,
-                    solvation_model=args.solvation_model, solvation_radii=args.solvation_radii,
-                    custom_solvation_radii=args.custom_solvation_radii,
-                    specifications=args.specifications, freeze=args.freeze,
-                    scan=args.scan, sfrom=args.sfrom, sto=args.sto, snsteps=args.snsteps,
-                    sstep=args.sstep, density_fitting=args.density_fitting,
-                    custom_basis_sets=args.custom_basis_sets, xyz=xyz,
-                    constraints=args.constraints, nproc=args.nproc, mem=args.mem,
-                    charge=args.charge, multiplicity=args.mult, d3=args.d3, d3bj=args.d3bj,
-                    aux_name=args.aux_name, name=name, header=args.header)
+            calc = gen_obj(name=name, xyz=xyz, **params)
         except CCInputException as e:
             print(f"*** {str(e)} ***")
             exit(0)

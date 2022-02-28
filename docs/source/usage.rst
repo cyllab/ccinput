@@ -353,3 +353,100 @@ The library usage employs arrays for each parameter, with ``freeze`` and ``scan`
 
         >>> inp = gen_input([...], scan=[[2, 3], [1, 2, 3, 4]], sfrom=[1.0, 120], sto=[1.5, 160], sstep=[0.1, 5])
 
+Presets
+-------
+Presets offer a convenient way to save sets of parameters and reuse them easily in the command line:
+
+.. code-block:: console
+
+        $ ccinput gaussian opt m062x -bs def2tzvp --specifications "opt(maxstep=5) 5d nosymm" -sm smd -sr smd18 -s methanol --save my_preset
+        --- Saved preset 'my_preset'
+        software                      gaussian                          
+        type                          opt                           
+        method                        m062x                         
+        basis_set                     def2tzvp                      
+        version                       <Y.X.Z>        
+        solvent                       methanol                      
+        solvation_model               smd                           
+        solvation_radii               smd18                         
+        specifications                opt(maxstep=5) 5d nosymm
+
+        $ ccinput --preset my_preset --xyz "Cl 0 0 0" -c -1
+        %chk=calc.chk
+        %nproc=1
+        %mem=1000MB
+        #p opt(maxstep=5) M062X/Def2TZVP 5d nosymm SCRF(SMD, Solvent=methanol, Read)
+
+        File created by ccinput
+
+        -1 1
+        Cl   0.00000000   0.00000000   0.00000000
+
+        modifysph
+
+        Br 2.60
+        I 2.74
+
+All parameters can be saved in the preset, except the calculation name and the XYZ structure. To create a preset, simply enter all the desired parameters exactly like when creating an input file and append ``--preset <preset_name>`` to the command. This will not generate any input file and will instead same the parameters as JSON in an accessible user directory (generally ``~/.local/share/ccinput`` or ``C:\\Users\\<username>\\AppData\\Local\\CYLlab\\ccinput``).
+
+Parameters in the preset file can be overwritten when creating the input file: 
+
+.. code-block:: console
+
+        $ ccinput --preset my_preset --xyz "Cl 0 0 0" -c -1
+        %chk=calc.chk
+        %nproc=1
+        %mem=1000MB
+        #p opt(maxstep=5) M062X/Def2TZVP 5d nosymm SCRF(SMD, Solvent=methanol, Read)
+
+        File created by ccinput
+
+        -1 1
+        Cl   0.00000000   0.00000000   0.00000000
+
+        modifysph
+
+        Br 2.60
+        I 2.74
+
+
+        $ ccinput --preset my_preset --xyz "Cl 0 0 0" -c -1 -s vacuum
+        %chk=calc.chk
+        %nproc=1
+        %mem=1000MB
+        #p opt(maxstep=5) M062X/Def2TZVP 5d nosymm
+
+        File created by ccinput
+
+        -1 1
+        Cl   0.00000000   0.00000000   0.00000000
+
+Presets can be permanently modified by specifying new parameters and saving them in the same preset. Unspecified options will not be modified:
+
+.. code-block:: console
+
+        $ ccinput -s vacuum --save my_preset
+        --- Saved preset 'my_preset'
+        software                      gaussian                      
+        type                          opt                           
+        method                        m062x                         
+        basis_set                     def2tzvp                      
+        version                       1.2.2+7.g8e241e2.dirty        
+        solvent                       vacuum                        
+        solvation_model               smd                           
+        solvation_radii               smd18                         
+        specifications                opt(maxstep=5) 5d nosymm
+
+        $ ccinput --preset my_preset --xyz "Cl 0 0 0" -c -1
+        %chk=calc.chk
+        %nproc=1
+        %mem=1000MB
+        #p opt(maxstep=5) M062X/Def2TZVP 5d nosymm
+
+        File created by ccinput
+
+        -1 1
+        Cl   0.00000000   0.00000000   0.00000000
+
+
+Note that the parameters are not validated on preset creation.

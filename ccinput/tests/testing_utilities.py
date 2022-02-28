@@ -1,12 +1,24 @@
 import os
+import shlex
 from unittest import TestCase
 
 from ccinput.wrapper import gen_obj
+from ccinput.wrapper import gen_input, get_input_from_args, get_parser
 
 class InputTests(TestCase):
     def generate_calculation(self, **params):
         params['file'] = os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", params['file'])
         return gen_obj(**params)
+
+    def args_cmd_equivalent(self, api_args, cmd_line):
+        ref = gen_input(**api_args)
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+        default_params = vars(parser.parse_args([]))
+        calcs, outputs = get_input_from_args(args, default_params=default_params)
+        inp = calcs[0].input_file
+        return self.is_equivalent(ref, inp)
 
     def is_equivalent(self, ref, res):
         ref_lines = [i.strip() for i in ref.strip().split('\n')]
