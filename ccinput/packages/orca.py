@@ -334,7 +334,7 @@ class OrcaCalculation:
                             "other solvation radii than the default ones in ORCA with CPCM")
             else:
                 raise InvalidParameter(f"Invalid solvation model for ORCA: "
-                        "'{self.calc.parameters.solvation_model}'")
+                        f"'{self.calc.parameters.solvation_model}'")
 
     def create_input_file(self):
         self.block_lines = '\n'.join(self.blocks)

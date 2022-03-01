@@ -33,6 +33,7 @@ setup(name='ccinput',
             'basis_set_exchange',
             'numpy',
             'versioneer',
+            'appdirs',
         ],
         test_suite='nose.collector',
         tests_require=[

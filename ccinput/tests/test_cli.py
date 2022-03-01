@@ -496,6 +496,17 @@ class ManualCliTests(InputTests):
         self.assertEqual(outputs[0], "calc_dir/ethanol.inp")
 
     @patch('ccinput.utilities.warn')
+    def test_warn_unknown(self, warn_fn):
+        warn_fn.side_effect = self.get_warn
+        line = 'Gaussian sp abcd -bs cc-pvdz --xyz "Cl 0 0 0" -c -1'
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(line))
+
+        objs, outputs = get_input_from_args(args)
+
+        self.assertNotEqual(len(self.warnings), 0)
+
+    @patch('ccinput.utilities.warn')
     def test_no_warn_utpsstpss(self, warn_fn):
         warn_fn.side_effect = self.get_warn
         line = 'Gaussian sp utpsstpss -bs cc-pvdz --xyz "Cl 0 0 0" -c -1'
