@@ -248,7 +248,7 @@ def get_input_from_args(args, default_params=None):
             if len(args.file) > 1:
                 outputs = [os.path.join(head, prefix+name+'.'+ext) for name in names]
             else:
-                outputs = [os.path.join(head, name+'.'+ext) for name in names]
+                outputs = [args.output]
     else:
         xyzs = [args.xyz]
         names = [args.name]

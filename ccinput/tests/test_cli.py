@@ -495,6 +495,30 @@ class ManualCliTests(InputTests):
 
         self.assertEqual(outputs[0], "calc_dir/ethanol.inp")
 
+    def test_single_file_output_change_filename(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} -o calc_dir/sp_HF.inp -n 1 --mem 1G"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(len(outputs), 1)
+
+        self.assertEqual(outputs[0], "calc_dir/sp_HF.inp")
+
+    def test_single_file_output_change_name(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} -o calc_dir/sp_HF.inp -n 1 --mem 1G --name my_sp"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(len(outputs), 1)
+
+        self.assertEqual(outputs[0], "calc_dir/sp_HF.inp")
+
     @patch('ccinput.utilities.warn')
     def test_warn_unknown(self, warn_fn):
         warn_fn.side_effect = self.get_warn
