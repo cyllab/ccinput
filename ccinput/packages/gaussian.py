@@ -348,7 +348,8 @@ class GaussianCalculation:
                 self.command_line = cmd_formatted + self.command_line
             else:
                 self.command_line = self.command_line + cmd_formatted
-                self.confirmed_specifications += cmd_formatted
+                if cmd.lower() != 'scrf':
+                    self.confirmed_specifications += cmd_formatted
 
         self.confirmed_specifications = self.confirmed_specifications.strip()
 
