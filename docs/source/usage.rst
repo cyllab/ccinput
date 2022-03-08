@@ -421,6 +421,22 @@ Parameters in the preset file can be overwritten when creating the input file:
         -1 1
         Cl   0.00000000   0.00000000   0.00000000
 
+Specifications are the only parameters that are not overwritten, but combined:
+
+.. code-block:: console
+
+        $ ccinput --preset my_preset --xyz "Cl 0 0 0" -c -1 -s vacuum --specifications "Int(Ultrafinegrid)"
+
+        %chk=calc.chk
+        %nproc=1
+        %mem=1000MB
+        #p opt(maxstep=5) M062X/Def2TZVP 5d nosymm int(ultrafinegrid)
+
+        File created by ccinput
+
+        -1 1
+        Cl   0.00000000   0.00000000   0.00000000
+
 Presets can be permanently modified by specifying new parameters and saving them in the same preset. Unspecified options will not be modified:
 
 .. code-block:: console

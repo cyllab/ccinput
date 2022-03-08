@@ -291,7 +291,9 @@ def get_input_from_args(args, default_params=None):
             exit(0)
         del preset_params['version']
         for k, v in preset_params.items():
-            if params[k] == default_params[k]:
+            if k == 'specifications':
+                params[k] = ' '.join([v, params[k]])
+            elif params[k] == default_params[k]:
                 params[k] = v
 
     calcs = []

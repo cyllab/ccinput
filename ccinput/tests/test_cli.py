@@ -397,6 +397,23 @@ class CliEquivalenceTests(InputTests):
         line = '--preset whitespace --xyz "Cl 0 0 0" -c -1'
         self.assertTrue(self.args_cmd_equivalent(args, line))
 
+    def test_preset_additive_specifications(self):
+        presets.data_dir = PRESET_DIR
+        args = {
+            'software': "gaussian",
+            'type': "opt",
+            'method': "HF",
+            'basis_set': "def2tzvp",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+            'specifications': 'nosymm 5d'
+        }
+
+        line = '--preset specification --xyz "Cl 0 0 0" -c -1 --specification "5d"'
+        self.assertTrue(self.args_cmd_equivalent(args, line))
+
 class ManualCliTests(InputTests):
     def setUp(self):
         self.warnings = []
