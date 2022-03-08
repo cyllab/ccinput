@@ -304,7 +304,7 @@ class OrcaCalculation:
 
             solv_block = ""
 
-            if self.calc.parameters.method[:3] == 'gfn':
+            if self.calc.parameters.method[:3].lower() == 'xtb':
                 self.command_line += f" ALPB({solvent_keyword})"
             elif model == "smd":
                 # Refined solvation radii
