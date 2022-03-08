@@ -12,6 +12,8 @@ from ccinput import presets
 from contextlib import contextmanager, redirect_stdout
 from os import devnull
 
+PRESET_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'presets')
+
 @contextmanager
 def hide_cmd_output():
     with open(devnull, 'w') as gobble:
@@ -361,6 +363,38 @@ class CliEquivalenceTests(InputTests):
             'd3bj': True,
         }
         line = "orca opt PBE0 -bs Def2SVP --xyz 'Cl 0 0 0' -n 1 --mem 1G -c -1 --d3bj"
+        self.assertTrue(self.args_cmd_equivalent(args, line))
+
+    def test_load_preset_winchars(self):
+        presets.data_dir = PRESET_DIR
+        args = {
+            'software': "gaussian",
+            'type': "opt",
+            'method': "HF",
+            'basis_set': "def2tzvp",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+        }
+
+        line = '--preset winchars --xyz "Cl 0 0 0" -c -1'
+        self.assertTrue(self.args_cmd_equivalent(args, line))
+
+    def test_load_preset_whitespace(self):
+        presets.data_dir = PRESET_DIR
+        args = {
+            'software': "gaussian",
+            'type': "opt",
+            'method': "HF",
+            'basis_set': "def2tzvp",
+            'xyz': "Cl 0 0 0\n",
+            'nproc': 1,
+            'mem': "1G",
+            'charge': -1,
+        }
+
+        line = '--preset whitespace --xyz "Cl 0 0 0" -c -1'
         self.assertTrue(self.args_cmd_equivalent(args, line))
 
 class ManualCliTests(InputTests):
@@ -894,3 +928,5 @@ class CliPresetTests(InputTests):
             line = 'Gaussian sp tpsstpss -bs ccpvdz -o calc.com --save my_preset --preset my_preset'
             with self.assertRaises(SystemExit):
                 cmd(cmd_line=line)
+
+

@@ -1,0 +1,7 @@
+{
+    "software": "gaussian",
+    "type": "opt",
+    "method": "HF",
+    "basis_set": "Def2tzvp",
+    "version": "-"
+}
