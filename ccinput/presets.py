@@ -34,6 +34,14 @@ def save_preset(args, default_args):
         warn("Ignoring the xyz structure")
         del params['xyz']
 
+    if 'file' in params:
+        warn("Ignoring the input structure")
+        del params['file']
+
+    if 'output' in params:
+        warn("Ignoring the output name")
+        del params['output']
+
     if 'name' in params:
         warn("Ignoring the name")
         del params['name']

@@ -866,3 +866,31 @@ class CliPresetTests(InputTests):
             with self.assertRaises(SystemExit):
                 cmd(cmd_line=line)
 
+    def test_structures_not_saved(self):
+        with tempfile.TemporaryDirectory() as tmp_dir, hide_cmd_output():
+            presets.data_dir = tmp_dir
+            line = 'Gaussian sp tpsstpss -bs ccpvdz -f mystruct.xyz --save my_preset'
+            cmd(cmd_line=line)
+
+            with open(os.path.join(tmp_dir, 'my_preset.preset')) as f:
+                preset = json.load(f)
+
+            self.assertNotIn('file', preset)
+
+    def test_output_not_saved(self):
+        with tempfile.TemporaryDirectory() as tmp_dir, hide_cmd_output():
+            presets.data_dir = tmp_dir
+            line = 'Gaussian sp tpsstpss -bs ccpvdz -o calc.com --save my_preset'
+            cmd(cmd_line=line)
+
+            with open(os.path.join(tmp_dir, 'my_preset.preset')) as f:
+                preset = json.load(f)
+
+            self.assertNotIn('output', preset)
+
+    def test_save_and_load(self):
+        with tempfile.TemporaryDirectory() as tmp_dir, hide_cmd_output():
+            presets.data_dir = tmp_dir
+            line = 'Gaussian sp tpsstpss -bs ccpvdz -o calc.com --save my_preset --preset my_preset'
+            with self.assertRaises(SystemExit):
+                cmd(cmd_line=line)
