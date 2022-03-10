@@ -1,17 +1,33 @@
 from unittest import TestCase
 
-from ccinput.calculation import Calculation, Parameters, Constraint, parse_scan_constraints
+from ccinput.calculation import (
+    Calculation,
+    Parameters,
+    Constraint,
+    parse_scan_constraints,
+)
 from ccinput.constants import CalcType
 from ccinput.exceptions import InvalidParameter
+
 
 class CalculationTests(TestCase):
     def setUp(self):
         self.xyz = "Cl 0 0 0\n"
         self.params = Parameters("gaussian", method="am1")
 
-    def create_calc(self, type=CalcType.SP, nproc=1, mem="1000MB", charge=-1, multiplicity=1):
-        return Calculation(self.xyz, self.params, type, nproc=nproc, mem=mem, \
-                charge=charge, multiplicity=multiplicity, software="gaussian")
+    def create_calc(
+        self, type=CalcType.SP, nproc=1, mem="1000MB", charge=-1, multiplicity=1
+    ):
+        return Calculation(
+            self.xyz,
+            self.params,
+            type,
+            nproc=nproc,
+            mem=mem,
+            charge=charge,
+            multiplicity=multiplicity,
+            software="gaussian",
+        )
 
     def test_base(self):
         self.create_calc()
@@ -150,18 +166,33 @@ class CalculationTests(TestCase):
         with self.assertRaises(InvalidParameter):
             self.create_calc(mem="1000 t")
 
+
 class ScanParsingTests(TestCase):
     def setUp(self):
         self.xyz = "Cl 0 0 0\nCl 1 0 0\nCl 2 0 0\nCl 3 0 0\nCl 4 0 0\n"
 
     def test_blank(self):
-        scan = parse_scan_constraints(arr=[], sfrom=[], sto=[], snsteps=[],
-                                      sstep=[], xyz_str=self.xyz, software="orca")
+        scan = parse_scan_constraints(
+            arr=[],
+            sfrom=[],
+            sto=[],
+            snsteps=[],
+            sstep=[],
+            xyz_str=self.xyz,
+            software="orca",
+        )
         self.assertEqual(scan, [])
 
     def test_correct_distance_nsteps(self):
-        scan = parse_scan_constraints(arr=[['1', '2']], sfrom=[1], sto=[1.5], snsteps=[5],
-                                      sstep=[], xyz_str=self.xyz, software="orca")
+        scan = parse_scan_constraints(
+            arr=[["1", "2"]],
+            sfrom=[1],
+            sto=[1.5],
+            snsteps=[5],
+            sstep=[],
+            xyz_str=self.xyz,
+            software="orca",
+        )
         self.assertTrue(len(scan) == 1)
         constr = scan[0]
         self.assertTrue(isinstance(constr, Constraint))
@@ -172,8 +203,15 @@ class ScanParsingTests(TestCase):
         self.assertAlmostEqual(constr.step_size, 0.1)
 
     def test_correct_distance_step(self):
-        scan = parse_scan_constraints(arr=[['1', '2']], sfrom=[1], sto=[1.5], snsteps=[],
-                                      sstep=[0.1], xyz_str=self.xyz, software="orca")
+        scan = parse_scan_constraints(
+            arr=[["1", "2"]],
+            sfrom=[1],
+            sto=[1.5],
+            snsteps=[],
+            sstep=[0.1],
+            xyz_str=self.xyz,
+            software="orca",
+        )
         self.assertTrue(len(scan) == 1)
         constr = scan[0]
         self.assertTrue(isinstance(constr, Constraint))
@@ -184,8 +222,15 @@ class ScanParsingTests(TestCase):
         self.assertAlmostEqual(constr.step_size, 0.1)
 
     def test_correct_distance_decrease(self):
-        scan = parse_scan_constraints(arr=[['1', '2']], sfrom=[1.5], sto=[1], snsteps=[],
-                                      sstep=[0.1], xyz_str=self.xyz, software="orca")
+        scan = parse_scan_constraints(
+            arr=[["1", "2"]],
+            sfrom=[1.5],
+            sto=[1],
+            snsteps=[],
+            sstep=[0.1],
+            xyz_str=self.xyz,
+            software="orca",
+        )
         self.assertTrue(len(scan) == 1)
         constr = scan[0]
         self.assertTrue(isinstance(constr, Constraint))
@@ -196,8 +241,15 @@ class ScanParsingTests(TestCase):
         self.assertAlmostEqual(constr.step_size, -0.1)
 
     def test_correct_distance_start_gaussian(self):
-        scan = parse_scan_constraints(arr=[['1', '2']], sfrom=[1.5], sto=[0.5], snsteps=[],
-                                      sstep=[0.1], xyz_str=self.xyz, software="gaussian")
+        scan = parse_scan_constraints(
+            arr=[["1", "2"]],
+            sfrom=[1.5],
+            sto=[0.5],
+            snsteps=[],
+            sstep=[0.1],
+            xyz_str=self.xyz,
+            software="gaussian",
+        )
         self.assertTrue(len(scan) == 1)
         constr = scan[0]
         self.assertTrue(isinstance(constr, Constraint))
@@ -208,9 +260,15 @@ class ScanParsingTests(TestCase):
         self.assertAlmostEqual(constr.step_size, -0.1)
 
     def test_correct_distance_multiple_same(self):
-        scan = parse_scan_constraints(arr=[['1', '2'], ['3', '4']], sfrom=[1, 1], sto=[1.5, 1.5],
-                                      snsteps=[], sstep=[0.1, 0.1], xyz_str=self.xyz,
-                                      software="orca")
+        scan = parse_scan_constraints(
+            arr=[["1", "2"], ["3", "4"]],
+            sfrom=[1, 1],
+            sto=[1.5, 1.5],
+            snsteps=[],
+            sstep=[0.1, 0.1],
+            xyz_str=self.xyz,
+            software="orca",
+        )
         self.assertTrue(len(scan) == 2)
         for constr in scan:
             self.assertTrue(isinstance(constr, Constraint))
@@ -220,9 +278,15 @@ class ScanParsingTests(TestCase):
             self.assertAlmostEqual(constr.step_size, 0.1)
 
     def test_correct_distance_multiple_different(self):
-        scan = parse_scan_constraints(arr=[['1', '2'], ['3', '4']], sfrom=[1, 1], sto=[1.5, 0.5],
-                                      snsteps=[], sstep=[0.1, -0.1], xyz_str=self.xyz,
-                                      software="orca")
+        scan = parse_scan_constraints(
+            arr=[["1", "2"], ["3", "4"]],
+            sfrom=[1, 1],
+            sto=[1.5, 0.5],
+            snsteps=[],
+            sstep=[0.1, -0.1],
+            xyz_str=self.xyz,
+            software="orca",
+        )
         self.assertTrue(len(scan) == 2)
         for constr in scan:
             self.assertTrue(isinstance(constr, Constraint))
@@ -239,21 +303,48 @@ class ScanParsingTests(TestCase):
 
     def test_missing_ids(self):
         with self.assertRaises(InvalidParameter):
-            parse_scan_constraints(arr=[['1', '2']], sfrom=[1, 1], sto=[1.5, 0.5],
-                                      snsteps=[], sstep=[0.1, -0.1], xyz_str=self.xyz,
-                                      software="orca")
+            parse_scan_constraints(
+                arr=[["1", "2"]],
+                sfrom=[1, 1],
+                sto=[1.5, 0.5],
+                snsteps=[],
+                sstep=[0.1, -0.1],
+                xyz_str=self.xyz,
+                software="orca",
+            )
+
     def test_missing_nsteps(self):
         with self.assertRaises(InvalidParameter):
-            parse_scan_constraints(arr=[['1', '2'], ['3', '4']], sfrom=[1, 1], sto=[1.5, 0.5],
-                                      snsteps=[5], sstep=[], xyz_str=self.xyz,
-                                      software="orca")
+            parse_scan_constraints(
+                arr=[["1", "2"], ["3", "4"]],
+                sfrom=[1, 1],
+                sto=[1.5, 0.5],
+                snsteps=[5],
+                sstep=[],
+                xyz_str=self.xyz,
+                software="orca",
+            )
+
     def test_missing_to(self):
         with self.assertRaises(InvalidParameter):
-            parse_scan_constraints(arr=[['1', '2'], ['3', '4']], sfrom=[1, 1], sto=[1.5],
-                                      snsteps=[], sstep=[0.1, -0.1], xyz_str=self.xyz,
-                                      software="orca")
+            parse_scan_constraints(
+                arr=[["1", "2"], ["3", "4"]],
+                sfrom=[1, 1],
+                sto=[1.5],
+                snsteps=[],
+                sstep=[0.1, -0.1],
+                xyz_str=self.xyz,
+                software="orca",
+            )
+
     def test_missing_step(self):
         with self.assertRaises(InvalidParameter):
-            parse_scan_constraints(arr=[['1', '2'], ['3', '4']], sfrom=[1, 1], sto=[1.5, 0.5],
-                                      snsteps=[], sstep=[0.1], xyz_str=self.xyz,
-                                      software="orca")
+            parse_scan_constraints(
+                arr=[["1", "2"], ["3", "4"]],
+                sfrom=[1, 1],
+                sto=[1.5, 0.5],
+                snsteps=[],
+                sstep=[0.1],
+                xyz_str=self.xyz,
+                software="orca",
+            )

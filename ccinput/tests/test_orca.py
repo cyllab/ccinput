@@ -1,17 +1,17 @@
 from ccinput.tests.testing_utilities import InputTests
 from ccinput.exceptions import InvalidParameter
 
-class OrcaTests(InputTests):
 
+class OrcaTests(InputTests):
     def test_sp_SE(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -29,14 +29,14 @@ class OrcaTests(InputTests):
 
     def test_sp_HF(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -54,16 +54,16 @@ class OrcaTests(InputTests):
 
     def test_sp_HF_SMD(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -85,16 +85,16 @@ class OrcaTests(InputTests):
 
     def test_sp_HF_SMD_lowercase(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'smd',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "smd",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -116,17 +116,17 @@ class OrcaTests(InputTests):
 
     def test_sp_HF_SMD18(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                'solvation_radii': 'SMD18',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+            "solvation_radii": "SMD18",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -150,17 +150,17 @@ class OrcaTests(InputTests):
 
     def test_sp_HF_SMD18_lowercase(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'smd',
-                'solvation_radii': 'smd18',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "smd",
+            "solvation_radii": "smd18",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -184,16 +184,16 @@ class OrcaTests(InputTests):
 
     def test_solvation_octanol_smd(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'octanol',
-                'solvation_model': 'SMD',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "octanol",
+            "solvation_model": "SMD",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -215,16 +215,16 @@ class OrcaTests(InputTests):
 
     def test_sp_HF_CPCM(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'CPCM',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "CPCM",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -242,16 +242,16 @@ class OrcaTests(InputTests):
 
     def test_solvent_synonym(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'CHCL3',
-                'solvation_model': 'SMD',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "CHCL3",
+            "solvation_model": "SMD",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -271,19 +271,18 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-
     def test_solvation_octanol_cpcm1(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'octanol',
-                'solvation_model': 'CPCM',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "octanol",
+            "solvation_model": "CPCM",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -301,16 +300,16 @@ class OrcaTests(InputTests):
 
     def test_solvation_octanol_cpcm2(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': '1-octanol',
-                'solvation_model': 'CPCM',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "1-octanol",
+            "solvation_model": "CPCM",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -328,30 +327,30 @@ class OrcaTests(InputTests):
 
     def test_invalid_solvation(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'ABC',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "ABC",
+        }
 
         with self.assertRaises(Exception):
             self.generate_calculation(**params)
 
     def test_sp_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -369,15 +368,15 @@ class OrcaTests(InputTests):
 
     def test_sp_DFT_specifications(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'TightSCF',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "TightSCF",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -395,15 +394,15 @@ class OrcaTests(InputTests):
 
     def test_sp_DFT_multiple_specifications(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'TightSCF GRID6',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "TightSCF GRID6",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -421,15 +420,15 @@ class OrcaTests(InputTests):
 
     def test_sp_DFT_duplicate_specifications(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'tightscf TightSCF GRID6',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "tightscf TightSCF GRID6",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -447,15 +446,15 @@ class OrcaTests(InputTests):
 
     def test_sp_MP2(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'RI-MP2',
-                'basis_set': 'cc-pVTZ',
-                'charge': '-1',
-                'specifications': 'cc-pVTZ/C',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "RI-MP2",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "specifications": "cc-pVTZ/C",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -473,13 +472,13 @@ class OrcaTests(InputTests):
 
     def test_opt_SE(self):
         params = {
-                'nproc': 8,
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -497,14 +496,14 @@ class OrcaTests(InputTests):
 
     def test_opt_HF(self):
         params = {
-                'nproc': 8,
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -522,14 +521,14 @@ class OrcaTests(InputTests):
 
     def test_opt_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'charge': '-1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "charge": "-1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -547,13 +546,13 @@ class OrcaTests(InputTests):
 
     def test_freq_SE(self):
         params = {
-                'nproc': 8,
-                'type': 'Frequency Calculation',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -571,14 +570,14 @@ class OrcaTests(InputTests):
 
     def test_freq_HF(self):
         params = {
-                'nproc': 8,
-                'type': 'Frequency Calculation',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -596,14 +595,14 @@ class OrcaTests(InputTests):
 
     def test_freq_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Frequency Calculation',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'charge': '-1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "charge": "-1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -619,19 +618,19 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-    #opt mod SE and HF
+    # opt mod SE and HF
 
     def test_scan_bond_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_9_1.4_10/1_2;',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_9_1.4_10/1_2;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -661,45 +660,45 @@ class OrcaTests(InputTests):
 
     def test_invalid_opt_mod(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': '',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "",
+        }
 
         with self.assertRaises(Exception):
             self.generate_calculation(**params)
 
     def test_no_method(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': '',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': '',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "",
+        }
 
         with self.assertRaises(Exception):
             self.generate_calculation(**params)
 
     def test_scan_angle_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_9_90_10/2_1_3;',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_9_90_10/2_1_3;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -729,15 +728,15 @@ class OrcaTests(InputTests):
 
     def test_scan_dihedral_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_9_1_10/4_1_5_8;',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_9_1_10/4_1_5_8;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -767,29 +766,29 @@ class OrcaTests(InputTests):
 
     def test_scan_no_constraint(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
     def test_freeze_bond_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Freeze/1_2;',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Freeze/1_2;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -819,15 +818,15 @@ class OrcaTests(InputTests):
 
     def test_freeze_angle_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Freeze/2_1_3;',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Freeze/2_1_3;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -855,18 +854,17 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-
     def test_freeze_dihedral_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Freeze/4_1_5_8;',
-                }
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Freeze/4_1_5_8;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -896,14 +894,14 @@ class OrcaTests(InputTests):
 
     def test_nmr_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'NMR Prediction',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'charge': '-1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "type": "NMR Prediction",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "charge": "-1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -921,15 +919,15 @@ class OrcaTests(InputTests):
 
     def test_irrelevant_gen_bs(self):
         params = {
-                'nproc': 8,
-                'type': 'NMR Prediction',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'charge': '-1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'N=Def2-SVP;',
-                }
+            "nproc": 8,
+            "type": "NMR Prediction",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "charge": "-1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "N=Def2-SVP;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -947,14 +945,14 @@ class OrcaTests(InputTests):
 
     def test_ts_DFT(self):
         params = {
-                'nproc': 8,
-                'type': 'TS Optimisation',
-                'file': 'mini_ts.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "type": "TS Optimisation",
+            "file": "mini_ts.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -973,19 +971,19 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-        #combination tests
+        # combination tests
 
     def test_ts_DFT_custom_bs(self):
         params = {
-                'nproc': 8,
-                'type': 'TS Optimisation',
-                'file': 'mini_ts.xyz',
-                'software': 'ORCA',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'N=Def2-SVP;',
-                }
+            "nproc": 8,
+            "type": "TS Optimisation",
+            "file": "mini_ts.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "N=Def2-SVP;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1028,15 +1026,15 @@ class OrcaTests(InputTests):
 
     def test_opt_DFT_custom_bs_ecp(self):
         params = {
-                'nproc': 8,
-                'type': 'Geometrical Optimisation',
-                'file': 'Ph2I_cation.xyz',
-                'software': 'ORCA',
-                'charge': '+1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'I=Def2-TZVPD;',
-                }
+            "nproc": 8,
+            "type": "Geometrical Optimisation",
+            "file": "Ph2I_cation.xyz",
+            "software": "ORCA",
+            "charge": "+1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "I=Def2-TZVPD;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1172,14 +1170,14 @@ class OrcaTests(InputTests):
 
     def test_NEB(self):
         params = {
-                'nproc': 8,
-                'type': 'Minimum Energy Path',
-                'file': 'elimination_substrate.xyz',
-                'auxiliary_file': 'elimination_product.xyz',
-                'software': 'orca',
-                'charge': -1,
-                'method': 'gfn2-xtb',
-                }
+            "nproc": 8,
+            "type": "Minimum Energy Path",
+            "file": "elimination_substrate.xyz",
+            "auxiliary_file": "elimination_product.xyz",
+            "software": "orca",
+            "charge": -1,
+            "method": "gfn2-xtb",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1209,15 +1207,15 @@ class OrcaTests(InputTests):
 
     def test_NEB2(self):
         params = {
-                'nproc': 8,
-                'type': 'Minimum Energy Path',
-                'file': 'elimination_substrate.xyz',
-                'auxiliary_file': 'elimination_product.xyz',
-                'software': 'ORCA',
-                'specifications': '--nimages 12',
-                'charge': -1,
-                'method': 'gfn2-xtb',
-                }
+            "nproc": 8,
+            "type": "Minimum Energy Path",
+            "file": "elimination_substrate.xyz",
+            "auxiliary_file": "elimination_product.xyz",
+            "software": "ORCA",
+            "specifications": "--nimages 12",
+            "charge": -1,
+            "method": "gfn2-xtb",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1247,16 +1245,16 @@ class OrcaTests(InputTests):
 
     def test_NEB_aux_name(self):
         params = {
-                'nproc': 8,
-                'type': 'Minimum Energy Path',
-                'file': 'elimination_substrate.xyz',
-                'auxiliary_file': 'elimination_product.xyz',
-                'software': 'ORCA',
-                'specifications': '--nimages 12',
-                'charge': -1,
-                'method': 'gfn2-xtb',
-                'aux_name': 'product',
-                }
+            "nproc": 8,
+            "type": "Minimum Energy Path",
+            "file": "elimination_substrate.xyz",
+            "auxiliary_file": "elimination_product.xyz",
+            "software": "ORCA",
+            "specifications": "--nimages 12",
+            "charge": -1,
+            "method": "gfn2-xtb",
+            "aux_name": "product",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1286,15 +1284,15 @@ class OrcaTests(InputTests):
 
     def test_hirshfeld_pop(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': '--phirshfeld',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "--phirshfeld",
+        }
 
         inp = self.generate_calculation(**params)
         REF = """
@@ -1314,14 +1312,14 @@ class OrcaTests(InputTests):
 
     def test_mo(self):
         params = {
-                'nproc': 8,
-                'type': 'MO Calculation',
-                'file': 'Ph2I_cation.xyz',
-                'software': 'ORCA',
-                'charge': '+1',
-                'method': 'B3LYP',
-                'basis_set': 'def2tzvp',
-                }
+            "nproc": 8,
+            "type": "MO Calculation",
+            "file": "Ph2I_cation.xyz",
+            "software": "ORCA",
+            "charge": "+1",
+            "method": "B3LYP",
+            "basis_set": "def2tzvp",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1378,14 +1376,14 @@ class OrcaTests(InputTests):
 
     def test_nproc(self):
         params = {
-                'nproc': 1,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 1,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1403,13 +1401,13 @@ class OrcaTests(InputTests):
 
     def test_opt_freq(self):
         params = {
-                'nproc': 8,
-                'type': 'opt+freq',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "type": "opt+freq",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1427,15 +1425,15 @@ class OrcaTests(InputTests):
 
     def test_d3(self):
         params = {
-                'nproc': 8,
-                'type': 'opt',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'basis_set': 'Def2TZVP',
-                'method': 'M062X',
-                'charge': '-1',
-                'd3': True,
-                }
+            "nproc": 8,
+            "type": "opt",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "basis_set": "Def2TZVP",
+            "method": "M062X",
+            "charge": "-1",
+            "d3": True,
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1453,15 +1451,15 @@ class OrcaTests(InputTests):
 
     def test_d3bj(self):
         params = {
-                'nproc': 8,
-                'type': 'opt',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'basis_set': 'Def2TZVP',
-                'method': 'PBE0',
-                'charge': '-1',
-                'd3bj': True,
-                }
+            "nproc": 8,
+            "type": "opt",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "basis_set": "Def2TZVP",
+            "method": "PBE0",
+            "charge": "-1",
+            "d3bj": True,
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1479,33 +1477,33 @@ class OrcaTests(InputTests):
 
     def test_d3_d3bj_crash(self):
         params = {
-                'nproc': 8,
-                'type': 'opt',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'basis_set': 'Def2TZVP',
-                'method': 'PBE0',
-                'charge': '-1',
-                'd3': True,
-                'd3bj': True,
-                }
+            "nproc": 8,
+            "type": "opt",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "basis_set": "Def2TZVP",
+            "method": "PBE0",
+            "charge": "-1",
+            "d3": True,
+            "d3bj": True,
+        }
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
     def test_SMD_custom_radius(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                'custom_solvation_radii': 'Cl=1.00;',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+            "custom_solvation_radii": "Cl=1.00;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1528,17 +1526,17 @@ class OrcaTests(InputTests):
 
     def test_SMD_custom_radii(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                'custom_solvation_radii': 'Cl=1.00;Br=2.00;',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+            "custom_solvation_radii": "Cl=1.00;Br=2.00;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1562,18 +1560,18 @@ class OrcaTests(InputTests):
 
     def test_SMD_custom_radius_and_SMD18(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                'solvation_radii': 'SMD18',
-                'custom_solvation_radii': 'Cl=1.00;',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+            "solvation_radii": "SMD18",
+            "custom_solvation_radii": "Cl=1.00;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1598,18 +1596,18 @@ class OrcaTests(InputTests):
 
     def test_SMD_custom_radius_and_SMD18_clash(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                'solvation_radii': 'SMD18',
-                'custom_solvation_radii': 'I=3.00;',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+            "solvation_radii": "SMD18",
+            "custom_solvation_radii": "I=3.00;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1633,17 +1631,17 @@ class OrcaTests(InputTests):
 
     def test_CPCM_custom_radius(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'CPCM',
-                'custom_solvation_radii': 'Cl=1.00;',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "CPCM",
+            "custom_solvation_radii": "Cl=1.00;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1664,17 +1662,17 @@ class OrcaTests(InputTests):
 
     def test_CPCM_custom_radii(self):
         params = {
-                'nproc': 8,
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'ORCA',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'CPCM',
-                'custom_solvation_radii': 'Cl=1.00;Br=2.00;',
-                }
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "CPCM",
+            "custom_solvation_radii": "Cl=1.00;Br=2.00;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1693,4 +1691,3 @@ class OrcaTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-

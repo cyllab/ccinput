@@ -1,17 +1,18 @@
 from ccinput.tests.testing_utilities import InputTests
 from ccinput.exceptions import InvalidParameter
 
-class GaussianTests(InputTests):
 
+class GaussianTests(InputTests):
     def test_sp_SE(self):
-        params = { 'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -32,15 +33,15 @@ class GaussianTests(InputTests):
 
     def test_sp_HF(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -61,17 +62,17 @@ class GaussianTests(InputTests):
 
     def test_sp_HF_SMD(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -92,18 +93,18 @@ class GaussianTests(InputTests):
 
     def test_sp_HF_SMD18(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'SMD',
-                'solvation_radii': 'SMD18',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "SMD",
+            "solvation_radii": "SMD18",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -129,18 +130,18 @@ class GaussianTests(InputTests):
 
     def test_sp_HF_PCM_Bondi(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'chloroform',
-                'solvation_model': 'PCM',
-                'solvation_radii': 'Bondi',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "chloroform",
+            "solvation_model": "PCM",
+            "solvation_radii": "Bondi",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -163,18 +164,18 @@ class GaussianTests(InputTests):
 
     def test_sp_HF_PCM_UFF(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'PCM',
-                'solvation_radii': 'UFF',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "PCM",
+            "solvation_radii": "UFF",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -195,18 +196,18 @@ class GaussianTests(InputTests):
 
     def test_sp_HF_CPCM_Bondi(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'CPCM',
-                'solvation_radii': 'Bondi',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "CPCM",
+            "solvation_radii": "Bondi",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -229,18 +230,18 @@ class GaussianTests(InputTests):
 
     def test_sp_HF_CPCM_UFF(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'CPCM',
-                'solvation_radii': 'UFF',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "CPCM",
+            "solvation_radii": "UFF",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -261,18 +262,18 @@ class GaussianTests(InputTests):
 
     def test_solvent_synonyms1(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'chcl3',
-                'solvation_model': 'CPCM',
-                'solvation_radii': 'UFF',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "chcl3",
+            "solvation_model": "CPCM",
+            "solvation_radii": "UFF",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -293,18 +294,18 @@ class GaussianTests(InputTests):
 
     def test_solvent_synonyms2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'meoh',
-                'solvation_model': 'CPCM',
-                'solvation_radii': 'UFF',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "meoh",
+            "solvation_model": "CPCM",
+            "solvation_radii": "UFF",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -325,32 +326,32 @@ class GaussianTests(InputTests):
 
     def test_invalid_solvation(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_model': 'ABC',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_model": "ABC",
+        }
 
         with self.assertRaises(Exception):
             self.generate_calculation(**params)
 
     def test_sp_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -371,16 +372,16 @@ class GaussianTests(InputTests):
 
     def test_sp_DFT_specifications(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'nosymm 5D',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "nosymm 5D",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -401,16 +402,16 @@ class GaussianTests(InputTests):
 
     def test_superfluous_specifications(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'opt(loose)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(loose)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -428,21 +429,20 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), '')
-
+        self.assertEqual(inp.confirmed_specifications.strip(), "")
 
     def test_superfluous_specifications2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'freq(noraman)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "freq(noraman)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -460,20 +460,20 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), '')
+        self.assertEqual(inp.confirmed_specifications.strip(), "")
 
     def test_duplicate_specifications(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'NoSymm NoSymm',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "NoSymm NoSymm",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -494,16 +494,16 @@ class GaussianTests(InputTests):
 
     def test_duplicate_specifications2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'NoSymm NOSYMM',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "NoSymm NOSYMM",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -524,14 +524,14 @@ class GaussianTests(InputTests):
 
     def test_opt_SE(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -552,15 +552,15 @@ class GaussianTests(InputTests):
 
     def test_opt_HF(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -581,15 +581,15 @@ class GaussianTests(InputTests):
 
     def test_opt_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'charge': '-1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "charge": "-1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -607,18 +607,18 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), '')
+        self.assertEqual(inp.confirmed_specifications.strip(), "")
 
     def test_freq_SE(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Frequency Calculation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -639,15 +639,15 @@ class GaussianTests(InputTests):
 
     def test_freq_HF(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Frequency Calculation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -668,15 +668,15 @@ class GaussianTests(InputTests):
 
     def test_freq_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Frequency Calculation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'charge': '-1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "charge": "-1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -697,16 +697,16 @@ class GaussianTests(InputTests):
 
     def test_scan_bond_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_9_1.4_10/1_2;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_9_1.4_10/1_2;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -737,16 +737,16 @@ class GaussianTests(InputTests):
 
     def test_scan_angle_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_9_90_10/2_1_3;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_9_90_10/2_1_3;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -777,16 +777,16 @@ class GaussianTests(InputTests):
 
     def test_scan_dihedral_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_9_0_10/4_1_5_8;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_9_0_10/4_1_5_8;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -817,16 +817,16 @@ class GaussianTests(InputTests):
 
     def test_scan_dihedral_DFT2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_2_0_10/2_1_5_8;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_2_0_10/2_1_5_8;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -857,16 +857,16 @@ class GaussianTests(InputTests):
 
     def test_scan_dihedral_DFT3(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Scan_2_0_10/3_1_5_8;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_2_0_10/3_1_5_8;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -897,31 +897,31 @@ class GaussianTests(InputTests):
 
     def test_scan_without_constraint(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
     def test_freeze_bond_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Freeze/1_2;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Freeze/1_2;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -952,16 +952,16 @@ class GaussianTests(InputTests):
 
     def test_freeze_angle_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Freeze/2_1_3;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Freeze/2_1_3;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -992,48 +992,48 @@ class GaussianTests(InputTests):
 
     def test_invalid_opt_mod(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': '',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "",
+        }
 
         with self.assertRaises(Exception):
             self.generate_calculation(**params)
 
     def test_no_method(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': '',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': '',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "",
+        }
 
         with self.assertRaises(Exception):
             self.generate_calculation(**params)
 
     def test_freeze_dihedral_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Freeze/4_1_5_8;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Freeze/4_1_5_8;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1064,16 +1064,16 @@ class GaussianTests(InputTests):
 
     def test_freeze_dihedral_DFT2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'constraints': 'Freeze/4_1_5_8;Freeze/1_2_3_4;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Freeze/4_1_5_8;Freeze/1_2_3_4;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1105,15 +1105,15 @@ class GaussianTests(InputTests):
 
     def test_nmr_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'NMR Prediction',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'charge': '-1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "NMR Prediction",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "charge": "-1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1134,15 +1134,15 @@ class GaussianTests(InputTests):
 
     def test_ts_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'TS Optimisation',
-                'file': 'mini_ts.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "TS Optimisation",
+            "file": "mini_ts.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1166,16 +1166,16 @@ class GaussianTests(InputTests):
 
     def test_ts_DFT_df(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'TS Optimisation',
-                'file': 'mini_ts.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': 'Def2SVP',
-                'density_fitting': 'W06',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "TS Optimisation",
+            "file": "mini_ts.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "Def2SVP",
+            "density_fitting": "W06",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1197,19 +1197,19 @@ class GaussianTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-        #combination tests
+        # combination tests
 
     def test_td_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'UV-Vis Calculation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "UV-Vis Calculation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1230,15 +1230,15 @@ class GaussianTests(InputTests):
 
     def test_tda_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'TDA',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "TDA",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1259,16 +1259,16 @@ class GaussianTests(InputTests):
 
     def test_tda_DFT_options(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'TDA',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'tda(nstates=2,root=1)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "TDA",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "tda(nstates=2,root=1)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1289,16 +1289,16 @@ class GaussianTests(InputTests):
 
     def test_gen_bs(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'O=Def2-TZVPD;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "O=Def2-TZVPD;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1370,16 +1370,16 @@ class GaussianTests(InputTests):
 
     def test_irrelevant_gen_bs(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'ethanol.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'Cl=Def2-TZVPD;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "Cl=Def2-TZVPD;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1408,16 +1408,16 @@ class GaussianTests(InputTests):
 
     def test_genecp_bs(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Ph2I_cation.xyz',
-                'software': 'Gaussian',
-                'charge': '+1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'I=Def2-TZVPD;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Ph2I_cation.xyz",
+            "software": "Gaussian",
+            "charge": "+1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "I=Def2-TZVPD;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1559,16 +1559,16 @@ class GaussianTests(InputTests):
 
     def test_genecp_bs_multiple_atoms(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Ph2I_cation.xyz',
-                'software': 'Gaussian',
-                'charge': '+1',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'I=Def2-TZVPD;H=Def2-TZVPD;C=Def2-TZVPD;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Ph2I_cation.xyz",
+            "software": "Gaussian",
+            "charge": "+1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "I=Def2-TZVPD;H=Def2-TZVPD;C=Def2-TZVPD;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1758,16 +1758,16 @@ class GaussianTests(InputTests):
 
     def test_multiple_ecp(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'AuI.xyz',
-                'software': 'Gaussian',
-                'charge': '0',
-                'method': 'B3LYP',
-                'basis_set': '6-31+G(d,p)',
-                'custom_basis_sets': 'I=Def2-TZVPD;Au=Def2-TZVPD;',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "AuI.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "I=Def2-TZVPD;Au=Def2-TZVPD;",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1949,16 +1949,16 @@ class GaussianTests(InputTests):
 
     def test_global_specification(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'SCF(Tight)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF(Tight)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -1976,20 +1976,20 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight)')
+        self.assertEqual(inp.confirmed_specifications.strip(), "scf(tight)")
 
     def test_multiple_global_specification(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'SCF(Tight) SCF(XQC)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF(Tight) SCF(XQC)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2007,20 +2007,20 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight, xqc)')
+        self.assertEqual(inp.confirmed_specifications.strip(), "scf(tight, xqc)")
 
     def test_multiple_global_specification2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'SCF(Tight,XQC)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF(Tight,XQC)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2038,20 +2038,20 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight, xqc)')
+        self.assertEqual(inp.confirmed_specifications.strip(), "scf(tight, xqc)")
 
     def test_multiple_global_specification3(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'SCF(Tight, XQC)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF(Tight, XQC)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2069,21 +2069,20 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        self.assertEqual(inp.confirmed_specifications.strip(), 'scf(tight, xqc)')
-
+        self.assertEqual(inp.confirmed_specifications.strip(), "scf(tight, xqc)")
 
     def test_cmd_specification(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'opt(MaxStep=5)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(MaxStep=5)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2104,16 +2103,16 @@ class GaussianTests(InputTests):
 
     def test_multiple_cmd_specifications(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'opt(MaxStep=5) opt(Tight)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(MaxStep=5) opt(Tight)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2134,16 +2133,16 @@ class GaussianTests(InputTests):
 
     def test_both_specifications(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'opt(MaxStep=5) SCF(Tight)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(MaxStep=5) SCF(Tight)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2164,16 +2163,16 @@ class GaussianTests(InputTests):
 
     def test_specifications_mixed(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'opt(MaxStep=5) opt(Tight) nosymm 5D',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(MaxStep=5) opt(Tight) nosymm 5D",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2194,16 +2193,16 @@ class GaussianTests(InputTests):
 
     def test_specifications_mixed2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'opt(MaxStep=5,Tight) nosymm 5D',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(MaxStep=5,Tight) nosymm 5D",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2224,32 +2223,32 @@ class GaussianTests(InputTests):
 
     def test_invalid_specification(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'opt(MaxStep=5,Tight nosymm 5D',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(MaxStep=5,Tight nosymm 5D",
+        }
 
         with self.assertRaises(Exception):
             self.generate_calculation(**params)
 
     def test_special_char(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Geometrical Optimisation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': '!#',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "!#",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2270,34 +2269,34 @@ class GaussianTests(InputTests):
 
     def test_confirmed_specification_not_step(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Constrained Optimisation',
-                'constraints': 'Freeze/1_2_3;',
-                'file': 'CH4.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '0',
-                'specifications': 'pop(nbo)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Constrained Optimisation",
+            "constraints": "Freeze/1_2_3;",
+            "file": "CH4.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "0",
+            "specifications": "pop(nbo)",
+        }
 
         inp = self.generate_calculation(**params)
 
-        self.assertEqual(inp.confirmed_specifications, 'pop(nbo)')
+        self.assertEqual(inp.confirmed_specifications, "pop(nbo)")
 
     def test_cmd_specification_td(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'UV-Vis Calculation',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M06-2X',
-                'basis_set': 'Def2-SVP',
-                'charge': '-1',
-                'specifications': 'td(NStates=5)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "UV-Vis Calculation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "td(NStates=5)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2318,15 +2317,15 @@ class GaussianTests(InputTests):
 
     def test_nproc(self):
         params = {
-                'nproc': 1,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 1,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2347,15 +2346,15 @@ class GaussianTests(InputTests):
 
     def test_mem_m(self):
         params = {
-                'nproc': 8,
-                'mem': '10000 m',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000 m",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2376,15 +2375,15 @@ class GaussianTests(InputTests):
 
     def test_mem_GB(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2405,15 +2404,15 @@ class GaussianTests(InputTests):
 
     def test_exchange_correlation_functional(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'pkzbpkzb',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "pkzbpkzb",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2434,15 +2433,15 @@ class GaussianTests(InputTests):
 
     def test_exchange_correlation_functional2(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'pBeHpkzb',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "pBeHpkzb",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2463,15 +2462,15 @@ class GaussianTests(InputTests):
 
     def test_restricted_HF(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'rHF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "rHF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2492,15 +2491,15 @@ class GaussianTests(InputTests):
 
     def test_unrestricted_HF(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'uHF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "uHF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2521,15 +2520,15 @@ class GaussianTests(InputTests):
 
     def test_unknown_HF(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'iHF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "iHF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2550,15 +2549,15 @@ class GaussianTests(InputTests):
 
     def test_unrestricted_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'uM062x',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "uM062x",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2579,15 +2578,15 @@ class GaussianTests(InputTests):
 
     def test_restricted_DFT(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'rPBE0',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "rPBE0",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2608,14 +2607,14 @@ class GaussianTests(InputTests):
 
     def test_opt_freq(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'opt+freq',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "opt+freq",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2636,14 +2635,14 @@ class GaussianTests(InputTests):
 
     def test_opt_freq2(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'optfreq',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'AM1',
-                'charge': '-1',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "optfreq",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "AM1",
+            "charge": "-1",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2664,15 +2663,15 @@ class GaussianTests(InputTests):
 
     def test_opt_freq_spec(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'opt+freq',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'AM1',
-                'charge': '-1',
-                'specifications': 'freq(noraman)',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "opt+freq",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "AM1",
+            "charge": "-1",
+            "specifications": "freq(noraman)",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2693,16 +2692,16 @@ class GaussianTests(InputTests):
 
     def test_d3(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'M062X',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'd3': True,
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M062X",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "d3": True,
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2723,16 +2722,16 @@ class GaussianTests(InputTests):
 
     def test_d3bj(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'PBE0',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'd3bj': True,
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "PBE0",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "d3bj": True,
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2753,35 +2752,35 @@ class GaussianTests(InputTests):
 
     def test_d3_d3bj_crash(self):
         params = {
-                'nproc': 8,
-                'mem': '10GB',
-                'type': 'Single-Point Energy',
-                'file': 'Cl.xyz',
-                'software': 'Gaussian',
-                'method': 'PBE0',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'd3': True,
-                'd3bj': True,
-                }
+            "nproc": 8,
+            "mem": "10GB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "PBE0",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "d3": True,
+            "d3bj": True,
+        }
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
     def test_smd_custom_radius(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'custom_solvation_radii': 'Cl=1.00',
-                'solvation_model': 'SMD',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "custom_solvation_radii": "Cl=1.00",
+            "solvation_model": "SMD",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2806,18 +2805,18 @@ class GaussianTests(InputTests):
 
     def test_smd_custom_radii(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'custom_solvation_radii': 'Cl=1.00;Br=2.00;',
-                'solvation_model': 'SMD',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "custom_solvation_radii": "Cl=1.00;Br=2.00;",
+            "solvation_model": "SMD",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2843,19 +2842,19 @@ class GaussianTests(InputTests):
 
     def test_smd_custom_radius_and_smd18(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'custom_solvation_radii': 'Cl=1.00',
-                'solvation_model': 'SMD',
-                'solvation_radii': 'SMD18',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "custom_solvation_radii": "Cl=1.00",
+            "solvation_model": "SMD",
+            "solvation_radii": "SMD18",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2882,19 +2881,19 @@ class GaussianTests(InputTests):
 
     def test_smd_custom_radius_and_smd18_clash(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'custom_solvation_radii': 'I=3.00',
-                'solvation_model': 'SMD',
-                'solvation_radii': 'SMD18',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "custom_solvation_radii": "I=3.00",
+            "solvation_model": "SMD",
+            "solvation_radii": "SMD18",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2920,18 +2919,18 @@ class GaussianTests(InputTests):
 
     def test_pcm_custom_radius(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'custom_solvation_radii': 'Cl=1.00',
-                'solvation_model': 'PCM',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "custom_solvation_radii": "Cl=1.00",
+            "solvation_model": "PCM",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2956,19 +2955,19 @@ class GaussianTests(InputTests):
 
     def test_pcm_custom_radius_and_bondi(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_radii': 'Bondi',
-                'custom_solvation_radii': 'Cl=1.00',
-                'solvation_model': 'PCM',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_radii": "Bondi",
+            "custom_solvation_radii": "Cl=1.00",
+            "solvation_model": "PCM",
+        }
 
         inp = self.generate_calculation(**params)
 
@@ -2994,19 +2993,19 @@ class GaussianTests(InputTests):
 
     def test_pcm_custom_radii_and_bondi(self):
         params = {
-                'nproc': 8,
-                'mem': '10000MB',
-                'type': 'Single-Point Energy',
-                'file': 'I.xyz',
-                'software': 'Gaussian',
-                'method': 'HF',
-                'basis_set': '3-21G',
-                'charge': '-1',
-                'solvent': 'Chloroform',
-                'solvation_radii': 'Bondi',
-                'custom_solvation_radii': 'Cl=1.00;C=2.00;',
-                'solvation_model': 'PCM',
-                }
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "I.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+            "solvent": "Chloroform",
+            "solvation_radii": "Bondi",
+            "custom_solvation_radii": "Cl=1.00;C=2.00;",
+            "solvation_model": "PCM",
+        }
 
         inp = self.generate_calculation(**params)
 

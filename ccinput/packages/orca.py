@@ -4,6 +4,7 @@ from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz
 from ccinput.exceptions import InvalidParameter, UnimplementedError
 
+
 class OrcaCalculation:
 
     calc = None
@@ -16,11 +17,11 @@ class OrcaCalculation:
     *xyz {} {}
     {}*
     {}"""
-    #Command Line
-    #Charge
-    #Multiplicity
-    #XYZ structure
-    #Options blocks
+    # Command Line
+    # Charge
+    # Multiplicity
+    # XYZ structure
+    # Options blocks
 
     command_line = ""
     xyz_structure = ""
@@ -55,19 +56,23 @@ class OrcaCalculation:
 
     @property
     def confirmed_specifications(self):
-        """ Returns the effective additional commands; saved in the Parameters object """
+        """Returns the effective additional commands; saved in the Parameters object"""
         return self.additional_commands
 
     def clean(self, s):
-        WHITELIST = set("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. ")
-        return ''.join([c for c in s if c in WHITELIST])
+        WHITELIST = set(
+            "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. "
+        )
+        return "".join([c for c in s if c in WHITELIST])
 
     def handle_specifications(self):
-        _specifications = self.clean(self.calc.parameters.specifications).lower().strip()
+        _specifications = (
+            self.clean(self.calc.parameters.specifications).lower().strip()
+        )
 
         specifications_list = []
 
-        if _specifications != '':
+        if _specifications != "":
             sspecs = _specifications.split()
             ind = 0
             while ind < len(sspecs):
@@ -78,12 +83,12 @@ class OrcaCalculation:
                     end"""
                     self.blocks.append(HIRSHFELD_BLOCK)
                 elif spec == "--nimages":
-                    nimages = sspecs[ind+1]
+                    nimages = sspecs[ind + 1]
                     try:
                         nimages = int(nimages)
                     except ValueError:
                         raise InvalidParameter("Invalid specifications")
-                    self.specifications['nimages'] = nimages
+                    self.specifications["nimages"] = nimages
                     ind += 1
                 elif spec not in specifications_list:
                     specifications_list.append(spec)
@@ -112,7 +117,7 @@ class OrcaCalculation:
             struct = clean_xyz(self.calc.xyz)
 
             electrons = 0
-            for line in struct.split('\n'):
+            for line in struct.split("\n"):
                 if line.strip() == "":
                     continue
                 el = line.split()[0]
@@ -123,10 +128,10 @@ class OrcaCalculation:
             if self.calc.multiplicity != 1:
                 raise InvalidParameter("Unimplemented multiplicity")
 
-            n_HOMO = int(electrons/2)-1
-            n_LUMO = int(electrons/2)
-            n_LUMO1 = int(electrons/2)+1
-            n_LUMO2 = int(electrons/2)+2
+            n_HOMO = int(electrons / 2) - 1
+            n_LUMO = int(electrons / 2)
+            n_LUMO1 = int(electrons / 2) + 1
+            n_LUMO2 = int(electrons / 2) + 2
 
             mo_block = f"""%plots
                         dim1 45
@@ -168,45 +173,51 @@ class OrcaCalculation:
                 {}
                 end
                 end"""
-                self.blocks.append(scan_block.format(''.join(scans).strip()))
+                self.blocks.append(scan_block.format("".join(scans).strip()))
 
             if len(freeze) > 0:
                 freeze_block = """%geom Constraints
                 {}
                 end
                 end"""
-                self.blocks.append(freeze_block.format(''.join(freeze).strip()))
+                self.blocks.append(freeze_block.format("".join(freeze).strip()))
         elif self.calc.type == CalcType.SP:
             self.command_line = "SP "
-        elif self.calc.type == CalcType.MEP:#### Second structure to handle
+        elif self.calc.type == CalcType.MEP:  #### Second structure to handle
             self.command_line = "NEB "
             neb_block = """%neb
                         product "{}.xyz"
                         nimages {}
                         end"""
-            if 'nimages' in self.specifications:
-                nimages = self.specifications['nimages']
+            if "nimages" in self.specifications:
+                nimages = self.specifications["nimages"]
             else:
                 nimages = 8
             self.blocks.append(neb_block.format(self.calc.aux_name, nimages))
 
         method = get_method(self.calc.parameters.method, "orca")
-        if self.calc.parameters.theory_level not in ['xtb', 'semi-empirical', 'special']:
+        if self.calc.parameters.theory_level not in [
+            "xtb",
+            "semi-empirical",
+            "special",
+        ]:
             basis_set = get_basis_set(self.calc.parameters.basis_set, "orca")
             self.command_line += f"{method} {basis_set} "
         else:
             self.command_line += f"{method} "
 
-
     def handle_custom_basis_sets(self):
         if self.calc.parameters.custom_basis_sets == "":
             return
 
-        entries = [i.strip() for i in self.calc.parameters.custom_basis_sets.split(';')
-                                        if i.strip() != ""]
+        entries = [
+            i.strip()
+            for i in self.calc.parameters.custom_basis_sets.split(";")
+            if i.strip() != ""
+        ]
 
         unique_atoms = []
-        for line in self.calc.xyz.split('\n'):
+        for line in self.calc.xyz.split("\n"):
             if line.strip() == "":
                 continue
             a, *_ = line.split()
@@ -219,7 +230,7 @@ class OrcaCalculation:
 
         custom_bs = ""
         for entry in entries:
-            sentry = entry.split('=')
+            sentry = entry.split("=")
 
             if len(sentry) != 2:
                 raise InvalidParameter("Invalid custom basis set string")
@@ -234,16 +245,17 @@ class OrcaCalculation:
             except KeyError:
                 raise InvalidParameter("Invalid atom in custom basis set string")
 
-            bs = basis_set_exchange.get_basis(bs_keyword, fmt='ORCA',
-                                              elements=[el_num], header=False).strip()
-            sbs = bs.split('\n')
+            bs = basis_set_exchange.get_basis(
+                bs_keyword, fmt="ORCA", elements=[el_num], header=False
+            ).strip()
+            sbs = bs.split("\n")
             if bs.find("ECP") != -1:
-                clean_bs = '\n'.join(sbs[3:]).strip() + '\n'
-                clean_bs = clean_bs.replace("\n$END", '$END').replace('$END', 'end')
+                clean_bs = "\n".join(sbs[3:]).strip() + "\n"
+                clean_bs = clean_bs.replace("\n$END", "$END").replace("$END", "end")
                 custom_bs += f"newgto {el}\n"
                 custom_bs += clean_bs
             else:
-                clean_bs = '\n'.join(sbs[3:-1]).strip() + '\n'
+                clean_bs = "\n".join(sbs[3:-1]).strip() + "\n"
                 custom_bs += f"newgto {el}\n"
                 custom_bs += clean_bs
                 custom_bs += "end"
@@ -252,8 +264,8 @@ class OrcaCalculation:
             self.blocks.append(BS_TEMPLATE.format(custom_bs))
 
     def handle_xyz(self):
-        lines = [i + '\n' for i in clean_xyz(self.calc.xyz).split('\n') if i != '' ]
-        self.xyz_structure = ''.join(lines)
+        lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
+        self.xyz_structure = "".join(lines)
 
     def handle_pal(self):
         if self.calc.parameters.theory_level == "semi-empirical":
@@ -268,23 +280,29 @@ class OrcaCalculation:
         self.blocks.append(pal_block)
 
     def parse_custom_solvation_radii(self):
-        for radius in self.calc.parameters.custom_solvation_radii.split(';'):
+        for radius in self.calc.parameters.custom_solvation_radii.split(";"):
             if radius.strip() == "":
                 continue
-            sradius = radius.split('=')
+            sradius = radius.split("=")
             if len(sradius) != 2:
-                raise InvalidParameter(f"Invalid custom solvation radius specification: '{radius}': must follow the pattern '<atom1>=<radius1>;...'")
+                raise InvalidParameter(
+                    f"Invalid custom solvation radius specification: '{radius}': must follow the pattern '<atom1>=<radius1>;...'"
+                )
 
             element, rad = sradius
             if element not in LOWERCASE_ATOMIC_SYMBOLS:
-                raise InvalidParameter(f"Invalid element in custom solvation radius specifications: '{element}'")
+                raise InvalidParameter(
+                    f"Invalid element in custom solvation radius specifications: '{element}'"
+                )
 
             _element = ATOMIC_NUMBER[LOWERCASE_ATOMIC_SYMBOLS[element]]
 
             try:
                 _rad = float(rad)
             except ValueError:
-                raise InvalidParameter(f"Invalid custom solvation radius for element {element}: '{rad}'")
+                raise InvalidParameter(
+                    f"Invalid custom solvation radius for element {element}: '{rad}'"
+                )
             self.solvation_radii[_element] = _rad
 
     def get_radii_specs(self):
@@ -295,16 +313,18 @@ class OrcaCalculation:
 
     def handle_solvation(self):
         if self.calc.parameters.solvent.lower() not in ["vacuum", ""]:
-            solvent_keyword = get_solvent(self.calc.parameters.solvent,
-                                          self.calc.parameters.software,
-                                          solvation_model=self.calc.parameters.solvation_model)
+            solvent_keyword = get_solvent(
+                self.calc.parameters.solvent,
+                self.calc.parameters.software,
+                solvation_model=self.calc.parameters.solvation_model,
+            )
             model = self.calc.parameters.solvation_model
             radii_set = self.calc.parameters.solvation_radii
             custom_radii = self.calc.parameters.custom_solvation_radii
 
             solv_block = ""
 
-            if self.calc.parameters.method[:3].lower() == 'xtb':
+            if self.calc.parameters.method[:3].lower() == "xtb":
                 self.command_line += f" ALPB({solvent_keyword})"
             elif model == "smd":
                 # Refined solvation radii
@@ -317,29 +337,37 @@ class OrcaCalculation:
                         self.solvation_radii[35] = 2.60
 
                 radii_specs = self.get_radii_specs()
-                solv_block = f'''%cpcm
+                solv_block = f"""%cpcm
                 smd true
                 SMDsolvent "{solvent_keyword}"
-                {radii_specs}end'''
+                {radii_specs}end"""
                 self.blocks.append(solv_block)
             elif model == "cpcm":
                 self.command_line += f"CPCM({solvent_keyword}) "
                 radii_specs = self.get_radii_specs()
                 if radii_specs != "":
-                    solv_block = f'''%cpcm
-                    {radii_specs}end'''
+                    solv_block = f"""%cpcm
+                    {radii_specs}end"""
                     self.blocks.append(solv_block)
                 if radii_set not in ["", "default", "bondi"]:
-                    raise UnimplementedError("As of now, ccinput does not know how to request "
-                            "other solvation radii than the default ones in ORCA with CPCM")
+                    raise UnimplementedError(
+                        "As of now, ccinput does not know how to request "
+                        "other solvation radii than the default ones in ORCA with CPCM"
+                    )
             else:
-                raise InvalidParameter(f"Invalid solvation model for ORCA: "
-                        f"'{self.calc.parameters.solvation_model}'")
+                raise InvalidParameter(
+                    f"Invalid solvation model for ORCA: "
+                    f"'{self.calc.parameters.solvation_model}'"
+                )
 
     def create_input_file(self):
-        self.block_lines = '\n'.join(self.blocks)
-        cmd = f"{self.command_line} {self.additional_commands}".replace('  ', ' ')
-        raw = self.TEMPLATE.format(cmd, self.calc.charge, self.calc.multiplicity,
-                                   self.xyz_structure, self.block_lines)
-        self.input_file = '\n'.join([i.strip() for i in raw.split('\n')])
-
+        self.block_lines = "\n".join(self.blocks)
+        cmd = f"{self.command_line} {self.additional_commands}".replace("  ", " ")
+        raw = self.TEMPLATE.format(
+            cmd,
+            self.calc.charge,
+            self.calc.multiplicity,
+            self.xyz_structure,
+            self.block_lines,
+        )
+        self.input_file = "\n".join([i.strip() for i in raw.split("\n")])

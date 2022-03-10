@@ -5,9 +5,12 @@ from unittest import TestCase
 from ccinput.wrapper import gen_obj
 from ccinput.wrapper import gen_input, get_input_from_args, get_parser
 
+
 class InputTests(TestCase):
     def generate_calculation(self, **params):
-        params['file'] = os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", params['file'])
+        params["file"] = os.path.join(
+            "/".join(__file__.split("/")[:-1]), "structures/", params["file"]
+        )
         return gen_obj(**params)
 
     def args_cmd_equivalent(self, api_args, cmd_line):
@@ -21,16 +24,16 @@ class InputTests(TestCase):
         return self.is_equivalent(ref, inp)
 
     def is_equivalent(self, ref, res):
-        ref_lines = [i.strip() for i in ref.strip().split('\n')]
-        res_lines = [i.strip() for i in res.strip().split('\n')]
+        ref_lines = [i.strip() for i in ref.strip().split("\n")]
+        res_lines = [i.strip() for i in res.strip().split("\n")]
 
         if len(ref_lines) != len(res_lines):
             print(f"Different number of lines: {len(ref_lines)} and {len(res_lines)}")
             print("----START REFERENCE---")
-            print('\n'.join(ref_lines))
+            print("\n".join(ref_lines))
             print("----END REFERENCE---")
             print("----START RESULT---")
-            print('\n'.join(res_lines))
+            print("\n".join(res_lines))
             print("----END RESULT---")
             return False
 
@@ -66,10 +69,11 @@ class InputTests(TestCase):
                 _c2 = float(c2)
             except ValueError:
                 return False
-            if abs(_c1-_c2) > 1e-7:
+            if abs(_c1 - _c2) > 1e-7:
                 return False
         return True
 
     def struct(self, name):
-        return os.path.join('/'.join(__file__.split('/')[:-1]), "structures/", name + '.xyz')
-
+        return os.path.join(
+            "/".join(__file__.split("/")[:-1]), "structures/", name + ".xyz"
+        )
