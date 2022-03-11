@@ -37,10 +37,8 @@ Once your pull request is merged, it is officially part of the `ccinput` code an
 
 ## Code Guidelines
 
-To ensure that the project remains clean and maintainable, it is necessary to establish some guidelines on the code itself. These have been kept to a minimum, but need to be followed.
+To ensure that the project remains clean and maintainable, it is necessary to establish some guidelines on the code itself. These have been kept to a minimum, but need to be followed. Furthermore, the code style is automatically standardized by [Black](https://github.com/psf/black) when submitting a pull request, and so you do not need to worry about code style.
 
-- Indent with *four* spaces, not tabs. You can configure many text editors to convert a tab into four spaces or you can use `reindent` (`pip install reindent`) to very easily fix the indentation.
-- Use standard whitespace. This means spaces after commas and around mathematical operators ('+', '-', '=', ...). Please split very long lines (>100 characters) into multiple lines if possible.
 - Make variable and function names as descriptive yet concise as possible
 - Add comments or docstrings to explain what the average contributor will likely not know or understand immediately. However, do not add comments to explain what is obvious to everyone.
 
@@ -61,9 +59,10 @@ To ensure that the project remains clean and maintainable, it is necessary to es
 		    arr_xyz = arr_xyz[2:]
 		else:
 		    raise InvalidXYZ(f"Invalid xyz header: {num_atoms} atoms specified, " +
-			    "but actually contains {len(arr_xyz) - 2} atoms")
+			    f"but actually contains {len(arr_xyz) - 2} atoms")
 
 	    [...]
+
 
 **Useless comments:**
 
@@ -78,7 +77,7 @@ To ensure that the project remains clean and maintainable, it is necessary to es
 
 	    return standardize_xyz(lines) # Return the standardized XYZ
 
-Lastly, please provide at least some tests with your pull request. If you add a feature, the tests should be enough to verify that the feature works in its most common use cases. If your pull request fixes a bug, provide enough tests to verify that the bug is no longer present after your fix. This ensures that working features keep working and that dead bugs stay dead.
+Lastly, **please provide at least some tests with your pull request**. If you add a feature, the tests should be enough to verify that the feature works in its most common use cases. If your pull request fixes a bug, provide enough tests to verify that the bug is no longer present after your fix. This ensures that working features keep working and that dead bugs stay dead.
 
 If you are unsure if you have enough tests, you can send a pull request and we will look over it. Any subsequent commits you make to the branch will update the pull request automatically.
 
