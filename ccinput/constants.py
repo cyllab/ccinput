@@ -15,6 +15,8 @@ class CalcType(Enum):
     UVVIS = 11
     UVVIS_TDA = 12
     MO = 13
+    CONF_SEARCH = 14
+    CONSTR_CONF_SEARCH = 15
 
     OPTFREQ = 20
 
@@ -28,7 +30,7 @@ for el in periodictable.elements:
     ATOMIC_SYMBOL[el.number] = el.symbol
     LOWERCASE_ATOMIC_SYMBOLS[el.symbol.lower()] = el.symbol
 
-STR_TYPES = {  # TODO: more synonyms
+STR_TYPES = {  # TODO: just strip spaces and symbols and compare
     "sp": CalcType.SP,
     "single-point": CalcType.SP,
     "single point": CalcType.SP,
@@ -77,6 +79,14 @@ STR_TYPES = {  # TODO: more synonyms
     "opt_freq": CalcType.OPTFREQ,
     "opt-freq": CalcType.OPTFREQ,
     "opt+freq": CalcType.OPTFREQ,
+    "conformer search": CalcType.CONF_SEARCH,
+    "conformational search": CalcType.CONF_SEARCH,
+    "conf search": CalcType.CONF_SEARCH,
+    "constrained conformer search": CalcType.CONSTR_CONF_SEARCH,
+    "constrained conformational search": CalcType.CONSTR_CONF_SEARCH,
+    "constr conformer search": CalcType.CONSTR_CONF_SEARCH,
+    "constr conformational search": CalcType.CONSTR_CONF_SEARCH,
+    "constr conf search": CalcType.CONSTR_CONF_SEARCH,
 }
 
 INV_STR_TYPES = {}
@@ -192,6 +202,7 @@ THEORY_LEVELS = {
 SYN_SOFTWARE = {
     "gaussian": ["g16", "gaussian16", "gaussian 16"],
     "orca": ["orca 5", "orca5"],
+    "xtb": [],
 }
 
 SYN_SOLVENTS = {

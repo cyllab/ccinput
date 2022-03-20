@@ -36,18 +36,20 @@ class Calculation:
         parameters,
         type,
         constraints=[],
-        nproc=0,
-        mem=0,
+        nproc=1,
+        mem=1000,
         charge=0,
         multiplicity=1,
         aux_name="calc2",
         name="calc",
         header="File created by ccinput",
         software="",
+        file=None,
     ):
         self.xyz = xyz
         self.parameters = parameters
         self.type = type
+        self.file = file
 
         if software not in SYN_SOFTWARE:
             raise InvalidParameter(f"Invalid software: '{software}'")
@@ -170,8 +172,11 @@ class Parameters:
         if method == "":
             if "functional" in kwargs:
                 method = get_method(kwargs["functional"], self.software)
+            elif self.software == "xtb":
+                method = "GFN2-xTB"
             else:
                 raise InvalidParameter("No calculation method specified (method='...')")
+
         else:
             self.method = get_method(method, self.software)
 
@@ -363,6 +368,21 @@ class Constraint:
             return f"{t} {ids_str} S {self.num_steps} {self.step_size}\n"
         else:
             return f"{t} {ids_str} F\n"
+
+    def to_xtb(self):
+        ids_str = ", ".join(
+            [str(i) for i in self.ids] + ["auto"]
+        )  # Maybe add support for other starting points in the future
+        type = len(self.ids)
+
+        if type == 2:
+            t = "distance"
+        elif type == 3:
+            t = "angle"
+        elif type == 4:
+            t = "dihedral"
+
+        return f"{t}: {ids_str}\n"
 
 
 def parse_freeze_constraints(arr, xyz_str, software=""):

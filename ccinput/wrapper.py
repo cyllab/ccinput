@@ -5,6 +5,7 @@ import shlex
 from ccinput.__init__ import __version__
 from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
+from ccinput.packages.xtb import XtbCalculation
 
 from ccinput.calculation import (
     Calculation,
@@ -33,6 +34,7 @@ from ccinput.presets import (
 SOFTWARE_CLASSES = {
     "gaussian": GaussianCalculation,
     "orca": OrcaCalculation,
+    "xtb": XtbCalculation,
 }
 
 
@@ -61,8 +63,8 @@ def generate_calculation(
     custom_basis_sets="",
     xyz="",
     constraints="",
-    nproc=0,
-    mem="",
+    nproc=1,
+    mem=1000,
     charge=0,
     multiplicity=1,
     d3=False,
@@ -70,6 +72,7 @@ def generate_calculation(
     aux_name="calc2",
     name="calc",
     header="File created by ccinput",
+    file=None,
     **kwargs,
 ):
 
@@ -130,6 +133,7 @@ def generate_calculation(
         name=name,
         header=header,
         software=abs_software,
+        file=file,
     )
 
     return process_calculation(calc)
@@ -152,7 +156,6 @@ def gen_obj(**args):
             xyz = parse_xyz_from_file(args["file"])
             args["xyz"] = xyz
 
-        del args["file"]
     return generate_calculation(**args)
 
 
