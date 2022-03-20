@@ -2,6 +2,7 @@ appdirs
 argcomplete==2.0.0
 attrs==21.4.0
 basis-set-exchange
+coverage
 jsonschema==4.4.0
 numpy==1.22.1
 periodictable==1.6.0
