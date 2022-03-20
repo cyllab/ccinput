@@ -574,6 +574,43 @@ class ManualCliTests(InputTests):
 
         self.assertEqual(outputs[0], "calc_dir/sp_HF.inp")
 
+    def test_xtb_commandline(self):
+        cmd_line = f"xtb sp gfn2-xtb -f {self.struct('ethanol')}"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(len(outputs), 0)
+
+        self.assertEqual(objs[0].input_file, "")
+        self.assertEqual(objs[0].command, "xtb ethanol.xyz")
+
+    def test_crest_commandline(self):
+        cmd_line = f"xtb 'constr conf search' gfn2-xtb -f {self.struct('ethanol')} --freeze 1 3"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(len(outputs), 0)
+
+        INPUT_REF = """
+        $constrain
+        force constant=1.0
+        reference=ethanol.xyz
+        distance: 1, 3, auto
+        atoms: 1,3
+        $metadyn
+        atoms: 2,4-9"""
+
+        self.assertTrue(self.is_equivalent(INPUT_REF, objs[0].input_file))
+        self.assertEqual(
+            objs[0].command, "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+        )
+
     @patch("ccinput.utilities.warn")
     def test_warn_unknown(self, warn_fn):
         warn_fn.side_effect = self.get_warn

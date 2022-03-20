@@ -393,3 +393,7 @@ class GaussianCalculation:
         self.input_file = "\n".join([i.strip() for i in raw.split("\n")]).replace(
             "\n\n\n", "\n\n"
         )
+
+    @property
+    def output(self):
+        return self.input_file

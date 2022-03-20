@@ -22,7 +22,7 @@ class XtbCalculation:
         self.calc = calc
         self.program = ""
         self.cmd_arguments = ""
-        self.option_file = ""
+        self.input_file = ""
         self.specifications = ""
         self.force_constant = 1.0
 
@@ -68,20 +68,20 @@ class XtbCalculation:
         if len(self.calc.constraints) == 0:
             return
 
-        self.option_file += "$constrain\n"
-        self.option_file += f"force constant={self.force_constant}\n"
+        self.input_file += "$constrain\n"
+        self.input_file += f"force constant={self.force_constant}\n"
         self.has_scan = False
 
         for cmd in self.calc.constraints:
-            self.option_file += cmd.to_xtb()
+            self.input_file += cmd.to_xtb()
             if cmd.scan:
                 self.has_scan = True
 
         if self.has_scan:
-            self.option_file += "$scan\n"
+            self.input_file += "$scan\n"
             for counter, cmd in enumerate(self.calc.constraints):
                 if cmd.scan:
-                    self.option_file += (
+                    self.input_file += (
                         f"{counter+1}: {cmd.start_d}, {cmd.end_d}, {cmd.num_steps}\n"
                     )
 
@@ -116,23 +116,23 @@ class XtbCalculation:
         num_atoms = len(self.calc.xyz.split("\n"))
         input_file_name = os.path.basename(self.calc.file)
 
-        self.option_file += "$constrain\n"
-        self.option_file += f"force constant={self.force_constant}\n"
-        self.option_file += f"reference={input_file_name}\n"
+        self.input_file += "$constrain\n"
+        self.input_file += f"force constant={self.force_constant}\n"
+        self.input_file += f"reference={input_file_name}\n"
         constr_atoms = []
         for cmd in self.calc.constraints:
-            self.option_file += cmd.to_xtb()
+            self.input_file += cmd.to_xtb()
             constr_atoms += cmd.ids
 
-        self.option_file += f"atoms: {self.compress_indices(constr_atoms)}\n"
+        self.input_file += f"atoms: {self.compress_indices(constr_atoms)}\n"
 
         mtd_atoms = list(range(1, num_atoms))
         for a in constr_atoms:
             if int(a) in mtd_atoms:
                 mtd_atoms.remove(int(a))
 
-        self.option_file += "$metadyn\n"
-        self.option_file += f"atoms: {self.compress_indices(mtd_atoms)}\n"
+        self.input_file += "$metadyn\n"
+        self.input_file += f"atoms: {self.compress_indices(mtd_atoms)}\n"
 
     def handle_specifications(self):
         SPECIFICATIONS = {
@@ -308,4 +308,11 @@ class XtbCalculation:
 
     def create_command(self):
         input_file_name = os.path.basename(self.calc.file)
-        self.command = f"{self.program} {input_file_name} {self.cmd_arguments}"
+        self.command = f"{self.program} {input_file_name} {self.cmd_arguments}".strip()
+
+    @property
+    def output(self):
+        if self.input_file == "":
+            return self.command
+        else:
+            return f"{self.command}\n\n---input:\n{self.input_file}"

@@ -1052,6 +1052,12 @@ SOFTWARE_METHODS = {
         "pm7": "PM7",
         "hf": "HF",
     },
+    "xtb": {
+        "gfn2-xtb": "gfn2-xtb",
+        "gfn1-xtb": "gfn1-xtb",
+        "gfn0-xtb": "gfn0-xtb",
+        "gfn-ff": "gfn-ff",
+    },
 }
 
 SOFTWARE_BASIS_SETS = {

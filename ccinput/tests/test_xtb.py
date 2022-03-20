@@ -16,6 +16,7 @@ class XtbTests(InputTests):
         REF = "xtb ethanol.xyz"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_sp_charge(self):
         params = {
@@ -30,6 +31,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --chrg -1"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_sp_multiplicity(self):
         params = {
@@ -44,6 +46,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --uhf 2"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_sp_charge_multiplicity(self):
         params = {
@@ -59,6 +62,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --chrg -1 --uhf 3"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_opt_charge(self):
         params = {
@@ -73,6 +77,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --opt tight --chrg -1"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_freq_charge(self):
         params = {
@@ -87,6 +92,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --hess --chrg -1"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_solvent(self):
         params = {
@@ -103,6 +109,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --hess -g chcl3 --chrg -1"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_solvent_ALPB(self):
         params = {
@@ -119,7 +126,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --hess --alpb chcl3 --chrg -1"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
-        self.assertTrue(self.is_equivalent("", xtb.option_file))  ###
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_solvent_synonym(self):
         params = {
@@ -136,7 +143,7 @@ class XtbTests(InputTests):
         REF = "xtb Cl.xyz --hess -g chcl3 --chrg -1"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
-        self.assertTrue(self.is_equivalent("", xtb.option_file))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
 
     def test_solvent_invalid(self):
         params = {
@@ -171,7 +178,7 @@ class XtbTests(InputTests):
         $scan
         1: 9.0, 1.4, 10
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_freeze(self):
         params = {
@@ -191,7 +198,7 @@ class XtbTests(InputTests):
         force constant=1.0
         distance: 1, 2, auto
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_constraint_overlap(self):
         params = {
@@ -212,7 +219,7 @@ class XtbTests(InputTests):
         distance: 1, 2, auto
         distance: 2, 3, auto
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_freeze_soft(self):
         params = {
@@ -233,7 +240,7 @@ class XtbTests(InputTests):
         force constant=0.1
         distance: 1, 2, auto
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_duplicate_specifications(self):
         params = {
@@ -254,7 +261,7 @@ class XtbTests(InputTests):
         force constant=0.2
         distance: 1, 2, auto
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_conformational_search(self):
         params = {
@@ -269,7 +276,7 @@ class XtbTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
-        self.assertEqual("", xtb.option_file)
+        self.assertEqual("", xtb.input_file)
 
     def test_conformational_search_specs(self):
         params = {
@@ -285,7 +292,7 @@ class XtbTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
-        self.assertEqual("", xtb.option_file)
+        self.assertEqual("", xtb.input_file)
 
     def test_conformational_search_nci(self):
         params = {
@@ -301,7 +308,7 @@ class XtbTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
-        self.assertEqual("", xtb.option_file)
+        self.assertEqual("", xtb.input_file)
 
     def test_constrained_conformational_search1(self):
         params = {
@@ -324,7 +331,7 @@ class XtbTests(InputTests):
         $metadyn
         atoms: 3-9
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_constrained_conformational_search2(self):
         params = {
@@ -348,7 +355,7 @@ class XtbTests(InputTests):
         $metadyn
         atoms: 2-3,5,7,9
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_constrained_conformational_search3(self):
         params = {
@@ -371,7 +378,7 @@ class XtbTests(InputTests):
         $metadyn
         atoms: 1,4-9
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_constrained_conformational_search4(self):
         params = {
@@ -395,7 +402,7 @@ class XtbTests(InputTests):
         $metadyn
         atoms: 1,4-9
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_constrained_conformational_search5(self):
         params = {
@@ -420,7 +427,7 @@ class XtbTests(InputTests):
         $metadyn
         atoms: 1,5-9
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_constrained_conformational_search_equals(self):
         params = {
@@ -444,7 +451,7 @@ class XtbTests(InputTests):
         $metadyn
         atoms: 1,4-9
         """
-        self.assertTrue(self.is_equivalent(INPUT, xtb.option_file))
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
     def test_invalid_specification(self):
         params = {

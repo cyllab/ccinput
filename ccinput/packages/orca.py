@@ -371,3 +371,7 @@ class OrcaCalculation:
             self.block_lines,
         )
         self.input_file = "\n".join([i.strip() for i in raw.split("\n")])
+
+    @property
+    def output(self):
+        return self.input_file

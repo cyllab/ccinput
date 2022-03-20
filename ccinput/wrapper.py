@@ -423,13 +423,13 @@ def cmd(cmd_line=None):
             print(f"Input file written to {outp}")
     else:
         if len(calcs) == 1:
-            print(calcs[0].input_file)
+            print(calcs[0].output)
         else:
             for calc in calcs:
                 n = max(int((39 - len(calc.calc.name)) / 2), 4)
                 header = "-" * n + f" {calc.calc.name} " + "-" * n
                 print(header)
-                print(calc.input_file)
+                print(calc.output)
                 print("\n\n")
 
 
@@ -437,9 +437,11 @@ def get_input_from_args(args, default_params=None):
     xyzs = []
     names = []
     outputs = []
+    files = []
 
     if args.file:
         xyzs = [parse_xyz_from_file(f) for f in args.file]
+        files = args.file
         if len(args.file) > 1 or args.name == "calc":
             names = [os.path.basename(f).split(".")[0] for f in args.file]
         else:
@@ -460,6 +462,7 @@ def get_input_from_args(args, default_params=None):
         xyzs = [args.xyz]
         names = [args.name]
         outputs = [args.output]
+        files = [args.file]
 
     params = {
         "software": args.software,
@@ -504,11 +507,11 @@ def get_input_from_args(args, default_params=None):
                 params[k] = v
 
     calcs = []
-    for name, xyz in zip(names, xyzs):
+    for name, xyz, file in zip(names, xyzs, files):
         try:
-            calc = gen_obj(name=name, xyz=xyz, **params)
+            calc = gen_obj(name=name, xyz=xyz, file=file, **params)
         except CCInputException as e:
-            print(f"*** {str(e)} ***")
+            print(f"!!! {str(e)} !!!")
             exit(0)
         else:
             calcs.append(calc)
