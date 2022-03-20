@@ -368,14 +368,35 @@ class GaussianCalculation:
             else:
                 cmd_formatted = f"{cmd} "
 
+            if cmd.lower() != "scrf":
+                spec_options = []
+                for o in options:
+                    print(o)
+                    if self.calc.type == CalcType.TS and o in [
+                        "ts",
+                        "NoEigenTest",
+                        "CalcFC",
+                    ]:
+                        continue
+                    elif self.calc.type == CalcType.CONSTR_OPT and o == "modredundant":
+                        continue
+                    spec_options.append(o)
+                if len(spec_options) > 0:
+                    spec_option_str = ", ".join(spec_options)
+                    confirmed_spec = f"{cmd}({spec_option_str}) "
+                    if cmd in self.KEYWORD_LIST:
+                        self.confirmed_specifications = (
+                            confirmed_spec + self.confirmed_specifications
+                        )
+                    else:
+                        self.confirmed_specifications += confirmed_spec
+
             # This ensures that the command line follows this pattern:
             # CMD1 <CMD2> METHOD/BASIS_SET <ADDITIONAL_OPTION1> ...
             if cmd in self.KEYWORD_LIST:
                 self.command_line = cmd_formatted + self.command_line
             else:
                 self.command_line = self.command_line + cmd_formatted
-                if cmd.lower() != "scrf":
-                    self.confirmed_specifications += cmd_formatted
 
         self.confirmed_specifications = self.confirmed_specifications.strip()
 

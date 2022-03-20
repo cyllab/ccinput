@@ -1978,6 +1978,68 @@ class GaussianTests(InputTests):
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
         self.assertEqual(inp.confirmed_specifications.strip(), "scf(tight)")
 
+    def test_confirmed_command_specification(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(maxstep=5)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt(maxstep=5) M062X/Def2SVP
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+        self.assertEqual(inp.confirmed_specifications.strip(), "opt(maxstep=5)")
+
+    def test_confirmed_command_specification_selective(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "TS Optimisation",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "opt(maxstep=5)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt(maxstep=5, ts, NoEigenTest, CalcFC) M062X/Def2SVP
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+        self.assertEqual(inp.confirmed_specifications.strip(), "opt(maxstep=5)")
+
     def test_multiple_global_specification(self):
         params = {
             "nproc": 8,
