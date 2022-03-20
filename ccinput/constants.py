@@ -179,7 +179,7 @@ THEORY_LEVELS = {
     "hartree-fock": ["hf", "hartree-fock"],
     # Some old exotic semi-empirical methods in ORCA are missing
     "semi-empirical": ["am1", "pm3", "pm6", "pm7", "mndo"],
-    "xtb": ["gfn2-xtb", "gfn1-xtb", "gfn0-xtb", "gfn-ff"],
+    "xtb": ["gfn2-xtb", "gfn1-xtb", "gfn0-xtb", "gfn-ff", "gfn2-xtb//gfn-ff"],
     "special": ["hf-3c", "pbeh-3c", "r2scan-3c", "b97-3c"],
     "mp2": ["mp2", "ri-mp2"],
     "cc": [
@@ -509,6 +509,7 @@ SYN_METHODS = {
     "gfn1-xtb": ["xtb1", "gfn1", "gfn1xtb", "gfn-xtb", "gfnxtb"],
     "gfn0-xtb": ["xtb0", "gfn0", "gfn0xtb"],
     "gfn-ff": ["gfnff"],
+    "gfn2-xtb//gfn-ff": ["gfn2//gfnff"],
     "mp2": [],
     "ri-mp2": ["rimp2"],
     "hf-3c": ["hf3c"],
@@ -1057,6 +1058,7 @@ SOFTWARE_METHODS = {
         "gfn1-xtb": "gfn1-xtb",
         "gfn0-xtb": "gfn0-xtb",
         "gfn-ff": "gfn-ff",
+        "gfn2-xtb//gfn-ff": "gfn2-xtb//gfn-ff",
     },
 }
 

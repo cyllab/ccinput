@@ -94,6 +94,21 @@ class XtbTests(InputTests):
         self.assertTrue(self.is_equivalent(REF, xtb.command))
         self.assertTrue(self.is_equivalent("", xtb.input_file))
 
+    def test_opt_freq(self):
+        params = {
+            "type": "Opt+Freq",
+            "file": "Cl.xyz",
+            "software": "xtb",
+            "charge": "-1",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb Cl.xyz --ohess --chrg -1"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
+
     def test_solvent(self):
         params = {
             "type": "Frequency Calculation",
@@ -127,6 +142,19 @@ class XtbTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
         self.assertTrue(self.is_equivalent("", xtb.input_file))
+
+    def test_solvent_invalid_PCM(self):
+        params = {
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "xtb",
+            "solvent": "chcl3",
+            "solvation_model": "PCM",
+            "charge": "-1",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
 
     def test_solvent_synonym(self):
         params = {
@@ -179,6 +207,16 @@ class XtbTests(InputTests):
         1: 9.0, 1.4, 10
         """
         self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
+
+    def test_constrained_opt_no_constraint(self):
+        params = {
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
 
     def test_freeze(self):
         params = {
@@ -429,6 +467,17 @@ class XtbTests(InputTests):
         """
         self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
+    def test_constrained_conformational_search_no_constraint(self):
+        params = {
+            "type": "Constrained Conformational Search",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "specifications": "--force_constant 2.0",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
+
     def test_constrained_conformational_search_equals(self):
         params = {
             "type": "Constrained Conformational Search",
@@ -485,7 +534,51 @@ class XtbTests(InputTests):
             "specifications": "-rthr 0.8 --ewin 8",
         }
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
+
+    def test_invalid_specification4(self):
+        params = {
+            "type": "Conformational Search",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "specifications": "--rthr abc",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
+
+    def test_invalid_specification_for_type1(self):
+        params = {
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "specifications": "--rthr 0.8",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
+
+    def test_invalid_specification_for_type2(self):
+        params = {
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "specifications": "--ewin 8",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
+
+    def test_unknown_specification(self):
+        params = {
+            "type": "Conformational Search",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "specifications": "--abc",
+        }
+
+        with self.assertRaises(InvalidParameter):
             xtb = self.generate_calculation(**params)
 
     def test_gfn0(self):

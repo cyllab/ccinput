@@ -66,7 +66,7 @@ class XtbCalculation:
 
     def handle_constraints_scan(self):
         if len(self.calc.constraints) == 0:
-            return
+            raise InvalidParameter("No constraint in constrained optimisation mode")
 
         self.input_file += "$constrain\n"
         self.input_file += f"force constant={self.force_constant}\n"
@@ -113,6 +113,9 @@ class XtbCalculation:
         return ",".join(comp)
 
     def handle_constraints_crest(self):
+        if len(self.calc.constraints) == 0:
+            raise InvalidParameter("No constraint in constrained optimisation mode")
+
         num_atoms = len(self.calc.xyz.split("\n"))
         input_file_name = os.path.basename(self.calc.file)
 
@@ -234,7 +237,15 @@ class XtbCalculation:
                         raise InvalidParameter(
                             "Invalid specification for calculation type: rthr"
                         )
-                    rthr = ss[1]
+                    try:
+                        float(ss[1])
+                    except ValueError:
+                        raise InvalidParameter(
+                            "Parameter rthr must be a floating point value"
+                        )
+                    else:
+                        rthr = ss[1]
+
                 elif ss[0] == "ewin":
                     if self.calc.type not in [
                         CalcType.CONF_SEARCH,
@@ -243,7 +254,14 @@ class XtbCalculation:
                         raise InvalidParameter(
                             "Invalid specification for calculation type: ewin"
                         )
-                    ewin = ss[1]
+                    try:
+                        float(ss[1])
+                    except ValueError:
+                        raise InvalidParameter(
+                            "Parameter ewin must be a floating point value"
+                        )
+                    else:
+                        ewin = ss[1]
                 elif ss[0] == "acc":
                     accuracy = float(ss[1])
                 elif ss[0] == "iterations":
@@ -294,9 +312,7 @@ class XtbCalculation:
             self.specifications = "--opt tight "
             self.cmd_arguments += "--opt "
         elif self.calc.type == CalcType.OPTFREQ:
-            self.specifications = (
-                "--ohess tight "  # Not sure if the tightness will be parsed
-            )
+            self.cmd_arguments = "--ohess "  # Not sure if the tightness will be parsed
         # elif self.calc.type == "Conformational Search":
         #    self.specifications = "--rthr 0.6 --ewin 6 "
         elif self.calc.type == CalcType.CONSTR_CONF_SEARCH:
