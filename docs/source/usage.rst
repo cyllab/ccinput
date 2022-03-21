@@ -41,7 +41,7 @@ The parameters not case sensitive and ``ccinput`` recognizes several synonyms fo
 - DEF2TZVP
 - def2tzvp
 
-The accepted synonyms will be listed for each parameter. If you believe that a common or useful synonym is missing, feel free to send a pull request.
+Spaces and symbols other than ``+`` and ``*``  will be ignored. The otherwise different synonyms will be listed for each parameter. If you believe that a common or useful synonym is missing, feel free to send a pull request.
 
 Software
 ^^^^^^^^
@@ -61,9 +61,8 @@ Type
 Type of calculation (*e.g.* single-point energy, geometrical optimization, transition state optimization...)
 
 .. exec::
-   from ccinput.constants import INV_STR_TYPES
-   from ccinput.documentation import format_dict_enum
-   print(format_dict_enum(INV_STR_TYPES, "Calculation id"))
+   from ccinput.documentation import format_calc_types
+   print(format_calc_types())
 
 |
 
@@ -173,6 +172,11 @@ Gaussian   SMD
 ORCA       SMD
 
            CPCM
+
+xtb        GBSA
+
+           ALPB
+
 ========== ========
 
 Solvation radii

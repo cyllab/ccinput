@@ -1,4 +1,7 @@
-def format_dict_str(d, name):
+from ccinput.constants import SYN_TYPES
+
+
+def format_dict_str(d, name, label2="Synonyms"):
     arr_l = [len(name)]
     for k, syns in d.items():
         arr_l.append(len(k))
@@ -6,8 +9,8 @@ def format_dict_str(d, name):
 
     ll = max(arr_l)
 
-    tab = """{} ========\n{:<{}} Synonyms\n{} ========\n""".format(
-        ll * "=", name, ll, ll * "="
+    tab = """{} ========\n{:<{}} {}\n{} ========\n""".format(
+        ll * "=", name, ll, label2, ll * "="
     )
 
     for k, syns in sorted(d.items(), key=lambda i: i[0]):
@@ -22,3 +25,11 @@ def format_dict_str(d, name):
 
 def format_dict_enum(d, name):
     return format_dict_str({k.name: v for k, v in d.items()}, name)
+
+
+def format_calc_types():
+    return format_dict_str(
+        {j[0]: [str(i)] for i, j in SYN_TYPES.items()},
+        "Calculation type",
+        label2="Code",
+    )

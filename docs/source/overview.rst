@@ -60,42 +60,43 @@ Supported features
 
 Below is a short summary of the different features that can be requested for the supported packages. Important features (*e.g.* a whole different calculation type) that are not mentioned can be assumed to not be supported. Minor features (*e.g.* additional printout) that are not mentioned may or may not be supported; refer to the :doc:`detailed usage<usage>` for more information.
 
-=============================== ============ ===========
-Calculation Type                Gaussian 16    ORCA 5
-=============================== ============ ===========
-Essential calculations [1]_        yes         yes
-Common calculations [2]_           yes         yes
-Minimum energy path                n.a.        yes
-NMR prediction                     yes         yes
-TD-DFT                             yes         no
-Molecular orbital visualisation    no          yes
-=============================== ============ ===========
+=============================== ============ =========== =========
+Calculation Type                Gaussian 16    ORCA 5       xtb
+=============================== ============ =========== =========
+Essential calculations [1]_        yes         yes          yes
+Common calculations [2]_           yes         yes          yes
+Minimum energy path                n.a.        yes          n.a.
+NMR prediction                     yes         yes          n.a.
+TD-DFT                             yes         no           n.a.
+Molecular orbital visualisation    no          yes          no
+=============================== ============ =========== =========
 
 
-=============================== ============ ===========
+=============================== ============ =========== =========
 Level of theory                 Gaussian 16    ORCA 5
-=============================== ============ ===========
-Tight-binding methods              no          yes [3]_
-Semi-empirical methods             yes         yes
-Hartree-fock                       yes         yes
-Density Functional Theory          yes         yes
-Grimme's "3c" methods              n.a.        yes
-Møller-Plesset                     no          no
-Coupled Cluster                    n.a.        no
-=============================== ============ ===========
+=============================== ============ =========== =========
+Tight-binding methods              no          yes [3]_     yes
+Semi-empirical methods             yes         yes          n.a.
+Hartree-fock                       yes         yes          n.a.
+Density Functional Theory          yes         yes          n.a.
+Grimme's "3c" methods              n.a.        yes          n.a.
+Møller-Plesset                     no          no           n.a.
+Coupled Cluster                    n.a.        no           n.a.
+=============================== ============ =========== =========
 
 
-=============================== ============ ===========
-Feature                         Gaussian 16    ORCA 5
-=============================== ============ ===========
-Implicit solvation                 yes         yes
-Choice of solvation radii set      yes         yes
-Custom solvation radii             yes         yes
-Custom basis sets                  yes         yes
-Density fitting                    yes         no
-Custom additional keywords         yes         yes
-Dispersion corrections             yes         yes
-=============================== ============ ===========
+=============================== ============ =========== =========
+Feature                         Gaussian 16    ORCA 5       xtb
+=============================== ============ =========== =========
+Implicit solvation                 yes         yes          yes
+Choice of solvation radii set      yes         yes          n.a.
+Custom solvation radii             yes         yes          n.a.
+Custom basis sets                  yes         yes          n.a.
+Density fitting                    yes         no           n.a.
+Custom additional keywords         yes         yes          yes
+Dispersion corrections             yes         yes         yes [4]_
+Counter-poise correction           no          no          yes [4]_
+=============================== ============ =========== =========
 
 
 .. [1] Single-point energy calculation, geometrical optimisation, frequency calculation
@@ -103,3 +104,5 @@ Dispersion corrections             yes         yes
 .. [2] Transition state optimisation, constrained optimisation
 
 .. [3] Requires the `xtb package <https://github.com/grimme-lab/xtb>`__; the supported methods are GFN2-xTB, GFN1-xTB, GFN0-xTB and GFN-FF
+
+.. [4] Used by default

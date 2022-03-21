@@ -30,9 +30,18 @@ for el in periodictable.elements:
     ATOMIC_SYMBOL[el.number] = el.symbol
     LOWERCASE_ATOMIC_SYMBOLS[el.symbol.lower()] = el.symbol
 
+# The first synonym will be used as detailed name in the documentation
 SYN_TYPES = {
-    CalcType.SP: ["sp", "singlepoint", "singlepointenergy", "energy", "scf"],
+    CalcType.SP: [
+        "Single-point Energy",
+        "sp",
+        "singlepoint",
+        "singlepointenergy",
+        "energy",
+        "scf",
+    ],
     CalcType.OPT: [
+        "Geometrical Optimisation",
         "opt",
         "optimize",
         "optimise",
@@ -43,6 +52,7 @@ SYN_TYPES = {
         "geomopt",
     ],
     CalcType.CONSTR_OPT: [
+        "Constrained Optimisation",
         "optconstr",
         "constropt",
         "optmod",
@@ -50,6 +60,7 @@ SYN_TYPES = {
         "constrainedoptimization",
     ],
     CalcType.FREQ: [
+        "Frequency Calculation",
         "freq",
         "frequency",
         "hess",
@@ -58,9 +69,24 @@ SYN_TYPES = {
         "frequencycalculation",
         "freqcalculation",
     ],
-    CalcType.TS: ["ts", "tsoptimisation", "tsoptimization", "optts", "tsopt"],
-    CalcType.NMR: ["nmr", "nmrprediction", "nmrcalculation", "nmrcalc", "calcnmr"],
+    CalcType.TS: [
+        "TS Optimisation",
+        "ts",
+        "tsoptimisation",
+        "tsoptimization",
+        "optts",
+        "tsopt",
+    ],
+    CalcType.NMR: [
+        "NMR Calculation",
+        "nmr",
+        "nmrprediction",
+        "nmrcalculation",
+        "nmrcalc",
+        "calcnmr",
+    ],
     CalcType.UVVIS: [
+        "UV-Vis Calculation",
         "uvvis",
         "uvvisprediction",
         "uvviscalculation",
@@ -69,17 +95,27 @@ SYN_TYPES = {
         "tddft",
         "absorbance",
     ],
-    CalcType.UVVIS_TDA: ["tda", "tdadft"],
+    CalcType.UVVIS_TDA: ["TDA UV-Vis Calculation", "tda", "tdadft"],
     CalcType.MEP: [
+        "Minimum energy path",
         "mep",
         "minimumenergypath",
+        "minimalenergypath",
         "neb",
         "nudgedelasticband",
         "reactionpath",
     ],
-    CalcType.MO: ["mo", "mocalc", "mocalculation", "molecularorbitals", "mos"],
-    CalcType.OPTFREQ: ["optfreq", "opt+freq"],
+    CalcType.MO: [
+        "MO Calculation",
+        "mo",
+        "mocalc",
+        "mocalculation",
+        "molecularorbitals",
+        "mos",
+    ],
+    CalcType.OPTFREQ: ["Opt+Freq Calculation", "optfreq", "opt+freq"],
     CalcType.CONF_SEARCH: [
+        "Conformational Search",
         "conformersearch",
         "confsearch",
         "conformationalsearch",
@@ -88,6 +124,7 @@ SYN_TYPES = {
         "conf",
     ],
     CalcType.CONSTR_CONF_SEARCH: [
+        "Constrained Conformational Search",
         "constrainedconformersearch",
         "constrconfsearch",
         "constrainedconformationalsearch",
