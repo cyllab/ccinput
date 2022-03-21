@@ -292,7 +292,10 @@ class XtbCalculation:
             self.cmd_arguments += "--hess "
 
     def create_command(self):
-        input_file_name = os.path.basename(self.calc.file)
+        if self.calc.file:
+            input_file_name = os.path.basename(self.calc.file)
+        else:
+            input_file_name = self.calc.name + ".xyz"
         self.command = f"{self.program} {input_file_name} {self.cmd_arguments}".strip()
 
     @property
