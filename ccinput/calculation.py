@@ -182,7 +182,7 @@ class Parameters:
 
         self.theory_level = get_theory_level(method)
 
-        if self.theory_level not in ["semi-empirical", "xtb", "special"]:
+        if self.theory_level not in ["semiempirical", "xtb", "special"]:
             self.basis_set = get_abs_basis_set(basis_set)
         else:
             self.basis_set = ""

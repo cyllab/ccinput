@@ -138,35 +138,6 @@ class XtbCalculation:
         self.input_file += f"atoms: {self.compress_indices(mtd_atoms)}\n"
 
     def handle_specifications(self):
-        SPECIFICATIONS = {
-            "general": {
-                "acc": 1,
-                "iterations": 1,
-                "gfn2-xtb": 0,
-                "gfn1-xtb": 0,
-                "gfn0-xtb": 0,
-                "gfn-ff": 0,
-            },
-            "Geometrical Optimisation": {
-                "opt(crude)": 0,
-                "opt(sloppy)": 0,
-                "opt(loose)": 0,
-                "opt(lax)": 0,
-                "opt(normal)": 0,
-                "opt(tight)": 0,
-                "opt(vtight)": 0,
-                "opt(extreme)": 0,
-            },
-            "Conformational Search": {
-                "gfn2-xtb//gfn-ff": 0,
-                "rthr": 1,
-                "ewin": 1,
-                "quick": 0,
-                "squick": 0,
-                "mquick": 0,
-            },
-        }
-
         accuracy = -1
         iterations = -1
         method = "gfn2-xtb"
@@ -313,8 +284,6 @@ class XtbCalculation:
             self.cmd_arguments += "--opt "
         elif self.calc.type == CalcType.OPTFREQ:
             self.cmd_arguments = "--ohess "  # Not sure if the tightness will be parsed
-        # elif self.calc.type == "Conformational Search":
-        #    self.specifications = "--rthr 0.6 --ewin 6 "
         elif self.calc.type == CalcType.CONSTR_CONF_SEARCH:
             self.cmd_arguments += "-cinp input "
         elif self.calc.type == CalcType.CONSTR_OPT:

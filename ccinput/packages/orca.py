@@ -198,7 +198,7 @@ class OrcaCalculation:
         method = get_method(self.calc.parameters.method, "orca")
         if self.calc.parameters.theory_level not in [
             "xtb",
-            "semi-empirical",
+            "semiempirical",
             "special",
         ]:
             basis_set = get_basis_set(self.calc.parameters.basis_set, "orca")
@@ -268,7 +268,7 @@ class OrcaCalculation:
         self.xyz_structure = "".join(lines)
 
     def handle_pal(self):
-        if self.calc.parameters.theory_level == "semi-empirical":
+        if self.calc.parameters.theory_level == "semiempirical":
             self.pal = 1
         else:
             self.pal = self.calc.nproc

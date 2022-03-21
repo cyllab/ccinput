@@ -164,9 +164,16 @@ def parse_xyz_from_file(path):
     return standardize_xyz(lines)
 
 
+def indexify(txt):
+    INDEX_CHARS = string.ascii_lowercase + string.digits + "+*"
+    _txt = txt.lower()
+    return "".join([i for i in _txt if i in INDEX_CHARS])
+
+
 def get_theory_level(method):
+    _method = indexify(method)
     for level, methods in THEORY_LEVELS.items():
-        if method.lower() in methods:
+        if _method in methods or _method == level:
             return level
     return "dft"
 
@@ -176,15 +183,16 @@ def get_abs_type(str_type):
     Converts a string calculation type into the correct CalcType.
     Takes into account different equivalent ways to write the calculation types.
     """
-    _str_type = str_type.lower().strip()
-    if _str_type in STR_TYPES:
-        return STR_TYPES[_str_type]
-    else:
-        raise InvalidParameter(f"Invalid calculation type: '{str_type}'")
+    _str_type = indexify(str_type)
+    for calc_type, synonyms in SYN_TYPES.items():
+        if _str_type in synonyms:
+            return calc_type
+
+    raise InvalidParameter(f"Invalid calculation type: '{str_type}'")
 
 
 def get_abs_software(software):
-    _software = software.lower().strip()
+    _software = indexify(software)
     for s in SYN_SOFTWARE:
         if _software in SYN_SOFTWARE[s] or _software == s:
             return s
@@ -192,7 +200,7 @@ def get_abs_software(software):
 
 
 def get_abs_method(method):
-    _method = method.strip().lower()
+    _method = indexify(method)
     for m in SYN_METHODS:
         if _method in SYN_METHODS[m] or _method == m:
             return m
@@ -200,14 +208,8 @@ def get_abs_method(method):
 
 
 def get_abs_basis_set(basis_set):
-    _bs = (
-        basis_set.strip()
-        .lower()
-        .replace("-", "")
-        .replace("(", "")
-        .replace(")", "")
-        .replace(",", "")
-    )
+    _bs = indexify(basis_set)
+
     for bs in SYN_BASIS_SETS:
         if _bs.lower() in SYN_BASIS_SETS[bs] or _bs.lower() == bs:
             return bs
@@ -215,7 +217,7 @@ def get_abs_basis_set(basis_set):
 
 
 def get_abs_solvent(solvent):
-    _solvent = solvent.strip().lower()
+    _solvent = indexify(solvent)
     if _solvent in ["", "vacuum", "vac"]:
         return ""
     for solv in SYN_SOLVENTS:
@@ -286,7 +288,7 @@ def get_solvent(solvent, software, solvation_model="smd"):
         warn(f"Unknown solvent '{solvent}'")
         return solvent
 
-    if software == "orca" and abs_solvent == "n-octanol":
+    if software == "orca" and abs_solvent == "noctanol":
         # Weird exception in ORCA
         if solvation_model == "smd":
             return "1-octanol"
