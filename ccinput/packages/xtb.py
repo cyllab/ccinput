@@ -21,10 +21,12 @@ class XtbCalculation:
     def __init__(self, calc):
         self.calc = calc
         self.program = ""
+        self.main_command = ""
         self.cmd_arguments = ""
         self.input_file = ""
         self.specifications = ""
         self.force_constant = 1.0
+        self.confirmed_specifications = ""
 
         self.handle_command()
         self.handle_specifications()
@@ -48,9 +50,9 @@ class XtbCalculation:
                 raise InvalidParameter("Invalid solvent")
 
             if self.calc.parameters.solvation_model == "gbsa":
-                self.cmd_arguments += f"-g {solvent_keyword} "
+                self.main_command += f"-g {solvent_keyword} "
             elif self.calc.parameters.solvation_model == "alpb":
-                self.cmd_arguments += f"--alpb {solvent_keyword} "
+                self.main_command += f"--alpb {solvent_keyword} "
             else:
                 raise InvalidParameter(
                     "Invalid solvation method for xtb: {}".format(
@@ -59,10 +61,10 @@ class XtbCalculation:
                 )
 
         if self.calc.charge != 0:
-            self.cmd_arguments += f"--chrg {self.calc.charge} "
+            self.main_command += f"--chrg {self.calc.charge} "
 
         if self.calc.multiplicity != 1:
-            self.cmd_arguments += f"--uhf {self.calc.multiplicity} "
+            self.main_command += f"--uhf {self.calc.multiplicity} "
 
     def handle_constraints_scan(self):
         if len(self.calc.constraints) == 0:
@@ -265,38 +267,53 @@ class XtbCalculation:
         if method != "gfn2-xtb" and method != "gfn 2":
             self.cmd_arguments += f"--{method} "
         if opt_level != "normal":
-            self.cmd_arguments = self.cmd_arguments.replace(
+            self.main_command = self.main_command.replace(
                 "--opt ", f"--opt {opt_level} "
             )
+            self.confirmed_specifications += f"--opt {opt_level} "
 
         if self.calc.type in [CalcType.CONF_SEARCH, CalcType.CONSTR_CONF_SEARCH]:
-            self.cmd_arguments += f"--rthr {rthr} --ewin {ewin} "
+            self.cmd_arguments += f"--rthr {rthr} --ewin {ewin}"
+            self.confirmed_specifications += self.cmd_arguments.strip()
 
             self.cmd_arguments = self.cmd_arguments.replace(
                 "--", "-"
             )  # Crest 2.10.2 does not read arguments with double dashes
+        else:
+            self.confirmed_specifications += self.cmd_arguments.strip()
 
     def handle_command(self):
         self.program = self.EXECUTABLES[self.calc.type]
 
         if self.calc.type == CalcType.OPT:
             self.specifications = "--opt tight "
-            self.cmd_arguments += "--opt "
+            self.main_command += "--opt "
         elif self.calc.type == CalcType.OPTFREQ:
-            self.cmd_arguments = "--ohess "  # Not sure if the tightness will be parsed
+            self.main_command = "--ohess "  # Not sure if the tightness will be parsed
         elif self.calc.type == CalcType.CONSTR_CONF_SEARCH:
-            self.cmd_arguments += "-cinp input "
+            self.main_command += "-cinp input "
         elif self.calc.type == CalcType.CONSTR_OPT:
-            self.cmd_arguments += "--opt --input input "
+            self.main_command += "--opt --input input "
         elif self.calc.type == CalcType.FREQ:
-            self.cmd_arguments += "--hess "
+            self.main_command += "--hess "
 
     def create_command(self):
         if self.calc.file:
             input_file_name = os.path.basename(self.calc.file)
         else:
             input_file_name = self.calc.name + ".xyz"
-        self.command = f"{self.program} {input_file_name} {self.cmd_arguments}".strip()
+
+        if self.calc.type in [CalcType.CONF_SEARCH, CalcType.CONSTR_CONF_SEARCH]:
+            self.main_command = self.main_command.replace(
+                "--", "-"
+            )  # Crest 2.10.2 does not read arguments with double dashes
+
+        if self.main_command != "":
+            self.command = f"{self.program} {input_file_name} {self.main_command.strip()} {self.cmd_arguments}".strip()
+        else:
+            self.command = (
+                f"{self.program} {input_file_name} {self.cmd_arguments}".strip()
+            )
 
     @property
     def output(self):
