@@ -2133,6 +2133,53 @@ class GaussianTests(InputTests):
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
         self.assertEqual(inp.confirmed_specifications.strip(), "scf(tight, xqc)")
 
+    def test_alternate_syntax_specification(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF=Tight",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=calc.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp M062X/Def2SVP scf(tight)
+
+        File created by ccinput
+
+        -1 1
+        Cl 0.0 0.0 0.0
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+        self.assertEqual(inp.confirmed_specifications.strip(), "scf(tight)")
+
+    def test_alternate_syntax_specification_invalid(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF=Tight=2",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+
     def test_cmd_specification(self):
         params = {
             "nproc": 8,

@@ -124,6 +124,12 @@ class GaussianCalculation:
                 for option in options.split(","):
                     if option.strip() != "":
                         self.add_option(key, option)
+            elif spec.find("=") != -1:
+                try:
+                    key, option = spec.split("=")
+                except ValueError:
+                    raise InvalidParameter(f"Invalid specification: {spec}")
+                self.add_option(key, option)
             else:
                 self.add_option(spec, "")
 
@@ -371,7 +377,8 @@ class GaussianCalculation:
             if cmd.lower() != "scrf":
                 spec_options = []
                 for o in options:
-                    print(o)
+                    if o.strip() == "":
+                        continue
                     if self.calc.type == CalcType.TS and o in [
                         "ts",
                         "NoEigenTest",
@@ -383,6 +390,7 @@ class GaussianCalculation:
                     spec_options.append(o)
                 if len(spec_options) > 0:
                     spec_option_str = ", ".join(spec_options)
+
                     confirmed_spec = f"{cmd}({spec_option_str}) "
                     if cmd in self.KEYWORD_LIST:
                         self.confirmed_specifications = (
