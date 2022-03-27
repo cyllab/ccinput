@@ -40,6 +40,12 @@ class XtbCalculation:
 
         self.create_command()
 
+    def get_output_name(self):
+        if self.calc.file:
+            return os.path.basename(self.calc.file)
+        else:
+            return self.calc.name + ".xyz"
+
     def handle_parameters(self):
         if self.calc.parameters.solvent != "":
             try:
@@ -119,7 +125,8 @@ class XtbCalculation:
             raise InvalidParameter("No constraint in constrained optimisation mode")
 
         num_atoms = len(self.calc.xyz.split("\n"))
-        input_file_name = os.path.basename(self.calc.file)
+
+        input_file_name = self.get_output_name()
 
         self.input_file += "$constrain\n"
         self.input_file += f"force constant={self.force_constant}\n"
@@ -298,10 +305,7 @@ class XtbCalculation:
             self.main_command += "--hess "
 
     def create_command(self):
-        if self.calc.file:
-            input_file_name = os.path.basename(self.calc.file)
-        else:
-            input_file_name = self.calc.name + ".xyz"
+        input_file_name = self.get_output_name()
 
         if self.calc.type in [CalcType.CONF_SEARCH, CalcType.CONSTR_CONF_SEARCH]:
             self.main_command = self.main_command.replace(
