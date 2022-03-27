@@ -34,7 +34,7 @@ H    0.94410000   0.53240000   2.04240000
 
 ```
 >>> from ccinput.wrapper import gen_input
->>> inp = gen_input(software="orca", type="ts", method="PBEh-3c", in_file="ethanol.xyz", nproc=16, solvent="ethanol", solvation_model="SMD")
+>>> inp = gen_input(software="orca", type="ts", method="PBEh-3c", file="ethanol.xyz", nproc=16, solvent="ethanol", solvation_model="SMD")
 *** No solvation radii specified; using default radii ***
 >>> print(inp)
 !OPTTS PBEh-3c

@@ -30,7 +30,7 @@ The parameters to these two wrappers will be the same as in the command line usa
 .. code-block:: python
 
         >>> from ccinput.wrapper import gen_input
-        >>> inp = gen_input(software="orca", type="ts", method="PBEh-3c", in_file="ethanol.xyz", nproc=16, solvent="ethanol", solvation_model="SMD")
+        >>> inp = gen_input(software="orca", type="ts", method="PBEh-3c", file="ethanol.xyz", nproc=16, solvent="ethanol", solvation_model="SMD")
 
 Parameter Details
 ------------------
