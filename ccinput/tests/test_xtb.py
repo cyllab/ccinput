@@ -156,6 +156,34 @@ class XtbTests(InputTests):
         with self.assertRaises(InvalidParameter):
             xtb = self.generate_calculation(**params)
 
+    def test_solvent_change_solvation_radii(self):
+        params = {
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "xtb",
+            "solvent": "chcl3",
+            "solvation_model": "ALPB",
+            "solvation_radii": "PCM",
+            "charge": "-1",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
+
+    def test_solvent_custom_solvation_radii(self):
+        params = {
+            "type": "Frequency Calculation",
+            "file": "Cl.xyz",
+            "software": "xtb",
+            "solvent": "chcl3",
+            "solvation_model": "ALPB",
+            "custom_solvation_radii": "I=3.00",
+            "charge": "-1",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            xtb = self.generate_calculation(**params)
+
     def test_solvent_synonym(self):
         params = {
             "type": "Frequency Calculation",

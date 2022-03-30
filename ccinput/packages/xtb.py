@@ -48,6 +48,12 @@ class XtbCalculation:
 
     def handle_parameters(self):
         if self.calc.parameters.solvent != "":
+            if (
+                self.calc.parameters.solvation_radii != ""
+                or self.calc.parameters.custom_solvation_radii != ""
+            ):
+                raise InvalidParameter("Cannot change the solvation radii in xtb")
+
             try:
                 solvent_keyword = get_solvent(
                     self.calc.parameters.solvent, self.calc.parameters.software
@@ -61,9 +67,7 @@ class XtbCalculation:
                 self.main_command += f"--alpb {solvent_keyword} "
             else:
                 raise InvalidParameter(
-                    "Invalid solvation method for xtb: {}".format(
-                        self.calc.parameters.solvation_model
-                    )
+                    f"Invalid solvation method for xtb: {self.calc.parameters.solvation_model}"
                 )
 
         if self.calc.charge != 0:
