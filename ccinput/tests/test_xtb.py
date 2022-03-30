@@ -1,6 +1,6 @@
 from ccinput.tests.testing_utilities import InputTests
 from ccinput.packages.xtb import XtbCalculation
-from ccinput.exceptions import InvalidParameter
+from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class XtbTests(InputTests):
@@ -678,3 +678,13 @@ class XtbTests(InputTests):
         REF = "xtb ethanol.xyz --gfnff"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
+
+    def test_unavailable_calc_type(self):
+        params = {
+            "type": "TS Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+        }
+
+        with self.assertRaises(ImpossibleCalculation):
+            xtb = self.generate_calculation(**params)

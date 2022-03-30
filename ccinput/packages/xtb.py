@@ -2,7 +2,7 @@ import os
 
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.utilities import get_solvent
-from ccinput.exceptions import InvalidParameter
+from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class XtbCalculation:
@@ -28,6 +28,10 @@ class XtbCalculation:
         self.force_constant = 1.0
         self.confirmed_specifications = ""
 
+        if self.calc.type not in self.EXECUTABLES:
+            raise ImpossibleCalculation(
+                f"xtb does not support calculations of type {self.calc.type}"
+            )
         self.handle_command()
         self.handle_specifications()
 

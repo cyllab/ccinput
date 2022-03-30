@@ -1,5 +1,5 @@
 from ccinput.tests.testing_utilities import InputTests
-from ccinput.exceptions import InvalidParameter
+from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class GaussianTests(InputTests):
@@ -3138,3 +3138,17 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_unavailable_calc_type(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Minimum Energy Path",
+            "file": "Cl.xyz",
+            "software": "Gaussian",
+            "method": "AM1",
+            "charge": "-1",
+        }
+
+        with self.assertRaises(ImpossibleCalculation):
+            self.generate_calculation(**params)

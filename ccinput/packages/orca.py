@@ -2,7 +2,11 @@ import basis_set_exchange
 
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz
-from ccinput.exceptions import InvalidParameter, UnimplementedError
+from ccinput.exceptions import (
+    InvalidParameter,
+    UnimplementedError,
+    ImpossibleCalculation,
+)
 
 
 class OrcaCalculation:
@@ -29,6 +33,19 @@ class OrcaCalculation:
 
     input_file = ""
 
+    CALC_TYPES = [
+        CalcType.SP,
+        CalcType.OPT,
+        CalcType.CONSTR_OPT,
+        CalcType.FREQ,
+        CalcType.TS,
+        CalcType.MEP,
+        CalcType.NMR,
+        CalcType.UVVIS,
+        CalcType.MO,
+        CalcType.OPTFREQ,
+    ]
+
     def __init__(self, calc):
         self.calc = calc
         self.has_scan = False
@@ -42,6 +59,15 @@ class OrcaCalculation:
         self.specifications = {}
         self.solvation_radii = {}
 
+        if self.calc.type not in self.CALC_TYPES:
+            raise ImpossibleCalculation(
+                f"ORCA 5 does not support calculations of type {self.calc.type}"
+            )
+
+        if self.calc.type == CalcType.UVVIS:
+            raise UnimplementedError(
+                f"UV-Vis/TD-DFT calculations are currently not interfaced for ORCA 5"
+            )
         self.handle_specifications()
 
         self.handle_command()

@@ -12,7 +12,7 @@ from ccinput.utilities import (
     get_npxyz,
 )
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
-from ccinput.exceptions import InvalidParameter
+from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class GaussianCalculation:
@@ -64,6 +64,11 @@ class GaussianCalculation:
         self.confirmed_specifications = ""
         self.xyz_structure = ""
         self.input_file = ""
+
+        if self.calc.type not in self.KEYWORDS:
+            raise ImpossibleCalculation(
+                f"Gaussian 16 does not support calculations of type {self.calc.type}"
+            )
 
         self.handle_specifications()
         self.handle_command()

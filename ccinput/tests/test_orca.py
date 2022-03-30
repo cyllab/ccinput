@@ -1,5 +1,5 @@
 from ccinput.tests.testing_utilities import InputTests
-from ccinput.exceptions import InvalidParameter
+from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class OrcaTests(InputTests):
@@ -1691,3 +1691,17 @@ class OrcaTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_unavailable_calc_type(self):
+        params = {
+            "nproc": 8,
+            "type": "Conformational Search",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "-1",
+        }
+
+        with self.assertRaises(ImpossibleCalculation):
+            self.generate_calculation(**params)
