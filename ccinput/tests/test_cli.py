@@ -538,6 +538,82 @@ class ManualCliTests(InputTests):
         self.assertEqual(outputs[0], "calc_dir/ethanol.inp")
         self.assertEqual(outputs[1], "calc_dir/CH4.inp")
 
+    def test_multiple_files_specifications_orca(self):
+        cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -n 1 --mem 1G --specifications 'tightscf'"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        self.assertEqual(len(objs), 2)
+        self.assertEqual(len(outputs), 0)
+
+        args1 = {
+            "software": "ORCA",
+            "type": "sp",
+            "method": "HF",
+            "basis_set": "Def2SVP",
+            "file": self.struct("ethanol"),
+            "nproc": 1,
+            "mem": "1G",
+            "specifications": "tightscf",
+        }
+        args2 = {
+            "software": "ORCA",
+            "type": "sp",
+            "method": "HF",
+            "basis_set": "Def2SVP",
+            "file": self.struct("CH4"),
+            "nproc": 1,
+            "mem": "1G",
+            "specifications": "tightscf",
+        }
+
+        inp1 = gen_input(**args1)
+        inp2 = gen_input(**args2)
+
+        self.assertTrue(self.is_equivalent(inp1, objs[0].input_file))
+        self.assertTrue(self.is_equivalent(inp2, objs[1].input_file))
+
+    def test_multiple_files_specifications_gaussian(self):
+        cmd_line = f"g16 opt HF -bs Def2SVP -f {self.struct('ethanol')} {self.struct('CH4')} -n 1 --mem 1G --specifications 'opt(maxstep=5)'"
+
+        parser = get_parser()
+        args = parser.parse_args(shlex.split(cmd_line))
+
+        objs, outputs = get_input_from_args(args)
+        self.assertEqual(len(objs), 2)
+        self.assertEqual(len(outputs), 0)
+
+        args1 = {
+            "software": "g16",
+            "type": "opt",
+            "method": "HF",
+            "basis_set": "Def2SVP",
+            "file": self.struct("ethanol"),
+            "nproc": 1,
+            "mem": "1G",
+            "name": "ethanol",
+            "specifications": "opt(maxstep=5)",
+        }
+        args2 = {
+            "software": "g16",
+            "type": "opt",
+            "method": "HF",
+            "basis_set": "Def2SVP",
+            "file": self.struct("CH4"),
+            "nproc": 1,
+            "mem": "1G",
+            "name": "CH4",
+            "specifications": "opt(maxstep=5)",
+        }
+
+        inp1 = gen_input(**args1)
+        inp2 = gen_input(**args2)
+
+        self.assertTrue(self.is_equivalent(inp1, objs[0].input_file))
+        self.assertTrue(self.is_equivalent(inp2, objs[1].input_file))
+
     def test_single_file_output(self):
         cmd_line = f"orca sp HF -bs Def2SVP -f {self.struct('ethanol')} -o calc_dir/ethanol.inp -n 1 --mem 1G"
 
