@@ -417,6 +417,30 @@ class CliEquivalenceTests(InputTests):
         line = '--preset specification --xyz "Cl 0 0 0" -c -1 --specification "5d"'
         self.assertTrue(self.args_cmd_equivalent(args, line))
 
+    def test_sp_xtb(self):
+        args = {
+            "software": "xtb",
+            "type": "sp",
+            "file": self.struct("ethanol"),
+        }
+
+        inp = gen_input(**args)
+
+        line = "xtb ethanol.xyz"
+        self.assertEqual(inp, line)
+
+    def test_opt_xtb(self):
+        args = {
+            "software": "xtb",
+            "type": "opt",
+            "file": self.struct("ethanol"),
+        }
+
+        inp = gen_input(**args)
+
+        line = "xtb ethanol.xyz --opt tight"
+        self.assertEqual(inp, line)
+
 
 class ManualCliTests(InputTests):
     def setUp(self):

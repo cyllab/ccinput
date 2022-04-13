@@ -138,7 +138,7 @@ THEORY_LEVELS = {
     "hf": ["hartreefock"],
     # Some old exotic semi-empirical methods in ORCA are missing
     "semiempirical": ["am1", "pm3", "pm6", "pm7", "mndo"],
-    "xtb": ["gfn2xtb", "gfn1xtb", "gfn0xtb", "gfnff", "gfn2xtbgfnff"],
+    "xtb": ["gfn2xtb", "xtb2", "xtb1", "gfn1xtb", "gfn0xtb", "gfnff", "gfn2xtbgfnff"],
     "special": ["hf3c", "pbeh3c", "r2scan3c", "b973c"],
     "mp2": ["mp2", "rimp2"],
     "cc": [

@@ -171,16 +171,16 @@ class Parameters:
 
         if method == "":
             if "functional" in kwargs:
-                method = get_method(kwargs["functional"], self.software)
+                self.method = get_method(kwargs["functional"], self.software)
             elif self.software == "xtb":
-                method = "GFN2-xTB"
+                self.method = "gfn2-xtb"
             else:
                 raise InvalidParameter("No calculation method specified (method='...')")
 
         else:
             self.method = get_method(method, self.software)
 
-        self.theory_level = get_theory_level(method)
+        self.theory_level = get_theory_level(self.method)
 
         if self.theory_level not in ["semiempirical", "xtb", "special"]:
             self.basis_set = get_abs_basis_set(basis_set)

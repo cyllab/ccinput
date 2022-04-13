@@ -82,15 +82,18 @@ def generate_calculation(
     if type is None:
         raise InvalidParameter("Specify a calculation type")
 
-    if method is None:
-        raise InvalidParameter("Specify a calculation method")
-
     if xyz == "":
         raise InvalidParameter("No input structure")
 
     xyz_structure = standardize_xyz(xyz)
 
     abs_software = get_abs_software(software)
+
+    if method is None:
+        if abs_software == "xtb":
+            method = "gfn2-xtb"
+        else:
+            raise InvalidParameter("Specify a calculation method")
 
     calc_type = get_abs_type(type)
 
@@ -160,7 +163,7 @@ def gen_obj(**args):
 
 
 def gen_input(**args):
-    return gen_obj(**args).input_file
+    return gen_obj(**args).output
 
 
 def write_input(filename, **args):
