@@ -186,7 +186,7 @@ class GaussianCalculation:
                 raise InvalidParameter("No method")
 
         if basis_set != "":
-            if custom_basis_set == "":
+            if len(custom_basis_set) == 0:
                 if self.calc.parameters.density_fitting != "":
                     self.command_line += (
                         f"{method}/{basis_set}/{self.calc.parameters.density_fitting} "
@@ -204,20 +204,9 @@ class GaussianCalculation:
             self.command_line += f"{method} "
 
     def parse_custom_basis_set(self, base_bs):
-        custom_basis_set = self.calc.parameters.custom_basis_sets
-        entries = [i.strip() for i in custom_basis_set.split(";") if i.strip() != ""]
+        custom_basis_sets = self.calc.parameters.custom_basis_sets
         to_append_gen = []
         to_append_ecp = []
-
-        custom_atoms_requested = []
-        for entry in entries:
-            sentry = entry.split("=")
-
-            if len(sentry) != 2:
-                raise InvalidParameter(f"Invalid custom basis set string: '{entry}'")
-
-            el, bs_keyword = sentry
-            custom_atoms_requested.append(el)
 
         unique_atoms = []
         normal_atoms = []
@@ -227,16 +216,12 @@ class GaussianCalculation:
             a, *_ = line.split()
             if a not in unique_atoms:
                 unique_atoms.append(a)
-                if a not in normal_atoms and a not in custom_atoms_requested:
+                if a not in normal_atoms and a not in custom_basis_sets:
                     normal_atoms.append(a)
 
         custom_atoms = []
         ecp = False
-        for entry in entries:
-            sentry = entry.split("=")
-
-            el, bs_keyword = sentry
-
+        for el, bs_keyword in custom_basis_sets.items():
             if el not in unique_atoms:
                 continue
 

@@ -233,14 +233,8 @@ class OrcaCalculation:
             self.command_line += f"{method} "
 
     def handle_custom_basis_sets(self):
-        if self.calc.parameters.custom_basis_sets == "":
+        if len(self.calc.parameters.custom_basis_sets) == 0:
             return
-
-        entries = [
-            i.strip()
-            for i in self.calc.parameters.custom_basis_sets.split(";")
-            if i.strip() != ""
-        ]
 
         unique_atoms = []
         for line in self.calc.xyz.split("\n"):
@@ -255,14 +249,7 @@ class OrcaCalculation:
         end"""
 
         custom_bs = ""
-        for entry in entries:
-            sentry = entry.split("=")
-
-            if len(sentry) != 2:
-                raise InvalidParameter("Invalid custom basis set string")
-
-            el, bs_keyword = sentry
-
+        for el, bs_keyword in self.calc.parameters.custom_basis_sets.items():
             if el not in unique_atoms:
                 continue
 

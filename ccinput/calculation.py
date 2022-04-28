@@ -18,8 +18,9 @@ from ccinput.utilities import (
     get_coord,
     has_dispersion_parameters,
     warn,
+    indexify,
 )
-from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE
+from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE, BASIS_SET_EXCHANGE_KEY
 
 
 class Calculation:
@@ -209,7 +210,34 @@ class Parameters:
 
         self.specifications = specifications
         self.density_fitting = density_fitting
-        self.custom_basis_sets = custom_basis_sets
+
+        dict_cbs = {}
+
+        for entry in custom_basis_sets.split(";"):
+            if entry.strip() == "":
+                continue
+            sentry = entry.split("=")
+
+            if len(sentry) != 2:
+                raise InvalidParameter(f"Invalid custom basis set string: '{entry}'")
+
+            el, bs_str = sentry
+
+            if el in dict_cbs:
+                raise InvalidParameter(
+                    f"The element {el} was specified more than once in the custom basis set string"
+                )
+
+            bs_index = indexify(bs_str)
+
+            if bs_index in BASIS_SET_EXCHANGE_KEY:
+                bs_keyword = BASIS_SET_EXCHANGE_KEY[bs_index]
+            else:
+                bs_keyword = get_abs_basis_set(bs_str)
+
+            dict_cbs[el] = bs_keyword
+
+        self.custom_basis_sets = dict_cbs
         self.kwargs = kwargs
 
     def __eq__(self, other):
