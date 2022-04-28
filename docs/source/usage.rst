@@ -101,7 +101,9 @@ Basis set used for the calculation. Required for most methods, except "-3c" meth
 Custom basis sets
 ^^^^^^^^^^^^^^^^^
 
-Specific basis sets for specific atoms. Uses the format "<Element>=<Basis set label>;..." (*e.g.* "I=Def2-TZVPD;"). To see all the valid basis set labels per element, visit the `Basis Set Exchange <https://www.basissetexchange.org/>`_.
+Specific basis sets for specific atoms. Uses the format "<Element>=<Basis set label>;..." (*e.g.* "I=Def2-TZVPD;"). To see all the valid basis set labels per element, visit the `Basis Set Exchange <https://www.basissetexchange.org/>`_. Nonetheless, ``ccinput`` will also detect close synonyms of the requested basis set.
+
+If applicable, the effective core potential (ECP) corresponding to the requested basis set will also be added to the input file.
 
 Density fitting
 ^^^^^^^^^^^^^^^
