@@ -73,7 +73,7 @@ Molecular orbital visualisation    no          yes          no
 
 
 =============================== ============ =========== =========
-Level of theory                 Gaussian 16    ORCA 5
+Level of theory                 Gaussian 16    ORCA 5       xtb
 =============================== ============ =========== =========
 Tight-binding methods              no          yes [3]_     yes
 Semi-empirical methods             yes         yes          n.a.
