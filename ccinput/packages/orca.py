@@ -138,6 +138,7 @@ class OrcaCalculation:
             self.command_line = "OPT FREQ "
         elif self.calc.type == CalcType.TS:
             self.command_line = "OPTTS "
+            self.blocks.append("%geom\nCalc_Hess true\nend")
         elif self.calc.type == CalcType.MO:
             self.command_line = "SP "
             struct = clean_xyz(self.calc.xyz)

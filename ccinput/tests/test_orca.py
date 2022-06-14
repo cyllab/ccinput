@@ -964,6 +964,9 @@ class OrcaTests(InputTests):
         H   0.59453997172323     -0.48560162159600      0.83949232123172
         H   0.66998093862168     -0.58930117433261     -0.87511947469677
         *
+        %geom
+        Calc_Hess true
+        end
         %pal
         nprocs 8
         end
@@ -995,6 +998,9 @@ class OrcaTests(InputTests):
         H   0.59453997172323     -0.48560162159600      0.83949232123172
         H   0.66998093862168     -0.58930117433261     -0.87511947469677
         *
+        %geom
+        Calc_Hess true
+        end
         %basis
         newgto N
         S   5
@@ -1046,6 +1052,9 @@ class OrcaTests(InputTests):
         H   0.59453997172323     -0.48560162159600      0.83949232123172
         H   0.66998093862168     -0.58930117433261     -0.87511947469677
         *
+        %geom
+        Calc_Hess true
+        end
         %basis
         newgto N
         S   5
