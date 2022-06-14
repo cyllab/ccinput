@@ -495,6 +495,30 @@ class XtbTests(InputTests):
         """
         self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
+    def test_constrained_conformational_search_named_output(self):
+        params = {
+            "type": "Constrained Conformational Search",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "constraints": "Freeze/1_2;",
+            "output": "inp",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "crest ethanol.xyz -cinp inp -rthr 0.6 -ewin 6"
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
+        INPUT = """$constrain
+        force constant=1.0
+        reference=ethanol.xyz
+        distance: 1, 2, auto
+        atoms: 1-2
+        $metadyn
+        atoms: 3-9
+        """
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
+
     def test_constrained_conformational_search_no_constraint(self):
         params = {
             "type": "Constrained Conformational Search",

@@ -137,6 +137,7 @@ def generate_calculation(
         header=header,
         software=abs_software,
         file=file,
+        **kwargs,
     )
 
     return process_calculation(calc)
@@ -423,7 +424,10 @@ def cmd(cmd_line=None):
         for calc, outp in zip(calcs, outputs):
             with open(outp, "w") as out:
                 out.write(calc.input_file)
-            print(f"Input file written to {outp}")
+            if hasattr(calc, "command") and calc.command:
+                print(f'Input file written to {outp} - run "{calc.command}"')
+            else:
+                print(f"Input file written to {outp}")
     else:
         if len(calcs) == 1:
             print(calcs[0].output)
@@ -452,13 +456,22 @@ def get_input_from_args(args, default_params=None):
 
         if args.output != "":
             head, tail = os.path.split(args.output)
-            prefix, ext = tail.split(".")
+            if tail.find(".") != -1:
+                has_ext = True
+                prefix, ext = tail.split(".")
+            else:
+                has_ext = False
+                prefix = tail
+
             if prefix != "":
                 prefix += "_"
             if len(args.file) > 1:
-                outputs = [
-                    os.path.join(head, prefix + name + "." + ext) for name in names
-                ]
+                if has_ext:
+                    outputs = [
+                        os.path.join(head, prefix + name + "." + ext) for name in names
+                    ]
+                else:
+                    outputs = [os.path.join(head, prefix + name) for name in names]
             else:
                 outputs = [args.output]
     else:
@@ -510,9 +523,14 @@ def get_input_from_args(args, default_params=None):
                 params[k] = v
 
     calcs = []
-    for name, xyz, file in zip(names, xyzs, files):
+    for ind, (name, xyz, file) in enumerate(zip(names, xyzs, files)):
+        if len(outputs) >= ind + 1:
+            output = outputs[ind]
+        else:
+            output = None
+
         try:
-            calc = gen_obj(name=name, xyz=xyz, file=file, **params)
+            calc = gen_obj(name=name, xyz=xyz, file=file, output=output, **params)
         except CCInputException as e:
             print(f"!!! {str(e)} !!!")
             exit(0)

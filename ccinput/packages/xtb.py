@@ -300,15 +300,20 @@ class XtbCalculation:
     def handle_command(self):
         self.program = self.EXECUTABLES[self.calc.type]
 
+        if "output" in self.calc.kwargs and self.calc.kwargs["output"]:
+            aux_input = self.calc.kwargs["output"]
+        else:
+            aux_input = "input"
+
         if self.calc.type == CalcType.OPT:
             self.specifications = "--opt tight "
             self.main_command += "--opt "
         elif self.calc.type == CalcType.OPTFREQ:
             self.main_command = "--ohess "  # Not sure if the tightness will be parsed
         elif self.calc.type == CalcType.CONSTR_CONF_SEARCH:
-            self.main_command += "-cinp input "
+            self.main_command += f"-cinp {aux_input} "
         elif self.calc.type == CalcType.CONSTR_OPT:
-            self.main_command += "--opt --input input "
+            self.main_command += f"--opt --input {aux_input} "
         elif self.calc.type == CalcType.FREQ:
             self.main_command += "--hess "
 

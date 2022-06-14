@@ -46,6 +46,7 @@ class Calculation:
         header="File created by ccinput",
         software="",
         file=None,
+        **kwargs,
     ):
         self.xyz = xyz
         self.parameters = parameters
@@ -106,6 +107,7 @@ class Calculation:
         self.name = name
         self.aux_name = aux_name
         self.header = header
+        self.kwargs = kwargs
 
     def verify_charge_mult(self):
         """Verifies that the requested charge and multiplicity are possible for the structure"""
@@ -297,7 +299,9 @@ class Constraint:
                 f"Invalid atom index {max(ids)}: larger than the number of atoms"
             )
         if len(ids) != len(set(ids)):
-            raise InvalidParameter(f"The provided atom indices are not all unique")
+            raise InvalidParameter(
+                f"The provided atom indices are not all unique: {ids}"
+            )
 
         if self.scan:
             num_params = 0
