@@ -974,6 +974,35 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_ts_xtb(self):
+        params = {
+            "nproc": 8,
+            "type": "TS Optimisation",
+            "file": "mini_ts.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "xtb",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        # One cannot calculate the Hessian for use in a TS optimization
+        # when using xtb as QM engine.
+        REF = """
+        !OPTTS xtb
+        *xyz 0 1
+        N   1.08764072053386     -0.33994563112543     -0.00972525479568
+        H   1.99826836912112      0.05502842705407      0.00651240826058
+        H   0.59453997172323     -0.48560162159600      0.83949232123172
+        H   0.66998093862168     -0.58930117433261     -0.87511947469677
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
         # combination tests
 
     def test_ts_DFT_custom_bs(self):
