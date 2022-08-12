@@ -286,6 +286,9 @@ The string representation allows to specified all the constraints at once in a r
    # Scans the angle 1-2-3 from 90 degrees to 0 degrees in 10 steps
    $ ccinput [...] --constraints "scan_90_0_10/1_2_3;"
 
+   # Scans the angle 1-2-3 from its current value to 0 degrees in 10 steps
+   $ ccinput [...] --constraints "scan_auto_0_10/1_2_3;"
+
    # Scans the dihedral angle 1-2-3-4 from 90 degrees to 0 degrees in 10 steps
    $ ccinput [...] --constraints "scan_90_0_10/1_2_3_4;"
 

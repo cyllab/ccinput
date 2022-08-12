@@ -80,8 +80,8 @@ Semi-empirical methods             yes         yes          n.a.
 Hartree-fock                       yes         yes          n.a.
 Density Functional Theory          yes         yes          n.a.
 Grimme's "3c" methods              n.a.        yes          n.a.
-Møller-Plesset                     no          no           n.a.
-Coupled Cluster                    n.a.        no           n.a.
+Møller-Plesset                     no          yes          n.a.
+Coupled Cluster                    n.a.        yes          n.a.
 =============================== ============ =========== =========
 
 
@@ -92,7 +92,7 @@ Implicit solvation                 yes         yes          yes
 Choice of solvation radii set      yes         yes          n.a.
 Custom solvation radii             yes         yes          n.a.
 Custom basis sets                  yes         yes          n.a.
-Density fitting                    yes         no           n.a.
+Density fitting                    yes         yes          n.a.
 Custom additional keywords         yes         yes          yes
 Dispersion corrections             yes         yes         yes [4]_
 Counter-poise correction           no          no          yes [4]_
