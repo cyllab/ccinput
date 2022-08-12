@@ -658,6 +658,44 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_scan_bond_DFT_auto(self):
+        params = {
+            "nproc": 8,
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "constraints": "Scan_auto_1.4_10/1_2;",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !OPT B3LYP 6-31+G(d,p)
+        *xyz 0 1
+        C         -1.31970       -0.64380        0.00000
+        H         -0.96310       -1.65260        0.00000
+        H         -0.96310       -0.13940       -0.87370
+        H         -2.38970       -0.64380        0.00000
+        C         -0.80640        0.08220        1.25740
+        H         -1.16150        1.09160        1.25640
+        H         -1.16470       -0.42110        2.13110
+        O          0.62360        0.07990        1.25870
+        H          0.94410        0.53240        2.04240
+        *
+        %geom Scan
+        B 0 1 = 1.07, 1.40, 10
+        end
+        end
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_invalid_opt_mod(self):
         params = {
             "nproc": 8,

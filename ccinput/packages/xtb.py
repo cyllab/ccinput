@@ -97,9 +97,7 @@ class XtbCalculation:
             self.input_file += "$scan\n"
             for counter, cmd in enumerate(self.calc.constraints):
                 if cmd.scan:
-                    self.input_file += (
-                        f"{counter+1}: {cmd.start_d}, {cmd.end_d}, {cmd.num_steps}\n"
-                    )
+                    self.input_file += f"{counter+1}: {cmd.start_d:.2f}, {cmd.end_d:.2f}, {cmd.num_steps}\n"
 
     def compress_indices(self, arr):
         comp = []

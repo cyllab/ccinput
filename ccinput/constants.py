@@ -2201,7 +2201,7 @@ SOFTWARE_SOLVENTS = {
         "ammonia": "ammonia",
         "benzene": "benzene",
         "carbontetrachloride": "ccl4",
-        "dichloromethane": "ch2cl2",
+        "dichloromethane": "dcm",
         "chloroform": "chloroform",
         "cyclohexane": "cyclohexane",
         "dimethylformamide": "dmf",

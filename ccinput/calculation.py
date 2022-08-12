@@ -513,13 +513,16 @@ def gen_constraint(
 
     if option == "scan":
         if start_str is not None:
-            try:
-                start_d = float(start_str)
-            except ValueError:
-                raise InvalidParameter(f"Invalid initial value: '{start_str}'")
+            if isinstance(start_str, str) and start_str.lower() == "auto":
+                start_d = None
+            else:
+                try:
+                    start_d = float(start_str)
+                except ValueError:
+                    raise InvalidParameter(f"Invalid initial value: '{start_str}'")
 
-            if t == 2 and start_d < 0.01:
-                raise InvalidParameter(f"Invalid initial distance: '{start_str}'")
+                if t == 2 and start_d < 0.01:
+                    raise InvalidParameter(f"Invalid initial distance: '{start_str}'")
         else:
             start_d = None
 

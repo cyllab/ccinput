@@ -232,7 +232,29 @@ class XtbTests(InputTests):
         force constant=1.0
         distance: 1, 2, auto
         $scan
-        1: 9.0, 1.4, 10
+        1: 9.00, 1.40, 10
+        """
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
+
+    def test_scan_auto(self):
+        params = {
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "constraints": "Scan_auto_1.4_10/1_2;",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb ethanol.xyz --opt tight --input input"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
+        INPUT = """$constrain
+        force constant=1.0
+        distance: 1, 2, auto
+        $scan
+        1: 1.07, 1.40, 10
         """
         self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
