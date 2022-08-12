@@ -453,13 +453,169 @@ class OrcaTests(InputTests):
             "method": "RI-MP2",
             "basis_set": "cc-pVTZ",
             "charge": "-1",
+            "specifications": "cc-pvtz/C",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP RI-MP2 cc-pVTZ cc-pVTZ/C
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_MP2_default_aux(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "RI-MP2",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "specifications": "",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP RI-MP2 cc-pVTZ cc-pVTZ/C
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_MP2_override_aux(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "RI-MP2",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "specifications": "cc-pVDZ/C",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP RI-MP2 cc-pVTZ cc-pVDZ/C
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_MP2_without_RI(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "MP2",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "specifications": "",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP MP2 cc-pVTZ
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_DLPNO_CCSDT(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "DLPNO-CCSD(T)",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
             "specifications": "cc-pVTZ/C",
         }
 
         inp = self.generate_calculation(**params)
 
         REF = """
-        !SP RI-MP2 cc-pVTZ cc-pvtz/c
+        !SP DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_DLPNO_CCSDT_default_aux(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "DLPNO-CCSD(T)",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "specifications": "",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_CCSDT(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "CCSD(T)",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "specifications": "",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP CCSD(T) cc-pVTZ
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *

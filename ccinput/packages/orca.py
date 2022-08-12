@@ -1,7 +1,7 @@
 import basis_set_exchange
 
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
-from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz
+from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz, warn
 from ccinput.exceptions import (
     InvalidParameter,
     UnimplementedError,
@@ -58,6 +58,7 @@ class OrcaCalculation:
         self.input_file = ""
         self.specifications = {}
         self.solvation_radii = {}
+        self.aux_basis_sets = {}
 
         if self.calc.type not in self.CALC_TYPES:
             raise ImpossibleCalculation(
@@ -97,7 +98,6 @@ class OrcaCalculation:
         )
 
         specifications_list = []
-
         if _specifications != "":
             sspecs = _specifications.split()
             ind = 0
@@ -116,6 +116,12 @@ class OrcaCalculation:
                         raise InvalidParameter("Invalid specifications")
                     self.specifications["nimages"] = nimages
                     ind += 1
+                elif spec[-2:] == "/c":
+                    self.aux_basis_sets["C"] = get_basis_set(spec[:-2], "orca")
+                elif spec[-3:] == "/jk":
+                    self.aux_basis_sets["JK"] = get_basis_set(spec[:-3], "orca")
+                elif spec[-2:] == "/j":
+                    self.aux_basis_sets["J"] = get_basis_set(spec[:-2], "orca")
                 elif spec not in specifications_list:
                     specifications_list.append(spec)
 
@@ -231,8 +237,18 @@ class OrcaCalculation:
         ]:
             basis_set = get_basis_set(self.calc.parameters.basis_set, "orca")
             self.command_line += f"{method} {basis_set} "
+            if self.calc.parameters.theory_level in ["mp2", "cc"] and (
+                method.find("RI") != -1 or method.find("LPNO") != -1
+            ):
+                # If we need an auxiliary basis set
+                if "C" not in self.aux_basis_sets:
+                    warn(f"No C auxiliary basis set specified, using {basis_set}")
+                    self.aux_basis_sets["C"] = basis_set
         else:
             self.command_line += f"{method} "
+
+        for aux_t, aux_bs in self.aux_basis_sets.items():
+            self.command_line += f"{aux_bs}/{aux_t}"
 
     def handle_custom_basis_sets(self):
         if len(self.calc.parameters.custom_basis_sets) == 0:
