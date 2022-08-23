@@ -265,7 +265,7 @@ def get_method(method, software):
         return method
     else:
         if abs_method not in SOFTWARE_METHODS[software]:
-            warn(f"Unknown method '{method}'")
+            warn(f"Unknown method for this package: '{method}'")
             return method
 
         return SOFTWARE_METHODS[software][abs_method]

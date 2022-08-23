@@ -856,6 +856,17 @@ SYN_BASIS_SETS = {
     "dgdzvp2": [],
     "gdtzvp": [],
     "cbsb7": [],
+    # Auxiliary
+    "def2": [],
+    "def2mtzvp": [],
+    "def2mtzvpp": [],
+    "x2c": [],
+    "sarc": [],
+    "w1mtsmall": [],
+    "w1dz": [],
+    "w1tz": [],
+    "w1qz": [],
+    "w1opt": [],
 }
 
 # Not all basis sets below will be in SYN_BASIS_SETS (to complete).
@@ -1897,6 +1908,17 @@ SOFTWARE_BASIS_SETS = {
         "ccpcvdzf12": "cc-pCVDZ-F12",
         "ccpcvtzf12": "cc-pCVTZ-F12",
         "ccpcvqzf12": "cc-pCVQZ-F12",
+        # Auxiliary
+        "def2": "Def2",
+        "def2mtzvp": "Def2-mTZVP",
+        "def2mtzvpp": "Def2-mTZVPP",
+        "x2c": "x2c",
+        "sarc": "SARC",
+        "w1mtsmall": "W1-mtsmall",
+        "w1dz": "W1-DZ",
+        "w1tz": "W1-TZ",
+        "w1qz": "W1-QZ",
+        "w1opt": "W1-Opt",
     },
     "gaussian": {
         "sto3g": "STO-3G",
@@ -2201,7 +2223,7 @@ SOFTWARE_SOLVENTS = {
         "ammonia": "ammonia",
         "benzene": "benzene",
         "carbontetrachloride": "ccl4",
-        "dichloromethane": "dcm",
+        "dichloromethane": "ch2cl2",
         "chloroform": "chloroform",
         "cyclohexane": "cyclohexane",
         "dimethylformamide": "dmf",
