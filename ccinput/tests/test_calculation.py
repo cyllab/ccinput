@@ -7,7 +7,7 @@ from ccinput.calculation import (
     parse_scan_constraints,
 )
 from ccinput.constants import CalcType
-from ccinput.exceptions import InvalidParameter
+from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class CalculationTests(TestCase):
@@ -16,7 +16,13 @@ class CalculationTests(TestCase):
         self.params = Parameters("gaussian", method="am1")
 
     def create_calc(
-        self, type=CalcType.SP, nproc=1, mem="1000MB", charge=-1, multiplicity=1
+        self,
+        type=CalcType.SP,
+        nproc=1,
+        mem="1000MB",
+        charge=-1,
+        multiplicity=1,
+        **kwargs,
     ):
         return Calculation(
             self.xyz,
@@ -27,6 +33,7 @@ class CalculationTests(TestCase):
             charge=charge,
             multiplicity=multiplicity,
             software="gaussian",
+            **kwargs,
         )
 
     def test_base(self):
@@ -165,6 +172,24 @@ class CalculationTests(TestCase):
     def test_memory_parsing_too_much(self):
         with self.assertRaises(InvalidParameter):
             self.create_calc(mem="1000 t")
+
+    def test_parse_charge(self):
+        calc = self.create_calc(charge=0, parse_name=True, file="Cl_anion")
+        self.assertEqual(calc.charge, -1)
+
+    def test_parse_charge_impossible(self):
+        with self.assertRaises(ImpossibleCalculation):
+            self.create_calc(parse_name=True, file="Cl_anion_doublet")
+
+    def test_parse_multiplicity(self):
+        calc = self.create_calc(charge=0, parse_name=True, file="Cl_radical")
+        self.assertEqual(calc.charge, 0)
+        self.assertEqual(calc.multiplicity, 2)
+
+    def test_parse_multiplicity2(self):
+        calc = self.create_calc(charge=0, parse_name=True, file="Cl_anion_triplet")
+        self.assertEqual(calc.charge, -1)
+        self.assertEqual(calc.multiplicity, 3)
 
 
 class ScanParsingTests(TestCase):

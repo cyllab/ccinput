@@ -66,6 +66,7 @@ def generate_calculation(
     nproc=1,
     mem=1000,
     charge=0,
+    parse_name=False,
     multiplicity=1,
     d3=False,
     d3bj=False,
@@ -132,6 +133,7 @@ def generate_calculation(
         mem=mem,
         charge=charge,
         multiplicity=multiplicity,
+        parse_name=parse_name,
         aux_name=aux_name,
         name=name,
         header=header,
@@ -340,6 +342,12 @@ def get_parser():
         "--mult", "-m", default=1, type=int, help="Multiplicity of the system"
     )
 
+    parser.add_argument(
+        "--parse_name",
+        action="store_true",
+        help="Use filenames to assign the charge and multiplicity",
+    )
+
     dispersion_group = parser.add_mutually_exclusive_group()
 
     dispersion_group.add_argument(
@@ -503,6 +511,7 @@ def get_input_from_args(args, default_params=None):
         "mem": args.mem,
         "charge": args.charge,
         "multiplicity": args.mult,
+        "parse_name": args.parse_name,
         "d3": args.d3,
         "d3bj": args.d3bj,
         "aux_name": args.aux_name,

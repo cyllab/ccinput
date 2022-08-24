@@ -41,6 +41,7 @@ class Calculation:
         mem=1000,
         charge=0,
         multiplicity=1,
+        parse_name=False,
         aux_name="calc2",
         name="calc",
         header="File created by ccinput",
@@ -101,6 +102,35 @@ class Calculation:
             raise InvalidParameter(
                 f"Multiplicity must at least 1 (received '{multiplicity}')"
             )
+
+        if parse_name:
+            if not file:
+                raise InvalidParameter(
+                    f"Cannot parse the charge and multiplicity from the file name: no file given"
+                )
+
+            if "trication" in file:
+                self.charge = 3
+            elif "dication" in file:
+                self.charge = 2
+            elif "cation" in file:
+                self.charge = 1
+            elif "trianion" in file:
+                self.charge = -3
+            elif "dianion" in file:
+                self.charge = -2
+            elif "anion" in file:
+                self.charge = -1
+            elif "neutral" in file:
+                self.charge = 0
+
+            if "radical" in file or "doublet" in file:
+                self.multiplicity = 2
+            elif "triplet" in file:
+                self.multiplicity = 3
+            elif "singlet" in file:
+                self.multiplicity = 1
+
         self.verify_charge_mult()
         self.constraints = constraints
 
