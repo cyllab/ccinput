@@ -75,7 +75,7 @@ class OrcaCalculation:
         self.handle_custom_basis_sets()
         self.handle_xyz()
 
-        self.handle_pal()
+        self.handle_pal_mem()
         self.parse_custom_solvation_radii()
         self.handle_solvation()
 
@@ -298,17 +298,20 @@ class OrcaCalculation:
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
         self.xyz_structure = "".join(lines)
 
-    def handle_pal(self):
+    def handle_pal_mem(self):
         if self.calc.parameters.theory_level == "semiempirical":
             self.pal = 1
+            self.mem_per_core = self.calc.mem
         else:
             self.pal = self.calc.nproc
+            self.mem_per_core = int(self.calc.mem / self.calc.nproc)
 
-        pal_block = f"""%pal
+        pal_mem_block = f"""%MaxCore {self.mem_per_core}
+        %pal
         nprocs {self.pal}
         end"""
 
-        self.blocks.append(pal_block)
+        self.blocks.append(pal_mem_block)
 
     def parse_custom_solvation_radii(self):
         for radius in self.calc.parameters.custom_solvation_radii.split(";"):

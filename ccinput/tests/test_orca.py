@@ -20,6 +20,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 1000
         %pal
         nprocs 1
         end
@@ -45,6 +46,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -72,6 +74,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -103,6 +106,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -135,6 +139,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         I 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -169,6 +174,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         I 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -202,6 +208,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -233,6 +240,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -260,6 +268,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -291,6 +300,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -318,6 +328,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -359,6 +370,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -385,6 +397,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -411,6 +424,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -437,6 +451,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -463,6 +478,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -489,6 +505,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -515,6 +532,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -541,6 +559,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -567,6 +586,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -593,6 +613,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -619,6 +640,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -643,6 +665,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 1000
         %pal
         nprocs 1
         end
@@ -668,6 +691,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -693,6 +717,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -717,6 +742,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 1000
         %pal
         nprocs 1
         end
@@ -742,6 +768,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -767,6 +794,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -807,6 +835,7 @@ class OrcaTests(InputTests):
         B 0 1 = 9.00, 1.40, 10
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -845,6 +874,7 @@ class OrcaTests(InputTests):
         B 0 1 = 1.07, 1.40, 10
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -913,6 +943,7 @@ class OrcaTests(InputTests):
         A 1 0 2 = 9.00, 90.00, 10
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -951,6 +982,7 @@ class OrcaTests(InputTests):
         D 3 0 4 7 = 9.00, 1.00, 10
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1003,6 +1035,7 @@ class OrcaTests(InputTests):
         { B 0 1 C }
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1041,6 +1074,7 @@ class OrcaTests(InputTests):
         { A 1 0 2 C }
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1079,6 +1113,7 @@ class OrcaTests(InputTests):
         { D 3 0 4 7 C }
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1104,6 +1139,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1130,6 +1166,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1161,6 +1198,7 @@ class OrcaTests(InputTests):
         %geom
         Calc_Hess true
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1190,6 +1228,7 @@ class OrcaTests(InputTests):
         H   0.59453997172323     -0.48560162159600      0.83949232123172
         H   0.66998093862168     -0.58930117433261     -0.87511947469677
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1246,6 +1285,7 @@ class OrcaTests(InputTests):
         1         1.0000000              1.0000000
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1300,6 +1340,7 @@ class OrcaTests(InputTests):
         1         1.0000000              1.0000000
         end
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1444,6 +1485,7 @@ class OrcaTests(InputTests):
         end
 
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1588,6 +1630,7 @@ class OrcaTests(InputTests):
         end
 
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1625,6 +1668,7 @@ class OrcaTests(InputTests):
         product "calc2.xyz"
         nimages 8
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1663,6 +1707,7 @@ class OrcaTests(InputTests):
         product "calc2.xyz"
         nimages 12
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1702,6 +1747,7 @@ class OrcaTests(InputTests):
         product "product.xyz"
         nimages 12
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1730,6 +1776,7 @@ class OrcaTests(InputTests):
         %output
         Print[ P_Hirshfeld] 1
         end
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1794,6 +1841,7 @@ class OrcaTests(InputTests):
         MO("in-LUMOB.cube",69,0);
         end
 
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1819,6 +1867,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 1000
         %pal
         nprocs 1
         end
@@ -1843,6 +1892,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 1000
         %pal
         nprocs 1
         end
@@ -1869,6 +1919,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1895,6 +1946,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1939,6 +1991,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -1972,6 +2025,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -2007,6 +2061,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -2043,6 +2098,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -2077,6 +2133,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
@@ -2108,6 +2165,7 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
+        %MaxCore 125
         %pal
         nprocs 8
         end
