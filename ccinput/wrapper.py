@@ -70,8 +70,8 @@ def generate_calculation(
     multiplicity=1,
     d3=False,
     d3bj=False,
-    aux_name="calc2",
-    name="calc",
+    aux_name=None,
+    name=None,
     header="File created by ccinput",
     file=None,
     **kwargs,
@@ -147,14 +147,14 @@ def generate_calculation(
 
 def gen_obj(**args):
     if "file" in args:
-        if isinstance(args["file"], list):
+        if args["file"] is None:
+            pass
+        elif isinstance(args["file"], list):
             if len(args["file"]) > 1:
                 print("file", args["file"])
                 raise UnimplementedError(
                     "No support for multiple input files at once except from the command line"
                 )
-            elif len(args["file"]) == 0:
-                pass
             else:
                 xyz = parse_xyz_from_file(args["file"][0])
                 args["xyz"] = xyz
@@ -248,7 +248,7 @@ def get_parser():
     parser.add_argument(
         "--file",
         "-f",
-        default=[],
+        default=None,
         nargs="+",
         type=str,
         help="XYZ structure(s) as file(s)",
@@ -362,14 +362,14 @@ def get_parser():
 
     parser.add_argument(
         "--name",
-        default="calc",
+        default=None,
         type=str,
         help="Name of the produced file (unused by some packages)",
     )
 
     parser.add_argument(
         "--aux_name",
-        default="calc2",
+        default=None,
         type=str,
         help="Name of the auxiliary file (some calculation types only)",
     )
@@ -457,10 +457,13 @@ def get_input_from_args(args, default_params=None):
     if args.file:
         xyzs = [parse_xyz_from_file(f) for f in args.file]
         files = args.file
-        if len(args.file) > 1 or args.name == "calc":
+        if len(args.file) > 1 or args.name is None:
+            print("A")
             names = [os.path.basename(f).split(".")[0] for f in args.file]
         else:
+            print("B")
             names = [args.name]
+        print(names)
 
         if args.output != "":
             head, tail = os.path.split(args.output)

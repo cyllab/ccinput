@@ -17,7 +17,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp AM1
@@ -46,7 +46,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G
@@ -77,7 +77,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform)
@@ -109,7 +109,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
@@ -146,7 +146,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
@@ -180,7 +180,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform)
@@ -212,7 +212,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform, Read)
@@ -246,7 +246,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
@@ -278,7 +278,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=chloroform)
@@ -310,7 +310,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(CPCM, Solvent=methanol)
@@ -356,7 +356,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP
@@ -386,7 +386,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP nosymm 5d
@@ -416,7 +416,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP
@@ -447,7 +447,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP
@@ -478,7 +478,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP nosymm
@@ -508,7 +508,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP nosymm
@@ -536,7 +536,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt AM1
@@ -565,7 +565,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt HF/3-21G
@@ -594,7 +594,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
@@ -623,7 +623,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p freq AM1
@@ -652,7 +652,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p freq HF/3-21G
@@ -681,7 +681,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p freq B3LYP/6-31+G(d,p)
@@ -711,7 +711,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -751,7 +751,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -791,7 +791,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -831,7 +831,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -871,7 +871,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -911,7 +911,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -966,7 +966,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -1006,7 +1006,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -1078,7 +1078,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -1118,7 +1118,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt(modredundant) B3LYP/6-31+G(d,p)
@@ -1158,7 +1158,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p nmr B3LYP/6-31+G(d,p)
@@ -1187,7 +1187,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=mini_ts.chk
         %nproc=8
         %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/6-31+G(d,p)
@@ -1220,7 +1220,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=mini_ts.chk
         %nproc=8
         %mem=10000MB
         #p opt(ts, NoEigenTest, CalcFC) B3LYP/Def2SVP/W06
@@ -1254,7 +1254,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p td M062X/Def2SVP
@@ -1283,7 +1283,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p tda M062X/Def2SVP
@@ -1313,7 +1313,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p tda(nstates=2, root=1) M062X/Def2SVP
@@ -1343,7 +1343,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/Gen
@@ -1424,7 +1424,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/6-31+G(d,p)
@@ -1462,7 +1462,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/Gen
@@ -1543,7 +1543,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Ph2I_cation.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/GenECP
@@ -1694,7 +1694,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Ph2I_cation.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/GenECP
@@ -1893,7 +1893,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Ph2I_cation.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/GenECP
@@ -2092,7 +2092,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=AuI.chk
         %nproc=8
         %mem=10000MB
         #p opt B3LYP/GenECP
@@ -2283,7 +2283,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight)
@@ -2314,7 +2314,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP
@@ -2345,7 +2345,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5, ts, NoEigenTest, CalcFC) M062X/Def2SVP
@@ -2376,7 +2376,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight, xqc)
@@ -2407,7 +2407,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight, xqc)
@@ -2438,7 +2438,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight, xqc)
@@ -2469,7 +2469,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/Def2SVP scf(tight)
@@ -2516,7 +2516,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP
@@ -2546,7 +2546,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP
@@ -2576,7 +2576,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5) M062X/Def2SVP scf(tight)
@@ -2606,7 +2606,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
@@ -2636,7 +2636,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt(maxstep=5, tight) M062X/Def2SVP nosymm 5d
@@ -2682,7 +2682,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt M062X/Def2SVP
@@ -2730,7 +2730,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p td(nstates=5) M062X/Def2SVP
@@ -2759,7 +2759,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=1
         %mem=10000MB
         #p sp HF/3-21G
@@ -2788,7 +2788,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G
@@ -2817,7 +2817,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G
@@ -2846,7 +2846,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp PKZBPKZB/3-21G
@@ -2875,7 +2875,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp PBEhPKZB/3-21G
@@ -2904,7 +2904,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp RHF/3-21G
@@ -2933,7 +2933,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp UHF/3-21G
@@ -2962,7 +2962,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp iHF/3-21G
@@ -2991,7 +2991,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp UM062X/3-21G
@@ -3020,7 +3020,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp RPBE1PBE/3-21G
@@ -3048,7 +3048,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p freq opt AM1
@@ -3076,7 +3076,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p freq opt AM1
@@ -3105,7 +3105,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p opt freq(noraman) AM1
@@ -3135,7 +3135,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp M062X/3-21G EmpiricalDispersion(GD3)
@@ -3165,7 +3165,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=Cl.chk
         %nproc=8
         %mem=10000MB
         #p sp PBE1PBE/3-21G EmpiricalDispersion(GD3BJ)
@@ -3214,7 +3214,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
@@ -3250,7 +3250,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
@@ -3288,7 +3288,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
@@ -3327,7 +3327,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(SMD, Solvent=chloroform, Read)
@@ -3364,7 +3364,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
@@ -3401,7 +3401,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)
@@ -3439,7 +3439,7 @@ class GaussianTests(InputTests):
         inp = self.generate_calculation(**params)
 
         REF = """
-        %chk=calc.chk
+        %chk=I.chk
         %nproc=8
         %mem=10000MB
         #p sp HF/3-21G SCRF(PCM, Solvent=chloroform, Read)

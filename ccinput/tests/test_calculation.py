@@ -191,6 +191,14 @@ class CalculationTests(TestCase):
         self.assertEqual(calc.charge, -1)
         self.assertEqual(calc.multiplicity, 3)
 
+    def test_default_file_name(self):
+        calc = self.create_calc(charge=-1, file="Cl_anion")
+        self.assertEqual(calc.name, "Cl_anion")
+
+    def test_default_file_name_override(self):
+        calc = self.create_calc(charge=-1, file="Cl_anion", name="custom_name")
+        self.assertEqual(calc.name, "custom_name")
+
 
 class ScanParsingTests(TestCase):
     def setUp(self):

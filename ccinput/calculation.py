@@ -1,4 +1,5 @@
 import hashlib
+import os
 from itertools import zip_longest
 
 from ccinput.exceptions import (
@@ -42,8 +43,8 @@ class Calculation:
         charge=0,
         multiplicity=1,
         parse_name=False,
-        aux_name="calc2",
-        name="calc",
+        aux_name=None,
+        name=None,
         header="File created by ccinput",
         software="",
         file=None,
@@ -134,8 +135,19 @@ class Calculation:
         self.verify_charge_mult()
         self.constraints = constraints
 
-        self.name = name
-        self.aux_name = aux_name
+        if name is None:
+            print(file)
+            if file is None:
+                self.name = "calc"
+            else:
+                self.name = os.path.splitext(os.path.basename(file))[0]
+        else:
+            self.name = name
+
+        if aux_name is None:
+            self.aux_name = "calc2"
+        else:
+            self.aux_name = aux_name
         self.header = header
         self.kwargs = kwargs
 
