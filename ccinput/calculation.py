@@ -136,7 +136,6 @@ class Calculation:
         self.constraints = constraints
 
         if name is None:
-            print(file)
             if file is None:
                 self.name = "calc"
             else:

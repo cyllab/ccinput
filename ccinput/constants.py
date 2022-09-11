@@ -386,12 +386,12 @@ SYN_METHODS = {
     "b1lyp": [],
     "b3lyp": [],
     "bhandhlyp": [],
-    "camb3lyp ": [],
+    "camb3lyp": [],
     "lcblyp": [],
     "o3lyp": [],
     "x3lyp": [],
     "wb2plyp": [],
-    "wb2gpplyp ": [],
+    "wb2gpplyp": [],
     "b1p": [],
     "b3p": [],
     "g1lyp": [],
@@ -424,13 +424,14 @@ SYN_METHODS = {
     "wb97xd3": [],
     "wb97xv": [],
     "wb97xd3bj": [],
+    "b98": [],
     "tpssh": [],
     "tpss0": [],
     "b2plyp": [],
-    "mpw2plyp ": [],
-    "b2gpplyp ": [],
-    "b2kplyp ": [],
-    "b2tplyp ": [],
+    "mpw2plyp": [],
+    "b2gpplyp": [],
+    "b2kplyp": [],
+    "b2tplyp": [],
     "pwpb95": [],
     "b3p86": [],
     "hse06": ["hse1pbe"],
@@ -1562,6 +1563,7 @@ SOFTWARE_METHODS = {
         "wb97": "wB97",
         "wb97x": "wB97X",
         "wb97xd": "wB97XD",  # Gaussian says dispersion model D2, not D3
+        "b98": "B98",
         "camb3lyp": "CAM-B3LYP",
         "lcwhpbe": "LC-wHPBE",
         "tpssh": "TPSSH",
@@ -2462,7 +2464,7 @@ FUNCTIONALS_WITH_DISPERSION_PARAMETERS = {
         "ssb",  # ?
         "b3pw91",  # ?
         "bmk",
-        "cam-b3lyp",
+        "camb3lyp",
         "lcwpbe",  # ?
         "m052x",
         "m05",
@@ -2487,7 +2489,7 @@ FUNCTIONALS_WITH_DISPERSION_PARAMETERS = {
         "bmk",
         "bop",  # ?
         "bpbe",  # ?
-        "cam-b3lyp",
+        "camb3lyp",
         "lcwpbe",  # ?
         "mpw1b95",  # ?
         "mpwb1k",  # ?

@@ -458,12 +458,9 @@ def get_input_from_args(args, default_params=None):
         xyzs = [parse_xyz_from_file(f) for f in args.file]
         files = args.file
         if len(args.file) > 1 or args.name is None:
-            print("A")
             names = [os.path.basename(f).split(".")[0] for f in args.file]
         else:
-            print("B")
             names = [args.name]
-        print(names)
 
         if args.output != "":
             head, tail = os.path.split(args.output)
