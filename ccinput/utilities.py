@@ -213,6 +213,10 @@ def get_abs_basis_set(basis_set):
     for bs in SYN_BASIS_SETS:
         if _bs.lower() in SYN_BASIS_SETS[bs] or _bs.lower() == bs:
             return bs
+    for bs in BASIS_SET_EXCHANGE_KEY:
+        if _bs.lower() == bs:
+            return bs
+
     raise InvalidParameter(f"Unknown basis set: '{basis_set}'")
 
 
@@ -278,7 +282,10 @@ def get_basis_set(basis_set, software):
         warn(f"Unknown basis set '{basis_set}'")
         return basis_set
 
-    return SOFTWARE_BASIS_SETS[software][abs_basis_set]
+    if abs_basis_set in SOFTWARE_BASIS_SETS[software]:
+        return SOFTWARE_BASIS_SETS[software][abs_basis_set]
+    else:
+        return BASIS_SET_EXCHANGE_KEY[abs_basis_set]
 
 
 def get_solvent(solvent, software, solvation_model="smd"):

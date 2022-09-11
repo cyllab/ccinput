@@ -1,7 +1,19 @@
-import basis_set_exchange
+import basis_set_exchange as bse
 
-from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
-from ccinput.utilities import get_method, get_basis_set, get_solvent, clean_xyz, warn
+from ccinput.constants import (
+    CalcType,
+    ATOMIC_NUMBER,
+    LOWERCASE_ATOMIC_SYMBOLS,
+    SOFTWARE_BASIS_SETS,
+)
+from ccinput.utilities import (
+    get_method,
+    get_basis_set,
+    get_solvent,
+    get_abs_basis_set,
+    clean_xyz,
+    warn,
+)
 from ccinput.exceptions import (
     InvalidParameter,
     UnimplementedError,
@@ -276,20 +288,51 @@ class OrcaCalculation:
             except KeyError:
                 raise InvalidParameter("Invalid atom in custom basis set string")
 
-            bs = basis_set_exchange.get_basis(
-                bs_keyword, fmt="ORCA", elements=[el_num], header=False
-            ).strip()
-            sbs = bs.split("\n")
-            if bs.find("ECP") != -1:
-                clean_bs = "\n".join(sbs[3:]).strip() + "\n"
-                clean_bs = clean_bs.replace("\n$END", "$END").replace("$END", "end")
-                custom_bs += f"newgto {el}\n"
-                custom_bs += clean_bs
+            abs_keyword = get_abs_basis_set(bs_keyword)
+            success = False
+            if abs_keyword in SOFTWARE_BASIS_SETS["orca"]:
+                _custom_bs = (
+                    f'NewGTO {el} "{SOFTWARE_BASIS_SETS["orca"][abs_keyword]}" end\n'
+                )
+                gbs = bse.get_basis(bs_keyword, elements=[el_num])
+                if "ecp_potentials" in gbs["elements"][str(el_num)]:
+                    # Search for the right ECP
+                    hits = bse.filter_basis_sets(family=gbs["family"], role="orbital")
+                    ecp_keyword = ""
+                    for name, hit in hits.items():
+                        if hit["function_types"] == ["scalar_ecp"]:
+                            ecp_keyword = get_basis_set(name, "orca")
+                            break
+                    else:
+                        warn(
+                            "Could not find the name of the ECP linked to {SOFTWARE_BASIS_SETS['orca'][abs_keyword]}, adding manually..."
+                        )
+
+                    if ecp_keyword:
+                        _custom_bs += f'NewECP {el} "{ecp_keyword}" end\n'
+                        success = True
+                else:
+                    success = True
+
+                # TODO: handle auxiliary basis sets
+
+            if success:
+                custom_bs += _custom_bs.strip()
             else:
-                clean_bs = "\n".join(sbs[3:-1]).strip() + "\n"
-                custom_bs += f"newgto {el}\n"
-                custom_bs += clean_bs
-                custom_bs += "end"
+                bs = bse.get_basis(
+                    bs_keyword, fmt="ORCA", elements=[el_num], header=False
+                ).strip()
+                sbs = bs.split("\n")
+                if bs.find("ECP") != -1:
+                    clean_bs = "\n".join(sbs[3:]).strip() + "\n"
+                    clean_bs = clean_bs.replace("\n$END", "$END").replace("$END", "end")
+                    custom_bs += f"newgto {el}\n"
+                    custom_bs += clean_bs.strip()
+                else:
+                    clean_bs = "\n".join(sbs[3:-1]).strip() + "\n"
+                    custom_bs += f"newgto {el}\n"
+                    custom_bs += clean_bs.strip()
+                    custom_bs += "end"
 
         if custom_bs != "":
             self.blocks.append(BS_TEMPLATE.format(custom_bs))

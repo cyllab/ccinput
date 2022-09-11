@@ -601,7 +601,6 @@ SYN_BASIS_SETS = {
     "hav5+dz": [],
     "w1dz": [],
     "w1mtsmall": [],
-    "w1dz": [],
     "sv": [],
     "svp": [],
     "tzv": [],
