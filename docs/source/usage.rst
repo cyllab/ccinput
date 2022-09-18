@@ -221,6 +221,15 @@ Specific solvation radii to use for some elements.
 
 The format to use is "<ELEMENT>=<RADIUS>;...", for example: "H=1.00;Li=1.70;".
 
+Parse Name
+^^^^^^^^^^
+
+Input files can have different charges or multiplicities, as long as the file name reflects this and the ``--parse_name`` option is used.
+
+By default, inputs are assumed to be neutral and in the singlet state. Charges are indicated by having ``(tri/di)cation`` or ``(tri/di)anion`` in the file name. Doublet states are denoted with ``radical`` or ``doublet``, and triplet states with ``triplet``.
+
+If a charge or multiplicity is also provided explicitly, it will be used as default state for all inputs. However, the charge and multiplicity in the file names have priority over the default state. As such, ``neutral`` can be added to the file name to ensure that the input will be considered neutral, even if the option ``--charge 1`` is provided, for example.
+
 Specifications
 ^^^^^^^^^^^^^^
 

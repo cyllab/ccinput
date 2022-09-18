@@ -28,6 +28,39 @@ H   -1.16470000  -0.42110000   2.13110000
 O    0.62360000   0.07990000   1.25870000
 H    0.94410000   0.53240000   2.04240000
 
+$ ccinput orca sp DLPNO-CCSDT -bs cc-pVTZ -f *.xyz -o .inp -n 32 --mem 250GB --parse_name
+*** No C auxiliary basis set specified, using cc-pVTZ ***
+*** No C auxiliary basis set specified, using cc-pVTZ ***
+*** No C auxiliary basis set specified, using cc-pVTZ ***
+*** No C auxiliary basis set specified, using cc-pVTZ ***
+Input file written to carbo_cation.inp
+Input file written to CH4.inp
+Input file written to ethanol.inp
+Input file written to H2.inp
+
+$ cat H2.inp
+!SP DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C
+*xyz 0 1
+H   -1.43860000  -0.26820000   0.00000000
+H   -2.03860000  -0.26820000   0.00000000
+*
+%MaxCore 7812
+%pal
+nprocs 32
+end
+
+$ cat carbo_cation.inp
+!SP DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C
+*xyz 1 1
+C   -2.90770000   1.66310000   0.00000000
+H   -2.55100000   2.16750000   0.87370000
+H   -3.97770000   1.66310000   0.00000000
+H   -2.55100000   2.16750000  -0.87370000
+*
+%MaxCore 7812
+%pal
+nprocs 32
+end
 ```
 
 `ccinput` can also be used as python library:
@@ -72,19 +105,26 @@ pip install git+https://github.com/cyllab/ccinput
 ```
 
 ## Usage
-`ccinput` supports a wide range of options, including different solvation radii, density fitting and multiple basis sets. As of now, Gaussian 16 and ORCA 5 are supported, and more packages will be added in the future.
+`ccinput` supports a wide range of options, including different solvation radii, density fitting and multiple basis sets. As of now, Gaussian 16, ORCA 5 and xtb are supported, and more packages will be added in the future.
+
 ### From the command line
 Simply use the `ccinput` command with the desired parameters:
 ```
-usage: ccinput [-h] [--basis_set BASIS_SET] [--solvent SOLVENT] [--solvation_model SOLVATION_MODEL]
-               [--solvation_radii SOLVATION_RADII] [--custom_solvation_radii CUSTOM_SOLVATION_RADII]
-               [--specifications SPECIFICATIONS] [--density_fitting DENSITY_FITTING]
-               [--custom_basis_sets CUSTOM_BASIS_SETS] [--xyz XYZ] [--file FILE] [--output OUTPUT]
-               [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]] [--scan ATOM [ATOM ...]]
-               [--from FROM] [--to TO] [--nsteps NSTEPS] [--step STEP] [--nproc NPROC] [--mem MEM]
-               [--charge CHARGE] [--mult MULT] [--d3 | --d3bj] [--name NAME] [--aux_name AUX_NAME]
-               [--header HEADER] [--version]
-               software type method
+usage: ccinput [-h] [--basis_set BASIS_SET] [--solvent SOLVENT]
+               [--solvation_model SOLVATION_MODEL]
+               [--solvation_radii SOLVATION_RADII]
+               [--custom_solvation_radii CUSTOM_SOLVATION_RADII]
+               [--specifications SPECIFICATIONS]
+               [--density_fitting DENSITY_FITTING]
+               [--custom_basis_sets CUSTOM_BASIS_SETS] [--xyz XYZ]
+               [--file FILE [FILE ...]] [--output OUTPUT]
+               [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]]
+               [--scan ATOM [ATOM ...]] [--from FROM] [--to TO]
+               [--nsteps NSTEPS] [--step STEP] [--nproc NPROC] [--mem MEM]
+               [--charge CHARGE] [--mult MULT] [--parse_name] [--d3 | --d3bj]
+               [--name NAME] [--aux_name AUX_NAME] [--header HEADER]
+               [--save SAVE] [--preset [PRESET]] [--version]
+               [software] [type] [method]
 ```
 
 More detailed information about each option can be obtained with the `ccinput -h` command.
