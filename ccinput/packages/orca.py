@@ -260,7 +260,7 @@ class OrcaCalculation:
             self.command_line += f"{method} "
 
         for aux_t, aux_bs in self.aux_basis_sets.items():
-            self.command_line += f"{aux_bs}/{aux_t}"
+            self.command_line += f"{aux_bs}/{aux_t} "
 
     def handle_custom_basis_sets(self):
         if len(self.calc.parameters.custom_basis_sets) == 0:

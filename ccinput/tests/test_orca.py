@@ -621,6 +621,61 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_sp_DLPNO_CCSDT_default_aux_specifications(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "DLPNO-CCSD(T)",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "specifications": "tightscf",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C tightscf
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %MaxCore 125
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_DLPNO_CCSDT_default_aux_solvation(self):
+        params = {
+            "nproc": 8,
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "ORCA",
+            "method": "DLPNO-CCSD(T)",
+            "basis_set": "cc-pVTZ",
+            "charge": "-1",
+            "solvent": "ch2cl2",
+            "solvation_model": "CPCM",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !SP DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C CPCM(ch2cl2)
+        *xyz -1 1
+        Cl 0.0 0.0 0.0
+        *
+        %MaxCore 125
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_sp_CCSDT(self):
         params = {
             "nproc": 8,
