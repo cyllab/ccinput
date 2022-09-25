@@ -71,10 +71,6 @@ Method
 
 Calculation method to use.
 
-.. note::
-
-   Coupled cluster methods (CCSD...) and MP2 are not currently available
-        
 .. collapse:: All computational methods
 
         .. exec::
