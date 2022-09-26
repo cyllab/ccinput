@@ -321,8 +321,8 @@ class GaussianCalculation:
 
             DEFAULT_RADII_SETS = {
                 "smd": ["", "default"],
-                "pcm": ["", "uff"],
-                "cpcm": ["", "uff"],
+                "pcm": ["", "uff", "default"],
+                "cpcm": ["", "uff", "default"],
             }
 
             self.add_options("SCRF", [model.upper(), f"Solvent={solvent_keyword}"])
