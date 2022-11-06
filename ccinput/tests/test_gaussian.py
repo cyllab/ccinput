@@ -2267,6 +2267,154 @@ class GaussianTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_builtin_custom_bs(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "O=SDD;",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=ethanol.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt B3LYP/Gen
+
+        File created by ccinput
+
+        0 1
+        C         -1.31970       -0.64380        0.00000
+        H         -0.96310       -1.65260        0.00000
+        H         -0.96310       -0.13940       -0.87370
+        H         -2.38970       -0.64380        0.00000
+        C         -0.80640        0.08220        1.25740
+        H         -1.16150        1.09160        1.25640
+        H         -1.16470       -0.42110        2.13110
+        O          0.62360        0.07990        1.25870
+        H          0.94410        0.53240        2.04240
+
+        C H 0
+        6-31+G(d,p)
+        ****
+        O 0
+        sdd
+        ****
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_builtin_genecp_bs(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "Ph2I_cation.xyz",
+            "software": "Gaussian",
+            "charge": "+1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "I=SDD;",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=Ph2I_cation.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt B3LYP/GenECP
+
+        File created by ccinput
+
+        1 1
+        C         -3.06870       -2.28540        0.00000
+        C         -1.67350       -2.28540        0.00000
+        C         -0.97600       -1.07770        0.00000
+        C         -1.67360        0.13090       -0.00120
+        C         -3.06850        0.13080       -0.00170
+        C         -3.76610       -1.07740       -0.00070
+        H         -3.61840       -3.23770        0.00040
+        H         -1.12400       -3.23790        0.00130
+        H          0.12370       -1.07760        0.00060
+        H         -1.12340        1.08300       -0.00130
+        H         -4.86570       -1.07720       -0.00090
+        I         -4.11890        1.94920       -0.00350
+        C         -4.64360        2.85690       -1.82310
+        C         -3.77180        3.76300       -2.42740
+        C         -5.86360        2.55380       -2.42750
+        C         -4.12020        4.36650       -3.63560
+        H         -2.81040        4.00240       -1.95030
+        C         -6.21180        3.15650       -3.63650
+        H         -6.55070        1.83950       -1.95140
+        C         -5.34050        4.06290       -4.24060
+        H         -3.43340        5.08120       -4.11170
+        H         -7.17360        2.91710       -4.11310
+        H         -5.61500        4.53870       -5.19320
+
+        C H 0
+        6-31+G(d,p)
+        ****
+        I 0
+        sdd
+        ****
+
+        I 0
+        sdd
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_multiple_builtin_genecp(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "AuI.xyz",
+            "software": "Gaussian",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "I=SDD;Au=SDD;",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=AuI.chk
+        %nproc=8
+        %mem=10000MB
+        #p opt B3LYP/GenECP
+
+        File created by ccinput
+
+        0 1
+        Au        -9.27600       -1.06330        0.00000
+        I         -6.60600       -1.06330        0.00000
+
+        I 0
+        sdd
+        ****
+        Au 0
+        sdd
+        ****
+
+        I 0
+        sdd
+        Au 0
+        sdd
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_global_specification(self):
         params = {
             "nproc": 8,

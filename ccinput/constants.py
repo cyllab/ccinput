@@ -850,7 +850,7 @@ SYN_BASIS_SETS = {
     "cep4g": [],
     "cep31g": [],
     "cep121g": [],
-    "sdd": [],
+    "sdd": [],  # D95, also named DZ or DZP (Dunning-Hay) in the BSE up to Ar, then "Stuttgart/Dresden ECPs" (called Stuttgart RLC in the BSE) for the rest of the periodic table
     "sddall": [],
     "dgdzvp": [],
     "dgdzvp2": [],

@@ -233,23 +233,35 @@ class GaussianCalculation:
                     f"Invalid atom in custom basis set string: '{el}'"
                 )
 
-            bs = basis_set_exchange.get_basis(
-                bs_keyword, fmt="gaussian94", elements=[el_num], header=False
-            )
-            if bs.find("-ECP") != -1:
-                ecp = True
-                sbs = bs.split("\n")
-                ecp_ind = -1
-                for ind, line in enumerate(sbs):
-                    if sbs[ind].find("-ECP") != -1:
-                        ecp_ind = ind
-                        break
-                bs_gen = "\n".join(sbs[: ecp_ind - 2]) + "\n"
-                bs_ecp = "\n".join(sbs[ecp_ind - 2 :])
-                to_append_gen.append(bs_gen)
-                to_append_ecp.append(bs_ecp)
+            try:
+                bs = basis_set_exchange.get_basis(
+                    bs_keyword, fmt="gaussian94", elements=[el_num], header=False
+                )
+            except:
+                # Some basis sets are built-in, but use different names as the BSE does (e.g., SDD)
+                # In this case, just feed the user keyword in and hope it works.
+                # The basis set string has been recognized by ccinput, so it should exist in the program.
+                # ECP is added if Z > 18 (Ar)
+                to_append_gen.append(f"{el} 0\n{bs_keyword}\n****\n")
+                if el_num > 18:
+                    ecp = True
+                    to_append_ecp.append(f"{el} 0\n{bs_keyword}\n")
+
             else:
-                to_append_gen.append(bs)
+                if bs.find("-ECP") != -1:
+                    ecp = True
+                    sbs = bs.split("\n")
+                    ecp_ind = -1
+                    for ind, line in enumerate(sbs):
+                        if sbs[ind].find("-ECP") != -1:
+                            ecp_ind = ind
+                            break
+                    bs_gen = "\n".join(sbs[: ecp_ind - 2]) + "\n"
+                    bs_ecp = "\n".join(sbs[ecp_ind - 2 :])
+                    to_append_gen.append(bs_gen)
+                    to_append_ecp.append(bs_ecp)
+                else:
+                    to_append_gen.append(bs)
 
         if len(custom_atoms) > 0:
             if ecp:
@@ -264,7 +276,7 @@ class GaussianCalculation:
                 custom_bs += base_bs + "\n"
                 custom_bs += "****\n"
 
-            custom_bs += "".join(to_append_gen)
+            custom_bs += "".join(to_append_gen) + "\n"
             custom_bs += "".join(to_append_ecp).replace("\n\n", "\n")
 
             return gen_keyword, custom_bs
