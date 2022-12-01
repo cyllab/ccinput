@@ -6,6 +6,7 @@ from ccinput.__init__ import __version__
 from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
 from ccinput.packages.xtb import XtbCalculation
+from ccinput.drivers.pysis import PysisDriver
 
 from ccinput.calculation import (
     Calculation,
@@ -35,11 +36,15 @@ SOFTWARE_CLASSES = {
     "gaussian": GaussianCalculation,
     "orca": OrcaCalculation,
     "xtb": XtbCalculation,
+    "pysis": PysisDriver,
 }
 
 
 def process_calculation(calc):
-    cls = SOFTWARE_CLASSES[calc.parameters.software](calc)
+    if calc.driver == "none":
+        cls = SOFTWARE_CLASSES[calc.parameters.software](calc)
+    else:
+        cls = SOFTWARE_CLASSES[calc.driver](calc)
     return cls
 
 
@@ -74,6 +79,7 @@ def generate_calculation(
     name=None,
     header="File created by ccinput",
     file=None,
+    driver="none",
     **kwargs,
 ):
 
@@ -139,6 +145,7 @@ def generate_calculation(
         header=header,
         software=abs_software,
         file=file,
+        driver=driver,
         **kwargs,
     )
 
@@ -394,7 +401,12 @@ def get_parser():
         const="",
         help="Load parameters from the chosen preset",
     )
-
+    parser.add_argument(
+        "--driver",
+        choices=["none", "pysis"],
+        default="none",
+        help="Specify a computation driver other than the calculation package",
+    )
     parser.add_argument(
         "--version", "-v", action="version", version=f"%(prog)s {__version__}"
     )
@@ -516,6 +528,7 @@ def get_input_from_args(args, default_params=None):
         "d3bj": args.d3bj,
         "aux_name": args.aux_name,
         "header": args.header,
+        "driver": args.driver,
     }
 
     if args.preset:

@@ -48,6 +48,7 @@ class Calculation:
         header="File created by ccinput",
         software="",
         file=None,
+        driver="none",
         **kwargs,
     ):
         self.xyz = xyz
@@ -148,6 +149,7 @@ class Calculation:
         else:
             self.aux_name = aux_name
         self.header = header
+        self.driver = driver
         self.kwargs = kwargs
 
     def verify_charge_mult(self):
