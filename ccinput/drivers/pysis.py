@@ -47,7 +47,7 @@ class PysisDriver:
 
     def __init__(self, calc):
         self.calc = calc
-        self.command_line = "pysis calc.inp"
+        self.command = "pysis calc.inp"
 
         self.input_file = ""
 

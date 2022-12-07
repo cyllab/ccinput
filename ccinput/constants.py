@@ -182,7 +182,7 @@ SYN_SOLVENTS = {
     "ethanol": [],
     "isoquinoline": [],
     "quinoline": [],
-    "dichloroethane": [],
+    "dichloroethane": ["12dichloroethane"],
     "carbontetrachloride": ["ccl4", "carbontetrachloride"],
     "chlorobenzene": ["phcl"],
     "nitromethane": ["meno2"],

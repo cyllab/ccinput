@@ -227,7 +227,8 @@ def get_abs_solvent(solvent):
     for solv in SYN_SOLVENTS:
         if _solvent in SYN_SOLVENTS[solv] or _solvent == solv:
             return solv
-    raise InvalidParameter(f"Unknown solvent: '{solvent}'")
+    warn(f"Unknown solvent: '{solvent}'")
+    return solv
 
 
 def is_exchange_correlation_combination(method):
