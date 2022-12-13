@@ -80,6 +80,7 @@ def generate_calculation(
     header="File created by ccinput",
     file=None,
     driver="none",
+    trust_me=False,
     **kwargs,
 ):
 
@@ -117,6 +118,7 @@ def generate_calculation(
         custom_basis_sets,
         d3,
         d3bj,
+        trust_me,
         **kwargs,
     )
 
@@ -355,6 +357,12 @@ def get_parser():
         help="Use filenames to assign the charge and multiplicity",
     )
 
+    parser.add_argument(
+        "--trust_me",
+        action="store_true",
+        help="Unknown values will be accepted as given",
+    )
+
     dispersion_group = parser.add_mutually_exclusive_group()
 
     dispersion_group.add_argument(
@@ -524,6 +532,7 @@ def get_input_from_args(args, default_params=None):
         "charge": args.charge,
         "multiplicity": args.mult,
         "parse_name": args.parse_name,
+        "trust_me": args.trust_me,
         "d3": args.d3,
         "d3bj": args.d3bj,
         "aux_name": args.aux_name,

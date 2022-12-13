@@ -193,10 +193,11 @@ class Parameters:
         custom_basis_sets="",
         d3=False,
         d3bj=False,
+        trust_me=False,
         **kwargs,
     ):
 
-        self.solvent = get_abs_solvent(solvent)
+        self.solvent = get_abs_solvent(solvent, trust_me=trust_me)
         if self.solvent != "":
             self.solvation_model = solvation_model.lower()
             self.solvation_radii = solvation_radii.lower()
@@ -229,7 +230,7 @@ class Parameters:
         self.theory_level = get_theory_level(self.method)
 
         if self.theory_level not in ["semiempirical", "xtb", "special"]:
-            self.basis_set = get_abs_basis_set(basis_set)
+            self.basis_set = get_abs_basis_set(basis_set, trust_me=trust_me)
         else:
             self.basis_set = ""
 
@@ -278,7 +279,7 @@ class Parameters:
             if bs_index in BASIS_SET_EXCHANGE_KEY:
                 bs_keyword = BASIS_SET_EXCHANGE_KEY[bs_index]
             else:
-                bs_keyword = get_abs_basis_set(bs_str)
+                bs_keyword = get_abs_basis_set(bs_str, trust_me=trust_me)
 
             dict_cbs[el] = bs_keyword
 

@@ -199,15 +199,20 @@ def get_abs_software(software):
     raise InvalidParameter(f"Unknown software package: '{software}'")
 
 
-def get_abs_method(method):
+def get_abs_method(method, trust_me=False):
     _method = indexify(method)
     for m in SYN_METHODS:
         if _method in SYN_METHODS[m] or _method == m:
             return m
-    raise InvalidParameter(f"Unknown method: '{method}'")
+
+    if trust_me:
+        warn(f"Using unknown method '{method}'")
+        return m
+    else:
+        raise InvalidParameter(f"Unknown method: '{method}'")
 
 
-def get_abs_basis_set(basis_set):
+def get_abs_basis_set(basis_set, trust_me=False):
     _bs = indexify(basis_set)
 
     for bs in SYN_BASIS_SETS:
@@ -216,19 +221,25 @@ def get_abs_basis_set(basis_set):
     for bs in BASIS_SET_EXCHANGE_KEY:
         if _bs.lower() == bs:
             return bs
+    if trust_me:
+        warn(f"Using unknown basis set '{bs}'")
+        return bs
+    else:
+        raise InvalidParameter(f"Unknown basis set: '{basis_set}'")
 
-    raise InvalidParameter(f"Unknown basis set: '{basis_set}'")
 
-
-def get_abs_solvent(solvent):
+def get_abs_solvent(solvent, trust_me=False):
     _solvent = indexify(solvent)
     if _solvent in ["", "vacuum", "vac"]:
         return ""
     for solv in SYN_SOLVENTS:
         if _solvent in SYN_SOLVENTS[solv] or _solvent == solv:
             return solv
-    warn(f"Unknown solvent: '{solvent}'")
-    return solv
+    if trust_me:
+        warn(f"Using unknown solvent '{solvent}'")
+        return solvent
+    else:
+        raise InvalidParameter(f"Unknown solvent: '{solvent}'")
 
 
 def is_exchange_correlation_combination(method):
