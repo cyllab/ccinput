@@ -20,6 +20,7 @@ from ccinput.utilities import (
     has_dispersion_parameters,
     warn,
     indexify,
+    get_charge_mult_from_name,
 )
 from ccinput.constants import ATOMIC_NUMBER, SYN_SOFTWARE, BASIS_SET_EXCHANGE_KEY
 
@@ -111,27 +112,7 @@ class Calculation:
                     f"Cannot parse the charge and multiplicity from the file name: no file given"
                 )
 
-            if "trication" in file:
-                self.charge = 3
-            elif "dication" in file:
-                self.charge = 2
-            elif "cation" in file:
-                self.charge = 1
-            elif "trianion" in file:
-                self.charge = -3
-            elif "dianion" in file:
-                self.charge = -2
-            elif "anion" in file:
-                self.charge = -1
-            elif "neutral" in file:
-                self.charge = 0
-
-            if "radical" in file or "doublet" in file:
-                self.multiplicity = 2
-            elif "triplet" in file:
-                self.multiplicity = 3
-            elif "singlet" in file:
-                self.multiplicity = 1
+            self.charge, self.multiplicity = get_charge_mult_from_name(file)
 
         self.verify_charge_mult()
         self.constraints = constraints

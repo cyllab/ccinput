@@ -392,3 +392,32 @@ def get_coord(xyz, ids):
 
 def warn(msg):
     print(f"*** {msg} ***")
+
+
+def get_charge_mult_from_name(name):
+    charge = 0
+    mult = 1
+
+    if "trication" in name:
+        charge = 3
+    elif "dication" in name:
+        charge = 2
+    elif "cation" in name:
+        charge = 1
+    elif "trianion" in name:
+        charge = -3
+    elif "dianion" in name:
+        charge = -2
+    elif "anion" in name:
+        charge = -1
+    elif "neutral" in name:
+        charge = 0
+
+    if "radical" in name or "doublet" in name:
+        mult = 2
+    elif "triplet" in name:
+        mult = 3
+    elif "singlet" in name:
+        mult = 1
+
+    return charge, mult
