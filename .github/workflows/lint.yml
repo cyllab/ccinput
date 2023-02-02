@@ -14,7 +14,7 @@ jobs:
       - name: Install Black
         run: pip install black 
       - name: Run linters
-        uses: samuelmeuli/lint-action@v1
+        uses: samuelmeuli/lint-action@v2.3.0
         with:
           github_token: ${{ secrets.github_token }}
           black: true
