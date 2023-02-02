@@ -177,7 +177,6 @@ class Parameters:
         trust_me=False,
         **kwargs,
     ):
-
         self.solvent = get_abs_solvent(solvent, trust_me=trust_me)
         if self.solvent != "":
             self.solvation_model = solvation_model.lower()

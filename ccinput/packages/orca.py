@@ -22,7 +22,6 @@ from ccinput.exceptions import (
 
 
 class OrcaCalculation:
-
     calc = None
 
     has_scan = False

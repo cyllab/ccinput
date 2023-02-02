@@ -83,7 +83,6 @@ def generate_calculation(
     trust_me=False,
     **kwargs,
 ):
-
     if software is None:
         raise InvalidParameter("Specify a software package to use")
 

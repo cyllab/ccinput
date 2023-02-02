@@ -16,7 +16,6 @@ from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class GaussianCalculation:
-
     TEMPLATE = """%chk={}.chk
     %nproc={}
     %mem={}MB
@@ -102,7 +101,6 @@ class GaussianCalculation:
                 self.commands[cmd] = []
 
     def handle_specifications(self):
-
         s = self.clean(self.calc.parameters.specifications.lower())
 
         # Could be more sophisticated to catch other incorrect specifications

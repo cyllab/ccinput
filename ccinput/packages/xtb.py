@@ -6,7 +6,6 @@ from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class XtbCalculation:
-
     EXECUTABLES = {
         CalcType.OPT: "xtb",
         CalcType.CONSTR_OPT: "xtb",

@@ -12,7 +12,6 @@ from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class PysisDriver:
-
     SUPPORTED_PACKAGES = ["xtb"]
 
     SUPPORTED_KEYWORDS = {
@@ -93,7 +92,6 @@ class PysisDriver:
             logger.warning(f"Duplicate specifications for section {section} were given")
 
     def handle_specifications(self):
-
         s = self.clean(self.calc.parameters.specifications.lower())
 
         # Duplicate code from ccinput/packages/Gaussian.py
@@ -132,7 +130,6 @@ class PysisDriver:
                 )
 
     def handle_main_parameters(self):
-
         if self.calc.parameters.software not in self.SUPPORTED_PACKAGES:
             raise InvalidParameter(
                 f"{self.calc.parameters} is not currently supported with the pysis driver"
