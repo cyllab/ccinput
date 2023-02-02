@@ -240,7 +240,7 @@ class Parameters:
         dict_cbs = {}
 
         for _entry in custom_basis_sets.split(";"):
-            entry = _entry.strip()
+            entry = _entry.replace(" ", "")
             if entry == "":
                 continue
             sentry = entry.split("=")
