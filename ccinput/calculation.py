@@ -240,8 +240,9 @@ class Parameters:
 
         dict_cbs = {}
 
-        for entry in custom_basis_sets.split(";"):
-            if entry.strip() == "":
+        for _entry in custom_basis_sets.split(";"):
+            entry = _entry.strip()
+            if entry == "":
                 continue
             sentry = entry.split("=")
 
