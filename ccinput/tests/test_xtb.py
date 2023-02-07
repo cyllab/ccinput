@@ -697,6 +697,20 @@ class XtbTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
+    def test_gfn1_method(self):
+        params = {
+            "type": "Single-Point Energy",
+            "method": "gfn0",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb ethanol.xyz --gfn 0"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
     def test_gfn2(self):
         params = {
             "type": "Single-Point Energy",
@@ -717,6 +731,20 @@ class XtbTests(InputTests):
             "file": "ethanol.xyz",
             "software": "xtb",
             "specifications": "--gfnff",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb ethanol.xyz --gfnff"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
+    def test_gfnff_method(self):
+        params = {
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "method": "gfnff",
         }
 
         xtb = self.generate_calculation(**params)

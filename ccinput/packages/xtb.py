@@ -1,7 +1,7 @@
 import os
 
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
-from ccinput.utilities import get_solvent
+from ccinput.utilities import get_solvent, get_method
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
@@ -15,6 +15,14 @@ class XtbCalculation:
         CalcType.OPTFREQ: "xtb",
         CalcType.CONF_SEARCH: "crest",
         CalcType.CONSTR_CONF_SEARCH: "crest",
+    }
+
+    GFN_KEYWORDS = {
+        "gfn2-xtb": "",
+        "gfn1-xtb": "--gfn 1 ",
+        "gfn0-xtb": "--gfn 0 ",
+        "gfn-ff": "--gfnff ",
+        "gfn2-xtb//gfn-ff": "--gfn2gfnff ",
     }
 
     def __init__(self, calc):
@@ -50,6 +58,17 @@ class XtbCalculation:
             return self.calc.name + ".xyz"
 
     def handle_parameters(self):
+        method = get_method(self.calc.parameters.method, "xtb")
+
+        if method not in self.GFN_KEYWORDS:
+            raise InvalidParameter(
+                f"Unknown method for xtb: {self.calc.parameters.method}"
+            )
+
+        method_keyword = self.GFN_KEYWORDS[method]
+        if method_keyword != "":
+            self.main_command += method_keyword
+
         if self.calc.parameters.solvent != "":
             if (
                 self.calc.parameters.solvation_radii != ""
