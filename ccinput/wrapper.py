@@ -37,12 +37,12 @@ SOFTWARE_CLASSES = {
     "orca": OrcaCalculation,
     "xtb": XtbCalculation,
     "pysis": PysisDriver,
-    "Pysisyphus": PysisDriver,
+    "pysisyphus": PysisDriver,
 }
 
 
 def process_calculation(calc):
-    if calc.driver in ["none", None, ""]:
+    if calc.driver in ["none", None, ""] or calc.driver == calc.parameters.software:
         cls = SOFTWARE_CLASSES[calc.parameters.software](calc)
     else:
         cls = SOFTWARE_CLASSES[calc.driver](calc)

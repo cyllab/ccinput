@@ -130,7 +130,7 @@ class Calculation:
         else:
             self.aux_name = aux_name
         self.header = header
-        self.driver = driver
+        self.driver = driver.lower()
         self.kwargs = kwargs
 
     def verify_charge_mult(self):
