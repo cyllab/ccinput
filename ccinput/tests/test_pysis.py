@@ -310,3 +310,244 @@ class PysisTests(InputTests):
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
+
+    def test_xtb_gsm_simple(self):
+        params = {
+            "type": "Minimum Energy Path",
+            "file": "mini_ts.xyz",
+            "software": "xtb",
+            "driver": "pysis",
+            "charge": 0,
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        calc:
+            charge: 0
+            mult: 1
+            pal: 1
+            type: xtb
+        cos:
+            climb: True
+            max_nodes: 15
+            reparam_every: 2
+            reparam_every_full: 3
+            type: gs
+        geom:
+            fn: [mini_ts.xyz, calc2.xyz]
+            type: dlc
+        opt:
+            align: False
+            stop_in_when_full: -1
+            type: string
+        preopt:
+            max_cycles: 10
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_xtb_gsm_aux_name(self):
+        params = {
+            "type": "Minimum Energy Path",
+            "file": "mini_ts.xyz",
+            "software": "xtb",
+            "driver": "pysis",
+            "charge": 0,
+            "aux_name": "end",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        calc:
+            charge: 0
+            mult: 1
+            pal: 1
+            type: xtb
+        cos:
+            climb: True
+            max_nodes: 15
+            reparam_every: 2
+            reparam_every_full: 3
+            type: gs
+        geom:
+            fn: [mini_ts.xyz, end.xyz]
+            type: dlc
+        opt:
+            align: False
+            stop_in_when_full: -1
+            type: string
+        preopt:
+            max_cycles: 10
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_xtb_gsm_node_num(self):
+        params = {
+            "type": "Minimum Energy Path",
+            "file": "mini_ts.xyz",
+            "software": "xtb",
+            "driver": "pysis",
+            "charge": 0,
+            "specifications": "cos(max_nodes=21)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        calc:
+            charge: 0
+            mult: 1
+            pal: 1
+            type: xtb
+        cos:
+            climb: True
+            max_nodes: 21
+            reparam_every: 2
+            reparam_every_full: 3
+            type: gs
+        geom:
+            fn: [mini_ts.xyz, calc2.xyz]
+            type: dlc
+        opt:
+            align: False
+            stop_in_when_full: -1
+            type: string
+        preopt:
+            max_cycles: 10
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_orca_gsm(self):
+        params = {
+            "type": "Minimum Energy Path",
+            "file": "mini_ts.xyz",
+            "software": "orca",
+            "driver": "pysis",
+            "charge": 0,
+            "method": "M062x",
+            "basis_set": "def2svp",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        calc:
+            charge: 0
+            keywords: M062X Def2-SVP
+            mem: 1000
+            mult: 1
+            pal: 1
+            type: orca
+        cos:
+            climb: True
+            max_nodes: 15
+            reparam_every: 2
+            reparam_every_full: 3
+            type: gs
+        geom:
+            fn: [mini_ts.xyz, calc2.xyz]
+            type: dlc
+        opt:
+            align: False
+            stop_in_when_full: -1
+            type: string
+        preopt:
+            max_cycles: 10
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_orca_gsm_cpcm(self):
+        params = {
+            "type": "Minimum Energy Path",
+            "file": "mini_ts.xyz",
+            "software": "orca",
+            "driver": "pysis",
+            "charge": 0,
+            "method": "M062x",
+            "basis_set": "def2svp",
+            "solvent": "DCM",
+            "solvation_model": "CPCM",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        calc:
+            charge: 0
+            keywords: M062X Def2-SVP CPCM(ch2cl2)
+            mem: 1000
+            mult: 1
+            pal: 1
+            type: orca
+        cos:
+            climb: True
+            max_nodes: 15
+            reparam_every: 2
+            reparam_every_full: 3
+            type: gs
+        geom:
+            fn: [mini_ts.xyz, calc2.xyz]
+            type: dlc
+        opt:
+            align: False
+            stop_in_when_full: -1
+            type: string
+        preopt:
+            max_cycles: 10
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_orca_gsm_smd18(self):
+        params = {
+            "type": "Minimum Energy Path",
+            "file": "I.xyz",
+            "software": "orca",
+            "driver": "pysis",
+            "charge": -1,
+            "method": "M062x",
+            "basis_set": "def2svp",
+            "solvent": "DCM",
+            "solvation_model": "SMD",
+            "solvation_radii": "SMD18",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        calc:
+            blocks: "%cpcm
+            smd true
+            SMDsolvent \\"ch2cl2\\"
+            radius[53] 2.74
+            radius[35] 2.60
+            end"
+            charge: -1
+            keywords: M062X Def2-SVP
+            mem: 1000
+            mult: 1
+            pal: 1
+            type: orca
+        cos:
+            climb: True
+            max_nodes: 15
+            reparam_every: 2
+            reparam_every_full: 3
+            type: gs
+        geom:
+            fn: [I.xyz, calc2.xyz]
+            type: dlc
+        opt:
+            align: False
+            stop_in_when_full: -1
+            type: string
+        preopt:
+            max_cycles: 10
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))

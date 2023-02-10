@@ -1,5 +1,5 @@
-import numpy as np
 import copy
+import numpy as np
 
 from ccinput.utilities import (
     get_method,
@@ -9,13 +9,16 @@ from ccinput.utilities import (
 )
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
+from ccinput.packages.orca import OrcaCalculation
 
 
 class PysisDriver:
-    SUPPORTED_PACKAGES = ["xtb"]
+    SUPPORTED_PACKAGES = ["xtb", "orca"]
+    IGNORED_ORCA_BLOCKS = ["%MaxCore"]
 
     SUPPORTED_KEYWORDS = {
         CalcType.TS: "tsopt",
+        CalcType.MEP: "cos",
     }
 
     DEFAULT_SECTION_PARAMS = {
@@ -25,7 +28,6 @@ class PysisDriver:
             "hessian_recalc": 5,
         },
         "calc": {
-            "type": "xtb",
             "pal": 1,
             "charge": 0,
             "mult": 1,
@@ -33,6 +35,16 @@ class PysisDriver:
         "geom": {
             "type": "dlc",
             "fn": "calc.xyz",
+        },
+        "cos": {
+            "type": "gs",
+            "max_nodes": 15,
+            "climb": "True",
+            "reparam_every": 2,
+            "reparam_every_full": 3,
+        },
+        "preopt": {
+            "max_cycles": 10,
         },
     }
 
@@ -132,7 +144,7 @@ class PysisDriver:
     def handle_main_parameters(self):
         if self.calc.parameters.software not in self.SUPPORTED_PACKAGES:
             raise InvalidParameter(
-                f"{self.calc.parameters} is not currently supported with the pysis driver"
+                f"{self.calc.parameters.software} is not currently supported with the pysis driver"
             )
 
         self.add_option("calc", "type", self.calc.parameters.software)
@@ -142,40 +154,77 @@ class PysisDriver:
 
         if self.calc.type == CalcType.TS:
             self.add_section("tsopt")
+        elif self.calc.type == CalcType.MEP:
+            self.add_section("cos")
+            self.add_section("preopt")
+            self.add_section("opt")
+
+            self.sections["opt"]["type"] = "string"
+            self.sections["opt"]["stop_in_when_full"] = -1
+            self.sections["opt"]["align"] = "False"
+
+            self.sections["geom"][
+                "fn"
+            ] = f"[{self.calc.name}.xyz, {self.calc.aux_name}.xyz]"
+
         else:
             raise InvalidParameter(
                 f"Calculation type {self.calc.type} is not currently implemented for pysis in ccinput"
             )
 
+        if self.calc.parameters.software == "orca":
+            self.add_option("calc", "mem", self.calc.mem)
+
+            _calc = copy.deepcopy(self.calc)
+            _calc.type = CalcType.SP
+            orca_inp = OrcaCalculation(_calc)
+
+            self.add_option(
+                "calc",
+                "keywords",
+                f"{orca_inp.command_line} {orca_inp.additional_commands}".replace(
+                    "  ", " "
+                ).replace("SP ", ""),
+            )
+
+            cleaned_blocks = []
+            for block in orca_inp.blocks:
+                block_name = block.split("\n")[0].split()[0]
+                if block_name not in self.IGNORED_ORCA_BLOCKS:
+                    cleaned_blocks.append(block.replace('"', '\\"'))
+
+            cleaned_blocks_lines = "\n".join(cleaned_blocks)
+            if cleaned_blocks_lines.strip() != "":
+                self.add_option("calc", "blocks", f'"{cleaned_blocks_lines}"')
+        else:
+            if self.calc.parameters.solvent != "":
+                if self.calc.parameters.software == "xtb":
+                    if self.calc.parameters.solvation_model not in ["gbsa", "alpb"]:
+                        raise InvalidParameter(
+                            f"Invalid solvation method for xtb: {self.calc.parameters.solvation_model}"
+                        )
+
+                    try:
+                        solvent_keyword = get_solvent(
+                            self.calc.parameters.solvent, self.calc.parameters.software
+                        )
+                    except KeyError:
+                        raise InvalidParameter("Invalid solvent")
+
+                    self.add_option(
+                        "calc", self.calc.parameters.solvation_model, solvent_keyword
+                    )
+                else:
+                    raise InvalidParameter(
+                        f"Cannot apply solvation for {self.calc.parameters.software}"
+                    )
         """
-        For other computation packages:
+        For other Gaussian:
             method
             basis set
             custom basis set
             constraints
         """
-
-        if self.calc.parameters.solvent != "":
-            if self.calc.parameters.software == "xtb":
-                if self.calc.parameters.solvation_model not in ["gbsa", "alpb"]:
-                    raise InvalidParameter(
-                        f"Invalid solvation method for xtb: {self.calc.parameters.solvation_model}"
-                    )
-
-                try:
-                    solvent_keyword = get_solvent(
-                        self.calc.parameters.solvent, self.calc.parameters.software
-                    )
-                except KeyError:
-                    raise InvalidParameter("Invalid solvent")
-
-                self.add_option(
-                    "calc", self.calc.parameters.solvation_model, solvent_keyword
-                )
-            else:
-                raise InvalidParameter(
-                    f"Cannot apply solvation for {self.calc.parameters.software}"
-                )
 
     def create_input_file(self):
         self.input_file = ""

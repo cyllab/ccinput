@@ -37,11 +37,12 @@ SOFTWARE_CLASSES = {
     "orca": OrcaCalculation,
     "xtb": XtbCalculation,
     "pysis": PysisDriver,
+    "Pysisyphus": PysisDriver,
 }
 
 
 def process_calculation(calc):
-    if calc.driver == "none":
+    if calc.driver in ["none", None, ""]:
         cls = SOFTWARE_CLASSES[calc.parameters.software](calc)
     else:
         cls = SOFTWARE_CLASSES[calc.driver](calc)
@@ -97,10 +98,7 @@ def generate_calculation(
     abs_software = get_abs_software(software)
 
     if method is None:
-        if abs_software == "xtb":
-            method = "gfn2-xtb"
-        else:
-            raise InvalidParameter("Specify a calculation method")
+        raise InvalidParameter("Specify a calculation method")
 
     calc_type = get_abs_type(type)
 
@@ -410,8 +408,9 @@ def get_parser():
     )
     parser.add_argument(
         "--driver",
-        choices=["none", "pysis"],
+        choices=["none", "ORCA", "pysis"],
         default="none",
+        type=str.lower,
         help="Specify a computation driver other than the calculation package",
     )
     parser.add_argument(
