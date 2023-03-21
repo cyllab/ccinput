@@ -3782,7 +3782,8 @@ class GaussianTests(InputTests):
 
         with self.assertRaises(ImpossibleCalculation):
             self.generate_calculation(**params)
-    def test_sp_HF_CP_catch_Err1(self):
+
+    def test_sp_HF_CP_wrong_fragments(self):
         params = {
             "nproc": 8,
             "mem": "10000MB",
@@ -3792,17 +3793,14 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=2 fragments=1,1,1,1,2,2,2,2,2,5"
+            "specifications" : "counterpoise=2",
+            "fragments" : "1,1,1,1,2,2,2,2,2,5"
         }
-
-        REF = """
-        !!! You must assign exactly one fragment to each atom !!!
-        """
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
     
-    def test_sp_HF_PCM_Bondi_CP(self):
+    def test_sp_HF_CP_1(self):
         params = {
             "nproc": 8,
             "mem": "10000MB",
@@ -3812,10 +3810,8 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "solvent": "chloroform",
-            "solvation_model": "PCM",
-            "solvation_radii": "Bondi",
-            "specifications" : "counterpoise=4 fragments=1,1,2,2,2,3,4,4,4",
+            "specifications" : "counterpoise=4 ",
+            "fragments" : "1,1,2,2,2,3,4,4,4"
         }
 
         inp = self.generate_calculation(**params)
@@ -3824,7 +3820,7 @@ class GaussianTests(InputTests):
         %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
-        #p sp HF/3-21G counterpoise=4 SCRF(PCM, Solvent=chloroform, Read)
+        #p sp HF/3-21G counterpoise(4)
 
         File created by ccinput
 
@@ -3839,15 +3835,11 @@ class GaussianTests(InputTests):
         O(Fragment=4) 0.62360000 0.07990000 1.25870000
         H(Fragment=4) 0.94410000 0.53240000 2.04240000
 
-        Radii=bondi
-
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
     
-    def test_sp_HF_CP(self):
+    def test_sp_HF_CP_2(self):
         params = {
             "nproc": 8,
             "mem": "10000MB",
@@ -3857,7 +3849,8 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=2 fragments=1,1,1,1,2,2,2,2,2"
+            "specifications" : "counterpoise=2",
+            "fragments" : "1,1,1,1,2,2,2,2,2"
         }
 
         inp = self.generate_calculation(**params)
@@ -3866,7 +3859,7 @@ class GaussianTests(InputTests):
         %chk=ethanol.chk
         %nproc=8
         %mem=10000MB
-        #p sp HF/3-21G counterpoise=2
+        #p sp HF/3-21G counterpoise(2)
 
         File created by ccinput
 
@@ -3886,7 +3879,7 @@ class GaussianTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-    def test_sp_HF_PCM_Bondi_CP_Err2(self):
+    def test_sp_HF_CP_wrong_num_frag(self):
         params = {
             "nproc": 8,
             "mem": "10000MB",
@@ -3896,20 +3889,14 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "solvent": "chloroform",
-            "solvation_model": "PCM",
-            "solvation_radii": "Bondi",
-            "specifications" : "counterpoise=3 fragments=1,2,3,3,3,4,5,5,5",
+            "specifications" : "counterpoise=3",
+             "fragments" : "1,2,3,3,3,4,5,5,5",
         }
-
-        REF = """
-        !!! Counterpoise keyword must be equal to the total number of fragments !!!
-        """
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
-    def test_sp_HF_CP_Err3(self):
+    def test_sp_HF_CP_wrong_start_num(self):
         params = {
             "nproc": 8,
             "mem": "10000MB",
@@ -3919,12 +3906,9 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=3 fragments=2,2,2,2,2,3,3,3,4"
+            "specifications" : "counterpoise=3 ",
+            "fragments" : "2,2,2,2,2,3,3,3,4"
         }
-
-        REF = """
-        !!! Fragment numbers must start from 1 !!!
-        """
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)

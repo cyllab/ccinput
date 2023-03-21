@@ -65,7 +65,6 @@ class GaussianCalculation:
         self.confirmed_specifications = ""
         self.xyz_structure = ""
         self.input_file = ""
-        self.fragments = None
         if self.calc.type not in self.KEYWORDS:
             raise ImpossibleCalculation(
                 f"Gaussian 16 does not support calculations of type {self.calc.type}"
@@ -203,11 +202,8 @@ class GaussianCalculation:
         else:
             self.command_line += f"{method} "
         #Counterpoise related commands processing
-        if 'counterpoise' in self.commands.keys() or 'fragments' in self.commands.keys():
-            fragments_list = self.commands['fragments'][0].split(',')
-            check_fragments(self.commands['counterpoise'][0],fragments_list,self.calc.xyz)
-            self.fragments = fragments_list
-            del self.commands['fragments']
+        if 'counterpoise' in self.commands.keys() :
+            check_fragments(self.commands['counterpoise'][0],self.calc.fragments,self.calc.xyz)
 
     def parse_custom_basis_set(self, base_bs):
         custom_basis_sets = self.calc.parameters.custom_basis_sets
@@ -292,8 +288,10 @@ class GaussianCalculation:
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
         #If counterpoise correction is the option, modify xyz corresponding to fragments
-        if self.fragments != None:
-            lines = add_fragments_xyz(lines,self.fragments)
+        if self.calc.fragments != None :
+            print(self.calc.fragments)
+            print(type(self.calc.fragments))
+            lines = add_fragments_xyz(lines,self.calc.fragments)
         self.xyz_structure = "".join(lines)
 
     def parse_custom_solvation_radii(self):
@@ -409,9 +407,6 @@ class GaussianCalculation:
                         )
                     else:
                         self.confirmed_specifications += confirmed_spec
-            # Counterpoise specification special treatment
-            if cmd == 'counterpoise' :
-                cmd_formatted = f"{cmd}={option_str} "
 
             # This ensures that the command line follows this pattern:
             # CMD1 <CMD2> METHOD/BASIS_SET <ADDITIONAL_OPTION1> ...

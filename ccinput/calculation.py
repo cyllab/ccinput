@@ -57,6 +57,7 @@ class Calculation:
         self.parameters = parameters
         self.type = type
         self.file = file
+        self.fragments = fragments
         if software not in SYN_SOFTWARE:
             raise InvalidParameter(f"Invalid software: '{software}'")
 
