@@ -11,7 +11,7 @@ from ccinput.utilities import (
     get_dihedral,
     get_npxyz,
     check_fragments,
-    add_fragments_xyz
+    add_fragments_xyz,
 )
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
@@ -201,9 +201,11 @@ class GaussianCalculation:
                     self.command_line += f"{method}/{gen_keyword} "
         else:
             self.command_line += f"{method} "
-        #Counterpoise related commands processing
-        if 'counterpoise' in self.commands.keys() :
-            check_fragments(self.commands['counterpoise'][0],self.calc.fragments,self.calc.xyz)
+        # Counterpoise related commands processing
+        if "counterpoise" in self.commands.keys():
+            check_fragments(
+                self.commands["counterpoise"][0], self.calc.fragments, self.calc.xyz
+            )
 
     def parse_custom_basis_set(self, base_bs):
         custom_basis_sets = self.calc.parameters.custom_basis_sets
@@ -287,11 +289,11 @@ class GaussianCalculation:
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
-        #If counterpoise correction is the option, modify xyz corresponding to fragments
-        if self.calc.fragments != None :
+        # If counterpoise correction is the option, modify xyz corresponding to fragments
+        if self.calc.fragments != None:
             print(self.calc.fragments)
             print(type(self.calc.fragments))
-            lines = add_fragments_xyz(lines,self.calc.fragments)
+            lines = add_fragments_xyz(lines, self.calc.fragments)
         self.xyz_structure = "".join(lines)
 
     def parse_custom_solvation_radii(self):

@@ -149,7 +149,7 @@ def generate_calculation(
         file=file,
         driver=driver,
         **kwargs,
-        fragments=fragments
+        fragments=fragments,
     )
 
     return process_calculation(calc)

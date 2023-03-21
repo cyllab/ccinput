@@ -3793,13 +3793,13 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=2",
-            "fragments" : "1,1,1,1,2,2,2,2,2,5"
+            "specifications": "counterpoise=2",
+            "fragments": "1,1,1,1,2,2,2,2,2,5",
         }
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
-    
+
     def test_sp_HF_CP_1(self):
         params = {
             "nproc": 8,
@@ -3810,8 +3810,8 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=4 ",
-            "fragments" : "1,1,2,2,2,3,4,4,4"
+            "specifications": "counterpoise=4 ",
+            "fragments": "1,1,2,2,2,3,4,4,4",
         }
 
         inp = self.generate_calculation(**params)
@@ -3838,7 +3838,7 @@ class GaussianTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
+
     def test_sp_HF_CP_2(self):
         params = {
             "nproc": 8,
@@ -3849,8 +3849,8 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=2",
-            "fragments" : "1,1,1,1,2,2,2,2,2"
+            "specifications": "counterpoise=2",
+            "fragments": "1,1,1,1,2,2,2,2,2",
         }
 
         inp = self.generate_calculation(**params)
@@ -3889,8 +3889,8 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=3",
-             "fragments" : "1,2,3,3,3,4,5,5,5",
+            "specifications": "counterpoise=3",
+            "fragments": "1,2,3,3,3,4,5,5,5",
         }
 
         with self.assertRaises(InvalidParameter):
@@ -3906,8 +3906,8 @@ class GaussianTests(InputTests):
             "method": "HF",
             "basis_set": "3-21G",
             "charge": "0",
-            "specifications" : "counterpoise=3 ",
-            "fragments" : "2,2,2,2,2,3,3,3,4"
+            "specifications": "counterpoise=3 ",
+            "fragments": "2,2,2,2,2,3,3,3,4",
         }
 
         with self.assertRaises(InvalidParameter):

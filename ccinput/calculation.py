@@ -106,7 +106,7 @@ class Calculation:
             raise InvalidParameter(
                 f"Multiplicity must at least 1 (received '{multiplicity}')"
             )
-            
+
         if parse_name:
             if not file:
                 raise InvalidParameter(
