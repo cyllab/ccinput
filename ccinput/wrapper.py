@@ -84,6 +84,7 @@ def generate_calculation(
     file=None,
     driver="none",
     trust_me=False,
+    fragments=None,
     **kwargs,
 ):
     if software is None:
@@ -148,6 +149,7 @@ def generate_calculation(
         file=file,
         driver=driver,
         **kwargs,
+        fragments=fragments
     )
 
     return process_calculation(calc)
@@ -418,6 +420,12 @@ def get_parser():
     parser.add_argument(
         "--version", "-v", action="version", version=f"%(prog)s {__version__}"
     )
+    parser.add_argument(
+        "--fragments",
+        dest="fragments",
+        default=None,
+        help="Assign each atom to a fragment",
+    )
     return parser
 
 
@@ -538,6 +546,7 @@ def get_input_from_args(args, default_params=None):
         "aux_name": args.aux_name,
         "header": args.header,
         "driver": args.driver,
+        "fragments": args.fragments,
     }
 
     if args.preset:

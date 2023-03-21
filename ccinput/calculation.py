@@ -50,13 +50,14 @@ class Calculation:
         software="",
         file=None,
         driver="none",
+        fragments=None,
         **kwargs,
     ):
         self.xyz = xyz
         self.parameters = parameters
         self.type = type
         self.file = file
-
+        self.fragments = fragments
         if software not in SYN_SOFTWARE:
             raise InvalidParameter(f"Invalid software: '{software}'")
 
@@ -105,7 +106,7 @@ class Calculation:
             raise InvalidParameter(
                 f"Multiplicity must at least 1 (received '{multiplicity}')"
             )
-
+            
         if parse_name:
             if not file:
                 raise InvalidParameter(

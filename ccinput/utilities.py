@@ -421,3 +421,25 @@ def get_charge_mult_from_name(name):
         mult = 1
 
     return charge, mult
+def add_fragments_xyz(xyz,frag):
+    "Add fragment information to xyz"
+    xyz_frag = []
+    frag = frag.split(',')
+    for i,line in enumerate(xyz):
+        line_splitted = line.split()
+        xyz_frag.append(f"{line_splitted[0]}(Fragment={frag[i]}) {line_splitted[1]} {line_splitted[2]} {line_splitted[3]} \n")
+    return xyz_frag
+def check_fragments(counterpoise,fragments,xyz):
+    """Checks if the fragments are reasonably defined"""
+    fragments = fragments.split(',')
+    try:
+        fragments = [int(i) for i in fragments]
+    except:
+        raise InvalidParameter("Fragment numbers must be integers")
+    unique_fragments = list(set(fragments))
+    if len([i + "\n" for i in clean_xyz(xyz).split("\n") if i != ""]) != len(fragments) :
+        raise InvalidParameter("You must assign exactly one fragment to each atom")
+    elif (sorted(unique_fragments) != list(range(1,max(unique_fragments)+1))):
+        raise InvalidParameter("Fragment numbers must start from 1")
+    elif ( len(unique_fragments) != int(counterpoise) ) :
+        raise InvalidParameter("Counterpoise keyword must be equal to the total number of fragments")

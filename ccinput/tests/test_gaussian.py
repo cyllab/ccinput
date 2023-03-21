@@ -3782,3 +3782,133 @@ class GaussianTests(InputTests):
 
         with self.assertRaises(ImpossibleCalculation):
             self.generate_calculation(**params)
+
+    def test_sp_HF_CP_wrong_fragments(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "0",
+            "specifications" : "counterpoise=2",
+            "fragments" : "1,1,1,1,2,2,2,2,2,5"
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+    
+    def test_sp_HF_CP_1(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "0",
+            "specifications" : "counterpoise=4 ",
+            "fragments" : "1,1,2,2,2,3,4,4,4"
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=ethanol.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G counterpoise(4)
+
+        File created by ccinput
+
+        0 1
+        C(Fragment=1) -1.31970000 -0.64380000 0.00000000
+        H(Fragment=1) -0.96310000 -1.65260000 0.00000000
+        H(Fragment=2) -0.96310000 -0.13940000 -0.87370000
+        H(Fragment=2) -2.38970000 -0.64380000 0.00000000
+        C(Fragment=2) -0.80640000 0.08220000 1.25740000
+        H(Fragment=3) -1.16150000 1.09160000 1.25640000
+        H(Fragment=4) -1.16470000 -0.42110000 2.13110000
+        O(Fragment=4) 0.62360000 0.07990000 1.25870000
+        H(Fragment=4) 0.94410000 0.53240000 2.04240000
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+    
+    def test_sp_HF_CP_2(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "0",
+            "specifications" : "counterpoise=2",
+            "fragments" : "1,1,1,1,2,2,2,2,2"
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        %chk=ethanol.chk
+        %nproc=8
+        %mem=10000MB
+        #p sp HF/3-21G counterpoise(2)
+
+        File created by ccinput
+
+        0 1
+        C(Fragment=1) -1.31970000 -0.64380000 0.00000000
+        H(Fragment=1) -0.96310000 -1.65260000 0.00000000
+        H(Fragment=1) -0.96310000 -0.13940000 -0.87370000
+        H(Fragment=1) -2.38970000 -0.64380000 0.00000000
+        C(Fragment=2) -0.80640000 0.08220000 1.25740000
+        H(Fragment=2) -1.16150000 1.09160000 1.25640000
+        H(Fragment=2) -1.16470000 -0.42110000 2.13110000
+        O(Fragment=2) 0.62360000 0.07990000 1.25870000
+        H(Fragment=2) 0.94410000 0.53240000 2.04240000
+
+
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_HF_CP_wrong_num_frag(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "0",
+            "specifications" : "counterpoise=3",
+             "fragments" : "1,2,3,3,3,4,5,5,5",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+
+    def test_sp_HF_CP_wrong_start_num(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "0",
+            "specifications" : "counterpoise=3 ",
+            "fragments" : "2,2,2,2,2,3,3,3,4"
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
