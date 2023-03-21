@@ -291,8 +291,6 @@ class GaussianCalculation:
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
         # If counterpoise correction is the option, modify xyz corresponding to fragments
         if self.calc.fragments != None:
-            print(self.calc.fragments)
-            print(type(self.calc.fragments))
             lines = add_fragments_xyz(lines, self.calc.fragments)
         self.xyz_structure = "".join(lines)
 

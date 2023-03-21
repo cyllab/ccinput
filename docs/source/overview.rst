@@ -95,7 +95,7 @@ Custom basis sets                  yes         yes          n.a.
 Density fitting                    yes         yes          n.a.
 Custom additional keywords         yes         yes          yes
 Dispersion corrections             yes         yes         yes [4]_
-Counter-poise correction           no          no          yes [4]_
+Counter-poise correction           yes         no          yes [4]_
 =============================== ============ =========== =========
 
 

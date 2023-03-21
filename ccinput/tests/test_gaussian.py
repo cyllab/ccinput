@@ -3874,7 +3874,6 @@ class GaussianTests(InputTests):
         O(Fragment=2) 0.62360000 0.07990000 1.25870000
         H(Fragment=2) 0.94410000 0.53240000 2.04240000
 
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -3908,6 +3907,25 @@ class GaussianTests(InputTests):
             "charge": "0",
             "specifications": "counterpoise=3 ",
             "fragments": "2,2,2,2,2,3,3,3,4",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+
+    def test_sp_HF_CP_solvation_invalid(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "Gaussian",
+            "method": "HF",
+            "basis_set": "3-21G",
+            "charge": "0",
+            "specifications": "counterpoise=4 ",
+            "fragments": "1,1,2,2,2,3,4,4,4",
+            "solvent": "dichloromethane",
+            "solvation_model": "PCM",
         }
 
         with self.assertRaises(InvalidParameter):

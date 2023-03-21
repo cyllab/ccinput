@@ -190,6 +190,11 @@ class Parameters:
                 )
             if self.solvation_radii.strip() == "":
                 warn("No solvation radii specified; using default radii")
+
+            if "counterpoise" in specifications.lower():
+                raise InvalidParameter(
+                    "Counterpoise calculations are not compatible with implicit solvation"
+                )
         else:
             self.solvation_model = ""
             self.solvation_radii = ""
