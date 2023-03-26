@@ -110,21 +110,17 @@ pip install git+https://github.com/cyllab/ccinput
 ### From the command line
 Simply use the `ccinput` command with the desired parameters:
 ```
-usage: ccinput [-h] [--basis_set BASIS_SET] [--solvent SOLVENT]
-               [--solvation_model SOLVATION_MODEL]
-               [--solvation_radii SOLVATION_RADII]
-               [--custom_solvation_radii CUSTOM_SOLVATION_RADII]
-               [--specifications SPECIFICATIONS]
-               [--density_fitting DENSITY_FITTING]
-               [--custom_basis_sets CUSTOM_BASIS_SETS] [--xyz XYZ]
-               [--file FILE [FILE ...]] [--output OUTPUT]
-               [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]]
-               [--scan ATOM [ATOM ...]] [--from FROM] [--to TO]
-               [--nsteps NSTEPS] [--step STEP] [--nproc NPROC] [--mem MEM]
-               [--charge CHARGE] [--mult MULT] [--parse_name] [--d3 | --d3bj]
-               [--name NAME] [--aux_name AUX_NAME] [--header HEADER]
-               [--save SAVE] [--preset [PRESET]] [--version]
+
+usage: ccinput [-h] [--basis_set BASIS_SET] [--solvent SOLVENT] [--solvation_model SOLVATION_MODEL] 
+               [--solvation_radii SOLVATION_RADII] [--custom_solvation_radii CUSTOM_SOLVATION_RADII] 
+               [--specifications SPECIFICATIONS] [--density_fitting DENSITY_FITTING] [--custom_basis_sets CUSTOM_BASIS_SETS] 
+               [--xyz XYZ] [--file FILE [FILE ...]] [--output OUTPUT] [--constraints CONSTRAINTS] [--freeze ATOM [ATOM ...]] 
+               [--scan ATOM [ATOM ...]] [--from FROM] [--to TO] [--nsteps NSTEPS] [--step STEP] [--nproc NPROC] [--mem MEM] 
+               [--charge CHARGE] [--mult MULT] [--parse_name] [--trust_me] [--d3 | --d3bj] [--name NAME] 
+               [--aux_name AUX_NAME] [--header HEADER] [--save SAVE] [--preset [PRESET]] [--driver {none,ORCA,pysis}] 
+               [--version] [--fragments FRAGMENTS]
                [software] [type] [method]
+
 ```
 
 More detailed information about each option can be obtained with the `ccinput -h` command.
