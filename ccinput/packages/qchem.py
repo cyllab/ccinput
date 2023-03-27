@@ -262,6 +262,10 @@ class QChemCalculation:
             other_blocks="\n".join(self.other_blocks),
         )
 
+    @property
+    def output(self):
+        return self.input_file
+
 
 def _get_unique_atoms(xyz: str) -> List[str]:
     unique_atoms = []
