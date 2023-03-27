@@ -6,6 +6,7 @@ from ccinput.__init__ import __version__
 from ccinput.packages.gaussian import GaussianCalculation
 from ccinput.packages.orca import OrcaCalculation
 from ccinput.packages.nwchem import NWChemCalculation
+from ccinput.packages.qchem import QChemCalculation
 from ccinput.packages.xtb import XtbCalculation
 from ccinput.drivers.pysis import PysisDriver
 
@@ -40,6 +41,7 @@ SOFTWARE_CLASSES = {
     "xtb": XtbCalculation,
     "pysis": PysisDriver,
     "pysisyphus": PysisDriver,
+    "qchem": QChemCalculation,
 }
 
 
@@ -192,7 +194,9 @@ def get_parser():
         description="Generates an input for a computational chemistry package"
     )
     parser.add_argument(
-        "software", nargs="?", help="Desired software package (Gaussian or ORCA)"
+        "software",
+        nargs="?",
+        help="Desired software package (Gaussian, ORCA, Q-Chem, ...)",
     )
 
     parser.add_argument("type", nargs="?", help="Calculation type (opt, freq, sp, ...)")
