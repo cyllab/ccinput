@@ -307,7 +307,7 @@ def get_solvent(solvent, software, solvation_model="smd"):
         warn(f"Unknown solvent '{solvent}'")
         return solvent
 
-    if software == "orca" and abs_solvent == "noctanol":
+    if software in ("orca", "qchem") and abs_solvent == "noctanol":
         # Weird exception in ORCA
         if solvation_model == "smd":
             return "1-octanol"

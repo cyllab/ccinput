@@ -104,6 +104,9 @@ SYN_TYPES = {
         "neb",
         "nudgedelasticband",
         "reactionpath",
+        "Freezing String Method",
+        "Freezing String",
+        "fsm",
     ],
     CalcType.MO: [
         "MO Calculation",
@@ -161,6 +164,7 @@ THEORY_LEVELS = {
 SYN_SOFTWARE = {
     "gaussian": ["g16", "gaussian16"],
     "orca": ["orca5"],
+    "qchem": [],
     "xtb": [],
 }
 
@@ -169,7 +173,7 @@ SYN_SOLVENTS = {
     "acetonitrile": ["acetonitrile", "acn", "ch3cn", "mecn"],
     "benzene": ["benzene", "c6h6"],
     "dichloromethane": ["ch2cl2", "dcm"],
-    "chloroform": ["chcl3"],
+    "chloroform": ["chcl3", "trichloromethane"],
     "carbondisulfide": ["cs2"],
     "dimethylformamide": ["dmf"],
     "dimethylsulfoxide": ["dmso"],
@@ -1590,6 +1594,13 @@ SOFTWARE_METHODS = {
         "pm7": "PM7",
         "hf": "HF",
     },
+    "qchem": {
+        "am1": "am1",
+        "b3lyp": "b3lyp",
+        "hf": "hf",
+        "m062x": "m06-2x",
+        "pbe0": "pbe0",
+    },
     "xtb": {
         "gfn2xtb": "gfn2-xtb",
         "gfn1xtb": "gfn1-xtb",
@@ -2028,6 +2039,12 @@ SOFTWARE_BASIS_SETS = {
         "gdtzvp": "DGTZVP",
         "cbsb7": "cbsb7",
     },
+    "qchem": {
+        "321g": "3-21g",
+        "631+gdp": "6-31+g(d,p)",
+        "def2svp": "def2-svp",
+        "def2tzvp": "def2-tzvp",
+    },
 }
 
 SOFTWARE_SOLVENTS = {
@@ -2404,6 +2421,10 @@ SOFTWARE_SOLVENTS = {
         "mxylene": "m-xylene",
         "oxylene": "o-xylene",
         "pxylene": "p-xylene",
+    },
+    "qchem": {
+        "chloroform": "trichloromethane",
+        "noctanol": "octanol",
     },
     "xtb": {
         "acetone": "acetone",
