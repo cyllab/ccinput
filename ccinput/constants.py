@@ -166,6 +166,7 @@ SYN_SOFTWARE = {
     "orca": ["orca5"],
     "qchem": [],
     "xtb": [],
+    "psi4":["psi4"]
 }
 
 SYN_SOLVENTS = {
@@ -492,6 +493,7 @@ SYN_METHODS = {
     "dlpnoccsdt": [],
     "dlpnoqcisd": [],
     "dlpnoqcisdt": [],
+    "scf": [],
 }
 
 
@@ -1608,6 +1610,16 @@ SOFTWARE_METHODS = {
         "gfnff": "gfn-ff",
         "gfn2xtbgfnff": "gfn2-xtb//gfn-ff",
     },
+    "psi4": {
+        "scf": "scf",
+        "hf": "scf",
+        "blyp": "blyp",
+        "b3lyp": "b3lyp",
+        "pbe": "pbe",
+        "pw91": "pw91",
+        "revpbe": "revpbe",
+        "rpbe": "rpbe", 
+    },
 }
 
 SOFTWARE_BASIS_SETS = {
@@ -2045,6 +2057,12 @@ SOFTWARE_BASIS_SETS = {
         "def2svp": "def2-svp",
         "def2tzvp": "def2-tzvp",
     },
+    "psi4": {
+        "sto3g": "sto-3g",
+        "631g": "6-31G",
+        "ccpvdz": "cc-pVDZ",
+        "def2tzvp": "def2-tzvp"
+    }
 }
 
 SOFTWARE_SOLVENTS = {
