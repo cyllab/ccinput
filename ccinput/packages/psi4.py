@@ -13,7 +13,7 @@ from ccinput.utilities import (
 )
 from ccinput.calculation import Calculation
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
-from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
+from ccinput.exceptions import UnimplementedError
 
 
 class Psi4Calculation:
@@ -49,8 +49,7 @@ molecule {{
         self.input_file = ""
 
         if self.calc.type not in self.CALC_TYPES:
-            raise ImpossibleCalculation(
-                f"Psi4 does not support calculations of type {self.calc.type}"
+            raise UnimplementedError(f"Calculation Type {self.calc.type} not implemented yet for psi4"
             )
         self.type_method = ""
 
@@ -96,7 +95,7 @@ molecule {{
         elif self.calc.type == CalcType.OPT:
             self.command_line += f"optimize('{method}/{basis_set}')"
         else:
-            raise ImpossibleCalculation(f"Calculation Type {self.calc.type} not implemented yet for psi4")
+            raise UnimplementedError(f"Calculation Type {self.calc.type} not implemented yet for psi4")
             
         
 

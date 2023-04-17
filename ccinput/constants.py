@@ -38,7 +38,6 @@ SYN_TYPES = {
         "singlepoint",
         "singlepointenergy",
         "energy",
-        "scf",
     ],
     CalcType.OPT: [
         "Geometrical Optimisation",
@@ -464,7 +463,7 @@ SYN_METHODS = {
     "hcth93": [],
     "hcth147": [],
     "thcth": [],
-    "hf": ["hartreefock"],
+    "hf": ["hartreefock", "scf"],
     "mndo": [],
     "am1": [],
     "pm3": [],
@@ -493,7 +492,6 @@ SYN_METHODS = {
     "dlpnoccsdt": [],
     "dlpnoqcisd": [],
     "dlpnoqcisdt": [],
-    "scf": [],
 }
 
 
@@ -1611,7 +1609,6 @@ SOFTWARE_METHODS = {
         "gfn2xtbgfnff": "gfn2-xtb//gfn-ff",
     },
     "psi4": {
-        "scf": "scf",
         "hf": "scf",
         "blyp": "blyp",
         "b3lyp": "b3lyp",
