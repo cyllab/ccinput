@@ -27,14 +27,14 @@ molecule {{
 """
 
     CALC_TYPES = {
-        CalcType.SP: ["sp","energy"],
+        CalcType.SP: ["sp", "energy"],
         CalcType.OPT: ["optimize"],
         # CalcType.CONSTR_OPT,
         # CalcType.FREQ,
         # CalcType.TS,
         # CalcType.OPTFREQ,
     }
-        
+
     def __init__(self, calc: Calculation):
         self.calc = calc
         self.has_scan = False
@@ -49,7 +49,8 @@ molecule {{
         self.input_file = ""
 
         if self.calc.type not in self.CALC_TYPES:
-            raise UnimplementedError(f"Calculation Type {self.calc.type} not implemented yet for psi4"
+            raise UnimplementedError(
+                f"Calculation Type {self.calc.type} not implemented yet for psi4"
             )
         self.type_method = ""
 
@@ -58,9 +59,7 @@ molecule {{
         self.handle_xyz()
 
         self.handle_solvation()
-        
-       
-        
+
         self.create_input_file()
 
     def clean(self, s):
@@ -85,19 +84,19 @@ molecule {{
         return
 
     def handle_command(self):
-        #method label, can be used to specifyiing xc func or the level of theory.
-        method = get_method(self.calc.parameters.method,'psi4')
-        
-        basis_set = get_basis_set(self.calc.parameters.basis_set, 'psi4')
-        
+        # method label, can be used to specifyiing xc func or the level of theory.
+        method = get_method(self.calc.parameters.method, "psi4")
+
+        basis_set = get_basis_set(self.calc.parameters.basis_set, "psi4")
+
         if self.calc.type == CalcType.SP:
             self.command_line += f"energy('{method}/{basis_set}')"
         elif self.calc.type == CalcType.OPT:
             self.command_line += f"optimize('{method}/{basis_set}')"
         else:
-            raise UnimplementedError(f"Calculation Type {self.calc.type} not implemented yet for psi4")
-            
-        
+            raise UnimplementedError(
+                f"Calculation Type {self.calc.type} not implemented yet for psi4"
+            )
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
@@ -106,19 +105,14 @@ molecule {{
     def handle_solvation(self):
         return
 
-        
-        
-        
     def create_input_file(self) -> None:
         self.input_file = self.TEMPLATE.format(
-            charge= self.calc.charge,
-            multiplicity = self.calc.multiplicity,
-            coordinates = self.xyz_structure,
-            command_line = self.command_line 
-            )
+            charge=self.calc.charge,
+            multiplicity=self.calc.multiplicity,
+            coordinates=self.xyz_structure,
+            command_line=self.command_line,
+        )
         return
-    
-
 
     @property
     def output(self):

@@ -5,9 +5,8 @@ from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 class Psi4Tests(InputTests):
     # def test_sp_SE(self):
     #     params = {
-            
-    #     }
 
+    #     }
 
     #     inp = self.generate_calculation(**params)
 
@@ -25,7 +24,7 @@ class Psi4Tests(InputTests):
             "method": "hf",
             "basis_set": "sto3g",
             "charge": "-1",
-            "multiplicity" : "1",
+            "multiplicity": "1",
         }
         inp = self.generate_calculation(**params)
 
@@ -40,18 +39,18 @@ class Psi4Tests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
+
     def test_sp_DFT(self):
         params = {
-        "type": "Energy",
-        "file": "Cl.xyz",
-        "software": "psi4",
-        "method": "b3lyp",
-        "basis_set": "def2-tzvp",
-        "charge": "-1",
-        "multiplicity" : "1",
+            "type": "Energy",
+            "file": "Cl.xyz",
+            "software": "psi4",
+            "method": "b3lyp",
+            "basis_set": "def2-tzvp",
+            "charge": "-1",
+            "multiplicity": "1",
         }
-        
+
         inp = self.generate_calculation(**params)
 
         REF = """
@@ -64,7 +63,7 @@ class Psi4Tests(InputTests):
         energy('b3lyp/def2-tzvp')
         """
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
+
     def test_opt_HF(self):
         params = {
             "type": "Geometrical Optimisation",
@@ -73,7 +72,7 @@ class Psi4Tests(InputTests):
             "method": "HF",
             "basis_set": "ccpVDZ",
             "charge": "-1",
-            "multiplicity" : "1",
+            "multiplicity": "1",
         }
 
         inp = self.generate_calculation(**params)
@@ -92,14 +91,14 @@ class Psi4Tests(InputTests):
 
     def test_opt_DFT(self):
         params = {
-        "type": "Opt",
-        "file": "Cl.xyz",
-        "software": "psi4",
-        "method": "b3lyp",
-        "basis_set": "631g",
-        "charge": "-1",
+            "type": "Opt",
+            "file": "Cl.xyz",
+            "software": "psi4",
+            "method": "b3lyp",
+            "basis_set": "631g",
+            "charge": "-1",
         }
-        
+
         inp = self.generate_calculation(**params)
 
         REF = """
@@ -123,6 +122,8 @@ class Psi4Tests(InputTests):
             "basis_set": "cc-pvdz",
             "charge": "-1",
         }
-        
-        self.assertRaises(ImpossibleCalculation, msg=f"Calculation Type of {params['type']} not implemented yet for psi4")
-            
+
+        self.assertRaises(
+            ImpossibleCalculation,
+            msg=f"Calculation Type of {params['type']} not implemented yet for psi4",
+        )

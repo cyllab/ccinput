@@ -165,7 +165,7 @@ SYN_SOFTWARE = {
     "orca": ["orca5"],
     "qchem": [],
     "xtb": [],
-    "psi4":["psi4"]
+    "psi4": ["psi4"],
 }
 
 SYN_SOLVENTS = {
@@ -1615,7 +1615,7 @@ SOFTWARE_METHODS = {
         "pbe": "pbe",
         "pw91": "pw91",
         "revpbe": "revpbe",
-        "rpbe": "rpbe", 
+        "rpbe": "rpbe",
     },
 }
 
@@ -2058,8 +2058,8 @@ SOFTWARE_BASIS_SETS = {
         "sto3g": "sto-3g",
         "631g": "6-31G",
         "ccpvdz": "cc-pVDZ",
-        "def2tzvp": "def2-tzvp"
-    }
+        "def2tzvp": "def2-tzvp",
+    },
 }
 
 SOFTWARE_SOLVENTS = {
