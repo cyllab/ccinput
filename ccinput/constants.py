@@ -30,6 +30,7 @@ for el in periodictable.elements:
     ATOMIC_SYMBOL[el.number] = el.symbol
     LOWERCASE_ATOMIC_SYMBOLS[el.symbol.lower()] = el.symbol
 
+# Synonyms for each type of calculation
 # The first synonym will be used as detailed name in the documentation
 SYN_TYPES = {
     CalcType.SP: [
@@ -160,6 +161,7 @@ THEORY_LEVELS = {
     # Everything else is assumed to be DFT, because it most likely is
 }
 
+# Synonyms for each software package
 SYN_SOFTWARE = {
     "gaussian": ["g16", "gaussian16"],
     "orca": ["orca5"],
@@ -168,6 +170,8 @@ SYN_SOFTWARE = {
     "psi4": ["psi4"],
 }
 
+# Synonym for each solvent.
+# The keys are "canonical" and used in other dictionaries to refer to each solvent.
 SYN_SOLVENTS = {
     "acetone": ["acetone"],
     "acetonitrile": ["acetonitrile", "acn", "ch3cn", "mecn"],
@@ -873,6 +877,8 @@ SYN_BASIS_SETS = {
     "w1opt": [],
 }
 
+# Key: canonical basis set identifier (in ccinput)
+# Value: key in the Basis Set Exchange package
 # Not all basis sets below will be in SYN_BASIS_SETS (to complete).
 # ccinput will still attempt to find the key for the indexified input string.
 # Only orbital basis sets are included below.
@@ -1439,6 +1445,7 @@ BASIS_SET_EXCHANGE_KEY = {
 }
 
 
+# Specific keyword for each package (value) based on the canonical name (key)
 SOFTWARE_METHODS = {
     "orca": {
         "hfs": "HFS",
