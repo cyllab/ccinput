@@ -175,7 +175,7 @@ class XtbCalculation:
         iterations = -1
         method = "gfn2-xtb"
         opt_level = "tight"
-        rthr = 0.6
+        rthr = 2.0
         ewin = 6
         cmd_arguments = ""
 

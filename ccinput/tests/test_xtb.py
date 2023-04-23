@@ -360,7 +360,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -rthr 2.0 -ewin 6"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
@@ -408,7 +408,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -cinp input -rthr 2.0 -ewin 6"
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
         INPUT = """$constrain
@@ -431,7 +431,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -cinp input -rthr 2.0 -ewin 6"
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
         INPUT = """$constrain
@@ -455,7 +455,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -cinp input -rthr 2.0 -ewin 6"
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
         INPUT = """$constrain
@@ -479,7 +479,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -cinp input -rthr 2.0 -ewin 6"
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
         INPUT = """$constrain
@@ -503,7 +503,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -cinp input -rthr 2.0 -ewin 6"
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
         INPUT = """$constrain
@@ -528,7 +528,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -cinp inp -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -cinp inp -rthr 2.0 -ewin 6"
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
         INPUT = """$constrain
@@ -563,7 +563,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+        REF = "crest ethanol.xyz -cinp input -rthr 2.0 -ewin 6"
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
         INPUT = """$constrain

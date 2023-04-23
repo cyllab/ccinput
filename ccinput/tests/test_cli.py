@@ -708,7 +708,7 @@ class ManualCliTests(InputTests):
 
         self.assertTrue(self.is_equivalent(INPUT_REF, objs[0].input_file))
         self.assertEqual(
-            objs[0].command, "crest ethanol.xyz -cinp input -rthr 0.6 -ewin 6"
+            objs[0].command, "crest ethanol.xyz -cinp input -rthr 2.0 -ewin 6"
         )
 
     @patch("ccinput.utilities.warn")
