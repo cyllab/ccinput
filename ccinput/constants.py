@@ -76,6 +76,7 @@ SYN_TYPES = {
         "tsoptimization",
         "optts",
         "tsopt",
+        "saddle",
     ],
     CalcType.NMR: [
         "NMR Calculation",
@@ -143,7 +144,7 @@ THEORY_LEVELS = {
     "semiempirical": ["am1", "pm3", "pm6", "pm7", "mndo"],
     "xtb": ["gfn2xtb", "xtb2", "xtb1", "gfn1xtb", "gfn0xtb", "gfnff", "gfn2xtbgfnff"],
     "special": ["hf3c", "pbeh3c", "r2scan3c", "b973c"],
-    "mp2": ["mp2", "rimp2"],
+    "mp2": ["mp2", "rimp2", "direct_mp2"],
     "cc": [
         "ccsd",
         "ccsdt",
@@ -168,6 +169,7 @@ SYN_SOFTWARE = {
     "qchem": [],
     "xtb": [],
     "psi4": ["psi4"],
+    "nwchem" : [],
 }
 
 # Synonym for each solvent.
@@ -1624,6 +1626,23 @@ SOFTWARE_METHODS = {
         "revpbe": "revpbe",
         "rpbe": "rpbe",
     },
+    "nwchem": { # Values are correct, keys need to be checked! - Zarko
+        "hf": "scf",
+        "dft": "dft",
+        "sodft": "sodft",
+        "mp2": "mp2",
+        "direct_mp2": "direct_mp2",
+        "rimp2": "rimp2",
+        "ccsd": "ccsd",
+        "ccsd(t)": "ccsd(t)",
+        "ccsd+t(ccsd)": "ccsd+t(ccsd)",
+        "mcscf": "mcscf",
+        "selci": "selci",
+        "md": "md",
+        "pspw": "pspw",
+        "band": "band",
+        "tce": "tce",
+    },
 }
 
 SOFTWARE_BASIS_SETS = {
@@ -2564,4 +2583,16 @@ FUNCTIONALS_WITH_DISPERSION_PARAMETERS = {
         "tpss0",
         "tpss",
     ],
+}
+SOFTWARE_MULTIPLICITY = {
+    "nwchem": {
+        1: "singlet",
+        2: "doublet",
+        3: "triplet",
+        4: "quartet",
+        5: "quintet",
+        6: "sextet",
+        7: "septet",
+        8: "octet",
+    }
 }

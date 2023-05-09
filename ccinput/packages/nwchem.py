@@ -11,26 +11,53 @@ from ccinput.utilities import (
     get_dihedral,
     get_npxyz,
 )
-from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
+from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS, SOFTWARE_MULTIPLICITY
+multiplicity_dict = SOFTWARE_MULTIPLICITY['nwchem']
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class NWChemCalculation:
-    TEMPLATE = """start {}
+    TEMPLATE = """TITLE {}
+    start {}
+    memory total {}
+    charge {}
     geometry units angstroms
+    {}end
     {}
-    end
     task {}
     """
+    # Header
+    # Name
+    # Amount of memory
+    # Charge
+    # Geometry
+    # Additional blocks
+    # Command line
+
+    KEYWORDS = {
+    #    CalcType.OPT: ["opt"],
+    #    CalcType.CONSTR_OPT: ["opt"],
+    #    CalcType.TS: ["opt"],
+    #    CalcType.FREQ: ["freq"],
+    #    CalcType.NMR: ["nmr"],
+        CalcType.SP: ["scf"],
+    #    CalcType.UVVIS: ["td"],
+    #    CalcType.UVVIS_TDA: ["tda"],
+    #    CalcType.OPTFREQ: ["opt", "freq"],
+    }
+
+    # Get a set of all unique calculation keywords
+    KEYWORD_LIST = set([j for i in KEYWORDS.values() for j in i])
 
     CALC_TYPES = [
-        # CalcType.SP,
+        CalcType.SP,
         # CalcType.OPT,
         # CalcType.CONSTR_OPT,
         # CalcType.FREQ,
         # CalcType.TS,
         # CalcType.OPTFREQ,
     ]
+    Blocks = ""
 
     def __init__(self, calc):
         self.calc = calc
@@ -80,6 +107,14 @@ class NWChemCalculation:
         return
 
     def handle_command(self):
+        if(self.calc.type == CalcType.SP) :
+            scf_block = f"""
+            scf
+            {multiplicity_dict[self.calc.multiplicity]}
+            end
+
+            """
+            self.Blocks += scf_block
         return
 
     def handle_xyz(self):
@@ -90,8 +125,19 @@ class NWChemCalculation:
         return
 
     def create_input_file(self):
-        return
-
+        raw = self.TEMPLATE.format(
+            self.calc.header,
+            self.calc.name,
+            self.calc.mem,
+            self.calc.charge,
+            self.xyz_structure,
+            self.Blocks,
+            self.command_line.strip(),
+        )
+        self.input_file = "\n".join([i.strip() for i in raw.split("\n")]).replace(
+            "\n\n\n", "\n\n"
+        )
+    
     @property
     def output(self):
         return self.input_file
