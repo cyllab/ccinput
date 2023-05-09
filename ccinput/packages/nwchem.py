@@ -17,12 +17,15 @@ from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
 class NWChemCalculation:
-    TEMPLATE = """TITLE {}
+    TEMPLATE = """TITLE "{}"
     start {}
     memory total {}
     charge {}
     geometry units angstroms
     {}end
+    basis
+    {}
+    end
     {}
     task {}
     """
@@ -31,6 +34,7 @@ class NWChemCalculation:
     # Amount of memory
     # Charge
     # Geometry
+    # Basis set
     # Additional blocks
     # Command line
 
@@ -40,7 +44,7 @@ class NWChemCalculation:
     #    CalcType.TS: ["opt"],
     #    CalcType.FREQ: ["freq"],
     #    CalcType.NMR: ["nmr"],
-        CalcType.SP: ["scf"],
+        CalcType.SP: "scf",
     #    CalcType.UVVIS: ["td"],
     #    CalcType.UVVIS_TDA: ["tda"],
     #    CalcType.OPTFREQ: ["opt", "freq"],
@@ -61,6 +65,7 @@ class NWChemCalculation:
 
     def __init__(self, calc):
         self.calc = calc
+        self.calc.mem = '1000 mb'
         self.has_scan = False
         self.appendix = []
         self.command_line = ""
@@ -80,9 +85,7 @@ class NWChemCalculation:
         self.handle_specifications()
         self.handle_command()
         self.handle_xyz()
-
         self.handle_solvation()
-
         self.create_input_file()
 
     def clean(self, s):
@@ -107,14 +110,19 @@ class NWChemCalculation:
         return
 
     def handle_command(self):
+        basis_set = get_basis_set(self.calc.parameters.basis_set, "nwchem")
+        if(basis_set != ''):
+            self.basis_set = f"* library {basis_set}"
         if(self.calc.type == CalcType.SP) :
             scf_block = f"""
             scf
             {multiplicity_dict[self.calc.multiplicity]}
+            {self.calc.parameters.method}
             end
 
             """
             self.Blocks += scf_block
+            self.task = f'{self.KEYWORDS[self.calc.type]}'
         return
 
     def handle_xyz(self):
@@ -131,8 +139,9 @@ class NWChemCalculation:
             self.calc.mem,
             self.calc.charge,
             self.xyz_structure,
+            self.basis_set,
             self.Blocks,
-            self.command_line.strip(),
+            self.task,
         )
         self.input_file = "\n".join([i.strip() for i in raw.split("\n")]).replace(
             "\n\n\n", "\n\n"
