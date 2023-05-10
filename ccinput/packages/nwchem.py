@@ -11,7 +11,7 @@ from ccinput.utilities import (
     get_dihedral,
     get_npxyz,
 )
-from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS, SOFTWARE_MULTIPLICITY
+from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS, SOFTWARE_MULTIPLICITY, SYN_METHODS
 multiplicity_dict = SOFTWARE_MULTIPLICITY['nwchem']
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
@@ -27,7 +27,7 @@ class NWChemCalculation:
     {}
     end
     {}
-    task {}
+    {}
     """
     # Header
     # Name
@@ -36,18 +36,18 @@ class NWChemCalculation:
     # Geometry
     # Basis set
     # Additional blocks
-    # Command line
+    # Tasks
 
     KEYWORDS = {
-    #    CalcType.OPT: ["opt"],
+        CalcType.OPT: ["optimize"],
     #    CalcType.CONSTR_OPT: ["opt"],
-    #    CalcType.TS: ["opt"],
-    #    CalcType.FREQ: ["freq"],
+        CalcType.TS: ["saddle"],
+        CalcType.FREQ: ["freq"],
     #    CalcType.NMR: ["nmr"],
-        CalcType.SP: "scf",
+        CalcType.SP: "energy",
     #    CalcType.UVVIS: ["td"],
     #    CalcType.UVVIS_TDA: ["tda"],
-    #    CalcType.OPTFREQ: ["opt", "freq"],
+        CalcType.OPTFREQ: ["opt", "freq"],
     }
 
     # Get a set of all unique calculation keywords
@@ -61,15 +61,16 @@ class NWChemCalculation:
         # CalcType.TS,
         # CalcType.OPTFREQ,
     ]
-    Blocks = ""
 
     def __init__(self, calc):
         self.calc = calc
+        if self.calc.parameters.theory_level == 'hf' :
+            self.calc.parameters.theory_level = 'scf'
         self.calc.mem = '1000 mb'
         self.has_scan = False
         self.appendix = []
         self.command_line = ""
-
+        self.Blocks=f"{self.calc.parameters.theory_level}"
         self.commands = {}
         self.solvation_radii = {}
 
@@ -81,9 +82,8 @@ class NWChemCalculation:
             raise ImpossibleCalculation(
                 f"NWChem does not support calculations of type {self.calc.type}"
             )
-
-        self.handle_specifications()
         self.handle_command()
+        self.handle_specifications()
         self.handle_xyz()
         self.handle_solvation()
         self.create_input_file()
@@ -107,22 +107,31 @@ class NWChemCalculation:
             self.add_option(key, option)
 
     def handle_specifications(self):
+        s = ""
+        specs = self.calc.parameters.specifications.split(';')
+        for spec in specs :
+            spec = self.clean(spec)
+        s = ";".join(specs)
+        self.Blocks+=f"""{s}
+        end
+        """
         return
 
     def handle_command(self):
+        self.tasks = f'task {self.calc.parameters.theory_level} {self.KEYWORDS[self.calc.type]}'
         basis_set = get_basis_set(self.calc.parameters.basis_set, "nwchem")
         if(basis_set != ''):
             self.basis_set = f"* library {basis_set}"
-        if(self.calc.type == CalcType.SP) :
+        if(self.calc.parameters.method == 'hf' or self.calc.parameters.method in SYN_METHODS['hf']) :
             scf_block = f"""
-            scf
             {multiplicity_dict[self.calc.multiplicity]}
-            {self.calc.parameters.method}
-            end
-
             """
             self.Blocks += scf_block
-            self.task = f'{self.KEYWORDS[self.calc.type]}'
+        if(self.calc.parameters.theory_level == 'dft') :
+            dft_block = f"""
+            xc {self.calc.parameters.method}
+            """
+            self.Blocks += dft_block
         return
 
     def handle_xyz(self):
@@ -141,7 +150,7 @@ class NWChemCalculation:
             self.xyz_structure,
             self.basis_set,
             self.Blocks,
-            self.task,
+            self.tasks,
         )
         self.input_file = "\n".join([i.strip() for i in raw.split("\n")]).replace(
             "\n\n\n", "\n\n"
