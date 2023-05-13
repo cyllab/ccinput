@@ -242,12 +242,15 @@ def get_abs_solvent(solvent, trust_me=False):
         raise InvalidParameter(f"Unknown solvent: '{solvent}'")
 
 
-def is_exchange_correlation_combination(method):
+def is_exchange_correlation_combination(method,software='gaussian'):
+    fill = ''
+    if software == 'nwchem':
+        fill = ' '
     for x in EXCHANGE_FUNCTIONALS:
         if method[: len(x)] == x:
             if method[len(x) :] in CORRELATION_FUNCTIONALS:
                 return (
-                    EXCHANGE_FUNCTIONALS[method[: len(x)]]
+                    EXCHANGE_FUNCTIONALS[method[: len(x)]] + fill
                     + CORRELATION_FUNCTIONALS[method[len(x) :]]
                 )
     return False
@@ -258,7 +261,7 @@ def get_method(method, software):
         abs_method = get_abs_method(method)
     except InvalidParameter:
         if software == "gaussian":
-            # As far as I know, this kind of specification does not apply to ORCA
+            # As far as I know, this kind of specification does not apply to ORCA *** But it does to nwchem - Zarko***
             if method.lower()[0] in ["u", "r"]:
                 try:
                     abs_method = get_abs_method(method[1:])
@@ -277,8 +280,17 @@ def get_method(method, software):
             xc_check = is_exchange_correlation_combination(method.lower())
             if isinstance(xc_check, str):
                 return xc_check
-        warn(f"Unknown method '{method}'")
+            warn(f"Unknown method '{method}'")
+        if software == "nwchem":
+            # nwchem also supports combination of functionals
+            if len(method.split()) == 2:
+                xc_check = is_exchange_correlation_combination(indexify(method),'nwchem')
+                if isinstance(xc_check, str):
+                    print(xc_check)
+                    return xc_check
+            warn(f"Unknown method '{method}'")
         return method
+
     else:
         if abs_method not in SOFTWARE_METHODS[software]:
             warn(f"Unknown method for this package: '{method}'")
@@ -323,7 +335,7 @@ def has_dispersion_parameters(method, version="d3"):
         _method = get_abs_method(method)
     except InvalidParameter:
         warn(
-            "Unknown method, could not verify if dispersion parameters are available for it"
+            "Could not verify if dispersion parameters are available for this method"
         )
         return True  # Don't print a second warning
 

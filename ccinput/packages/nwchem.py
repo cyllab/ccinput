@@ -66,7 +66,7 @@ class NWChemCalculation:
         self.calc = calc
         if self.calc.parameters.theory_level == 'hf' :
             self.calc.parameters.theory_level = 'scf'
-        self.calc.mem = '1000 mb'
+        self.calc.mem = f"{self.calc.mem} mb"
         self.has_scan = False
         self.appendix = []
         self.command_line = ""
@@ -112,6 +112,8 @@ class NWChemCalculation:
         for spec in specs :
             spec = self.clean(spec)
         s = ";".join(specs)
+        if(s != '') :
+            self.Blocks+='\n'
         self.Blocks+=f"""{s}
         end
         """
@@ -132,6 +134,10 @@ class NWChemCalculation:
             xc {self.calc.parameters.method}
             """
             self.Blocks += dft_block
+            if(self.calc.parameters.d3 == True) :
+                self.Blocks += "disp vdw 3"
+            elif(self.calc.parameters.d3bj == True) :
+                self.Blocks += "disp vdw 4"
         return
 
     def handle_xyz(self):
