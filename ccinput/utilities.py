@@ -286,7 +286,6 @@ def get_method(method, software):
             if len(method.split()) == 2:
                 xc_check = is_exchange_correlation_combination(indexify(method),'nwchem')
                 if isinstance(xc_check, str):
-                    print(xc_check)
                     return xc_check
             warn(f"Unknown method '{method}'")
         return method
