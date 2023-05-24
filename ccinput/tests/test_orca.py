@@ -1418,6 +1418,60 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_opt_DFT_two_custom_bs_ecp(self):
+        params = {
+            "nproc": 8,
+            "type": "Geometrical Optimisation",
+            "file": "Ph2I_cation.xyz",
+            "software": "ORCA",
+            "charge": "+1",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "custom_basis_sets": "I=Def2-TZVPD;H=Def2-TZVP",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        !OPT B3LYP 6-31+G(d,p)
+        *xyz 1 1
+        C         -3.06870       -2.28540        0.00000
+        C         -1.67350       -2.28540        0.00000
+        C         -0.97600       -1.07770        0.00000
+        C         -1.67360        0.13090       -0.00120
+        C         -3.06850        0.13080       -0.00170
+        C         -3.76610       -1.07740       -0.00070
+        H         -3.61840       -3.23770        0.00040
+        H         -1.12400       -3.23790        0.00130
+        H          0.12370       -1.07760        0.00060
+        H         -1.12340        1.08300       -0.00130
+        H         -4.86570       -1.07720       -0.00090
+        I         -4.11890        1.94920       -0.00350
+        C         -4.64360        2.85690       -1.82310
+        C         -3.77180        3.76300       -2.42740
+        C         -5.86360        2.55380       -2.42750
+        C         -4.12020        4.36650       -3.63560
+        H         -2.81040        4.00240       -1.95030
+        C         -6.21180        3.15650       -3.63650
+        H         -6.55070        1.83950       -1.95140
+        C         -5.34050        4.06290       -4.24060
+        H         -3.43340        5.08120       -4.11170
+        H         -7.17360        2.91710       -4.11310
+        H         -5.61500        4.53870       -5.19320
+        *
+        %basis
+        NewGTO I "Def2-TZVPD" end
+        NewECP I "def2-ECP" end
+        NewGTO H "Def2-TZVP" end
+        end
+        %MaxCore 125
+        %pal
+        nprocs 8
+        end
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_opt_DFT_custom_bs_ecp_synonym(self):
         params = {
             "nproc": 8,
