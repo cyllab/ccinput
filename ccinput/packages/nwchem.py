@@ -11,8 +11,13 @@ from ccinput.utilities import (
     get_dihedral,
     get_npxyz,
 )
-from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS, SOFTWARE_MULTIPLICITY, SYN_METHODS
-multiplicity_dict = SOFTWARE_MULTIPLICITY['nwchem']
+from ccinput.constants import (
+    CalcType,
+    ATOMIC_NUMBER,
+    LOWERCASE_ATOMIC_SYMBOLS,
+    SOFTWARE_MULTIPLICITY,
+    SYN_METHODS
+)
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
@@ -28,7 +33,7 @@ class NWChemCalculation:
     end
     {}
     {}
-    """
+    {}"""
     # Header
     # Name
     # Amount of memory
@@ -39,19 +44,16 @@ class NWChemCalculation:
     # Tasks
 
     KEYWORDS = {
-        CalcType.OPT: "optimize",
+        CalcType.OPT: ["optimize"],
     #    CalcType.CONSTR_OPT: ["opt"],
-        CalcType.TS: "saddle",
-        CalcType.FREQ: "freq",
+        CalcType.TS: ["saddle"],
+        CalcType.FREQ: ["freq"],
     #    CalcType.NMR: ["nmr"],
-        CalcType.SP: "energy",
+        CalcType.SP: ["energy"],
     #    CalcType.UVVIS: ["td"],
     #    CalcType.UVVIS_TDA: ["tda"],
-        CalcType.OPTFREQ: "optimize",
+        CalcType.OPTFREQ: ["optimize", "freq"],
     }
-
-    # Get a set of all unique calculation keywords
-    KEYWORD_LIST = set([j for i in KEYWORDS.values() for j in i])
 
     def __init__(self, calc):
         self.calc = calc
@@ -65,16 +67,19 @@ class NWChemCalculation:
         self.commands = {}
         self.solvation_radii = {}
         self.xyz_structure = ""
+        self.tasks = ""
         self.input_file = ""
 
         if self.calc.type not in self.KEYWORDS:
             raise ImpossibleCalculation(
                 f"NWChem does not support calculations of type {self.calc.type}"
             )
-        self.handle_command()
+        self.handle_tasks()
         self.handle_specifications()
         self.handle_xyz()
+        self.handle_basis_sets()
         self.handle_solvation()
+        self.handle_additional()
         self.create_input_file()
 
     def clean(self, s):
@@ -83,34 +88,36 @@ class NWChemCalculation:
         )
         return "".join([c for c in s if c in WHITELIST])
 
-    def handle_command(self):
-        self.tasks = f'task {self.calc.parameters.theory_level} {self.KEYWORDS[self.calc.type]}'
-        if self.calc.type == CalcType.OPTFREQ :
-            self.tasks += f"\n task {self.calc.parameters.theory_level} freq"
-        basis_set = get_basis_set(self.calc.parameters.basis_set, "nwchem")
-        if(basis_set != ''):
-            self.basis_set = f"* library {basis_set}"
+    def separate_lines(self,text):
+        lines = text.split(';')
+        for line in lines :
+            line = self.clean(line)
+        return "\n".join(lines)
+    
+    def handle_tasks(self):
+        for word in self.KEYWORDS[self.calc.type]:
+            self.tasks += f'task {self.calc.parameters.theory_level} {word} \n'
         if(self.calc.parameters.method == 'hf' or self.calc.parameters.method in SYN_METHODS['hf']) :
             scf_block = f"""
-            {multiplicity_dict[self.calc.multiplicity]}
+            {SOFTWARE_MULTIPLICITY['nwchem'][self.calc.multiplicity]}
             """
             self.Blocks += scf_block
         if(self.calc.parameters.theory_level == 'dft') :
             dft_block = f"""
             xc {self.calc.parameters.method}
+            mult {self.calc.multiplicity}
             """
             self.Blocks += dft_block
             if(self.calc.parameters.d3 == True) :
                 self.Blocks += "disp vdw 3"
             elif(self.calc.parameters.d3bj == True) :
                 self.Blocks += "disp vdw 4"
-
+    def handle_basis_sets(self):
+        basis_set = get_basis_set(self.calc.parameters.basis_set, "nwchem")
+        if(basis_set != ''):
+            self.basis_set = f"* library {basis_set}"
     def handle_specifications(self):
-            s = ""
-            specs = self.calc.parameters.specifications.split(';')
-            for spec in specs :
-                spec = self.clean(spec)
-            s = ";".join(specs)
+            s = self.separate_lines(self.calc.parameters.specifications)
             if(s != '') :
                 s+= '\n'
                 self.Blocks+='\n'
@@ -122,6 +129,9 @@ class NWChemCalculation:
 
     def handle_solvation(self):
         return
+    
+    def handle_additional(self):
+        self.additional = self.separate_lines(self.calc.additional)
 
     def create_input_file(self):
         raw = self.TEMPLATE.format(
@@ -132,6 +142,7 @@ class NWChemCalculation:
             self.xyz_structure,
             self.basis_set,
             self.Blocks,
+            self.additional,
             self.tasks,
         )
         self.input_file = "\n".join([i.strip() for i in raw.split("\n")])

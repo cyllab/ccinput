@@ -89,6 +89,7 @@ def generate_calculation(
     driver="none",
     trust_me=False,
     fragments=None,
+    additional="",
     **kwargs,
 ):
     if software is None:
@@ -154,6 +155,7 @@ def generate_calculation(
         driver=driver,
         **kwargs,
         fragments=fragments,
+        additional=additional,
     )
 
     return process_calculation(calc)
@@ -432,6 +434,12 @@ def get_parser():
         default=None,
         help="Assign each atom to a fragment",
     )
+    parser.add_argument(
+        "--additional",
+        dest="additional",
+        default="",
+        help="Put additional text you want to appear in the input file. It appears in appropriate place in the input file where additional commands can be put",
+    )
     return parser
 
 
@@ -553,6 +561,7 @@ def get_input_from_args(args, default_params=None):
         "header": args.header,
         "driver": args.driver,
         "fragments": args.fragments,
+        "additional": args.additional,
     }
 
     if args.preset:

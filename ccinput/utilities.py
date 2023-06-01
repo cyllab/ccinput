@@ -257,7 +257,6 @@ def is_exchange_correlation_combination(method,software):
 
 
 def get_method(method, software):
-    print(software)
     try:
         abs_method = get_abs_method(method)
     except InvalidParameter:
