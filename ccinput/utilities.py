@@ -242,15 +242,16 @@ def get_abs_solvent(solvent, trust_me=False):
         raise InvalidParameter(f"Unknown solvent: '{solvent}'")
 
 
-def is_exchange_correlation_combination(method,software):
-    fill = ''
-    if software == 'nwchem':
-        fill = ' '
+def is_exchange_correlation_combination(method, software):
+    fill = ""
+    if software == "nwchem":
+        fill = " "
     for x in EXCHANGE_FUNCTIONALS[software]:
         if method[: len(x)] == x:
             if method[len(x) :] in CORRELATION_FUNCTIONALS[software]:
                 return (
-                    EXCHANGE_FUNCTIONALS[software][method[: len(x)]] + fill
+                    EXCHANGE_FUNCTIONALS[software][method[: len(x)]]
+                    + fill
                     + CORRELATION_FUNCTIONALS[software][method[len(x) :]]
                 )
     return False
@@ -273,18 +274,22 @@ def get_method(method, software):
                             method[0].upper() + SOFTWARE_METHODS[software][abs_method]
                         )
 
-                xc_check = is_exchange_correlation_combination(method.lower()[1:],software)
+                xc_check = is_exchange_correlation_combination(
+                    method.lower()[1:], software
+                )
                 if isinstance(xc_check, str):
                     return method[0].upper() + xc_check
 
-            xc_check = is_exchange_correlation_combination(method.lower(),software)
+            xc_check = is_exchange_correlation_combination(method.lower(), software)
             if isinstance(xc_check, str):
                 return xc_check
             warn(f"Unknown method '{method}'")
         if software == "nwchem":
             # nwchem also supports combination of functionals
             if len(method.split()) == 2:
-                xc_check = is_exchange_correlation_combination(indexify(method),'nwchem')
+                xc_check = is_exchange_correlation_combination(
+                    indexify(method), "nwchem"
+                )
                 if isinstance(xc_check, str):
                     return xc_check
             warn(f"Unknown method '{method}'")
@@ -333,9 +338,7 @@ def has_dispersion_parameters(method, version="d3"):
     try:
         _method = get_abs_method(method)
     except InvalidParameter:
-        warn(
-            "Could not verify if dispersion parameters are available for this method"
-        )
+        warn("Could not verify if dispersion parameters are available for this method")
         return True  # Don't print a second warning
 
     if _method in FUNCTIONALS_WITH_DISPERSION_PARAMETERS[version]:
