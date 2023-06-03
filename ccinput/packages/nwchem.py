@@ -181,9 +181,6 @@ class NWChemCalculation:
                     else :
                         command = matched.group(1)
                         block_name = spec[:matched.span(1)[0]-1]
-                        print(command)
-                        print("AA")
-                        print(block_name)
                         if block_name == 'scf' :
                                 self.method_block += f"{command} \n"
                         elif block_name == 'opt' or block_name == 'ts' :
