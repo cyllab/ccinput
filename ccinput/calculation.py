@@ -51,7 +51,6 @@ class Calculation:
         file=None,
         driver="none",
         fragments=None,
-        additional="",
         **kwargs,
     ):
         self.xyz = xyz
@@ -59,7 +58,6 @@ class Calculation:
         self.type = type
         self.file = file
         self.fragments = fragments
-        self.additional = additional
         if software not in SYN_SOFTWARE:
             raise InvalidParameter(f"Invalid software: '{software}'")
 

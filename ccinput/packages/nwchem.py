@@ -1,5 +1,6 @@
 import basis_set_exchange
 import numpy as np
+import re
 
 from ccinput.utilities import (
     get_method,
@@ -27,15 +28,17 @@ class NWChemCalculation:
     start {}
     memory total {}
     charge {}
+
     geometry units angstroms
     {}end
+
     basis
     {}
     end
+
+    {}{}{}
     {}
-    {}
-    {}
-    {}"""
+    """
     # Header
     # Name
     # Amount of memory
@@ -129,7 +132,6 @@ class NWChemCalculation:
         self.handle_xyz()
         self.handle_basis_sets()
         self.handle_solvation()
-        self.handle_additional()
         self.close_blocks()
         self.create_input_file()
 
@@ -170,16 +172,30 @@ class NWChemCalculation:
         if(basis_set != ''):
             self.basis_set = f"* library {basis_set}"
     def handle_specifications(self):
-            s = self.separate_lines(self.calc.parameters.specifications)
-            for spec in s.split('\n'):
-                if spec.split()[0] not in self.BLOCK_KEYWORDS["method"] and self.calc.type != CalcType.SP :
-                    self.calculation_block += f"{spec} \n"
-                else:
-                    self.method_block += f"{spec} \n"
-                if spec.split()[0] not in (self.BLOCK_KEYWORDS["calculation"] + self.BLOCK_KEYWORDS["method"]) :
-                    warn(f"Keyword {spec} is not recognized!")
-            if self.calculation_block != '':
-                self.calculation_block = f"{self.BLOCK_NAMES[self.calc.type]} \n {self.calculation_block}"
+            if self.calc.parameters.specifications != '':
+                s = self.separate_lines(self.calc.parameters.specifications)
+                for spec in s.split('\n'):
+                    matched = re.search(r".*\((.*)\)",spec)
+                    if matched == None :
+                        self.additional_block += f"{spec} \n"
+                    else :
+                        command = matched.group(1)
+                        block_name = spec[:matched.span(1)[0]-1]
+                        print(command)
+                        print("AA")
+                        print(block_name)
+                        if block_name == 'scf' :
+                                self.method_block += f"{command} \n"
+                        elif block_name == 'opt' or block_name == 'ts' :
+                            if self.calculation_block == '':
+                                self.calculation_block += f"\n driver \n"
+                            self.calculation_block += f"{command} \n"
+                        elif block_name == 'nmr' :
+                            if self.calculation_block == '':
+                                self.calculation_block += f" \n property \n"
+                            self.calculation_block += f"{command} \n"
+            if self.additional_block != '':
+                self.additional_block = '\n' + self.additional_block
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
@@ -187,15 +203,12 @@ class NWChemCalculation:
 
     def handle_solvation(self):
         return
-    
-    def handle_additional(self):
-        self.additional_block += self.separate_lines(self.calc.additional)
 
     def close_blocks(self):
         if self.method_block != '':
-            self.method_block += " end"
+            self.method_block += " end \n"
         if self.calculation_block != '':
-            self.calculation_block += " end"
+            self.calculation_block += " end \n"
 
     def create_input_file(self):
         raw = self.TEMPLATE.format(
