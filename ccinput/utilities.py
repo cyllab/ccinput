@@ -282,6 +282,16 @@ def get_method(method, software):
                 return xc_check
             warn(f"Unknown method '{method}'")
         if software == "nwchem":
+            if method.lower()[0] in ["u", "r"]:
+                try:
+                    abs_method = get_abs_method(method[1:])
+                except InvalidParameter:
+                    pass
+                else:
+                    if abs_method in SOFTWARE_METHODS[software]:
+                        return (
+                            method[0] + SOFTWARE_METHODS[software][abs_method]
+                        )
             # nwchem also supports combination of functionals
             if len(method.split()) == 2:
                 xc_check = is_exchange_correlation_combination(indexify(method),'nwchem')

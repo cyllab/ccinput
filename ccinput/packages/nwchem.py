@@ -52,7 +52,7 @@ class NWChemCalculation:
 
     KEYWORDS = {
         CalcType.OPT: ["optimize"],
-    #    CalcType.CONSTR_OPT: ["opt"],
+        CalcType.CONSTR_OPT: ["optimize"],
         CalcType.TS: ["saddle"],
         CalcType.FREQ: ["freq"],
         CalcType.NMR: ["property"],
@@ -61,44 +61,7 @@ class NWChemCalculation:
     #    CalcType.UVVIS_TDA: ["tda"],
         CalcType.OPTFREQ: ["optimize", "freq"],
     }
-    BLOCK_KEYWORDS = {
-        "method" : [
-            "sym",
-            "adapt",
-            "tol2e",
-            "vectors",
-            "tresh",
-            "maxiter",
-            "profile",
-            "diis",
-            "direct",
-            "semidirect",
-            "nr",
-            "level",
-            "convergence",
-            "grid",
-            "tolerances",
-            "decomp",
-            "odft",
-            "incore",
-            "iterations",
-            "max_ovl",
-            "cgmin",
-            "rodft",
-            "disp",
-            "xdm",
-            "noio",
-            "print",
-            "noprint",
-            "fon",
-            "nodisk",
-            "fukui",
-            "noscf",
-        ],
-        "calculation" : [
-            "a", # TO DO
-        ],
-    }
+    
     BLOCK_NAMES = {
         CalcType.OPT : "driver",
         CalcType.NMR : "property",
@@ -108,12 +71,12 @@ class NWChemCalculation:
     }
     def __init__(self, calc):
         self.calc = calc
-        if self.calc.parameters.theory_level == 'hf' : # Name of the block for HF is scf
-            self.calc.parameters.theory_level = 'scf'
         self.calc.mem = f"{self.calc.mem} mb"
         self.has_scan = False
         self.appendix = []
         self.command_line = ""
+        if self.calc.parameters.theory_level == 'hf' or self.calc.parameters.method == 'uhf' or self.calc.parameters.method == 'rhf' : # Name of the block for HF is scf
+            self.calc.parameters.theory_level = 'scf'
         self.method_block=f"{self.calc.parameters.theory_level}"
         self.calculation_block=""
         self.additional_block=""
@@ -143,18 +106,23 @@ class NWChemCalculation:
 
     def separate_lines(self,text):
         lines = text.split(';')
+        clean = []
         for line in lines :
-            line = self.clean(line)
-        return "\n".join(lines)
+            if line != '':
+                clean.append(self.clean(line.lower()).strip())
+            else :
+                pass
+        return "\n".join(clean)
     
     def handle_tasks(self):
         for word in self.KEYWORDS[self.calc.type]:
             self.tasks += f'task {self.calc.parameters.theory_level} {word} \n'
         #handle levels of theory
-        if(self.calc.parameters.method == 'hf' or self.calc.parameters.method in SYN_METHODS['hf']) :
-            scf_block = f"""
-            {SOFTWARE_MULTIPLICITY['nwchem'][self.calc.multiplicity]}
-            """
+        if(self.calc.parameters.theory_level == 'scf') :
+            scf_block = "\n"
+            if self.calc.parameters.method != 'hf':
+                scf_block += f"{self.calc.parameters.method} \n"
+            scf_block += f"{SOFTWARE_MULTIPLICITY['nwchem'][self.calc.multiplicity]} \n"
             self.method_block+= scf_block
         if(self.calc.parameters.theory_level == 'dft') :
             dft_block = f"""
@@ -166,33 +134,54 @@ class NWChemCalculation:
                 self.method_block += "disp vdw 3 \n"
             elif self.calc.parameters.d3bj :
                 self.method_block += "disp vdw 4 \n"
+        if self.calc.type == CalcType.NMR:
+            self.calculation_block += f" \n property \n shielding \n"
 
     def handle_basis_sets(self):
         basis_set = get_basis_set(self.calc.parameters.basis_set, "nwchem")
         if(basis_set != ''):
             self.basis_set = f"* library {basis_set}"
     def handle_specifications(self):
-            if self.calc.parameters.specifications != '':
-                s = self.separate_lines(self.calc.parameters.specifications)
-                for spec in s.split('\n'):
-                    matched = re.search(r".*\((.*)\)",spec)
-                    if matched == None :
-                        self.additional_block += f"{spec} \n"
-                    else :
-                        command = matched.group(1)
-                        block_name = spec[:matched.span(1)[0]-1]
-                        if block_name == 'scf' :
-                                self.method_block += f"{command} \n"
-                        elif block_name == 'opt' or block_name == 'ts' :
-                            if self.calculation_block == '':
-                                self.calculation_block += f"\n driver \n"
-                            self.calculation_block += f"{command} \n"
-                        elif block_name == 'nmr' :
-                            if self.calculation_block == '':
-                                self.calculation_block += f" \n property \n"
-                            self.calculation_block += f"{command} \n"
-            if self.additional_block != '':
-                self.additional_block = '\n' + self.additional_block
+        if self.calc.parameters.specifications != '':
+            temp = "\n" # Here we will store frequency related specifiations in case of FREQOPT calculations
+            s = self.separate_lines(self.calc.parameters.specifications)
+            for spec in s.split('\n'):
+                matched = re.search(r".*\((.*)\)",spec)
+                if matched == None :
+                    self.additional_block += f"{spec} \n"
+                else :
+                    command = matched.group(1)
+                    block_name = spec[:matched.span(1)[0]-1]
+                    if block_name == 'scf' :
+                            self.method_block += f"{command} \n"
+                    elif (block_name == 'opt' or block_name == 'ts') and (self.calc.type == CalcType.CONSTR_OPT or self.calc.type == CalcType.OPT or self.calc.type == CalcType.TS or self.calc.type == CalcType.OPTFREQ) :
+                        if self.calculation_block == '':
+                            self.calculation_block += f"\n driver \n"
+                        self.calculation_block += f"{command} \n"
+                    elif block_name == 'nmr' and self.calc.type == CalcType.NMR :
+                        self.calculation_block += f"{command} \n"
+                    elif block_name == 'freq' and self.calc.type == CalcType.FREQ :
+                        if self.calculation_block == '':
+                            self.calculation_block += f"\n freq \n"
+                        self.calculation_block += f"{command} \n"
+                    elif block_name == 'freq' and self.calc.type == CalcType.OPTFREQ :
+                        temp += f"{command} \n"
+            if temp != '\n':
+                self.additional_block += f'freq {temp} end \n'
+
+        # Handle contraints
+        if self.calc.type == CalcType.CONSTR_OPT:
+            if len(self.calc.constraints) == 0:
+                raise InvalidParameter("No constraint in constrained optimisation mode")
+            self.additional_block += "constraints \n"
+            for constraint in self.calc.constraints:
+                self.additional_block += constraint.to_nwchem()
+            self.additional_block += "end \n"
+
+        if self.additional_block.strip() != '':
+            self.additional_block = '\n' + self.additional_block
+        
+
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
@@ -206,7 +195,8 @@ class NWChemCalculation:
             self.method_block += " end \n"
         if self.calculation_block != '':
             self.calculation_block += " end \n"
-
+    def to_lowercase(self,text):
+        text.lower()
     def create_input_file(self):
         raw = self.TEMPLATE.format(
             self.calc.header,

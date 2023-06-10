@@ -7,6 +7,7 @@ from ccinput.exceptions import (
     InternalError,
     ImpossibleCalculation,
     MissingParameter,
+    UnimplementedError,
 )
 from ccinput.utilities import (
     get_abs_software,
@@ -446,7 +447,23 @@ class Constraint:
             t = "dihedral"
 
         return f"{t}: {ids_str}\n"
+    
+    def to_nwchem(self):
+            ids_str = " ".join([str(i) for i in self.ids])
+            type = len(self.ids)
+            if type == 1:
+                t = "fix atom"
+            elif type == 2:
+                t = "spring bond"
+            elif type == 3:
+                raise UnimplementedError("Constraints on angles are not implemented in nwchem")
+            elif type == 4:
+                t = "spring dihedral"
 
+            if self.scan:
+                pass # TO DO
+            else:
+                return f"{t} {ids_str} \n"
 
 def parse_freeze_constraints(arr, xyz_str, software=""):
     if len(arr) == 0:
