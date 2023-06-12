@@ -76,11 +76,15 @@ class NWChemCalculation:
         self.has_scan = False
         self.appendix = []
         self.command_line = ""
-        if self.calc.parameters.theory_level == 'hf' or self.calc.parameters.method == 'uhf' or self.calc.parameters.method == 'rhf' : # Name of the block for HF is scf
-            self.calc.parameters.theory_level = 'scf'
-        self.method_block=f"{self.calc.parameters.theory_level}"
-        self.calculation_block=""
-        self.additional_block=""
+        if (
+            self.calc.parameters.theory_level == "hf"
+            or self.calc.parameters.method == "uhf"
+            or self.calc.parameters.method == "rhf"
+        ):  # Name of the block for HF is scf
+            self.calc.parameters.theory_level = "scf"
+        self.method_block = f"{self.calc.parameters.theory_level}"
+        self.calculation_block = ""
+        self.additional_block = ""
         self.method_block = f"{self.calc.parameters.theory_level}"
         self.calculation_block = ""
         self.additional_block = ""
@@ -108,27 +112,27 @@ class NWChemCalculation:
         )
         return "".join([c for c in s if c in WHITELIST])
 
-    def separate_lines(self,text):
-        lines = text.split(';')
+    def separate_lines(self, text):
+        lines = text.split(";")
         clean = []
-        for line in lines :
-            if line != '':
+        for line in lines:
+            if line != "":
                 clean.append(self.clean(line.lower()).strip())
-            else :
+            else:
                 pass
         return "\n".join(clean)
-    
+
     def handle_tasks(self):
         for word in self.KEYWORDS[self.calc.type]:
-            self.tasks += f'task {self.calc.parameters.theory_level} {word} \n'
-        #handle levels of theory
-        if(self.calc.parameters.theory_level == 'scf') :
+            self.tasks += f"task {self.calc.parameters.theory_level} {word} \n"
+        # handle levels of theory
+        if self.calc.parameters.theory_level == "scf":
             scf_block = "\n"
-            if self.calc.parameters.method != 'hf':
+            if self.calc.parameters.method != "hf":
                 scf_block += f"{self.calc.parameters.method} \n"
             scf_block += f"{SOFTWARE_MULTIPLICITY['nwchem'][self.calc.multiplicity]} \n"
-            self.method_block+= scf_block
-        if(self.calc.parameters.theory_level == 'dft') :
+            self.method_block += scf_block
+        if self.calc.parameters.theory_level == "dft":
             dft_block = f"""
             xc {self.calc.parameters.method}
             mult {self.calc.multiplicity}
@@ -147,33 +151,38 @@ class NWChemCalculation:
             self.basis_set = f"* library {basis_set}"
 
     def handle_specifications(self):
-        if self.calc.parameters.specifications != '':
-            temp = "\n" # Here we will store frequency related specifiations in case of FREQOPT calculations
+        if self.calc.parameters.specifications != "":
+            temp = "\n"  # Here we will store frequency related specifiations in case of FREQOPT calculations
             s = self.separate_lines(self.calc.parameters.specifications)
-            for spec in s.split('\n'):
+            for spec in s.split("\n"):
                 # format of the specifications is BLOCK_NAME1(command1);BLOCK_NAME2(command2);...
-                matched = re.search(r".*\((.*)\)",spec)
-                if matched == None :
+                matched = re.search(r".*\((.*)\)", spec)
+                if matched == None:
                     self.additional_block += f"{spec} \n"
-                else :
+                else:
                     command = matched.group(1)
-                    block_name = spec[:matched.span(1)[0]-1]
-                    if block_name == 'scf' or block_name == 'dft' or block_name == 'hf' :
-                            self.method_block += f"{command} \n"
-                    elif (block_name == 'opt' or block_name == 'ts') and (self.calc.type == CalcType.CONSTR_OPT or self.calc.type == CalcType.OPT or self.calc.type == CalcType.TS or self.calc.type == CalcType.OPTFREQ) :
-                        if self.calculation_block == '':
+                    block_name = spec[: matched.span(1)[0] - 1]
+                    if block_name == "scf" or block_name == "dft" or block_name == "hf":
+                        self.method_block += f"{command} \n"
+                    elif (block_name == "opt" or block_name == "ts") and (
+                        self.calc.type == CalcType.CONSTR_OPT
+                        or self.calc.type == CalcType.OPT
+                        or self.calc.type == CalcType.TS
+                        or self.calc.type == CalcType.OPTFREQ
+                    ):
+                        if self.calculation_block == "":
                             self.calculation_block += f"\n driver \n"
                         self.calculation_block += f"{command} \n"
-                    elif block_name == 'nmr' and self.calc.type == CalcType.NMR :
+                    elif block_name == "nmr" and self.calc.type == CalcType.NMR:
                         self.calculation_block += f"{command} \n"
-                    elif block_name == 'freq' and self.calc.type == CalcType.FREQ :
-                        if self.calculation_block == '':
+                    elif block_name == "freq" and self.calc.type == CalcType.FREQ:
+                        if self.calculation_block == "":
                             self.calculation_block += f"\n freq \n"
                         self.calculation_block += f"{command} \n"
-                    elif block_name == 'freq' and self.calc.type == CalcType.OPTFREQ :
+                    elif block_name == "freq" and self.calc.type == CalcType.OPTFREQ:
                         temp += f"{command} \n"
-            if temp != '\n':
-                self.additional_block += f'freq {temp} end \n'
+            if temp != "\n":
+                self.additional_block += f"freq {temp} end \n"
 
         # Handle contraints
         if self.calc.type == CalcType.CONSTR_OPT:
@@ -184,9 +193,8 @@ class NWChemCalculation:
                 self.additional_block += constraint.to_nwchem()
             self.additional_block += "end \n"
 
-        if self.additional_block.strip() != '':
-            self.additional_block = '\n' + self.additional_block
-        
+        if self.additional_block.strip() != "":
+            self.additional_block = "\n" + self.additional_block
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
