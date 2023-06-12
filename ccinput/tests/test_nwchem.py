@@ -37,8 +37,6 @@ class NwchemTests(InputTests):
         end
 
         task scf energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -77,8 +75,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -119,11 +115,49 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_sp_DFT_specifications2(self):
+            params = {
+                "nproc": 8,
+                "mem": "10000MB",
+                "type": "Single-Point Energy",
+                "file": "Cl.xyz",
+                "software": "nwchem",
+                "method": "M06-2X",
+                "basis_set": "Def2-SVP",
+                "charge": "-1",
+                "specifications": "dft(grid coarse)",
+            }
+
+            inp = self.generate_calculation(**params)
+
+            REF = """
+            TITLE "File created by ccinput"
+            start Cl
+            memory total 10000 mb
+            charge -1
+
+            geometry units angstroms
+            Cl   0.00000000   0.00000000   0.00000000
+            end
+
+            basis
+            * library Def2-SVP
+            end
+
+            dft
+            xc m06-2x
+            mult 1
+            grid coarse
+            end
+
+            task dft energy
+            """
+
+            self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
     def test_superfluous_specifications(self):
         params = {
@@ -160,8 +194,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -202,8 +234,6 @@ class NwchemTests(InputTests):
         end
 
         task dft optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -242,8 +272,6 @@ class NwchemTests(InputTests):
         end
 
         task scf optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -282,8 +310,6 @@ class NwchemTests(InputTests):
         end
 
         task dft optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -321,8 +347,6 @@ class NwchemTests(InputTests):
         end
 
         task scf freq
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -361,8 +385,6 @@ class NwchemTests(InputTests):
         end
 
         task dft freq
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -410,12 +432,10 @@ class NwchemTests(InputTests):
         end
 
         constraints
-        spring bond 1 2
+        spring bond 1 2 200.0 2.02195471
         end
 
         task dft optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -448,7 +468,7 @@ class NwchemTests(InputTests):
             "constraints": "",
         }
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
     def test_no_method(self):
@@ -464,7 +484,7 @@ class NwchemTests(InputTests):
             "constraints": "",
         }
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
     def test_freeze_dihedral_DFT(self):
@@ -510,12 +530,10 @@ class NwchemTests(InputTests):
         end
 
         constraints
-        spring dihedral 4 1 5 8
+        spring dihedral 4 1 5 8 200.0 -179.88772953
         end
 
         task dft optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -563,8 +581,8 @@ class NwchemTests(InputTests):
         end
 
         constraints
-        spring dihedral 4 1 5 8
-        spring dihedral 1 2 3 4
+        spring dihedral 4 1 5 8 200.0 -179.88772953
+        spring dihedral 1 2 3 4 200.0 35.26896033
         end
 
         task dft optimize
@@ -612,8 +630,6 @@ class NwchemTests(InputTests):
         end
 
         task dft property
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -655,8 +671,6 @@ class NwchemTests(InputTests):
         end
 
         task dft saddle
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -697,8 +711,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -742,8 +754,6 @@ class NwchemTests(InputTests):
         end
 
         task dft optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -785,8 +795,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -839,8 +847,6 @@ class NwchemTests(InputTests):
         end
 
         task dft optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -898,8 +904,6 @@ class NwchemTests(InputTests):
 
         task dft optimize
         task dft freq
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -941,8 +945,6 @@ class NwchemTests(InputTests):
 
 
         task dft optimize
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -980,8 +982,6 @@ class NwchemTests(InputTests):
         end
 
         task scf energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1019,8 +1019,6 @@ class NwchemTests(InputTests):
         end
 
         task scf energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1059,8 +1057,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1099,8 +1095,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1139,8 +1133,6 @@ class NwchemTests(InputTests):
         end
 
         task scf energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1179,8 +1171,6 @@ class NwchemTests(InputTests):
         end
 
         task scf energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1219,8 +1209,6 @@ class NwchemTests(InputTests):
 
         task scf optimize
         task scf freq
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1259,8 +1247,6 @@ class NwchemTests(InputTests):
 
         task scf optimize
         task scf freq
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1305,8 +1291,6 @@ class NwchemTests(InputTests):
 
         task scf optimize
         task scf freq
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1347,8 +1331,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1389,8 +1371,6 @@ class NwchemTests(InputTests):
         end
 
         task dft energy
-
-
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
