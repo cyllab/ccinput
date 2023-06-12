@@ -151,13 +151,14 @@ class NWChemCalculation:
             temp = "\n" # Here we will store frequency related specifiations in case of FREQOPT calculations
             s = self.separate_lines(self.calc.parameters.specifications)
             for spec in s.split('\n'):
+                # format of the specifications is BLOCK_NAME1(command1);BLOCK_NAME2(command2);...
                 matched = re.search(r".*\((.*)\)",spec)
                 if matched == None :
                     self.additional_block += f"{spec} \n"
                 else :
                     command = matched.group(1)
                     block_name = spec[:matched.span(1)[0]-1]
-                    if block_name == 'scf' :
+                    if block_name == 'scf' or block_name == 'dft' or block_name == 'hf' :
                             self.method_block += f"{command} \n"
                     elif (block_name == 'opt' or block_name == 'ts') and (self.calc.type == CalcType.CONSTR_OPT or self.calc.type == CalcType.OPT or self.calc.type == CalcType.TS or self.calc.type == CalcType.OPTFREQ) :
                         if self.calculation_block == '':
@@ -199,8 +200,7 @@ class NWChemCalculation:
             self.method_block += " end \n"
         if self.calculation_block != "":
             self.calculation_block += " end \n"
-    def to_lowercase(self,text):
-        text.lower()
+
     def create_input_file(self):
         raw = self.TEMPLATE.format(
             self.calc.header,
