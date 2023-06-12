@@ -316,7 +316,7 @@ class OrcaCalculation:
                 # TODO: handle auxiliary basis sets
 
             if success:
-                custom_bs += _custom_bs.strip()
+                custom_bs += _custom_bs
             else:
                 bs = bse.get_basis(
                     bs_keyword, fmt="ORCA", elements=[el_num], header=False
@@ -334,7 +334,7 @@ class OrcaCalculation:
                     custom_bs += "end"
 
         if custom_bs != "":
-            self.blocks.append(BS_TEMPLATE.format(custom_bs))
+            self.blocks.append(BS_TEMPLATE.format(custom_bs.strip()))
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]

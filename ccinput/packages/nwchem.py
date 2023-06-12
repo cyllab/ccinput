@@ -18,7 +18,7 @@ from ccinput.constants import (
     ATOMIC_NUMBER,
     LOWERCASE_ATOMIC_SYMBOLS,
     SOFTWARE_MULTIPLICITY,
-    SYN_METHODS
+    SYN_METHODS,
 )
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
@@ -57,18 +57,19 @@ class NWChemCalculation:
         CalcType.FREQ: ["freq"],
         CalcType.NMR: ["property"],
         CalcType.SP: ["energy"],
-    #    CalcType.UVVIS: ["td"],
-    #    CalcType.UVVIS_TDA: ["tda"],
+        #    CalcType.UVVIS: ["td"],
+        #    CalcType.UVVIS_TDA: ["tda"],
         CalcType.OPTFREQ: ["optimize", "freq"],
     }
-    
+
     BLOCK_NAMES = {
-        CalcType.OPT : "driver",
-        CalcType.NMR : "property",
-        CalcType.FREQ : "freq",
-        CalcType.OPTFREQ : "driver",
-        CalcType.TS : "driver",
+        CalcType.OPT: "driver",
+        CalcType.NMR: "property",
+        CalcType.FREQ: "freq",
+        CalcType.OPTFREQ: "driver",
+        CalcType.TS: "driver",
     }
+
     def __init__(self, calc):
         self.calc = calc
         self.calc.mem = f"{self.calc.mem} mb"
@@ -80,6 +81,9 @@ class NWChemCalculation:
         self.method_block=f"{self.calc.parameters.theory_level}"
         self.calculation_block=""
         self.additional_block=""
+        self.method_block = f"{self.calc.parameters.theory_level}"
+        self.calculation_block = ""
+        self.additional_block = ""
         self.commands = {}
         self.solvation_radii = {}
         self.xyz_structure = ""
@@ -130,17 +134,18 @@ class NWChemCalculation:
             mult {self.calc.multiplicity}
             """
             self.method_block += dft_block
-            if self.calc.parameters.d3 :
+            if self.calc.parameters.d3:
                 self.method_block += "disp vdw 3 \n"
-            elif self.calc.parameters.d3bj :
+            elif self.calc.parameters.d3bj:
                 self.method_block += "disp vdw 4 \n"
         if self.calc.type == CalcType.NMR:
             self.calculation_block += f" \n property \n shielding \n"
 
     def handle_basis_sets(self):
         basis_set = get_basis_set(self.calc.parameters.basis_set, "nwchem")
-        if(basis_set != ''):
+        if basis_set != "":
             self.basis_set = f"* library {basis_set}"
+
     def handle_specifications(self):
         if self.calc.parameters.specifications != '':
             temp = "\n" # Here we will store frequency related specifiations in case of FREQOPT calculations
@@ -182,7 +187,6 @@ class NWChemCalculation:
             self.additional_block = '\n' + self.additional_block
         
 
-
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
         self.xyz_structure = "".join(lines)
@@ -191,9 +195,9 @@ class NWChemCalculation:
         return
 
     def close_blocks(self):
-        if self.method_block != '':
+        if self.method_block != "":
             self.method_block += " end \n"
-        if self.calculation_block != '':
+        if self.calculation_block != "":
             self.calculation_block += " end \n"
     def to_lowercase(self,text):
         text.lower()
@@ -211,7 +215,7 @@ class NWChemCalculation:
             self.tasks,
         )
         self.input_file = "\n".join([i.strip() for i in raw.split("\n")])
-    
+
     @property
     def output(self):
         return self.input_file

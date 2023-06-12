@@ -1,9 +1,10 @@
 import os
 import shlex
+import subprocess
+import tempfile
 from unittest import TestCase
 
-from ccinput.wrapper import gen_obj
-from ccinput.wrapper import gen_input, get_input_from_args, get_parser
+from ccinput.wrapper import gen_obj, gen_input, get_input_from_args, get_parser
 
 
 class InputTests(TestCase):
@@ -77,3 +78,109 @@ class InputTests(TestCase):
         return os.path.join(
             "/".join(__file__.split("/")[:-1]), "structures/", name + ".xyz"
         )
+
+
+class CalculationTests(InputTests):
+    def run_calc(self, **params):
+        obj = self.generate_calculation(**params)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            self.run_software(obj, tmpdir)
+            return self.get_energy(os.path.join(tmpdir))
+
+    energies = []
+
+    def known_energy(self, E, params, fail=False):
+        if E == -1:
+            raise Exception("Invalid calculation")
+        for entry in self.energies:
+            if entry[1] == E:
+                if not fail:
+                    print("")
+                    print("Clash detected:")
+                    print(entry[0])
+                    print(params)
+                    print("")
+                return True
+
+        self.energies.append([params, E])
+        return False
+
+
+class GaussianCalculationTests(CalculationTests):
+    def run_software(self, obj, tmpdir):
+        with open(os.path.join(tmpdir, "calc.com"), "w") as out:
+            out.write(obj.input_file)
+
+        with open(os.path.join(tmpdir, "gaussian.log"), "w") as out:
+            ret = subprocess.run(
+                shlex.split("g16 calc.com"), cwd=tmpdir, stdout=out, stderr=out
+            )
+
+        if ret.returncode != 0:
+            print(f"Calculation ended with return code {ret.returncode}")
+
+    def get_energy(self, tmpdir):
+        path = os.path.join(tmpdir, "calc.log")
+        with open(path) as f:
+            lines = f.readlines()
+            ind = len(lines) - 1
+        while lines[ind].find("SCF Done") == -1:
+            ind -= 1
+        return float(lines[ind].split()[4])
+
+
+class OrcaCalculationTests(CalculationTests):
+    def run_software(self, obj, tmpdir):
+        with open(os.path.join(tmpdir, "calc.inp"), "w") as out:
+            out.write(obj.input_file)
+
+        with open(os.path.join(tmpdir, "calc.out"), "w") as out:
+            ret = subprocess.run(
+                shlex.split("orca calc.inp"), cwd=tmpdir, stdout=out, stderr=out
+            )
+
+        if ret.returncode != 0:
+            print(f"Calculation ended with return code {ret.returncode}")
+
+    def get_energy(self, tmpdir):
+        path = os.path.join(tmpdir, "calc.out")
+        with open(path) as f:
+            lines = f.readlines()
+            ind = len(lines) - 1
+
+        for line in lines:
+            print(line)
+        while lines[ind].find("FINAL SINGLE POINT ENERGY") == -1:
+            ind -= 1
+
+        return float(lines[ind].split()[4].strip())
+
+
+class XtbCalculationTests(CalculationTests):
+    def run_software(self, obj, tmpdir):
+        os.system(f"cp {obj.calc.file} {tmpdir}/{obj.get_output_name()}")
+
+        if obj.input_file != "":
+            with open(os.path.join(tmpdir, "input"), "w") as out:
+                out.write(obj.input_file)
+
+        with open(os.path.join(tmpdir, "calc.out"), "w") as out:
+            ret = subprocess.run(
+                shlex.split(obj.command), cwd=tmpdir, stdout=out, stderr=out
+            )
+
+        if ret.returncode != 0:
+            print(f"Calculation ended with return code {ret.returncode}")
+
+    def get_energy(self, tmpdir):
+        path = os.path.join(tmpdir, "calc.out")
+        with open(path) as f:
+            lines = f.readlines()
+            ind = len(lines) - 1
+
+        for line in lines:
+            print(line)
+        while lines[ind].find("TOTAL ENERGY") == -1:
+            ind -= 1
+
+        return float(lines[ind].split()[3].strip())
