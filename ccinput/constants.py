@@ -493,7 +493,7 @@ SYN_METHODS = {
     "lpnoccsd": [],
     "lpnoccsdt": [],
     "lpnoqcisd": [],
-    "lpnoqcisdt": [],
+    "l7pnoqcisdt": [],
     "dlpnoccsd": [],
     "dlpnoccsdt": [],
     "dlpnoqcisd": [],
@@ -1698,7 +1698,7 @@ SOFTWARE_METHODS = {
         "revpbe": "revpbe",
         "rpbe": "rpbe",
     },
-    "nwchem": {  # Values are correct, keys need to be checked! - Zarko
+    "nwchem": {
         "hf": "hf",
         "rohf": "rohf",
         "uhf": "uhf",
