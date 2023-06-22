@@ -107,41 +107,79 @@ molecule {{
         end = delimiter
         s = s[0:s.rfind(end)]
         return s
+        
+    def check_multispec_syntax(self, multi_specs):
+        """Performs simple syntax check for specifications of combined calculations.
+        Returns: dict {True: 'wrong specification'}
+        """
+        # simple syntax check for combined calculations, for now is for optfreq. It can be more sophisitcated.
+        # checks that multi specifications have the syntax "calctype(specifications)". If wrong it appends True to an empty list and the worng value to another empty list. 
+        
+        cheked_specs = []
+        wrong_spec_list = []
+        
+        if multi_specs.find("(") == -1:
+            cheked_specs.append(True)
+            wrong_spec_list.append(multi_specs)
+        if multi_specs.count("(") != multi_specs.count(")"):
+            cheked_specs.append(True)
+            wrong_spec_list.append(multi_specs)
+        if multi_specs.find("(") != -1:
+            _specifications = multi_specs.strip().split(")")
+            for spec in _specifications:
+                if spec !="":
+                    if spec.find("(") == -1:
+                        cheked_specs.append(True)
+                        wrong_spec_list.append(spec)
+                    #checks if the string calctype is less than 5 chars. This is the case for opt or freq. 
+                    #This can be more sophisticated for other type of combined calculation types.
+                    elif spec.find("(") != -1 and len(self.extract_string_before_delimeter(spec, "(")) > 5:
+                        cheked_specs.append(True)
+                        wrong_spec_list.append(spec)
+                    elif self.calc.type == CalcType.OPTFREQ: 
+                        calctype_string = self.extract_string_before_delimeter(spec,"(").strip()
+                        if calctype_string not  in set(('opt','freq')): #could this be extended to calctype synonyms?
+                            cheked_specs.append(True)
+                            wrong_spec_list.append(calctype_string)
+        wrong_specs_bool_dict = dict(zip(cheked_specs, wrong_spec_list))
+        return wrong_specs_bool_dict
     
     def convert_multispecs_to_dictionary(self):
-        """Returns a dictionary of specifications when specifications are defined for more than one keyword such as more than one caulation type.
-        For example: specifications: "opt(spec1 spec2) freq(spec1 spec2)
-        Retruns {'opt':'spec1 spec2', 'freq': 'spec1 spec2'}
+        """Returns a dictionary of calculation call and specifications when specifications are necessary for combined claculations like OPTFREQ (optimization followed by frequency analysis).
+        If specifications are needed for both calculation calls use: "calctype1(spec1 spec2 ...) calctype2(spec1 spec2 ...)" otherwhise use "calctype(specs1 ...)"
+        
+        ### Example: 
+        #### Case for combined calculations as optfreq calculation. 
+        - Specifications for both calls : "opt(spec1 spec2) freq(spec1 spec2)"
+        - Specifications for one call : "opt(spec1 spec2)"
+        - Returns: {'opt':'spec1 spec2', 'freq': 'spec1 spec2'} or {'opt': 'spec1 spec2'}
         """
         _specifications = self.clean(self.calc.parameters.specifications)
         keys = []
         values = []
         
+        #If there are specifications, it verifies if their syntax is OK.
+        checked_spec_value = self.check_multispec_syntax(_specifications)
+        if _specifications != "" and any(checked_spec_value.keys()) == True:
+            raise InvalidParameter((f"Invalid specification: '{checked_spec_value[True]}'. Perhaps you forgot to write the calctype name?\nAre you using the syntax 'calctype1(spec1 spec2 ...) calctype2(spec1 spec2 ...) or just calctype(specs)', where specs are space separeted?"))
+    
         if _specifications.find("(") != -1:
             multi_specifications = _specifications.split(")")
-    
             for specs in multi_specifications:
                 if specs !="":
-                    _key = self.extract_string_before_delimeter(specs, "(") # strip removes undesirable chars default = " "
+                    _key = self.extract_string_before_delimeter(specs, "(")
                     keys.append(_key.strip())
                     _value = self.extract_string_between_delimiter(specs,"(","")
                     values.append(_value.strip())
             
+            
         specs_dictionary = dict(zip(keys, values))
         return specs_dictionary
     
-        
     def create_command_line_string(self, calc_type, method, basis_set, specifications):
         """"Returns a string containing input parameters as per calculation type"""
 
         if isinstance(specifications, str) and str != "":
-            
-            # if self.calc.type == CalcType.OPTFREQ:
-            #     warn("Warning: Specifications for opt+freq only implemented for the optimization call. Not implemented for the frequencies call yet.")
-            #     #command_line_string = f"{calc_type}('{method}/{basis_set}', {specifications})"
-            #     command_line_string = f"{calc_type}('{method}/{basis_set}', {specifications})"
-            # else:
-            #     command_line_string = f"{calc_type}('{method}/{basis_set}', {specifications})"
             command_line_string = f"{calc_type}('{method}/{basis_set}', {specifications})"
         if specifications is None:
             command_line_string = f"{calc_type}('{method}/{basis_set}')"
@@ -198,7 +236,7 @@ molecule {{
     
     
     def handle_memory(self):
-        """Retruns a str for the input memory line"""
+        """Returns a str for the input memory line"""
         memory_line = ""
         mem = self.calc.mem
         self.commands['mem'] = mem

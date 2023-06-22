@@ -373,7 +373,29 @@ class Psi4Tests(InputTests):
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
             
-        
+    def test_optfreq_specs_invalid(self):
+        params = {
+            "type": "optfreq",
+            "file": "h2o.xyz",
+            "software": "psi4",
+            "method": "b3lyp",
+            "basis_set": "6-31G",
+            "specifications": "dertype=1 return_wfn=True opt(return_wfn=True)",
+        }
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+    
+    def test_optfreq_specs_invalid_wihtout_calctype(self):
+        params = {
+            "type": "opt+freq",
+            "file": "h2o.xyz",
+            "software": "psi4",
+            "method": "b3lyp",
+            "basis_set": "6-31G",
+            "specifications": "opt(return_wfn=True) (return_wfn=True)",
+        }
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
 
     def test_unavailable_calc_type(self):
         params = {
