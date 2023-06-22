@@ -2,6 +2,7 @@ from ccinput.tests.testing_utilities import InputTests
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 from ccinput.constants import CalcType
 
+
 class Psi4Tests(InputTests):
     # def test_sp_SE(self):
     #     params = {
@@ -128,7 +129,7 @@ class Psi4Tests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
+
     def test_freq_HF(self):
         params = {
             "type": "freq",
@@ -137,9 +138,9 @@ class Psi4Tests(InputTests):
             "method": "HF",
             "basis_set": "ccpvdz",
         }
-        
+
         inp = self.generate_calculation(**params)
-        
+
         REF = """
         #File created by ccinput
 
@@ -154,9 +155,9 @@ class Psi4Tests(InputTests):
 
         frequencies('scf/cc-pVDZ')
         """
-        
+
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
+
     def test_freq_DFT(self):
         params = {
             "type": "freq",
@@ -181,7 +182,7 @@ class Psi4Tests(InputTests):
         frequencies('b3lyp/6-31G')
         """
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
+
     def test_optfreq_HF(self):
         params = {
             "type": "opt+freq",
@@ -190,8 +191,8 @@ class Psi4Tests(InputTests):
             "method": "HF",
             "basis_set": "ccpvdz",
         }
-        
-        REF="""
+
+        REF = """
         #File created by ccinput
 
         memory 1000 mb
@@ -208,8 +209,7 @@ class Psi4Tests(InputTests):
         """
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
-    
+
     def test_optfreq_DFT(self):
         params = {
             "type": "opt+freq",
@@ -218,8 +218,8 @@ class Psi4Tests(InputTests):
             "method": "b3lyp",
             "basis_set": "6-31G",
         }
-        
-        REF="""
+
+        REF = """
         #File created by ccinput
 
         memory 1000 mb
@@ -236,7 +236,7 @@ class Psi4Tests(InputTests):
         """
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
+
     def test_optfreq_single_specification(self):
         params = {
             "type": "opt+freq",
@@ -246,7 +246,7 @@ class Psi4Tests(InputTests):
             "basis_set": "6-31G",
             "specifications": "opt(return_wfn=True)",
         }
-        
+
         REF = """
         #File created by ccinput
 
@@ -264,7 +264,7 @@ class Psi4Tests(InputTests):
         """
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-      
+
     def test_optfreq_multispecs(self):
         params = {
             "type": "opt+freq",
@@ -274,7 +274,7 @@ class Psi4Tests(InputTests):
             "basis_set": "6-31G",
             "specifications": "opt(return_wfn=True) freq(dertype=1 return_wfn=True)",
         }
-        
+
         REF = """
         #File created by ccinput
 
@@ -292,8 +292,7 @@ class Psi4Tests(InputTests):
         """
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
-    
+
     def test_freq_with_specs(self):
         params = {
             "type": "freq",
@@ -319,7 +318,7 @@ class Psi4Tests(InputTests):
         """
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
+
     def test_sp_memory_change(self):
         params = {
             "type": "energy",
@@ -329,7 +328,7 @@ class Psi4Tests(InputTests):
             "method": "HF",
             "basis_set": "ccpvdz",
         }
-        
+
         REF = """
         #File created by ccinput
 
@@ -346,7 +345,7 @@ class Psi4Tests(InputTests):
         """
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
+
     def test_gen_calc_with_specs(self):
         params = {
             "type": "energy",
@@ -372,7 +371,7 @@ class Psi4Tests(InputTests):
         """
         inp = self.generate_calculation(**params)
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-            
+
     def test_optfreq_specs_invalid(self):
         params = {
             "type": "optfreq",
@@ -384,7 +383,7 @@ class Psi4Tests(InputTests):
         }
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
-    
+
     def test_optfreq_specs_invalid_wihtout_calctype(self):
         params = {
             "type": "opt+freq",
