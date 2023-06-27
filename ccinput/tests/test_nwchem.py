@@ -1,9 +1,12 @@
 from ccinput.tests.testing_utilities import InputTests
-from ccinput.exceptions import InvalidParameter, ImpossibleCalculation, UnimplementedError
+from ccinput.exceptions import (
+    InvalidParameter,
+    ImpossibleCalculation,
+    UnimplementedError,
+)
 
 
 class NwchemTests(InputTests):
-
     def test_sp_HF(self):
         params = {
             "nproc": 8,
@@ -40,7 +43,7 @@ class NwchemTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
+
     def test_sp_DFT(self):
         params = {
             "nproc": 8,
@@ -120,21 +123,21 @@ class NwchemTests(InputTests):
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
     def test_sp_DFT_specifications2(self):
-            params = {
-                "nproc": 8,
-                "mem": "10000MB",
-                "type": "Single-Point Energy",
-                "file": "Cl.xyz",
-                "software": "nwchem",
-                "method": "M06-2X",
-                "basis_set": "Def2-SVP",
-                "charge": "-1",
-                "specifications": "dft(grid coarse)",
-            }
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "nwchem",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "dft(grid coarse)",
+        }
 
-            inp = self.generate_calculation(**params)
+        inp = self.generate_calculation(**params)
 
-            REF = """
+        REF = """
             TITLE "File created by ccinput"
             start Cl
             memory total 10000 mb
@@ -157,7 +160,7 @@ class NwchemTests(InputTests):
             task dft energy
             """
 
-            self.assertTrue(self.is_equivalent(REF, inp.input_file))
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
     def test_superfluous_specifications(self):
         params = {
@@ -313,7 +316,7 @@ class NwchemTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-        
+
     def test_freq_HF(self):
         params = {
             "nproc": 8,
@@ -951,7 +954,6 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-
     def test_special_char(self):
         params = {
             "nproc": 8,
@@ -1294,7 +1296,6 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-
     def test_opt_freq_spec(self):
         params = {
             "nproc": 8,
@@ -1435,7 +1436,6 @@ class NwchemTests(InputTests):
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
 
-
     def test_unavailable_calc_type(self):
         params = {
             "nproc": 8,
@@ -1450,4 +1450,3 @@ class NwchemTests(InputTests):
 
         with self.assertRaises(ImpossibleCalculation):
             self.generate_calculation(**params)
-

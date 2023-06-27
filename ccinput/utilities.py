@@ -292,9 +292,7 @@ def get_method(method, software):
                     pass
                 else:
                     if abs_method in SOFTWARE_METHODS[software]:
-                        return (
-                            method[0] + SOFTWARE_METHODS[software][abs_method]
-                        )
+                        return method[0] + SOFTWARE_METHODS[software][abs_method]
             # nwchem also supports combination of functionals
             if len(method.split()) == 2:
                 xc_check = is_exchange_correlation_combination(

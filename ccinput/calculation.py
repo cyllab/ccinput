@@ -447,7 +447,7 @@ class Constraint:
             t = "dihedral"
 
         return f"{t}: {ids_str}\n"
-    
+
     def to_nwchem(self):
             ids_str = " ".join([str(i) for i in self.ids])
             type = len(self.ids)
