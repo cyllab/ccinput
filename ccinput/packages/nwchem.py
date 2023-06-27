@@ -179,14 +179,19 @@ class NWChemCalculation:
         if self.calc.type == CalcType.CONSTR_OPT:
             if len(self.calc.constraints) == 0:
                 raise InvalidParameter("No constraint in constrained optimisation mode")
-            self.additional_block += "constraints \n"
+            constraints = ""
             for constraint in self.calc.constraints:
-                self.additional_block += constraint.to_nwchem()
-            self.additional_block += "end \n"
-
+                    constraints += constraint.to_nwchem()
+            if constraints != '':
+                self.additional_block += f" geometry adjust \n zcoord \n {constraints} end \n end \n"
         if self.additional_block.strip() != '':
             self.additional_block = '\n' + self.additional_block
-        
+
+        # Handle scans TO DO
+        if self.calc.type == CalcType.CONSTR_OPT:
+            for constraint in self.calc.constraints:
+                if constraint.scan :
+                    self.additional_block += constraint.to_nwchem()
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
