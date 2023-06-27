@@ -449,26 +449,20 @@ class Constraint:
         return f"{t}: {ids_str}\n"
 
     def to_nwchem(self):
-        ids_str = " ".join([str(i) for i in self.ids])
-        converstion_factor = 1.00
-        type = len(self.ids)
-        if type == 1:
-            t = "fix atom"
-        elif type == 2:
-            t = "spring bond"
-            converstion_factor = 1.8897259886
-        elif type == 3:
-            raise UnimplementedError(
-                "Constraints on angles are not implemented in nwchem"
-            )
-        elif type == 4:
-            t = "spring dihedral"
-
-        if self.scan:
-            pass  # TO DO
-        else:
-            return f"{t} {ids_str} 200.0 {self.start_d*converstion_factor :.8f} \n"
-
+            ids_str = " ".join([str(i) for i in self.ids])
+            type = len(self.ids)
+            if type == 2:
+                t = f"bond"
+            elif type == 3:
+                t = f"angle"
+            elif type == 4:
+                t = f"torsion"
+            elif type > 4:
+                raise InvalidParameter("Invalid constraint")
+            if self.scan:
+                raise UnimplementedError("Scans are currently not implemented for nwchem files!")
+            else:
+                return f"{t} {ids_str} constant \n"
 
 def parse_freeze_constraints(arr, xyz_str, software=""):
     if len(arr) == 0:

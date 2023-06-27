@@ -434,8 +434,10 @@ class NwchemTests(InputTests):
         mult 1
         end
 
-        constraints
-        spring bond 1 2 200.0 2.02195471
+        geometry adjust
+        zcoord
+        bond 1 2 constant
+        end
         end
 
         task dft optimize
@@ -455,8 +457,45 @@ class NwchemTests(InputTests):
             "basis_set": "6-31+G(d,p)",
             "constraints": "Freeze/2_1_3;",
         }
-        with self.assertRaises(UnimplementedError):
-            self.generate_calculation(**params)
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        TITLE "File created by ccinput"
+        start ethanol
+        memory total 10000 mb
+        charge 0
+
+        geometry units angstroms
+        C   -1.31970000  -0.64380000   0.00000000
+        H   -0.96310000  -1.65260000   0.00000000
+        H   -0.96310000  -0.13940000  -0.87370000
+        H   -2.38970000  -0.64380000   0.00000000
+        C   -0.80640000   0.08220000   1.25740000
+        H   -1.16150000   1.09160000   1.25640000
+        H   -1.16470000  -0.42110000   2.13110000
+        O    0.62360000   0.07990000   1.25870000
+        H    0.94410000   0.53240000   2.04240000
+        end
+
+        basis
+        * library 6-31+G*
+        end
+
+        dft
+        xc b3lyp
+        mult 1
+        end
+
+        geometry adjust
+        zcoord
+        angle 2 1 3 constant
+        end
+        end
+
+        task dft optimize
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
     def test_invalid_opt_mod(self):
         params = {
@@ -532,8 +571,10 @@ class NwchemTests(InputTests):
         mult 1
         end
 
-        constraints
-        spring dihedral 4 1 5 8 200.0 -179.88772953
+        geometry adjust
+        zcoord
+        torsion 4 1 5 8 constant
+        end
         end
 
         task dft optimize
@@ -583,9 +624,11 @@ class NwchemTests(InputTests):
         mult 1
         end
 
-        constraints
-        spring dihedral 4 1 5 8 200.0 -179.88772953
-        spring dihedral 1 2 3 4 200.0 35.26896033
+        geometry adjust
+        zcoord
+        torsion 4 1 5 8 constant
+        torsion 1 2 3 4 constant
+        end
         end
 
         task dft optimize
