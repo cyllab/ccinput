@@ -322,7 +322,7 @@ With the string, scans always require the starting value, the final value as wel
 
 .. note::
 
-   Scans are not implemented in nwchem for the momment
+   Scans are not implemented in nwchem for the moment
 
 .. code-block:: console
 
