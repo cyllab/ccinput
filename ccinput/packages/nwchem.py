@@ -34,7 +34,7 @@ class NWChemCalculation:
     memory total {}
     charge {}
 
-    geometry units angstroms
+    geometry units angstroms noautosym
     {}end
 
     {}
@@ -120,7 +120,8 @@ class NWChemCalculation:
 
     def handle_tasks(self):
         for word in self.KEYWORDS[self.calc.type]:
-            if self.calc.parameters.theory_level == "ccsd":
+            # different cc methods are distinguished in tasks section
+            if self.calc.parameters.theory_level in ["ccsd", "mp2"]:
                 keyword = self.calc.parameters.method
             else:
                 keyword = self.calc.parameters.theory_level
@@ -138,16 +139,20 @@ class NWChemCalculation:
             mult {self.calc.multiplicity}
             """
             self.method_block += dft_block
+            # dispersion
             if self.calc.parameters.d3:
                 self.method_block += "disp vdw 3 \n"
             elif self.calc.parameters.d3bj:
                 self.method_block += "disp vdw 4 \n"
+        elif self.calc.parameters.theory_level == "mcscf":
+            self.method_block += f" \n multiplicity {self.calc.multiplicity} \n"
         elif self.calc.parameters.theory_level in ["mp2", "ccsd"]:
             self.method_block += '\n'
         if self.calc.type == CalcType.NMR:
             self.calculation_block += f" \n property \n shielding \n"
+        if self.calc.parameters.method == "rimp2" and self.calc.parameters.density_fitting == '':
+            raise InvalidParameter("RI-MP2 calculation requires auxilary basis set")
         
-
     def handle_basis_sets(self):
         basis_set = get_basis_set(self.calc.parameters.basis_set, "nwchem")
         if basis_set != '' and len(self.calc.parameters.custom_basis_sets) == 0 :
@@ -156,14 +161,16 @@ class NWChemCalculation:
             self.parse_custom_basis_set(basis_set)
         else:
             raise MissingParameter("You must specify a basis set for a nwchem calculation")
-
+        #Density fitting
+        if self.calc.parameters.density_fitting != '':
+            density_fitting = get_basis_set(self.calc.parameters.density_fitting,"nwchem")
+            self.basis_set += f'\n \n basis "cd basis" \n * library {density_fitting} \n end'
 
     def parse_custom_basis_set(self, base_bs):
         custom_basis_sets = self.calc.parameters.custom_basis_sets
         to_append_bs = []
         to_append_ecp = []
         not_recoginzed_bs = {}
-
         unique_atoms = []
         normal_atoms = []
         for line in self.calc.xyz.split("\n"):
@@ -230,7 +237,6 @@ class NWChemCalculation:
         if self.clean(self.calc.parameters.specifications).strip() != "":
             temp = "\n"  # Here we will store frequency related specifiations in case of FREQOPT calculations
             s = self.separate_lines(self.calc.parameters.specifications)
-            print(s)
             for spec in s.split("\n"):
                 # format of the specifications is BLOCK_NAME1(command1);BLOCK_NAME2(command2);...
                 matched = re.search(r".*\((.*)\)", spec)
@@ -245,13 +251,11 @@ class NWChemCalculation:
                     command = matched.group(1)
                     block_name = spec[: matched.span(1)[0] - 1]
                     if block_name == "scf" or block_name == "dft" or block_name == "hf":
+                        if command == "adft" and self.calc.parameters.density_fitting == '':
+                            raise InvalidParameter("adft keyword requires auxilary basis set")
                         self.method_block += f"{command} \n"
                     elif (block_name == "opt" or block_name == "ts") and (
-                        self.calc.type == CalcType.CONSTR_OPT
-                        or self.calc.type == CalcType.OPT
-                        or self.calc.type == CalcType.TS
-                        or self.calc.type == CalcType.OPTFREQ
-                    ):
+                        self.calc.type in [CalcType.CONSTR_OPT, CalcType.OPT, CalcType.TS, CalcType.OPTFREQ]):
                         if self.calculation_block == "":
                             self.calculation_block += f"\n driver \n"
                         self.calculation_block += f"{command} \n"
@@ -263,7 +267,7 @@ class NWChemCalculation:
                         self.calculation_block += f"{command} \n"
                     elif block_name == "freq" and self.calc.type == CalcType.OPTFREQ:
                         temp += f"{command} \n"
-                    elif block_name in ["neb" ,"string", "fsm"] and self.calc.type == CalcType.MEP:
+                    elif block_name in ["neb" ,"string", "fsm", "mep"] and self.calc.type == CalcType.MEP:
                         if self.calculation_block == "":
                             self.calculation_block += f"\n neb \n"
                         self.calculation_block += f"{command} \n"
@@ -273,15 +277,18 @@ class NWChemCalculation:
                         self.method_block += f"{command} \n"
                     elif block_name == "cc" and self.calc.parameters.theory_level == "ccsd":
                         self.method_block += f"{command} \n"
+                    elif block_name in ["mcscf","casscf"] and self.calc.type == CalcType.SP:
+                        self.method_block += f"{command} \n"
             if temp != "\n":
                 self.additional_block += f"\n freq {temp} end \n"
-        if self.calc.parameters.theory_level == "mp2" and self.method_block == "mp2\n":
-            self.method_block = ''
-        if self.calc.parameters.theory_level == "ccsd" and self.method_block == "ccsd\n":
-            self.method_block = ''
         if self.tasks.find("string") != -1:
             self.calculation_block = self.calculation_block.replace("neb","string")
-
+        #Check if there are necessary specifications for mcscf calculation:
+        if (self.method_block.find("active") == -1 or self.method_block.find("actelec") == -1) and self.calc.parameters.theory_level == "mcscf":
+            raise MissingParameter("You must specify the number of active orbitals and active electrons in CASSCF calculation")
+        #Check if there is density fitting for DFT but adft keyword is not specified
+        if (self.calc.parameters.theory_level == "dft" and self.method_block.find("adft") == -1 and self.calc.parameters.density_fitting != ''):
+            self.method_block += f"adft \n"
         # Handle contraints
         if self.calc.type == CalcType.CONSTR_OPT:
             if len(self.calc.constraints) == 0:
@@ -294,11 +301,12 @@ class NWChemCalculation:
                     f"\n geometry adjust \n zcoord \n {constraints} end \n end \n"
                 )
 
-        # Handle scans TO DO
+        # Handle scans (TO_DO)
         if self.calc.type == CalcType.CONSTR_OPT:
             for constraint in self.calc.constraints:
                 if constraint.scan:
                     self.additional_block += constraint.to_nwchem()
+
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
         self.xyz_structure = "".join(lines)
@@ -330,9 +338,9 @@ class NWChemCalculation:
                                            For manual specification of other solvation radii, use custom solvation radii""")
             if self.calc.parameters.custom_solvation_radii != '':
                 self.parse_custom_solvation_radii()
-                radii = '\n'.join([f"{element} {self.solvation_radii[element]}" for element in self.solvation_radii])
+                self.radii_parameters = '\n'.join([f"{element} {self.solvation_radii[element]}" for element in self.solvation_radii])
                 with open(f"{self.calc.name}_sol.parameters","w") as file:
-                    file.write(radii)
+                    file.write(self.radii_parameters)
                 self.additional_block += f"parameters {self.calc.name}_sol.parameters \n"
                 warn(f"Addtitional file {self.calc.name}_sol.parameters was generated. This file will be needed for calculation to run.")
 
@@ -363,6 +371,10 @@ class NWChemCalculation:
             self.solvation_radii[_element] = _rad
 
     def close_blocks(self):
+        if self.calc.parameters.theory_level == "mp2" and self.method_block == "mp2\n":
+            self.method_block = ''
+        if self.calc.parameters.theory_level == "ccsd" and self.method_block == "ccsd\n":
+            self.method_block = ''
         if "end \n" not in self.method_block and self.method_block != '':
             self.method_block += " end \n"
         if "end \n" not in self.calculation_block and self.calculation_block != '':

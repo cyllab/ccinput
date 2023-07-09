@@ -160,6 +160,7 @@ THEORY_LEVELS = {
         "dlpnoqcisd",
         "dlpnoqcisdt",
     ],
+    "mcscf":["mcscf","casscf"]
     # Everything else is assumed to be DFT, because it most likely is
 }
 
@@ -504,6 +505,7 @@ SYN_METHODS = {
     "lcpbe0" : ["campbe0"],
     "bnl" : [],
     "qtp00" : [],
+    "mcscf" : [],
 }
 
 
@@ -1522,6 +1524,7 @@ BASIS_SET_EXCHANGE_KEY = {
     "x2ctzvppall": "x2c-TZVPPall",
     "x2ctzvppall2c": "x2c-TZVPPall-2c",
     "x2ctzvppalls": "x2c-TZVPPall-s",
+    "z3pol" : "Z3Pol",
 }
 
 
@@ -1710,10 +1713,11 @@ SOFTWARE_METHODS = {
         "uhf": "uhf",
         "mp2": "mp2",
         "directmp2": "direct_mp2",
-    #    "rimp2": "rimp2",
+        "rimp2": "rimp2",
         "ccsd": "ccsd",
         "ccsdtccsd": "ccsd-t(ccsd)",
         "ccsdt": "ccsd(t)",
+        "mcscf" : "mcscf",
         # exchange-correlation functionals
         "acm": "acm",
         "b3lyp": "b3lyp",
