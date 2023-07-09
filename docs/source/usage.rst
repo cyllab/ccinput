@@ -105,12 +105,13 @@ Density fitting
 ^^^^^^^^^^^^^^^
 
 Basis set to use for density fitting.
+For nwchem, specify the name of the basis set you want to use for density fitting.
 
 `Gaussian documentation about density fitting <https://gaussian.com/basissets/>`_
 
 .. note::
 
-   Only available for Gaussian 16 for the moment
+   Only available for Gaussian 16 and nwchem for the moment. Density fitting for DFT is only available for nwchem 7.2.0 version.
 
 Structure files
 ^^^^^^^^^^^^^^^
@@ -175,6 +176,10 @@ xtb        GBSA
 
            ALPB
 
+nwchem     SMD
+
+           COSMO
+
 ========== ========
 
 Solvation radii
@@ -185,7 +190,7 @@ Set of element radii to use in the solvation model.
 .. note:
 
    Only the default radii and SMD18 radii are implemented in ORCA; the other radii can only be used in Gaussian
-
+   In nwchem only default radii are implemented. However, custom radii can be specified using appropriate command.
 
 ======= =================
 Model   Sets of radii
@@ -262,6 +267,12 @@ With Gaussian 16, this can also add parameters to the calculation keyword:
 
 Note that the specifications are not checked for validity beyond simple syntax checks. This allows you to use all valid keywords of the software, but can also lead to invalid inputs.
 
+In nwchem, the syntax for specifcations in the following:
+
+.. code-block:: console
+
+        $ ccinput g16 opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "scf(maxiter 20);opt(tight)"
+
 Constraints
 ^^^^^^^^^^^
 
@@ -308,6 +319,10 @@ The library usage uses an identical syntax:
         >>> inp = gen_input([...], constraints="scan_90_0_10/1_2_3;freeze/4_5;")
 
 With the string, scans always require the starting value, the final value as well as the number of steps. However, more convenient options are available using ``--scan``, ``--from``, ``--to``, ``--nsteps`` and ``--step``:
+
+.. note::
+
+   Scans are not implemented in nwchem for the momment
 
 .. code-block:: console
 
