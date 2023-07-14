@@ -5,8 +5,6 @@ from ccinput.exceptions import (
     UnimplementedError,
     MissingParameter,
 )
-from os import remove
-
 
 class NwchemTests(InputTests):
     def test_sp_HF(self):
@@ -2498,7 +2496,7 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-    def test_specifications_neb_synonim(self):
+    def test_specifications_neb_synonym(self):
         params = {
             "nproc": 8,
             "mem": "10000MB",
@@ -3212,10 +3210,6 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
         self.assertEqual(inp.radii_parameters.strip(), "Cl 1.0")
-        try:
-            remove("I_sol.parameters")
-        except:
-            pass
     
     def test_smd_custom_radii(self):
         params = {
@@ -3266,10 +3260,6 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
         self.assertEqual(inp.radii_parameters.strip(), "Cl 1.0\nI 1.55")
-        try:
-            remove("I_sol.parameters")
-        except:
-            pass
 
     def test_pcm_custom_radius(self):
         params = {
@@ -3319,10 +3309,6 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
         self.assertEqual(inp.radii_parameters.strip(), "Cl 1.0")
-        try:
-            remove("I_sol.parameters")
-        except:
-            pass
 
     def test_unavailable_calc_type(self):
         params = {

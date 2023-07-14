@@ -1,16 +1,11 @@
+__author__= "Zarko Ivkovic, zivkoviv7@alumnes.ub.edu"
 import basis_set_exchange
-import numpy as np
 import re
 
 from ccinput.utilities import (
-    get_method,
     get_solvent,
     get_basis_set,
     clean_xyz,
-    get_distance,
-    get_angle,
-    get_dihedral,
-    get_npxyz,
     warn,
 )
 from ccinput.constants import (
@@ -18,7 +13,6 @@ from ccinput.constants import (
     ATOMIC_NUMBER,
     LOWERCASE_ATOMIC_SYMBOLS,
     SOFTWARE_MULTIPLICITY,
-    SYN_METHODS,
 )
 from ccinput.exceptions import (
     InvalidParameter,
@@ -60,8 +54,6 @@ class NWChemCalculation:
         CalcType.FREQ: ["freq"],
         CalcType.NMR: ["property"],
         CalcType.SP: ["energy"],
-        #    CalcType.UVVIS: ["td"],
-        #    CalcType.UVVIS_TDA: ["tda"],
         CalcType.OPTFREQ: ["optimize", "freq"],
         CalcType.MEP: ["neb ignore"],
     }
@@ -79,6 +71,7 @@ class NWChemCalculation:
         self.solvation_radii = {}
         self.xyz_structure = ""
         self.tasks = ""
+        self.radii_parameters = ""
         self.input_file = ""
         # Some specific syntax processing related only to nwchem
         if (
@@ -88,7 +81,7 @@ class NWChemCalculation:
         ):  # Name of the block for HF is scf
             self.calc.parameters.theory_level = "scf"
         elif self.calc.parameters.theory_level == "cc":
-            # Name of any coupled claster block is ccsd
+            # Name of any coupled cluster block is ccsd
             self.calc.parameters.theory_level = "ccsd"
         self.method_block = f"{self.calc.parameters.theory_level}"
 
@@ -339,8 +332,6 @@ class NWChemCalculation:
             if self.calc.parameters.custom_solvation_radii != '':
                 self.parse_custom_solvation_radii()
                 self.radii_parameters = '\n'.join([f"{element} {self.solvation_radii[element]}" for element in self.solvation_radii])
-                with open(f"{self.calc.name}_sol.parameters","w") as file:
-                    file.write(self.radii_parameters)
                 self.additional_block += f"parameters {self.calc.name}_sol.parameters \n"
                 warn(f"Addtitional file {self.calc.name}_sol.parameters was generated. This file will be needed for calculation to run.")
 

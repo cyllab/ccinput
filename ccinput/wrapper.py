@@ -466,6 +466,9 @@ def cmd(cmd_line=None):
         for calc, outp in zip(calcs, outputs):
             with open(outp, "w") as out:
                 out.write(calc.input_file)
+            if calc.radii_parameters != '':
+                with open(f"{calc.calc.name}_sol.parameters","w") as file:
+                        file.write(calc.radii_parameters)
             if hasattr(calc, "command") and calc.command:
                 print(f'Input file written to {outp} - run "{calc.command}"')
             else:
