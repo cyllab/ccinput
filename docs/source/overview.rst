@@ -60,43 +60,43 @@ Supported features
 
 Below is a short summary of the different features that can be requested for the supported packages. Important features (*e.g.* a whole different calculation type) that are not mentioned can be assumed to not be supported. Minor features (*e.g.* additional printout) that are not mentioned may or may not be supported; refer to the :doc:`detailed usage<usage>` for more information.
 
-=============================== ============ =========== =========== =========
-Calculation Type                Gaussian 16    ORCA 5      Q-Chem       xtb
-=============================== ============ =========== =========== =========
-Essential calculations [1]_        yes         yes         yes          yes
-Common calculations [2]_           yes         yes         no           yes
-Minimum energy path                n.a.        yes         yes          n.a.
-NMR prediction                     yes         yes         yes          n.a.
-TD-DFT                             yes         no          no           n.a.
-Molecular orbital visualisation    no          yes         no           no
-=============================== ============ =========== =========== =========
+=============================== ============ =========== =========== ========= ==========
+Calculation Type                Gaussian 16    ORCA 5      Q-Chem       xtb      nwchem
+=============================== ============ =========== =========== ========= ==========
+Essential calculations [1]_        yes         yes         yes          yes       yes
+Common calculations [2]_           yes         yes         no           yes       yes
+Minimum energy path                n.a.        yes         yes          n.a.      yes
+NMR prediction                     yes         yes         yes          n.a.      yes
+TD-DFT                             yes         no          no           n.a.      no
+Molecular orbital visualisation    no          yes         no           no        n.a.
+=============================== ============ =========== =========== ========= ==========
 
 
-=============================== ============ =========== =========== =========
-Level of theory                 Gaussian 16    ORCA 5      Q-Chem       xtb
-=============================== ============ =========== =========== =========
-Tight-binding methods              no          yes [3]_    n.a.         yes
-Semi-empirical methods             yes         yes         yes          n.a.
-Hartree-fock                       yes         yes         yes          n.a.
-Density Functional Theory          yes         yes         yes          n.a.
-Grimme's "3c" methods              n.a.        yes         no           n.a.
-Møller-Plesset                     no          yes         no           n.a.
-Coupled Cluster                    n.a.        yes         no           n.a.
-=============================== ============ =========== =========== =========
+=============================== ============ =========== =========== ========= ==========
+Level of theory                 Gaussian 16    ORCA 5      Q-Chem       xtb      nwchem
+=============================== ============ =========== =========== ========= ==========
+Tight-binding methods              no          yes [3]_    n.a.         yes       n.a.
+Semi-empirical methods             yes         yes         yes          n.a.      n.a.
+Hartree-fock                       yes         yes         yes          n.a.      yes
+Density Functional Theory          yes         yes         yes          n.a.      yes
+Grimme's "3c" methods              n.a.        yes         no           n.a.      n.a.
+Møller-Plesset                     no          yes         no           n.a.      yes [5]_
+Coupled Cluster                    n.a.        yes         no           n.a.      yes
+=============================== ============ =========== =========== ========= ==========
 
 
-=============================== ============ =========== =========== =========
-Feature                         Gaussian 16    ORCA 5      Q-Chem       xtb
-=============================== ============ =========== =========== =========
-Implicit solvation                 yes         yes         yes          yes
-Choice of solvation radii set      yes         yes         no           n.a.
-Custom solvation radii             yes         yes         yes          n.a.
-Custom basis sets                  yes         yes         yes          n.a.
-Density fitting                    yes         yes         no           n.a.
-Custom additional keywords         yes         yes         no           yes
-Dispersion corrections             yes         yes         yes          yes [4]_
-Counter-poise correction           yes         no          no           yes [4]_
-=============================== ============ =========== =========== =========
+=============================== ============ =========== =========== ========= ==========
+Feature                         Gaussian 16    ORCA 5      Q-Chem       xtb      nwchem
+=============================== ============ =========== =========== ========= ==========
+Implicit solvation                 yes         yes         yes          yes       yes
+Choice of solvation radii set      yes         yes         no           n.a.      no
+Custom solvation radii             yes         yes         yes          n.a.      yes
+Custom basis sets                  yes         yes         yes          n.a.      yes
+Density fitting                    yes         yes         no           n.a.      yes
+Custom additional keywords         yes         yes         no           yes       yes
+Dispersion corrections             yes         yes         yes          yes [4]_  yes
+Counter-poise correction           yes         no          no           yes [4]_  no
+=============================== ============ =========== =========== ========= ==========
 
 
 .. [1] Single-point energy calculation, geometrical optimisation, frequency calculation
@@ -106,3 +106,5 @@ Counter-poise correction           yes         no          no           yes [4]_
 .. [3] Requires the `xtb package <https://github.com/grimme-lab/xtb>`__; the supported methods are GFN2-xTB, GFN1-xTB, GFN0-xTB and GFN-FF
 
 .. [4] Used by default
+
+.. [5] Only MP2
