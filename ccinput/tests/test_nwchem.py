@@ -6,6 +6,7 @@ from ccinput.exceptions import (
     MissingParameter,
 )
 
+
 class NwchemTests(InputTests):
     def test_sp_HF(self):
         params = {
@@ -1192,6 +1193,7 @@ class NwchemTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_gen_bs_space_middle(self):
         params = {
             "nproc": 8,
@@ -2614,7 +2616,6 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
-
     def test_specifications_mixed(self):
         params = {
             "nproc": 8,
@@ -2677,7 +2678,7 @@ class NwchemTests(InputTests):
             "nproc": 8,
             "mem": "10000MB",
             "type": "mep",
-            "name" : "neb_calculation",
+            "name": "neb_calculation",
             "file": "elimination_substrate.xyz",
             "software": "nwchem",
             "method": "M06-2X",
@@ -2730,7 +2731,7 @@ class NwchemTests(InputTests):
             "nproc": 8,
             "mem": "10000MB",
             "type": "mep",
-            "name" : "neb_calculation",
+            "name": "neb_calculation",
             "file": "elimination_substrate.xyz",
             "software": "nwchem",
             "method": "M06-2X",
@@ -2783,7 +2784,7 @@ class NwchemTests(InputTests):
             "nproc": 8,
             "mem": "10000MB",
             "type": "mep",
-            "name" : "neb_calculation",
+            "name": "neb_calculation",
             "file": "elimination_substrate.xyz",
             "software": "nwchem",
             "method": "M06-2X",
@@ -3106,7 +3107,7 @@ class NwchemTests(InputTests):
             "method": "M062x",
             "basis_set": "3-21G",
             "charge": "-1",
-            "specifications": "dft(odft)"
+            "specifications": "dft(odft)",
         }
 
         inp = self.generate_calculation(**params)
@@ -3389,7 +3390,7 @@ class NwchemTests(InputTests):
 
         with self.assertRaises(InvalidParameter):
             self.generate_calculation(**params)
-    
+
     def test_smd_custom_radius(self):
         params = {
             "nproc": 8,
@@ -3439,7 +3440,7 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
         self.assertEqual(inp.radii_parameters.strip(), "Cl 1.0")
-    
+
     def test_smd_custom_radii(self):
         params = {
             "nproc": 8,
@@ -3501,7 +3502,7 @@ class NwchemTests(InputTests):
             "basis_set": "3-21G",
             "charge": "-1",
             "solvent": "Chloroform",
-            "solvation_radii" : "default",
+            "solvation_radii": "default",
             "custom_solvation_radii": "Cl=1.00",
             "solvation_model": "COSMO",
         }
@@ -3587,7 +3588,7 @@ class NwchemTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
+
     def test_sp_MP2_specifications(self):
         params = {
             "nproc": 8,
@@ -3670,7 +3671,7 @@ class NwchemTests(InputTests):
             "charge": "0",
             "method": "mp2",
             "basis_set": "aug-cc-pVDZ",
-            "specifications" : "opt(maxiter 20);mp2(tight)"
+            "specifications": "opt(maxiter 20);mp2(tight)",
         }
 
         inp = self.generate_calculation(**params)
@@ -3825,7 +3826,7 @@ class NwchemTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
+
     def test_sp_CCSD_specifications(self):
         params = {
             "nproc": 8,
@@ -3836,7 +3837,7 @@ class NwchemTests(InputTests):
             "charge": "-1",
             "method": "ccsd",
             "basis_set": "cc-pVDZ",
-            "specifications" : "cc(maxiter 14)",
+            "specifications": "cc(maxiter 14)",
         }
 
         inp = self.generate_calculation(**params)
@@ -3874,7 +3875,7 @@ class NwchemTests(InputTests):
             "charge": "-1",
             "method": "CCSD(T)",
             "basis_set": "cc-pVDZ",
-            "specifications" : "cc(maxiter 14)",
+            "specifications": "cc(maxiter 14)",
         }
 
         inp = self.generate_calculation(**params)
@@ -3912,7 +3913,7 @@ class NwchemTests(InputTests):
             "charge": "-1",
             "method": "CCSD(T)",
             "basis_set": "cc-pVDZ",
-            "specifications" : "cc(maxiter 14);opt(tight)",
+            "specifications": "cc(maxiter 14);opt(tight)",
         }
 
         inp = self.generate_calculation(**params)
@@ -3954,8 +3955,8 @@ class NwchemTests(InputTests):
             "charge": "-1",
             "method": "RI-MP2",
             "basis_set": "cc-pVTZ",
-            "specifications" : "mp2(freeze virtual 5)",
-            "density_fitting" : "cc-pVDZ",
+            "specifications": "mp2(freeze virtual 5)",
+            "density_fitting": "cc-pVDZ",
         }
 
         inp = self.generate_calculation(**params)
@@ -3997,7 +3998,7 @@ class NwchemTests(InputTests):
             "charge": "-1",
             "method": "PBE",
             "basis_set": "cc-pVTZ",
-            "density_fitting" : "cc-pVDZ",
+            "density_fitting": "cc-pVDZ",
         }
 
         inp = self.generate_calculation(**params)
@@ -4070,7 +4071,7 @@ class NwchemTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
-    
+
     def test_sp_CASSCF_no_specifications(self):
         params = {
             "nproc": 8,
@@ -4085,5 +4086,3 @@ class NwchemTests(InputTests):
 
         with self.assertRaises(MissingParameter):
             self.generate_calculation(**params)
-
-
