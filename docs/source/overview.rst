@@ -72,9 +72,9 @@ Molecular orbital visualisation    no          yes         no           no      
 =============================== ============ =========== =========== ========= ==========
 
 
-=============================== ============ =========== =========== ========= ==========
+=============================== ============ =========== =========== ========= ===========
 Level of theory                 Gaussian 16    ORCA 5      Q-Chem       xtb      nwchem
-=============================== ============ =========== =========== ========= ==========
+=============================== ============ =========== =========== ========= ===========
 Tight-binding methods              no          yes [3]_    n.a.         yes       n.a.
 Semi-empirical methods             yes         yes         yes          n.a.      n.a.
 Hartree-fock                       yes         yes         yes          n.a.      yes
@@ -82,12 +82,12 @@ Density Functional Theory          yes         yes         yes          n.a.    
 Grimme's "3c" methods              n.a.        yes         no           n.a.      n.a.
 Møller-Plesset                     no          yes         no           n.a.      yes [5]_
 Coupled Cluster                    n.a.        yes         no           n.a.      yes
-=============================== ============ =========== =========== ========= ==========
+=============================== ============ =========== =========== ========= ===========
 
 
-=============================== ============ =========== =========== ========= ==========
+=============================== ============ =========== =========== =========== ==========
 Feature                         Gaussian 16    ORCA 5      Q-Chem       xtb      nwchem
-=============================== ============ =========== =========== ========= ==========
+=============================== ============ =========== =========== =========== ==========
 Implicit solvation                 yes         yes         yes          yes       yes
 Choice of solvation radii set      yes         yes         no           n.a.      no
 Custom solvation radii             yes         yes         yes          n.a.      yes
@@ -96,7 +96,7 @@ Density fitting                    yes         yes         no           n.a.    
 Custom additional keywords         yes         yes         no           yes       yes
 Dispersion corrections             yes         yes         yes          yes [4]_  yes
 Counter-poise correction           yes         no          no           yes [4]_  no
-=============================== ============ =========== =========== ========= ==========
+=============================== ============ =========== =========== =========== ==========
 
 
 .. [1] Single-point energy calculation, geometrical optimisation, frequency calculation

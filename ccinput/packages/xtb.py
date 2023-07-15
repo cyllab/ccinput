@@ -353,4 +353,6 @@ class XtbCalculation:
         if self.input_file == "":
             return self.command
         else:
-            return f"{self.command}\n\n---input:\n{self.input_file}"
+            return (
+                f"---Command---:\n{self.command}\n\n---Input file---\n{self.input_file}"
+            )
