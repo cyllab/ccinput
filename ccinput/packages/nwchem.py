@@ -231,6 +231,9 @@ class NWChemCalculation:
         if self.clean(self.calc.parameters.specifications).strip() != "":
             temp = "\n"  # Here we will store frequency related specifiations in case of FREQOPT calculations
             s = self.separate_lines(self.calc.parameters.specifications)
+            # Could be more sophisticated to catch other incorrect specifications
+            if s.count("(") != s.count(")"):
+                raise InvalidParameter("Invalid specifications: parenthesis not matching")
             for spec in s.split("\n"):
                 # format of the specifications is BLOCK_NAME1(command1);BLOCK_NAME2(command2);...
                 matched = re.search(r".*\((.*)\)", spec)
