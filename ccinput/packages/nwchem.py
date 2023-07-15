@@ -396,4 +396,7 @@ class NWChemCalculation:
 
     @property
     def output(self):
-        return self.input_file
+        if self.radii_parameters != '':
+            return f"{self.input_file}\nSolvation parameters file:\n{self.radii_parameters}"
+        else:
+            return self.input_file
