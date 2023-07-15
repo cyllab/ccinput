@@ -104,6 +104,7 @@ class NWChemCalculation:
         return "".join([c for c in s if c in WHITELIST])
 
     def separate_lines(self, text):
+        text = text.replace(")",");")
         lines = text.split(";")
         clean = []
         for line in lines:
@@ -242,6 +243,8 @@ class NWChemCalculation:
                         self.additional_block += f"{spec} \n"
                 else:
                     command = matched.group(1)
+                    if command.find(",") != -1:
+                        command = command.replace(",","\n").strip()
                     block_name = spec[: matched.span(1)[0] - 1]
                     if block_name == "scf" or block_name == "dft" or block_name == "hf":
                         if command == "adft" and self.calc.parameters.density_fitting == '':

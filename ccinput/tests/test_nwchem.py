@@ -2334,6 +2334,129 @@ class NwchemTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_multiple_global_specification_alternative(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "nwchem",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF(Tight,Direct)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        TITLE "File created by ccinput"
+        start Cl
+        memory total 10000 mb
+        charge -1
+
+        geometry units angstroms noautosym
+        Cl   0.00000000   0.00000000   0.00000000
+        end
+
+        basis
+        * library Def2-SVP
+        end
+
+        dft
+        xc m06-2x
+        mult 1
+        tight
+        direct
+        end
+
+        task dft energy
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_multiple_global_specification_alternative2(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "nwchem",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF(Tight, Direct)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        TITLE "File created by ccinput"
+        start Cl
+        memory total 10000 mb
+        charge -1
+
+        geometry units angstroms noautosym
+        Cl   0.00000000   0.00000000   0.00000000
+        end
+
+        basis
+        * library Def2-SVP
+        end
+
+        dft
+        xc m06-2x
+        mult 1
+        tight
+        direct
+        end
+
+        task dft energy
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_multiple_global_specification_alternative3(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Single-Point Energy",
+            "file": "Cl.xyz",
+            "software": "nwchem",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "-1",
+            "specifications": "SCF(Tight)   scf(direct)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        TITLE "File created by ccinput"
+        start Cl
+        memory total 10000 mb
+        charge -1
+
+        geometry units angstroms noautosym
+        Cl   0.00000000   0.00000000   0.00000000
+        end
+
+        basis
+        * library Def2-SVP
+        end
+
+        dft
+        xc m06-2x
+        mult 1
+        tight
+        direct
+        end
+
+        task dft energy
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_multiple_global_specification2(self):
         params = {
             "nproc": 8,
@@ -2385,6 +2508,112 @@ class NwchemTests(InputTests):
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_specifications_alternative(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "nwchem",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "0",
+            "specifications": "SCF(Tight) opt(maxiter 5)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        TITLE "File created by ccinput"
+        start ethanol
+        memory total 10000 mb
+        charge 0
+
+        geometry units angstroms noautosym
+        C   -1.31970000  -0.64380000   0.00000000
+        H   -0.96310000  -1.65260000   0.00000000
+        H   -0.96310000  -0.13940000  -0.87370000
+        H   -2.38970000  -0.64380000   0.00000000
+        C   -0.80640000   0.08220000   1.25740000
+        H   -1.16150000   1.09160000   1.25640000
+        H   -1.16470000  -0.42110000   2.13110000
+        O    0.62360000   0.07990000   1.25870000
+        H    0.94410000   0.53240000   2.04240000
+        end
+
+        basis
+        * library Def2-SVP
+        end
+
+        dft
+        xc m06-2x
+        mult 1
+        tight
+        end
+
+        driver
+        maxiter 5
+        end
+
+        task dft optimize
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_specifications_alternative2(self):
+        params = {
+            "nproc": 8,
+            "mem": "10000MB",
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "nwchem",
+            "method": "M06-2X",
+            "basis_set": "Def2-SVP",
+            "charge": "0",
+            "specifications": "SCF(Tight); opt(maxiter 5) scf(direct)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """
+        TITLE "File created by ccinput"
+        start ethanol
+        memory total 10000 mb
+        charge 0
+
+        geometry units angstroms noautosym
+        C   -1.31970000  -0.64380000   0.00000000
+        H   -0.96310000  -1.65260000   0.00000000
+        H   -0.96310000  -0.13940000  -0.87370000
+        H   -2.38970000  -0.64380000   0.00000000
+        C   -0.80640000   0.08220000   1.25740000
+        H   -1.16150000   1.09160000   1.25640000
+        H   -1.16470000  -0.42110000   2.13110000
+        O    0.62360000   0.07990000   1.25870000
+        H    0.94410000   0.53240000   2.04240000
+        end
+
+        basis
+        * library Def2-SVP
+        end
+
+        dft
+        xc m06-2x
+        mult 1
+        tight
+        direct
+        end
+
+        driver
+        maxiter 5
+        end
+
+        task dft optimize
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
 
     def test_specifications_mixed(self):
         params = {
