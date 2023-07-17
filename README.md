@@ -141,6 +141,13 @@ The input can also be directly written to a file using `write_input`.
 
 See the [documentation](https://ccinput.readthedocs.io/en/latest/usage.html) for all options.
 
+## Contributors
+
+- @RaphaelRobidas: xtb, Gaussian, ORCA and Pysisyphus support
+- @zarkoivkovicc: NWChem support and Counterpoise calculation in Gaussian
+- @lauragranmar: Basic Psi4 support
+- @berquist: Basic QChem support
+
 ## Contributing
 
 We welcome all contributions to the project. This includes:
