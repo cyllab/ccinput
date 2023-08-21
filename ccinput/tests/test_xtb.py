@@ -258,6 +258,56 @@ class XtbTests(InputTests):
         """
         self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
 
+    def test_scan_two_coordinates(self):
+        params = {
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "constraints": "Scan_9_1.4_10/1_2;Scan_9_1.4_10/2_3",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb ethanol.xyz --opt tight --input input"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
+        INPUT = """$constrain
+        force constant=1.0
+        distance: 1, 2, auto
+        distance: 2, 3, auto
+        $scan
+        1: 9.00, 1.40, 10
+        2: 9.00, 1.40, 10
+        """
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
+
+    def test_scan_two_coordinates_concerted(self):
+        params = {
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "constraints": "Scan_9_1.4_10/1_2;Scan_9_1.4_10/2_3",
+            "specifications": "--concerted",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb ethanol.xyz --opt tight --input input"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
+        INPUT = """$constrain
+        force constant=1.0
+        distance: 1, 2, auto
+        distance: 2, 3, auto
+        $scan
+        mode=concerted
+        1: 9.00, 1.40, 10
+        2: 9.00, 1.40, 10
+        """
+        self.assertTrue(self.is_equivalent(INPUT, xtb.input_file))
+
     def test_constrained_opt_no_constraint(self):
         params = {
             "type": "Constrained Optimisation",
@@ -266,7 +316,42 @@ class XtbTests(InputTests):
         }
 
         with self.assertRaises(InvalidParameter):
-            xtb = self.generate_calculation(**params)
+            self.generate_calculation(**params)
+
+    def test_freeze_concerted_exception(self):
+        params = {
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "constraints": "Freeze_9_1.4_10;Freeze_9_1.4_10",
+            "specifications": "--concerted",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+
+    def test_scan_single_coordinate_concerted_exception(self):
+        params = {
+            "type": "Constrained Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "constraints": "Scan_9_1.4_10/1_2;",
+            "specifications": "--concerted",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
+
+    def test_opt_concerted_exception(self):
+        params = {
+            "type": "Geometrical Optimisation",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "specifications": "--concerted",
+        }
+
+        with self.assertRaises(InvalidParameter):
+            self.generate_calculation(**params)
 
     def test_freeze(self):
         params = {

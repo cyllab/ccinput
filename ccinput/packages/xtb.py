@@ -33,6 +33,7 @@ class XtbCalculation:
         self.input_file = ""
         self.specifications = ""
         self.force_constant = 1.0
+        self.concerted_scan = False
         self.confirmed_specifications = ""
 
         if self.calc.type not in self.EXECUTABLES:
@@ -111,8 +112,17 @@ class XtbCalculation:
             if cmd.scan:
                 self.has_scan = True
 
+        if self.concerted_scan and (
+            not self.has_scan or len(self.calc.constraints) < 2
+        ):
+            raise InvalidParameter(
+                "The concerted mode only influences scans with multiple coordinates"
+            )
+
         if self.has_scan:
             self.input_file += "$scan\n"
+            if self.concerted_scan:
+                self.input_file += "mode=concerted\n"
             for counter, cmd in enumerate(self.calc.constraints):
                 if cmd.scan:
                     self.input_file += f"{counter+1}: {cmd.start_d:.2f}, {cmd.end_d:.2f}, {cmd.num_steps}\n"
@@ -217,6 +227,15 @@ class XtbCalculation:
                     self.cmd_arguments += "--squick "
                 elif ss[0] == "mquick":
                     self.cmd_arguments += "--mquick "
+                elif ss[0] == "concerted":
+                    if self.calc.type not in [
+                        CalcType.CONSTR_OPT,
+                    ]:
+                        raise InvalidParameter(
+                            f"Invalid specification for calculation type: {ss[0]}"
+                        )
+                    self.concerted_scan = True
+
                 else:
                     raise InvalidParameter("Invalid specification")
             elif len(ss) == 2:
