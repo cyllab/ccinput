@@ -80,8 +80,8 @@ Calculation method to use.
 
 |
 
-Basis set
-^^^^^^^^^
+Basis set (``--basis_set, -bs``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Basis set used for the calculation. Required for most methods, except "-3c" methods (*e.g.* HF-3c, PBEh-3c) and semi-empirical methods (*e.g.* AM1, PM3, ...), including tight-binding methods (*e.g.* GFN2-xTB).
 
@@ -94,27 +94,27 @@ Basis set used for the calculation. Required for most methods, except "-3c" meth
 
 |
 
-Custom basis sets
-^^^^^^^^^^^^^^^^^
+Custom basis sets (``--custom_basis_sets, -cbs``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Specific basis sets for specific atoms. Uses the format "<Element>=<Basis set label>;..." (*e.g.* "I=Def2-TZVPD;"). To see all the valid basis set labels per element, visit the `Basis Set Exchange <https://www.basissetexchange.org/>`_. Nonetheless, ``ccinput`` will also detect close synonyms of the requested basis set.
 
 If applicable, the effective core potential (ECP) corresponding to the requested basis set will also be added to the input file.
 
-Density fitting
-^^^^^^^^^^^^^^^
+Density fitting (``--density_fitting, -df``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Basis set to use for density fitting.
-For nwchem, specify the name of the basis set you want to use for density fitting.
+For NWChem, specify the name of the basis set you want to use for density fitting.
 
 `Gaussian documentation about density fitting <https://gaussian.com/basissets/>`_
 
 .. note::
 
-   Only available for Gaussian 16 and nwchem for the moment. Density fitting for DFT is only available for nwchem 7.2.0 version.
+   Only available (explicitly) for Gaussian 16 and NWChem for the moment. In NWChem, density fitting for DFT is only available for version 7.2.0.
 
-Structure files
-^^^^^^^^^^^^^^^
+Structure files (``--file, -f``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Structure file(s) to use in the input. Only XYZ files are currently supported.
 
@@ -140,8 +140,8 @@ If no output pattern is specified, each input file will be printed to the consol
         Input file written to my_struct.com
 
 
-Solvent
-^^^^^^^
+Solvent (``--solvent, -s``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Solvent to model using implicit solvation.
 
@@ -154,8 +154,8 @@ Solvent to model using implicit solvation.
 
 |
 
-Solvation model
-^^^^^^^^^^^^^^^
+Solvation model (``--solvation_model, -sm``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Model used for implicit solvation.
 
@@ -176,14 +176,14 @@ xtb        GBSA
 
            ALPB
 
-nwchem     SMD
+NWChem     SMD
 
            COSMO
 
 ========== ========
 
-Solvation radii
-^^^^^^^^^^^^^^^
+Solvation radii (``--solvation_radii, -sr``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Set of element radii to use in the solvation model.
 
@@ -215,15 +215,15 @@ All     UFF (g16 default)
 
 .. [SMD18] E. Engelage, N. Schulz, F. Heinen, S. M. Huber, D. G. Truhlar, C. J. Cramer, *Chem. Eur. J.* **2018**, *24*, 15983-15987.
 
-Custom solvation radii
-^^^^^^^^^^^^^^^^^^^^^^
+Custom solvation radii (``-custom_solvation_radii, -csr``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Specific solvation radii to use for some elements.
 
 The format to use is "<ELEMENT>=<RADIUS>;...", for example: "H=1.00;Li=1.70;".
 
-Parse Name
-^^^^^^^^^^
+Parse Name (``--parse_name``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Input files can have different charges or multiplicities, as long as the file name reflects this and the ``--parse_name`` option is used.
 
@@ -231,8 +231,8 @@ By default, inputs are assumed to be neutral and in the singlet state. Charges a
 
 If a charge or multiplicity is also provided explicitly, it will be used as default state for all inputs. However, the charge and multiplicity in the file names have priority over the default state. As such, ``neutral`` can be added to the file name to ensure that the input will be considered neutral, even if the option ``--charge 1`` is provided, for example.
 
-Specifications
-^^^^^^^^^^^^^^
+Specifications (``--specifications``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Custom keywords to add to the command of the input. 
 
@@ -273,8 +273,8 @@ In nwchem, the syntax for specifcations in the following:
 
         $ ccinput g16 opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "scf(maxiter 20);opt(tight)"
 
-Constraints
-^^^^^^^^^^^
+Constraints (``--constraints, -co``, ``--freeze``, ``--scan``, ``--from``, ``--to``, ``--nsteps``, ``--step``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Constraints (freeze or scan) can be specified either as a string or as separate parameters.
 
