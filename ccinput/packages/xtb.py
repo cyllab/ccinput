@@ -227,6 +227,10 @@ class XtbCalculation:
                     self.cmd_arguments += "--squick "
                 elif ss[0] == "mquick":
                     self.cmd_arguments += "--mquick "
+                elif ss[0] == "molden":
+                    self.cmd_arguments += "--molden "
+                elif ss[0] == "json":
+                    self.cmd_arguments += "--json "
                 elif ss[0] == "concerted":
                     if self.calc.type not in [
                         CalcType.CONSTR_OPT,
@@ -237,7 +241,7 @@ class XtbCalculation:
                     self.concerted_scan = True
 
                 else:
-                    raise InvalidParameter("Invalid specification")
+                    raise InvalidParameter("Invalid specification: {ss}")
             elif len(ss) == 2:
                 if ss[0] == "o" or ss[0] == "opt":
                     if ss[1] not in [

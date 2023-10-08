@@ -847,3 +847,35 @@ class XtbTests(InputTests):
 
         with self.assertRaises(ImpossibleCalculation):
             xtb = self.generate_calculation(**params)
+
+    def test_molden_output(self):
+        params = {
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "xtb",
+            "charge": "-1",
+            "specifications": "--molden",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb Cl.xyz --opt tight --chrg -1 --molden"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))
+
+    def test_json_output(self):
+        params = {
+            "type": "Geometrical Optimisation",
+            "file": "Cl.xyz",
+            "software": "xtb",
+            "charge": "-1",
+            "specifications": "--JSon",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb Cl.xyz --opt tight --chrg -1 --json"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+        self.assertTrue(self.is_equivalent("", xtb.input_file))

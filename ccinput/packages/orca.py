@@ -170,13 +170,19 @@ class OrcaCalculation:
 
             electrons -= self.calc.charge
 
-            if self.calc.multiplicity != 1:
-                raise InvalidParameter("Unimplemented multiplicity")
+            if self.calc.multiplicity == 1:
+                n_HOMO = (electrons // 2) - 1
+                n_LUMO = electrons // 2
+                n_LUMO1 = (electrons // 2) + 1
+                n_LUMO2 = (electrons // 2) + 2
+            elif self.calc.multiplicity == 2:
+                n_HOMO = ((electrons + 1) // 2) - 1
+                n_LUMO = (electrons + 1) // 2
+                n_LUMO1 = ((electrons + 1) // 2) + 1
+                n_LUMO2 = ((electrons + 1) // 2) + 2
 
-            n_HOMO = int(electrons / 2) - 1
-            n_LUMO = int(electrons / 2)
-            n_LUMO1 = int(electrons / 2) + 1
-            n_LUMO2 = int(electrons / 2) + 2
+            else:
+                raise InvalidParameter("Unimplemented multiplicity")
 
             mo_block = f"""%plots
                         dim1 45
