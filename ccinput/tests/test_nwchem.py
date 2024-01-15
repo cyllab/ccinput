@@ -25,7 +25,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -81,7 +81,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -146,7 +146,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -193,7 +193,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -256,7 +256,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -302,7 +302,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -362,7 +362,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -401,7 +401,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -441,7 +441,7 @@ class NwchemTests(InputTests):
         REF = """
             TITLE "File created by ccinput"
             start Cl
-            memory total 10000 mb
+            memory total 1250 mb
             charge -1
 
             geometry units angstroms noautosym
@@ -481,7 +481,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -521,7 +521,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -560,7 +560,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -597,7 +597,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -635,7 +635,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -672,7 +672,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -711,7 +711,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -763,7 +763,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -848,7 +848,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -901,7 +901,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -956,7 +956,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -998,7 +998,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start mini_ts
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -1040,7 +1040,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -1126,7 +1126,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -1212,7 +1212,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -1298,7 +1298,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -1345,7 +1345,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -1431,7 +1431,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Ph2I_cation
-        memory total 10000 mb
+        memory total 1250 mb
         charge 1
 
         geometry units angstroms noautosym
@@ -1584,7 +1584,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Ph2I_cation
-        memory total 10000 mb
+        memory total 1250 mb
         charge 1
 
         geometry units angstroms noautosym
@@ -1787,7 +1787,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Ph2I_cation
-        memory total 10000 mb
+        memory total 1250 mb
         charge 1
 
         geometry units angstroms noautosym
@@ -1990,7 +1990,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start AuI
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -2181,7 +2181,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -2230,7 +2230,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2270,7 +2270,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2313,7 +2313,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2354,7 +2354,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2395,7 +2395,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2436,7 +2436,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2477,7 +2477,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -2529,7 +2529,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -2581,7 +2581,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -2634,7 +2634,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -2692,7 +2692,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start neb_calculation
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2745,7 +2745,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start neb_calculation
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2798,7 +2798,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start neb_calculation
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2850,7 +2850,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2888,7 +2888,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2925,7 +2925,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -2962,7 +2962,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3000,7 +3000,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3038,7 +3038,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3076,7 +3076,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3115,7 +3115,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3154,7 +3154,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3192,7 +3192,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3230,7 +3230,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3269,7 +3269,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3312,7 +3312,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3352,7 +3352,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3411,7 +3411,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start I
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3461,7 +3461,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start I
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3512,7 +3512,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start I
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3572,7 +3572,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3607,7 +3607,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3644,7 +3644,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3679,7 +3679,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start ethanol
-        memory total 10000 mb
+        memory total 1250 mb
         charge 0
 
         geometry units angstroms noautosym
@@ -3729,7 +3729,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3776,7 +3776,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3810,7 +3810,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3845,7 +3845,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3883,7 +3883,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3921,7 +3921,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -3964,7 +3964,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -4006,7 +4006,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym
@@ -4050,7 +4050,7 @@ class NwchemTests(InputTests):
         REF = """
         TITLE "File created by ccinput"
         start Cl
-        memory total 10000 mb
+        memory total 1250 mb
         charge -1
 
         geometry units angstroms noautosym

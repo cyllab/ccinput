@@ -241,7 +241,7 @@ class XtbCalculation:
                     self.concerted_scan = True
 
                 else:
-                    raise InvalidParameter("Invalid specification: {ss}")
+                    raise InvalidParameter(f"Invalid specification: {ss}")
             elif len(ss) == 2:
                 if ss[0] == "o" or ss[0] == "opt":
                     if ss[1] not in [

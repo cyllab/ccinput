@@ -60,7 +60,7 @@ class NWChemCalculation:
 
     def __init__(self, calc):
         self.calc = calc
-        self.calc.mem = f"{self.calc.mem} mb"
+        self.calc.mem = f"{int(self.calc.mem/self.calc.nproc)} mb"
         self.has_scan = False
         self.appendix = []
         self.command_line = ""
