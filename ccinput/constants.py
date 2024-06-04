@@ -159,7 +159,7 @@ THEORY_LEVELS = {
         "dlpnoqcisd",
         "dlpnoqcisdt",
     ],
-    "mcscf": ["mcscf", "casscf"]
+    "mcscf": ["mcscf", "casscf"],
     # Everything else is assumed to be DFT, because it most likely is
 }
 
