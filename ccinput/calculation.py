@@ -149,9 +149,14 @@ class Calculation:
         odd_m = self.multiplicity % 2
 
         if odd_e == odd_m:
+            if self.file:
+                extra_detail = f" (file={self.file})"
+            else:
+                extra_detail = ""
+
             raise ImpossibleCalculation(
                 f"This combination of charge ({self.charge}) "
-                + f"and multiplicity ({self.multiplicity}) is impossible"
+                + f"and multiplicity ({self.multiplicity}) is impossible{extra_detail}"
             )
 
 
