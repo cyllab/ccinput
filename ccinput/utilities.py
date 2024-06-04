@@ -222,8 +222,8 @@ def get_abs_basis_set(basis_set, trust_me=False):
         if _bs.lower() == bs:
             return bs
     if trust_me:
-        warn(f"Using unknown basis set '{bs}'")
-        return bs
+        warn(f"Using unknown basis set '{basis_set}'")
+        return basis_set
     else:
         raise InvalidParameter(f"Unknown basis set: '{basis_set}'")
 
