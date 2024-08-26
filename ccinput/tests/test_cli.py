@@ -762,6 +762,20 @@ class ManualCliTests(InputTests):
 
         objs, outputs = get_input_from_args(args)
 
+    def test_file_extra_line(self):
+        args = {
+            "software": "gaussian",
+            "type": "sp",
+            "method": "HF",
+            "basis_set": "Def2SVP",
+            "file": self.struct("ethanol_extra_line"),
+            "nproc": 1,
+            "mem": "1G",
+            "name": "ethanol",
+        }
+        line = f"gaussian sp HF -bs Def2SVP -f {self.struct('ethanol')} -n 1 --mem 1G"
+        self.assertTrue(self.args_cmd_equivalent(args, line))
+
 
 class CliPresetTests(InputTests):
     def test_create_preset(self):

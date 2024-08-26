@@ -159,7 +159,14 @@ def parse_xyz_from_file(path):
         raise InvalidParameter(f"Input file not found: {path}")
 
     with open(path) as f:
-        lines = f.readlines()
+        _lines = f.readlines()
+
+    lines = _lines[2:]
+
+    if len(_lines) < 3:
+        raise InvalidXYZ("Invalid XYZ: No atoms specified")
+
+    lines = [i.strip() for i in _lines[2:] if i.strip() != ""]
 
     return standardize_xyz(lines)
 

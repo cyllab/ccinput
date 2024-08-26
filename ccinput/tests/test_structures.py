@@ -82,6 +82,21 @@ class XyzTests(TestCase):
         with self.assertRaises(InvalidXYZ):
             standardize_xyz(xyz)
 
+    def test_multiple_atoms_extra_lines(self):
+        xyz = """3
+        header
+        Cl 0.0 0.0 0.0
+        Cl 0.0 0.0 0.0
+        Cl 0.0 0.0 0.0
+
+
+
+        """
+        self.assertEqual(
+            standardize_xyz(xyz),
+            "Cl   0.00000000   0.00000000   0.00000000\nCl   0.00000000   0.00000000   0.00000000\nCl   0.00000000   0.00000000   0.00000000\n",
+        )
+
     def test_invalid_element(self):
         xyz = "1\n\nBl 0.0 0.0 0.0\n"
         with self.assertRaises(InvalidXYZ):
