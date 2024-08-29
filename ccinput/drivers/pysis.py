@@ -14,7 +14,7 @@ from ccinput.packages.orca import OrcaCalculation
 
 class PysisDriver:
     SUPPORTED_PACKAGES = ["xtb", "orca"]
-    IGNORED_ORCA_BLOCKS = ["%MaxCore"]
+    IGNORED_ORCA_BLOCKS = ["MaxCore", "pal"]
 
     SUPPORTED_KEYWORDS = {
         CalcType.TS: "tsopt",
@@ -187,11 +187,19 @@ class PysisDriver:
                 ).replace("SP ", ""),
             )
 
+            BLOCK_TEMPLATE = """%{}
+            {}
+            end"""
+
             cleaned_blocks = []
-            for block in orca_inp.blocks:
-                block_name = block.split("\n")[0].split()[0]
-                if block_name not in self.IGNORED_ORCA_BLOCKS:
-                    cleaned_blocks.append(block.replace('"', '\\"'))
+            for block, content in orca_inp.blocks.items():
+                if block not in self.IGNORED_ORCA_BLOCKS:
+                    cleaned_blocks.append(
+                        BLOCK_TEMPLATE.format(
+                            block,
+                            "\n".join([l.replace('"', '\\"') for l in content]).strip(),
+                        )
+                    )
 
             cleaned_blocks_lines = "\n".join(cleaned_blocks)
             if cleaned_blocks_lines.strip() != "":

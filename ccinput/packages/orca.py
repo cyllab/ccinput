@@ -61,11 +61,10 @@ class OrcaCalculation:
         self.calc = calc
         self.has_scan = False
         self.pal = 0
-        self.blocks = []
+        self.blocks = {}
         self.command_line = ""
         self.additional_commands = ""
         self.xyz_structure = ""
-        self.block_lines = ""
         self.input_file = ""
         self.specifications = {}
         self.solvation_radii = {}
@@ -103,6 +102,12 @@ class OrcaCalculation:
         )
         return "".join([c for c in s if c in WHITELIST])
 
+    def add_to_block(self, block, lines):
+        if block in self.blocks:
+            self.blocks[block] += lines
+        else:
+            self.blocks[block] = lines
+
     def handle_specifications(self):
         _specifications = (
             self.clean(self.calc.parameters.specifications).lower().strip()
@@ -115,10 +120,7 @@ class OrcaCalculation:
             while ind < len(sspecs):
                 spec = sspecs[ind]
                 if spec == "--phirshfeld":
-                    HIRSHFELD_BLOCK = """%output
-                    Print[ P_Hirshfeld] 1
-                    end"""
-                    self.blocks.append(HIRSHFELD_BLOCK)
+                    self.add_to_block("output", ["Print[ P_Hirshfeld] 1"])
                 elif spec == "--nimages":
                     nimages = sspecs[ind + 1]
                     try:
@@ -156,7 +158,7 @@ class OrcaCalculation:
         elif self.calc.type == CalcType.TS:
             self.command_line = "OPTTS "
             if self.calc.parameters.theory_level != "xtb":
-                self.blocks.append("%geom\nCalc_Hess true\nend")
+                self.add_to_block("geom", ["Calc_Hess true"])
         elif self.calc.type == CalcType.MO:
             self.command_line = "SP "
             struct = clean_xyz(self.calc.xyz)
@@ -184,8 +186,9 @@ class OrcaCalculation:
             else:
                 raise InvalidParameter("Unimplemented multiplicity")
 
-            mo_block = f"""%plots
-                        dim1 45
+            self.add_to_block(
+                "plots",
+                f"""dim1 45
                         dim2 45
                         dim3 45
                         min1 0
@@ -199,9 +202,10 @@ class OrcaCalculation:
                         MO("in-LUMO.cube",{n_LUMO},0);
                         MO("in-LUMOA.cube",{n_LUMO1},0);
                         MO("in-LUMOB.cube",{n_LUMO2},0);
-                        end
-                        """
-            self.blocks.append(mo_block)
+                        """.split(
+                    "\n"
+                ),
+            )
         elif self.calc.type == CalcType.FREQ:
             self.command_line = "FREQ "
         elif self.calc.type == CalcType.CONSTR_OPT:
@@ -220,31 +224,33 @@ class OrcaCalculation:
                     freeze.append(constr.to_orca())
 
             if len(scans) > 0:
-                scan_block = """%geom Scan
+                scan_block = """Scan
                 {}
                 end
-                end"""
-                self.blocks.append(scan_block.format("".join(scans).strip()))
+                """
+                self.add_to_block(
+                    "geom", scan_block.format("".join(scans).strip()).split("\n")
+                )
 
             if len(freeze) > 0:
-                freeze_block = """%geom Constraints
+                freeze_block = """Constraints
                 {}
                 end
-                end"""
-                self.blocks.append(freeze_block.format("".join(freeze).strip()))
+                """
+                self.add_to_block(
+                    "geom", freeze_block.format("".join(freeze).strip()).split("\n")
+                )
         elif self.calc.type == CalcType.SP:
             self.command_line = "SP "
         elif self.calc.type == CalcType.MEP:  #### Second structure to handle
             self.command_line = "NEB "
-            neb_block = """%neb
-                        product "{}.xyz"
-                        nimages {}
-                        end"""
             if "nimages" in self.specifications:
                 nimages = self.specifications["nimages"]
             else:
                 nimages = 8
-            self.blocks.append(neb_block.format(self.calc.aux_name, nimages))
+            self.add_to_block(
+                "neb", [f'product "{self.calc.aux_name}.xyz"', f"nimages {nimages}"]
+            )
 
         method = get_method(self.calc.parameters.method, "orca")
         if self.calc.parameters.theory_level not in [
@@ -278,10 +284,6 @@ class OrcaCalculation:
             a, *_ = line.split()
             if a not in unique_atoms:
                 unique_atoms.append(a)
-
-        BS_TEMPLATE = """%basis
-        {}
-        end"""
 
         custom_bs = ""
         for el, bs_keyword in self.calc.parameters.custom_basis_sets.items():
@@ -340,7 +342,7 @@ class OrcaCalculation:
                     custom_bs += "end"
 
         if custom_bs != "":
-            self.blocks.append(BS_TEMPLATE.format(custom_bs.strip()))
+            self.add_to_block("basis", custom_bs.split("\n"))
 
     def handle_xyz(self):
         lines = [i + "\n" for i in clean_xyz(self.calc.xyz).split("\n") if i != ""]
@@ -354,12 +356,7 @@ class OrcaCalculation:
             self.pal = self.calc.nproc
             self.mem_per_core = int(self.calc.mem / self.calc.nproc)
 
-        pal_mem_block = f"""%MaxCore {self.mem_per_core}
-        %pal
-        nprocs {self.pal}
-        end"""
-
-        self.blocks.append(pal_mem_block)
+        self.add_to_block("pal", [f"nprocs {self.pal}"])
 
     def parse_custom_solvation_radii(self):
         for radius in self.calc.parameters.custom_solvation_radii.split(";"):
@@ -404,8 +401,6 @@ class OrcaCalculation:
             radii_set = self.calc.parameters.solvation_radii
             custom_radii = self.calc.parameters.custom_solvation_radii
 
-            solv_block = ""
-
             if self.calc.parameters.method[:3].lower() == "xtb":
                 self.command_line += f" ALPB({solvent_keyword})"
             elif model == "smd":
@@ -419,18 +414,15 @@ class OrcaCalculation:
                         self.solvation_radii[35] = 2.60
 
                 radii_specs = self.get_radii_specs()
-                solv_block = f"""%cpcm
-                smd true
-                SMDsolvent "{solvent_keyword}"
-                {radii_specs}end"""
-                self.blocks.append(solv_block)
+
+                self.add_to_block(
+                    "cpcm", ["smd true", f'SMDsolvent "{solvent_keyword}"', radii_specs]
+                )
             elif model == "cpcm":
                 self.command_line += f"CPCM({solvent_keyword}) "
                 radii_specs = self.get_radii_specs()
                 if radii_specs != "":
-                    solv_block = f"""%cpcm
-                    {radii_specs}end"""
-                    self.blocks.append(solv_block)
+                    self.add_to_block("cpcm", [radii_specs])
                 if radii_set not in ["", "default", "bondi"]:
                     raise UnimplementedError(
                         "As of now, ccinput does not know how to request "
@@ -443,7 +435,17 @@ class OrcaCalculation:
                 )
 
     def create_input_file(self):
-        self.block_lines = "\n".join(self.blocks)
+        self.block_lines = ""
+        for name, content in sorted(self.blocks.items(), key=lambda i: i[0]):
+            self.block_lines += """%{}
+            {}
+            end
+            """.format(
+                name, "\n".join(content).strip()
+            )
+
+        self.block_lines += f"""%MaxCore {self.mem_per_core}"""
+
         cmd = f"{self.command_line} {self.additional_commands}".replace("  ", " ")
         raw = self.TEMPLATE.format(
             cmd,

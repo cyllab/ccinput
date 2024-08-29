@@ -20,10 +20,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 1000
         %pal
         nprocs 1
         end
+        %MaxCore 1000
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -46,10 +46,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -74,14 +74,14 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -106,14 +106,14 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -139,16 +139,16 @@ class OrcaTests(InputTests):
         *xyz -1 1
         I 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         radius[53] 2.74
         radius[35] 2.60
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -174,16 +174,16 @@ class OrcaTests(InputTests):
         *xyz -1 1
         I 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         radius[53] 2.74
         radius[35] 2.60
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -208,14 +208,14 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "1-octanol"
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -240,10 +240,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -268,14 +268,14 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -300,10 +300,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -328,10 +328,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -370,10 +370,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -397,10 +397,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -424,10 +424,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -451,10 +451,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -478,10 +478,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -505,10 +505,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -532,10 +532,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -559,10 +559,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -586,10 +586,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -613,10 +613,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -640,10 +640,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -668,10 +668,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -695,10 +695,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -720,10 +720,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 1000
         %pal
         nprocs 1
         end
+        %MaxCore 1000
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -746,10 +746,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -772,10 +772,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -797,10 +797,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 1000
         %pal
         nprocs 1
         end
+        %MaxCore 1000
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -823,10 +823,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -849,10 +849,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -886,14 +886,15 @@ class OrcaTests(InputTests):
         O          0.62360        0.07990        1.25870
         H          0.94410        0.53240        2.04240
         *
-        %geom Scan
+        %geom
+        Scan
         B 0 1 = 9.00, 1.40, 10
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -925,14 +926,15 @@ class OrcaTests(InputTests):
         O          0.62360        0.07990        1.25870
         H          0.94410        0.53240        2.04240
         *
-        %geom Scan
+        %geom
+        Scan
         B 0 1 = 1.07, 1.40, 10
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -994,14 +996,15 @@ class OrcaTests(InputTests):
         O          0.62360        0.07990        1.25870
         H          0.94410        0.53240        2.04240
         *
-        %geom Scan
+        %geom
+        Scan
         A 1 0 2 = 9.00, 90.00, 10
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1033,14 +1036,15 @@ class OrcaTests(InputTests):
         O          0.62360        0.07990        1.25870
         H          0.94410        0.53240        2.04240
         *
-        %geom Scan
+        %geom
+        Scan
         D 3 0 4 7 = 9.00, 1.00, 10
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1086,14 +1090,15 @@ class OrcaTests(InputTests):
         O          0.62360        0.07990        1.25870
         H          0.94410        0.53240        2.04240
         *
-        %geom Constraints
+        %geom
+        Constraints
         { B 0 1 C }
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1125,14 +1130,15 @@ class OrcaTests(InputTests):
         O          0.62360        0.07990        1.25870
         H          0.94410        0.53240        2.04240
         *
-        %geom Constraints
+        %geom
+        Constraints
         { A 1 0 2 C }
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1164,14 +1170,15 @@ class OrcaTests(InputTests):
         O          0.62360        0.07990        1.25870
         H          0.94410        0.53240        2.04240
         *
-        %geom Constraints
+        %geom
+        Constraints
         { D 3 0 4 7 C }
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1194,10 +1201,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1221,10 +1228,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1253,10 +1260,10 @@ class OrcaTests(InputTests):
         %geom
         Calc_Hess true
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1283,10 +1290,10 @@ class OrcaTests(InputTests):
         H   0.59453997172323     -0.48560162159600      0.83949232123172
         H   0.66998093862168     -0.58930117433261     -0.87511947469677
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1315,16 +1322,16 @@ class OrcaTests(InputTests):
         H   0.59453997172323     -0.48560162159600      0.83949232123172
         H   0.66998093862168     -0.58930117433261     -0.87511947469677
         *
-        %geom
-        Calc_Hess true
-        end
         %basis
         NewGTO N "Def2-SVP" end
         end
-        %MaxCore 125
+        %geom
+        Calc_Hess true
+        end
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1351,16 +1358,16 @@ class OrcaTests(InputTests):
         H   0.59453997172323     -0.48560162159600      0.83949232123172
         H   0.66998093862168     -0.58930117433261     -0.87511947469677
         *
-        %geom
-        Calc_Hess true
-        end
         %basis
         NewGTO N "Def2-SVP" end
         end
-        %MaxCore 125
+        %geom
+        Calc_Hess true
+        end
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1410,10 +1417,10 @@ class OrcaTests(InputTests):
         NewGTO I "Def2-TZVPD" end
         NewECP I "def2-ECP" end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1464,10 +1471,10 @@ class OrcaTests(InputTests):
         NewECP I "def2-ECP" end
         NewGTO H "Def2-TZVP" end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1517,10 +1524,10 @@ class OrcaTests(InputTests):
         NewGTO I "Def2-TZVPD" end
         NewECP I "def2-ECP" end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1617,10 +1624,10 @@ class OrcaTests(InputTests):
         2      4.3334300    -14.0030500 1
         end
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1655,10 +1662,10 @@ class OrcaTests(InputTests):
         product "calc2.xyz"
         nimages 8
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
 
         """
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1694,11 +1701,10 @@ class OrcaTests(InputTests):
         product "calc2.xyz"
         nimages 12
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
-
+        %MaxCore 125
         """
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
@@ -1734,11 +1740,10 @@ class OrcaTests(InputTests):
         product "product.xyz"
         nimages 12
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
-
+        %MaxCore 125
         """
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
@@ -1763,10 +1768,10 @@ class OrcaTests(InputTests):
         %output
         Print[ P_Hirshfeld] 1
         end
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1811,6 +1816,9 @@ class OrcaTests(InputTests):
         H         -7.17360        2.91710       -4.11310
         H         -5.61500        4.53870       -5.19320
         *
+        %pal
+        nprocs 8
+        end
         %plots
         dim1 45
         dim2 45
@@ -1827,11 +1835,7 @@ class OrcaTests(InputTests):
         MO("in-LUMOA.cube",68,0);
         MO("in-LUMOB.cube",69,0);
         end
-
         %MaxCore 125
-        %pal
-        nprocs 8
-        end
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1854,10 +1858,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 1000
         %pal
         nprocs 1
         end
+        %MaxCore 1000
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1879,10 +1883,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 1000
         %pal
         nprocs 1
         end
+        %MaxCore 1000
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1906,10 +1910,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1933,10 +1937,10 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
         %pal
         nprocs 8
         end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -1978,15 +1982,15 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         radius[17] 1.00
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -2012,16 +2016,16 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         radius[17] 1.00
         radius[35] 2.00
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -2048,10 +2052,6 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
@@ -2059,6 +2059,10 @@ class OrcaTests(InputTests):
         radius[53] 2.74
         radius[35] 2.60
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -2085,16 +2089,16 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         smd true
         SMDsolvent "chloroform"
         radius[53] 3.00
         radius[35] 2.60
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -2120,13 +2124,13 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         radius[17] 1.00
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
@@ -2152,14 +2156,14 @@ class OrcaTests(InputTests):
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
-        %MaxCore 125
-        %pal
-        nprocs 8
-        end
         %cpcm
         radius[17] 1.00
         radius[35] 2.00
         end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
         """
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
