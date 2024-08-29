@@ -12,6 +12,7 @@ from ccinput.utilities import (
     get_npxyz,
     check_fragments,
     add_fragments_xyz,
+    parse_specifications,
 )
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
@@ -104,39 +105,7 @@ class GaussianCalculation:
     def handle_specifications(self):
         s = self.clean(self.calc.parameters.specifications.lower())
 
-        # Could be more sophisticated to catch other incorrect specifications
-        if s.count("(") != s.count(")"):
-            raise InvalidParameter("Invalid specifications: parenthesis not matching")
-
-        _specifications = ""
-        remove = False
-        for c in s:
-            if c == " " and remove:
-                continue
-            _specifications += c
-            if c == "(":
-                remove = True
-            elif c == ")":
-                remove = False
-
-        for spec in _specifications.split(" "):
-            if spec.strip() == "":
-                continue
-            if spec.find("(") != -1:
-                key, options = spec.split("(")
-                options = options.replace(")", "")
-                for option in options.split(","):
-                    if option.strip() != "":
-                        self.add_option(key, option)
-            elif spec.find("=") != -1:
-                try:
-                    key, option = spec.split("=")
-                except ValueError:
-                    raise InvalidParameter(f"Invalid specification: {spec}")
-                self.add_option(key, option)
-            else:
-                self.add_option(spec, "")
-
+        parse_specifications(s, self.add_option)
         if self.calc.parameters.d3:
             self.add_option("EmpiricalDispersion", "GD3")
         elif self.calc.parameters.d3bj:

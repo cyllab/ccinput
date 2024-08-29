@@ -480,3 +480,40 @@ def check_fragments(counterpoise, fragments, xyz):
         raise InvalidParameter(
             "Counterpoise keyword must be equal to the total number of fragments"
         )
+
+
+def parse_specifications(specs, add_option_fn, condense=True):
+    # Could be more sophisticated to catch other incorrect specifications
+    if specs.count("(") != specs.count(")"):
+        raise InvalidParameter("Invalid specifications: parenthesis not matching")
+
+    _specifications = ""
+    remove = False
+    for c in specs:
+        if c == " " and remove:
+            if not condense:
+                _specifications += "&"  # Replace spaces temporarily
+            continue
+        _specifications += c
+        if c == "(":
+            remove = True
+        elif c == ")":
+            remove = False
+
+    for spec in _specifications.split(" "):
+        if spec.strip() == "":
+            continue
+        if spec.find("(") != -1:
+            key, options = spec.split("(")
+            options = options.replace(")", "")
+            for option in options.split(","):
+                if option.strip() != "":
+                    add_option_fn(key, option.replace("&", " "))
+        elif spec.find("=") != -1:
+            try:
+                key, option = spec.split("=")
+            except ValueError:
+                raise InvalidParameter(f"Invalid specification: {spec}")
+            add_option_fn(key, option.replace("&", " "))
+        else:
+            add_option_fn(spec, "")

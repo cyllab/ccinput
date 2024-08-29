@@ -13,6 +13,7 @@ from ccinput.utilities import (
     get_abs_basis_set,
     clean_xyz,
     warn,
+    parse_specifications,
 )
 from ccinput.exceptions import (
     InvalidParameter,
@@ -69,6 +70,7 @@ class OrcaCalculation:
         self.specifications = {}
         self.solvation_radii = {}
         self.aux_basis_sets = {}
+        self.specifications_list = []
 
         if self.calc.type not in self.CALC_TYPES:
             raise ImpossibleCalculation(
@@ -98,7 +100,7 @@ class OrcaCalculation:
 
     def clean(self, s):
         WHITELIST = set(
-            "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. "
+            "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/()=-,. {}_[]"
         )
         return "".join([c for c in s if c in WHITELIST])
 
@@ -108,12 +110,27 @@ class OrcaCalculation:
         else:
             self.blocks[block] = lines
 
+    def add_option(self, key, option):
+        if option == "":
+            if key[-2:] == "/c":
+                self.aux_basis_sets["C"] = get_basis_set(key[:-2], "orca")
+            elif key[-3:] == "/jk":
+                self.aux_basis_sets["JK"] = get_basis_set(key[:-3], "orca")
+            elif key[-2:] == "/j":
+                self.aux_basis_sets["J"] = get_basis_set(key[:-2], "orca")
+            elif key not in self.specifications_list:
+                self.specifications_list.append(key)
+        else:
+            self.add_to_block(key, [option.replace("=", " ")])
+
     def handle_specifications(self):
         _specifications = (
             self.clean(self.calc.parameters.specifications).lower().strip()
         )
 
-        specifications_list = []
+        parse_specifications(_specifications, self.add_option, condense=False)
+
+        """
         if _specifications != "":
             sspecs = _specifications.split()
             ind = 0
@@ -129,24 +146,15 @@ class OrcaCalculation:
                         raise InvalidParameter("Invalid specifications")
                     self.specifications["nimages"] = nimages
                     ind += 1
-                elif spec[-2:] == "/c":
-                    self.aux_basis_sets["C"] = get_basis_set(spec[:-2], "orca")
-                elif spec[-3:] == "/jk":
-                    self.aux_basis_sets["JK"] = get_basis_set(spec[:-3], "orca")
-                elif spec[-2:] == "/j":
-                    self.aux_basis_sets["J"] = get_basis_set(spec[:-2], "orca")
-                elif spec not in specifications_list:
-                    specifications_list.append(spec)
+            
 
                 ind += 1
+        """
 
         if self.calc.parameters.d3:
-            specifications_list.append("d3zero")
+            self.specifications_list.append("d3zero")
         elif self.calc.parameters.d3bj:
-            specifications_list.append("d3bj")
-
-        if len(specifications_list) > 0:
-            self.additional_commands = " ".join(specifications_list)
+            self.specifications_list.append("d3bj")
 
     def handle_command(self):
         if self.calc.type == CalcType.NMR:
@@ -244,13 +252,15 @@ class OrcaCalculation:
             self.command_line = "SP "
         elif self.calc.type == CalcType.MEP:  #### Second structure to handle
             self.command_line = "NEB "
-            if "nimages" in self.specifications:
-                nimages = self.specifications["nimages"]
+            self.add_to_block("neb", [f'product "{self.calc.aux_name}.xyz"'])
+            if "neb" in self.blocks:
+                for entry in self.blocks["neb"]:
+                    if entry.find("nimages") != -1:
+                        break
+                else:
+                    self.add_to_block("neb", ["nimages 8"])
             else:
-                nimages = 8
-            self.add_to_block(
-                "neb", [f'product "{self.calc.aux_name}.xyz"', f"nimages {nimages}"]
-            )
+                self.add_to_block("neb", ["nimages 8"])
 
         method = get_method(self.calc.parameters.method, "orca")
         if self.calc.parameters.theory_level not in [
@@ -446,7 +456,11 @@ class OrcaCalculation:
 
         self.block_lines += f"""%MaxCore {self.mem_per_core}"""
 
+        if len(self.specifications_list) > 0:
+            self.additional_commands = " ".join(self.specifications_list)
+
         cmd = f"{self.command_line} {self.additional_commands}".replace("  ", " ")
+
         raw = self.TEMPLATE.format(
             cmd,
             self.calc.charge,

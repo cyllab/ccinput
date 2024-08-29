@@ -414,13 +414,13 @@ class OrcaTests(InputTests):
             "method": "M06-2X",
             "basis_set": "Def2-SVP",
             "charge": "-1",
-            "specifications": "TightSCF GRID6",
+            "specifications": "TightSCF DEFGRID3",
         }
 
         inp = self.generate_calculation(**params)
 
         REF = """
-        !SP M062X Def2-SVP tightscf grid6
+        !SP M062X Def2-SVP tightscf defgrid3
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
@@ -441,13 +441,13 @@ class OrcaTests(InputTests):
             "method": "M06-2X",
             "basis_set": "Def2-SVP",
             "charge": "-1",
-            "specifications": "tightscf TightSCF GRID6",
+            "specifications": "tightscf TightSCF DEFGRID3",
         }
 
         inp = self.generate_calculation(**params)
 
         REF = """
-        !SP M062X Def2-SVP tightscf grid6
+        !SP M062X Def2-SVP tightscf defgrid3
         *xyz -1 1
         Cl 0.0 0.0 0.0
         *
@@ -1372,6 +1372,78 @@ class OrcaTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_ts_bond_following(self):
+        params = {
+            "nproc": 8,
+            "type": "TS Optimisation",
+            "file": "mini_ts.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "specifications": "geom(TS_Mode {B 0 108 } end)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        # One cannot calculate the Hessian for use in a TS optimization
+        # when using xtb as QM engine.
+        REF = """
+        !OPTTS B3LYP 6-31+G(d,p)
+        *xyz 0 1
+        N   1.08764072053386     -0.33994563112543     -0.00972525479568
+        H   1.99826836912112      0.05502842705407      0.00651240826058
+        H   0.59453997172323     -0.48560162159600      0.83949232123172
+        H   0.66998093862168     -0.58930117433261     -0.87511947469677
+        *
+        %geom
+        ts_mode {b 0 108 } end
+        Calc_Hess true
+        end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
+    def test_ts_bond_following_alt(self):
+        params = {
+            "nproc": 8,
+            "type": "TS Optimisation",
+            "file": "mini_ts.xyz",
+            "software": "ORCA",
+            "charge": "0",
+            "method": "B3LYP",
+            "basis_set": "6-31+G(d,p)",
+            "specifications": "geom(TS_Mode={B 0 108 } end)",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        # One cannot calculate the Hessian for use in a TS optimization
+        # when using xtb as QM engine.
+        REF = """
+        !OPTTS B3LYP 6-31+G(d,p)
+        *xyz 0 1
+        N   1.08764072053386     -0.33994563112543     -0.00972525479568
+        H   1.99826836912112      0.05502842705407      0.00651240826058
+        H   0.59453997172323     -0.48560162159600      0.83949232123172
+        H   0.66998093862168     -0.58930117433261     -0.87511947469677
+        *
+        %geom
+        ts_mode {b 0 108 } end
+        Calc_Hess true
+        end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
+        """
+
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_opt_DFT_custom_bs_ecp(self):
         params = {
             "nproc": 8,
@@ -1677,7 +1749,7 @@ class OrcaTests(InputTests):
             "file": "elimination_substrate.xyz",
             "auxiliary_file": "elimination_product.xyz",
             "software": "ORCA",
-            "specifications": "--nimages 12",
+            "specifications": "neb(nimages=12)",
             "charge": -1,
             "method": "gfn2-xtb",
         }
@@ -1698,8 +1770,8 @@ class OrcaTests(InputTests):
         H         -1.82448        0.94856        3.28105
         *
         %neb
-        product "calc2.xyz"
         nimages 12
+        product "calc2.xyz"
         end
         %pal
         nprocs 8
@@ -1715,7 +1787,7 @@ class OrcaTests(InputTests):
             "file": "elimination_substrate.xyz",
             "auxiliary_file": "elimination_product.xyz",
             "software": "ORCA",
-            "specifications": "--nimages 12",
+            "specifications": "neb(nimages=12)",
             "charge": -1,
             "method": "gfn2-xtb",
             "aux_name": "product",
@@ -1737,8 +1809,8 @@ class OrcaTests(InputTests):
         H         -1.82448        0.94856        3.28105
         *
         %neb
-        product "product.xyz"
         nimages 12
+        product "product.xyz"
         end
         %pal
         nprocs 8
@@ -1756,7 +1828,7 @@ class OrcaTests(InputTests):
             "method": "M06-2X",
             "basis_set": "Def2-SVP",
             "charge": "-1",
-            "specifications": "--phirshfeld",
+            "specifications": "output(Print[ P_Hirshfeld] 1)",
         }
 
         inp = self.generate_calculation(**params)
@@ -1766,7 +1838,7 @@ class OrcaTests(InputTests):
         Cl 0.0 0.0 0.0
         *
         %output
-        Print[ P_Hirshfeld] 1
+        print[ p_hirshfeld] 1
         end
         %pal
         nprocs 8
