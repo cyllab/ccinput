@@ -1780,6 +1780,45 @@ class OrcaTests(InputTests):
         """
         self.assertTrue(self.is_equivalent(REF, inp.input_file))
 
+    def test_NEB3(self):
+        params = {
+            "nproc": 8,
+            "type": "Minimum Energy Path",
+            "file": "elimination_substrate.xyz",
+            "auxiliary_file": "elimination_product.xyz",
+            "software": "ORCA",
+            "specifications": "neb(nimages=12,printlevel=2)",
+            "charge": -1,
+            "method": "gfn2-xtb",
+        }
+
+        inp = self.generate_calculation(**params)
+
+        REF = """!NEB xtb2
+        *xyz -1 1
+        C         -0.74277        0.14309        0.12635
+        C          0.71308       -0.12855       -0.16358
+        Cl         0.90703       -0.47793       -1.61303
+        H         -0.84928        0.38704        1.20767
+        H         -1.36298       -0.72675       -0.06978
+        H         -1.11617        0.99405       -0.43583
+        H          1.06397       -0.95639        0.44985
+        H          1.30839        0.75217        0.07028
+        O         -0.91651        0.74066        3.00993
+        H         -1.82448        0.94856        3.28105
+        *
+        %neb
+        nimages 12
+        printlevel 2
+        product "calc2.xyz"
+        end
+        %pal
+        nprocs 8
+        end
+        %MaxCore 125
+        """
+        self.assertTrue(self.is_equivalent(REF, inp.input_file))
+
     def test_NEB_aux_name(self):
         params = {
             "nproc": 8,

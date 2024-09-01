@@ -130,27 +130,6 @@ class OrcaCalculation:
 
         parse_specifications(_specifications, self.add_option, condense=False)
 
-        """
-        if _specifications != "":
-            sspecs = _specifications.split()
-            ind = 0
-            while ind < len(sspecs):
-                spec = sspecs[ind]
-                if spec == "--phirshfeld":
-                    self.add_to_block("output", ["Print[ P_Hirshfeld] 1"])
-                elif spec == "--nimages":
-                    nimages = sspecs[ind + 1]
-                    try:
-                        nimages = int(nimages)
-                    except ValueError:
-                        raise InvalidParameter("Invalid specifications")
-                    self.specifications["nimages"] = nimages
-                    ind += 1
-            
-
-                ind += 1
-        """
-
         if self.calc.parameters.d3:
             self.specifications_list.append("d3zero")
         elif self.calc.parameters.d3bj:

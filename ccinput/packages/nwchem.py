@@ -7,6 +7,7 @@ from ccinput.utilities import (
     get_basis_set,
     clean_xyz,
     warn,
+    parse_specifications,
 )
 from ccinput.constants import (
     CalcType,
@@ -246,96 +247,81 @@ class NWChemCalculation:
             self.basis_set += "\n".join(to_append_ecp)
             self.basis_set += " end"
 
-    def handle_specifications(self):
-        if self.clean(self.calc.parameters.specifications).strip() != "":
-            temp = "\n"  # Here we will store frequency related specifiations in case of FREQOPT calculations
-            s = self.separate_lines(self.calc.parameters.specifications)
-            # Could be more sophisticated to catch other incorrect specifications
-            if s.count("(") != s.count(")"):
-                raise InvalidParameter(
-                    "Invalid specifications: parenthesis not matching"
+    def add_option(self, key, option):
+        temp = "\n"  # Here we will store frequency related specifications in case of FREQOPT calculation
+        if option == "":
+            # To make a difference between NEB (default MEP method) and freezing string method,
+            # User has to put some of the following keyword as specification, independant of what calculation was specified in input
+            if key in [
+                "string",
+                "freezing string sethod",
+                "fsm",
+                "freezing string",
+            ]:
+                self.tasks = self.tasks.replace("neb", "string")
+            else:
+                self.additional_block += f"{key} \n"
+        else:
+            """
+            command = matched.group(1)
+            if command.find(",") != -1:
+                command = command.replace(",", "\n").strip()
+            """
+            command = option.replace("=", " ")
+            block_name = key  # spec[: matched.span(1)[0] - 1]
+            if block_name == "scf" or block_name == "dft" or block_name == "hf":
+                if command == "adft" and self.calc.parameters.density_fitting == "":
+                    raise InvalidParameter("adft keyword requires auxilary basis set")
+                self.method_block += f"{command} \n"
+            elif (block_name == "opt" or block_name == "ts") and (
+                self.calc.type
+                in [
+                    CalcType.CONSTR_OPT,
+                    CalcType.OPT,
+                    CalcType.TS,
+                    CalcType.OPTFREQ,
+                ]
+            ):
+                if self.calculation_block == "":
+                    self.calculation_block += f"\n driver \n"
+                self.calculation_block += f"{command} \n"
+            elif block_name == "nmr" and self.calc.type == CalcType.NMR:
+                self.calculation_block += f"{command} \n"
+            elif block_name == "freq" and self.calc.type == CalcType.FREQ:
+                if self.calculation_block == "":
+                    self.calculation_block += f"\n freq \n"
+                self.calculation_block += f"{command} \n"
+            elif block_name == "freq" and self.calc.type == CalcType.OPTFREQ:
+                temp += f"{command} \n"
+            elif (
+                block_name in ["neb", "string", "fsm", "mep"]
+                and self.calc.type == CalcType.MEP
+            ):
+                if self.calculation_block == "":
+                    self.calculation_block += f"\n neb \n"
+                self.calculation_block += f"{command} \n"
+            elif block_name == "sol" or block_name == "cosmo" or block_name == "smd":
+                self.additional_block = self.additional_block.replace(
+                    "cosmo \n", f"cosmo \n {command} \n"
                 )
-            for spec in s.split("\n"):
-                # format of the specifications is BLOCK_NAME1(command1);BLOCK_NAME2(command2);...
-                matched = re.search(r".*\((.*)\)", spec)
-                if matched == None:
-                    # To make a difference between neb(defualt mep method) and freezing string method
-                    # User has to put some of the following keyword as specification, independant of what calculation was specified in input
-                    if spec in [
-                        "string",
-                        "freezing string sethod",
-                        "fsm",
-                        "freezing string",
-                    ]:
-                        self.tasks = self.tasks.replace("neb", "string")
-                    else:
-                        self.additional_block += f"{spec} \n"
-                else:
-                    command = matched.group(1)
-                    if command.find(",") != -1:
-                        command = command.replace(",", "\n").strip()
-                    block_name = spec[: matched.span(1)[0] - 1]
-                    if block_name == "scf" or block_name == "dft" or block_name == "hf":
-                        if (
-                            command == "adft"
-                            and self.calc.parameters.density_fitting == ""
-                        ):
-                            raise InvalidParameter(
-                                "adft keyword requires auxilary basis set"
-                            )
-                        self.method_block += f"{command} \n"
-                    elif (block_name == "opt" or block_name == "ts") and (
-                        self.calc.type
-                        in [
-                            CalcType.CONSTR_OPT,
-                            CalcType.OPT,
-                            CalcType.TS,
-                            CalcType.OPTFREQ,
-                        ]
-                    ):
-                        if self.calculation_block == "":
-                            self.calculation_block += f"\n driver \n"
-                        self.calculation_block += f"{command} \n"
-                    elif block_name == "nmr" and self.calc.type == CalcType.NMR:
-                        self.calculation_block += f"{command} \n"
-                    elif block_name == "freq" and self.calc.type == CalcType.FREQ:
-                        if self.calculation_block == "":
-                            self.calculation_block += f"\n freq \n"
-                        self.calculation_block += f"{command} \n"
-                    elif block_name == "freq" and self.calc.type == CalcType.OPTFREQ:
-                        temp += f"{command} \n"
-                    elif (
-                        block_name in ["neb", "string", "fsm", "mep"]
-                        and self.calc.type == CalcType.MEP
-                    ):
-                        if self.calculation_block == "":
-                            self.calculation_block += f"\n neb \n"
-                        self.calculation_block += f"{command} \n"
-                    elif (
-                        block_name == "sol"
-                        or block_name == "cosmo"
-                        or block_name == "smd"
-                    ):
-                        self.additional_block = self.additional_block.replace(
-                            "cosmo \n", f"cosmo \n {command} \n"
-                        )
-                    elif (
-                        block_name == "mp2"
-                        and self.calc.parameters.theory_level == "mp2"
-                    ):
-                        self.method_block += f"{command} \n"
-                    elif (
-                        block_name == "cc"
-                        and self.calc.parameters.theory_level == "ccsd"
-                    ):
-                        self.method_block += f"{command} \n"
-                    elif (
-                        block_name in ["mcscf", "casscf"]
-                        and self.calc.type == CalcType.SP
-                    ):
-                        self.method_block += f"{command} \n"
-            if temp != "\n":
-                self.additional_block += f"\n freq {temp} end \n"
+            elif block_name == "mp2" and self.calc.parameters.theory_level == "mp2":
+                self.method_block += f"{command} \n"
+            elif block_name == "cc" and self.calc.parameters.theory_level == "ccsd":
+                self.method_block += f"{command} \n"
+            elif block_name in ["mcscf", "casscf"] and self.calc.type == CalcType.SP:
+                self.method_block += f"{command} \n"
+
+        if temp != "\n":
+            self.additional_block += f"\n freq {temp} end \n"
+
+    def handle_specifications(self):
+        clean_specs = self.clean(
+            self.calc.parameters.specifications.replace(";", " ")
+        ).strip()
+
+        if clean_specs != "":
+            parse_specifications(clean_specs, self.add_option, condense=False)
+
         if self.tasks.find("string") != -1:
             self.calculation_block = self.calculation_block.replace("neb", "string")
         # Check if there are necessary specifications for mcscf calculation:

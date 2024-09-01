@@ -500,7 +500,7 @@ def parse_specifications(specs, add_option_fn, condense=True):
         elif c == ")":
             remove = False
 
-    for spec in _specifications.split(" "):
+    for spec in _specifications.lower().split(" "):
         if spec.strip() == "":
             continue
         if spec.find("(") != -1:

@@ -246,7 +246,7 @@ Custom keywords to add to the command of the input.
         !OPT HF Def2-SVP tightscf
         [...]
 
-With Gaussian 16, this can also add parameters to the calculation keyword:
+With Gaussian 16 and ORCA, this can also add parameters to the calculation keyword:
 
 .. code-block:: console
 
@@ -265,13 +265,40 @@ With Gaussian 16, this can also add parameters to the calculation keyword:
         #p opt(maxstep=5) HF/Def2SVP scf(restart)
         [...]
 
-Note that the specifications are not checked for validity beyond simple syntax checks. This allows you to use all valid keywords of the software, but can also lead to invalid inputs.
+        $ ccinput orca opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "tightscf defgrid3"
+        !OPT HF Def2-SVP tightscf defgrid3
+        [...]
 
-In nwchem, the syntax for specifcations in the following:
+The general syntax is ``block(option=value)``, but variations are often correctly parsed:
 
 .. code-block:: console
 
-        $ ccinput g16 opt HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "scf(maxiter 20);opt(tight)"
+        $ ccinput nwchem opt M062X --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "SCF(Tight, direct); opt(maxITer=5, truST=0.2, convggm 5.0d-04)"
+        [...]
+        dft
+        xc m06-2x
+        mult 1
+        tight
+        direct
+        end
+
+        driver
+        maxiter 5
+        trust 0.2
+        convggm 5.0d-04
+        end
+        [...]
+
+        $ ccinput orca sp HF --xyz "Cl 0 0 0" -c -1 -bs Def2SVP --specifications "output(Print[ P_Hirshfeld] 1)"
+        [...]
+        %output
+        print[ p_hirshfeld] 1
+        end
+        [...]
+
+
+Note that the specifications themselves are not checked for validity beyond simple syntax checks. This allows you to use all valid keywords of the software, but can also lead to invalid inputs.
+
 
 Constraints (``--constraints, -co``, ``--freeze``, ``--scan``, ``--from``, ``--to``, ``--nsteps``, ``--step``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
