@@ -43,7 +43,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "xtb Cl.xyz --uhf 2"
+        REF = "xtb Cl.xyz --uhf 1"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
         self.assertTrue(self.is_equivalent("", xtb.input_file))
@@ -59,7 +59,7 @@ class XtbTests(InputTests):
 
         xtb = self.generate_calculation(**params)
 
-        REF = "xtb Cl.xyz --chrg -1 --uhf 3"
+        REF = "xtb Cl.xyz --chrg -1 --uhf 2"
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
         self.assertTrue(self.is_equivalent("", xtb.input_file))

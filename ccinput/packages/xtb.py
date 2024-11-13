@@ -97,7 +97,8 @@ class XtbCalculation:
             self.main_command += f"--chrg {self.calc.charge} "
 
         if self.calc.multiplicity != 1:
-            self.main_command += f"--uhf {self.calc.multiplicity} "
+            # uhf is the number of unpaired electrons
+            self.main_command += f"--uhf {self.calc.multiplicity-1} "
 
     def handle_constraints_scan(self):
         if len(self.calc.constraints) == 0:
