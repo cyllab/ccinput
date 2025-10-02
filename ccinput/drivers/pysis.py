@@ -101,7 +101,7 @@ class PysisDriver:
             else:
                 self.sections[section] = {}
         else:
-            logger.warning(f"Duplicate specifications for section {section} were given")
+            print(f"Duplicate specifications for section {section} were given")
 
     def handle_specifications(self):
         s = self.clean(self.calc.parameters.specifications.lower())

@@ -346,6 +346,9 @@ def get_solvent(solvent, software, solvation_model="smd"):
             return "octanol"
         # Note that ch2cl2 is a valid keyword for SMD, although not listed in the manual
 
+    if abs_solvent == "":
+        return abs_solvent
+
     return SOFTWARE_SOLVENTS[software][abs_solvent]
 
 
