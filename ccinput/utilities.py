@@ -2,8 +2,25 @@ import os
 import string
 import numpy as np
 
-from ccinput.constants import *
-from ccinput.exceptions import *
+from ccinput.constants import (
+    THEORY_LEVELS,
+    SOFTWARE_METHODS,
+    SOFTWARE_BASIS_SETS,
+    SOFTWARE_SOLVENTS,
+    SYN_TYPES,
+    SYN_METHODS,
+    SYN_SOFTWARE,
+    SYN_BASIS_SETS,
+    SYN_SOLVENTS,
+    ATOMIC_NUMBER,
+    ATOMIC_SYMBOL,
+    LOWERCASE_ATOMIC_SYMBOLS,
+    FUNCTIONALS_WITH_DISPERSION_PARAMETERS,
+    BASIS_SET_EXCHANGE_KEY,
+    EXCHANGE_FUNCTIONALS,
+    CORRELATION_FUNCTIONALS,
+)
+from ccinput.exceptions import InvalidParameter, InvalidXYZ
 
 MEMORY_FACTORS = {
     "m": 1,
@@ -520,3 +537,31 @@ def parse_specifications(specs, add_option_fn, condense=True):
             add_option_fn(key, option.replace("&", " "))
         else:
             add_option_fn(spec, "")
+
+
+def compress_indices(arr):
+    comp = []
+
+    def add_to_str(curr):
+        if len(curr) == 0:
+            return ""
+        elif len(curr) == 1:
+            return f"{curr[0]}"
+        else:
+            return f"{curr[0]}-{curr[-1]}"
+
+    _arr = sorted(set(arr))
+    curr_atoms = []
+
+    for a in _arr:
+        if len(curr_atoms) == 0:
+            curr_atoms.append(a)
+        else:
+            if a == curr_atoms[-1] + 1:
+                curr_atoms.append(a)
+            else:
+                comp.append(add_to_str(curr_atoms))
+                curr_atoms = [a]
+
+    comp.append(add_to_str(curr_atoms))
+    return ",".join(comp)

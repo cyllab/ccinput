@@ -1,7 +1,7 @@
 import os
 
 from ccinput.constants import CalcType, ATOMIC_NUMBER, LOWERCASE_ATOMIC_SYMBOLS
-from ccinput.utilities import get_solvent, get_method
+from ccinput.utilities import get_solvent, get_method, compress_indices
 from ccinput.exceptions import InvalidParameter, ImpossibleCalculation
 
 
@@ -128,33 +128,6 @@ class XtbCalculation:
                 if cmd.scan:
                     self.input_file += f"{counter+1}: {cmd.start_d:.2f}, {cmd.end_d:.2f}, {cmd.num_steps}\n"
 
-    def compress_indices(self, arr):
-        comp = []
-
-        def add_to_str(curr):
-            if len(curr) == 0:
-                return ""
-            elif len(curr) == 1:
-                return f"{curr[0]}"
-            else:
-                return f"{curr[0]}-{curr[-1]}"
-
-        _arr = sorted(set(arr))
-        curr_atoms = []
-
-        for a in _arr:
-            if len(curr_atoms) == 0:
-                curr_atoms.append(a)
-            else:
-                if a == curr_atoms[-1] + 1:
-                    curr_atoms.append(a)
-                else:
-                    comp.append(add_to_str(curr_atoms))
-                    curr_atoms = [a]
-
-        comp.append(add_to_str(curr_atoms))
-        return ",".join(comp)
-
     def handle_constraints_crest(self):
         if len(self.calc.constraints) == 0:
             raise InvalidParameter("No constraint in constrained optimisation mode")
@@ -171,7 +144,7 @@ class XtbCalculation:
             self.input_file += cmd.to_xtb()
             constr_atoms += cmd.ids
 
-        self.input_file += f"atoms: {self.compress_indices(constr_atoms)}\n"
+        self.input_file += f"atoms: {compress_indices(constr_atoms)}\n"
 
         mtd_atoms = list(range(1, num_atoms))
         for a in constr_atoms:
@@ -179,7 +152,7 @@ class XtbCalculation:
                 mtd_atoms.remove(int(a))
 
         self.input_file += "$metadyn\n"
-        self.input_file += f"atoms: {self.compress_indices(mtd_atoms)}\n"
+        self.input_file += f"atoms: {compress_indices(mtd_atoms)}\n"
 
     def handle_specifications(self):
         accuracy = -1
