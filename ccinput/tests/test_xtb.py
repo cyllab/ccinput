@@ -838,6 +838,34 @@ class XtbTests(InputTests):
 
         self.assertTrue(self.is_equivalent(REF, xtb.command))
 
+    def test_gxtb(self):
+        params = {
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "specifications": "--gxtb",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb ethanol.xyz --gxtb"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
+    def test_gxtb_method(self):
+        params = {
+            "type": "Single-Point Energy",
+            "file": "ethanol.xyz",
+            "software": "xtb",
+            "method": "gxtb",
+        }
+
+        xtb = self.generate_calculation(**params)
+
+        REF = "xtb ethanol.xyz --gxtb"
+
+        self.assertTrue(self.is_equivalent(REF, xtb.command))
+
     def test_unavailable_calc_type(self):
         params = {
             "type": "TS Optimisation",

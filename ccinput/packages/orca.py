@@ -189,9 +189,7 @@ class OrcaCalculation:
                         MO("in-LUMO.cube",{n_LUMO},0);
                         MO("in-LUMOA.cube",{n_LUMO1},0);
                         MO("in-LUMOB.cube",{n_LUMO2},0);
-                        """.split(
-                    "\n"
-                ),
+                        """.split("\n"),
             )
         elif self.calc.type == CalcType.FREQ:
             self.command_line = "FREQ "
@@ -429,9 +427,7 @@ class OrcaCalculation:
             self.block_lines += """%{}
             {}
             end
-            """.format(
-                name, "\n".join(content).strip()
-            )
+            """.format(name, "\n".join(content).strip())
 
         self.block_lines += f"""%MaxCore {self.mem_per_core}"""
 

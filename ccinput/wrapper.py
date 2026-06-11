@@ -10,6 +10,7 @@ from ccinput.packages.qchem import QChemCalculation
 from ccinput.packages.xtb import XtbCalculation
 from ccinput.drivers.pysis import PysisDriver
 from ccinput.packages.psi4 import Psi4Calculation
+from ccinput.packages.pyscf import PySCFCalculation
 
 from ccinput.calculation import (
     Calculation,
@@ -44,6 +45,7 @@ SOFTWARE_CLASSES = {
     "pysisyphus": PysisDriver,
     "qchem": QChemCalculation,
     "psi4": Psi4Calculation,
+    "pyscf": PySCFCalculation,
 }
 
 

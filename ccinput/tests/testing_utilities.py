@@ -55,8 +55,19 @@ class InputTests(TestCase):
         return True
 
     def xyz_line_equivalent(self, line1, line2):
-        sline1 = line1.strip().split()
-        sline2 = line2.strip().split()
+
+        sline1 = line1.strip()
+        sline2 = line2.strip()
+
+        if 'atom="""' in sline1:
+            sline1 = sline1[8:]
+            sline2 = sline2[8:]
+        if '""",' in sline1:
+            sline1 = sline1[:-4]
+            sline2 = sline2[:-4]
+
+        sline1 = sline1.split()
+        sline2 = sline2.split()
 
         if len(sline1) != 4 or len(sline2) != 4:
             return False

@@ -23,6 +23,7 @@ class XtbCalculation:
         "gfn0-xtb": "--gfn 0 ",
         "gfn-ff": "--gfnff ",
         "gfn2-xtb//gfn-ff": "--gfn2gfnff ",
+        "gxtb": "--gxtb ",
     }
 
     def __init__(self, calc):
@@ -181,7 +182,7 @@ class XtbCalculation:
                 continue
             ss = spec.strip().split()
             if len(ss) == 1:
-                if ss[0] in ["gfn2", "gfn1", "gfn0", "gfnff", "gfn2//gfnff"]:
+                if ss[0] in ["gfn2", "gfn1", "gfn0", "gfnff", "gfn2//gfnff", "gxtb"]:
                     if ss[0] == "gfn2//gfnff" and self.calc.type not in [
                         CalcType.CONF_SEARCH,
                         CalcType.CONSTR_CONF_SEARCH,

@@ -142,7 +142,16 @@ THEORY_LEVELS = {
     "hf": ["hartreefock"],
     # Some old exotic semi-empirical methods in ORCA are missing
     "semiempirical": ["am1", "pm3", "pm6", "pm7", "mndo"],
-    "xtb": ["gfn2xtb", "xtb2", "xtb1", "gfn1xtb", "gfn0xtb", "gfnff", "gfn2xtbgfnff"],
+    "xtb": [
+        "gfn2xtb",
+        "xtb2",
+        "xtb1",
+        "gfn1xtb",
+        "gfn0xtb",
+        "gfnff",
+        "gfn2xtbgfnff",
+        "gxtb",
+    ],
     "special": ["hf3c", "pbeh3c", "r2scan3c", "b973c"],
     "mp2": ["mp2", "rimp2", "direct_mp2"],
     "cc": [
@@ -171,6 +180,7 @@ SYN_SOFTWARE = {
     "xtb": [],
     "psi4": ["psi4"],
     "nwchem": [],
+    "pyscf": [],
 }
 
 # Synonym for each solvent.
@@ -1696,6 +1706,7 @@ SOFTWARE_METHODS = {
         "gfn0xtb": "gfn0-xtb",
         "gfnff": "gfn-ff",
         "gfn2xtbgfnff": "gfn2-xtb//gfn-ff",
+        "gxtb": "gxtb",
     },
     "psi4": {
         "hf": "scf",

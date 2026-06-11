@@ -254,7 +254,7 @@ class NWChemCalculation:
             # User has to put some of the following keyword as specification, independant of what calculation was specified in input
             if key in [
                 "string",
-                "freezing string sethod",
+                "freezing string method",
                 "fsm",
                 "freezing string",
             ]:

@@ -282,6 +282,10 @@ def is_exchange_correlation_combination(method, software):
 
 
 def get_method(method, software):
+    if software == "pyscf":
+        # PySCF already handles synonyms to some extent
+        return method
+
     try:
         abs_method = get_abs_method(method)
     except InvalidParameter:
@@ -336,6 +340,10 @@ def get_method(method, software):
 
 
 def get_basis_set(basis_set, software):
+    if software == "pyscf":
+        # PySCF already handles synonyms to some extent
+        return basis_set
+
     try:
         abs_basis_set = get_abs_basis_set(basis_set)
     except InvalidParameter:
